@@ -1,5 +1,5 @@
 # Katies-Adventures-2_Chapter-2
 
-Planning for a mobile-first body-composition diet and exercise web app lives in [`InitialPlan180826.md`](./InitialPlan180826.md).
+**BodyPlan** planning lives in [`InitialPlan180826.md`](./InitialPlan180826.md) (revision 3, §3 frozen).
 
-**v1 host:** GitHub Pages (static Next.js export) + Supabase from the browser. Auth is deferred; the plan is shaped so a Supabase Auth lock can be added later without a rewrite.
+v1: GitHub Pages project site + Supabase, single user, auth deferred (magic link later). Next step is Phase 0 docs from the frozen answers — do not re-interview §3.

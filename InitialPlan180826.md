@@ -2,9 +2,9 @@
 
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
-**Revision:** 2 — single-user GitHub Pages + Supabase; auth deferred but designed in  
-**Status:** Planning (no application code yet)  
-**Working title:** BodyPlan *(replace after the product-name question is answered)*  
+**Revision:** 3 — §3 product questions frozen by owner (18 Aug 2026)  
+**Status:** Planning (no application code yet). §3 is **closed**. Phase 0 writes docs from these answers; it must not re-interview them.  
+**Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
 **Deferred:** NextAuth.js, Prisma-at-runtime, multi-user login  
@@ -12,7 +12,9 @@
 
 This document is the source of truth until a later plan supersedes it. Every implementation phase must **design → develop → review**, then stop at the listed gate. Do not start a later phase until its gate is green, or until the owner explicitly waives a question in writing.
 
-**Revision 2 change of course:** Auth is a **low-priority, later-stage** feature. v1 is a **single-user personal tool**. The architecture must still be **auth-ready** so a login wall can be added after the owner has used the app, without rewriting the engine, UI, or schema.
+**Revision 2:** Auth is a **low-priority, later-stage** feature. v1 is a **single-user personal tool**. The architecture must still be **auth-ready** so a login wall can be added after the owner has used the app, without rewriting the engine, UI, or schema.
+
+**Revision 3:** Owner answers to §3 are frozen in §3. Phase 0 must turn them into `PRODUCT.md` / ADRs, not open a new grilling session on the same list.
 
 ---
 
@@ -118,11 +120,11 @@ When the owner is happy with the planner:
 
 ---
 
-## 3. Open questions (answer before Phase 2 coding)
+## 3. Frozen v1 decisions (owner answers, 18 Aug 2026)
 
-Implementation agents must **not invent answers**. If a question is unanswered, stop and write the assumed default in a PR comment, then wait.
+These are **closed**. Implementation agents and the Phase 0 agent must not re-ask them or invent extras that conflict. Katie’s Adventures is the **repo / chapter container**. The **product name in the app is BodyPlan**.
 
-**Already decided in this revision**
+**Already decided in revision 2 (still true)**
 
 - Audience: **single user**, not a public product.  
 - Host: **GitHub Pages + Supabase**.  
@@ -131,40 +133,37 @@ Implementation agents must **not invent answers**. If a question is unanswered, 
 
 ### Product and people
 
-1. **Product name and voice?** Working title is BodyPlan. Personal tool vs “Katie’s Adventures” chapter branding?  
-2. **Adults only?** Recommended 18+.  
-3. **Sex / gender model?** Male or female for Mifflin–St Jeor. Prefer-not-to-say in v1? (Default: binary for the formula.)  
-4. **Units?** Toggle; store metric internally. Confirm.  
-5. **Body composition source?** DEXA, InBody/Tanita, calipers, Navy tape, or weight-only?  
-6. **Primary goal mix?** Fat loss, fat loss + retain muscle, recomp, maintain?
+| # | Question | Frozen answer |
+| --- | --- | --- |
+| 1 | Product name and voice? Personal tool vs Katie’s Adventures branding? | **BodyPlan.** Personal planner. Do not brand the in-app UI as “Katie’s Adventures”; that name stays on the repo. |
+| 2 | Adults only? | **18+** (intended audience and copy). Not a child product. |
+| 3 | Sex / gender for Mifflin–St Jeor? | **Male or female** only in v1. No prefer-not-to-say. |
+| 4 | Units? | **Metric only** (cm, kg). No imperial toggle in v1. |
+| 5 | Body composition source? | **InBody / Tanita** (BodyID-class machine). Profile and check-ins are built around machine readouts, not tape estimates or photos. |
+| 6 | Primary goal mix? | **User chooses** one of: fat loss, fat loss + retain muscle, recomp, maintain. |
 
 ### Nutrition and training
 
-7. **Dietary constraints?** Vegetarian, vegan, allergies, cooking time, servings?  
-8. **Kitchen reality?** Batch-cook, leftovers as lunch, eating-out days?  
-9. **Training setting?** Gym, home dumbbells, bands, bodyweight? Days per week?  
-10. **Cardio?** Walking, Zone 2, intervals, none beyond steps?  
-11. **Timeline rules?** Engine proposes a range and blocks unsafe speed (recommended)?  
-12. **Recipe source for v1?** Default: **owned JSON in the repo**, not scraping.  
-13. **Exercise source for v1?** Same.
+| # | Question | Frozen answer |
+| --- | --- | --- |
+| 7 | Dietary constraints? | **User select** at onboarding (vegetarian, vegan, allergies, cooking time, servings, and similar flags). Catalog must support the filters offered. |
+| 8 | Kitchen reality? | **User select** (batch-cook, leftovers as lunch, eating-out days, etc.). |
+| 9 | Training setting? Days per week? | **Gym** equipment track only in v1. **User selects days per week.** Do not build home / bands / bodyweight tracks unless the owner reopens this. |
+| 10 | Cardio? | **Not a separate onboarding preference.** Cardio is **whatever the workout generator suggests** for the chosen goal and gym days. |
+| 11 | Timeline rules? | **User selects** the target date / duration. Engine **blocks unsafe speeds** (see §5.3). User may go slower than the cap, not faster. |
+| 12 | Recipe source for v1? | **Owned JSON in the repo** (`data/recipes.json`). No scraping in v1. |
+| 13 | Exercise source for v1? | **Owned JSON in the repo** (`data/exercises.json`). Same as recipes. |
 
 ### Legal, content, later auth
 
-14. **Medical disclaimer** — who signs off? Hard-stops (pregnancy, eating-disorder history, BMI floor, under 18)?  
-15. **May the single user swap meals and lifts**, or is the generated week locked? (Default: swaps allowed.)  
-16. **Progress data** — weight, tape, mood? Default v1: **no photos**.  
-17. **GitHub Pages type** — user site (`username.github.io`) or project site (`username.github.io/Katies-Adventures-2_Chapter-2`)? Project sites need `basePath`.  
-18. **After testing, do you want the optional lock?** If yes, email magic link is enough (one inbox). Do not design Google OAuth until that phase.  
-19. **Who may the later login protect against?** Random visitors to a public repo’s Pages site is the realistic threat. A determined person with the old anon policy in an old JS bundle is a further-planning item (cache + policy version).
-
-### Suggested defaults if the owner says “use defaults”
-
-- Adults 18+, binary sex for BMR, unit toggle, fat-loss + muscle retain.  
-- Optional body-fat %; else waist (Navy) or conservative weight-only deficit.  
-- Omnivore catalog with vegetarian filter. Gym + home dumbbell tracks.  
-- Engine proposes timeline; user may slow it, not exceed the safety cap.  
-- Owned JSON catalog. Swaps allowed. No photos.  
-- GitHub Pages project site + `basePath`. Supabase for personal data. Auth later via magic link.
+| # | Question | Frozen answer |
+| --- | --- | --- |
+| 14 | Medical disclaimer / hard-stops? | **Disclaimer yes. Hard-stops no** (no block for pregnancy, eating-disorder history, BMI floor, or age in the generator). Still **block unsafe loss speed**. Copy must not claim medical treatment. Intended users are 18+. |
+| 15 | Swap meals and lifts? | **Swaps allowed.** |
+| 16 | Progress data? Photos? | **No photos.** Progress is **weight + InBody/Tanita / BodyID machine** fields (same family as onboarding). |
+| 17 | GitHub Pages type? | **Project site** (default): `username.github.io/Katies-Adventures-2_Chapter-2` with Next.js **`basePath`**. |
+| 18 | Optional lock after testing? | **Yes, later:** email **magic link** is enough unless the owner changes it. No Google OAuth in the first lock. |
+| 19 | Who does later login protect against? | **Random visitors to a public repo’s Pages site.** A determined person using an old JS bundle with an old anon policy is **further planning** (cache + policy version / key rotation). |
 
 ---
 
@@ -229,7 +228,7 @@ Local ingest only. Follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`. 
 | Route | Purpose |
 | --- | --- |
 | `/` | Today if a plan exists, else start onboarding. Not a marketing SaaS landing. |
-| `/onboarding` | Sex, age, height, weight, body comp, goal, timeline, diet, equipment |
+| `/onboarding` | Sex (M/F), age, height (cm), InBody/Tanita fields, goal type, timeline, diet flags, kitchen flags, gym days/week |
 | `/plan` | Current plan home (today + week) |
 | `/plan/meals` | Meal calendar + swap |
 | `/plan/workouts` | Training calendar + swap |
@@ -237,7 +236,7 @@ Local ingest only. Follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`. 
 | `/log` | Weigh-in and adherence |
 | `/recipes/[slug]` | Recipe detail |
 | `/exercises/[slug]` | Exercise detail |
-| `/settings` | Profile, units, regenerate; **later:** “Lock with email” |
+| `/settings` | Profile (metric), regenerate; **later:** “Lock with email” |
 | `/lock` | **Not in v1.** Phase 4b only. |
 
 Bottom nav: Today · Plan · Log · You. Impeccable **product** lane. Aceternity is seasoning (bento, motion on one or two surfaces), not every card.
@@ -246,11 +245,11 @@ Bottom nav: Today · Plan · Log · You. Impeccable **product** lane. Aceternity
 
 Working vocabulary for `CONTEXT.md`. Tables, not Prisma models, unless someone uses Prisma **only** on a laptop to emit SQL.
 
-- `profiles` — `owner_id unique`, `sex`, `birth_date`, `height_cm`, `weight_kg`, optional `body_fat_pct`, `waist_cm`, `hip_cm`, `activity_level`, `diet_flags`, `equipment`, `injuries_note`  
-- `goals` — `owner_id`, `type` (`fat_loss` \| `recomp` \| `maintain`), targets, `start_on`, `end_on`, `weekly_loss_cap_pct`  
+- `profiles` — `owner_id unique`, `sex` (`male` \| `female`), `birth_date`, `height_cm`, InBody/Tanita snapshot (`weight_kg`, `body_fat_pct`, `skeletal_muscle_mass_kg`, optional visceral fat / other machine fields Phase 2 names), `diet_flags`, `kitchen_flags`, `gym_days_per_week`  
+- `goals` — `owner_id`, `type` (`fat_loss` \| `fat_loss_retain_muscle` \| `recomp` \| `maintain`), targets, `start_on`, `end_on`, `weekly_loss_cap_pct`  
 - `plans` / `plan_versions` — calorie target, macros, split, generator input snapshot  
 - `day_plans`, `meal_slots`, `workout_sessions`, `workout_items`  
-- `check_ins`  
+- `check_ins` — date, InBody/Tanita / BodyID snapshot (weight, body fat %, skeletal muscle mass, optional extras); **no photos**  
 - `favorites`  
 - Catalog files (or tables without `owner_id`): `Recipe`, `Exercise`
 
@@ -260,15 +259,15 @@ v1 inserts always set `owner_id = DEFAULT_OWNER_ID`. Do not add NextAuth `Accoun
 
 Pure TypeScript `src/engine/` — no React, no Supabase.
 
-1. **BMR** — Mifflin–St Jeor: male `10w + 6.25h − 5a + 5`, female `10w + 6.25h − 5a − 161` (kg, cm, years).  
-2. **TDEE** — BMR × activity (sedentary 1.2 … extra 1.725). Conservative if unsure.  
-3. **Rate** — default 0.5% body weight / week; cap 1.0%. Not below BMR; not below **1200 kcal** (female) / **1500 kcal** (male) without a further-planning dietitian flag.  
-4. **Timeline** — `weeks = max(8, ceil(gapKg / weeklyKg))`. Faster dates are refused.  
-5. **Macros** — protein 1.6–2.2 g/kg (Phase 2 decides actual vs goal weight); fat ≥ 0.7 g/kg; carbs fill the rest.  
-6. **Meals** — knapsack over slot-tagged recipes, diet flags, leftover rule.  
-7. **Training** — default 3 resistance + 2 Zone 2; split from days available; deload every 4th week. Same movement menu for male and female.
+1. **BMR** — Mifflin–St Jeor: male `10w + 6.25h − 5a + 5`, female `10w + 6.25h − 5a − 161` (kg, cm, years). Sex is male or female only.  
+2. **TDEE** — BMR × activity. Gym days/week may inform activity; Phase 2 picks the exact factor. Prefer InBody/Tanita weight and body-fat % over estimates.  
+3. **Rate** — default 0.5% body weight / week; **cap 1.0%** (unsafe speeds blocked even though other medical hard-stops are off). User may choose a slower timeline.  
+4. **Timeline** — user-selected end date. If implied weekly loss exceeds the cap, **refuse that date** and offer the fastest safe date. Do not refuse for age, BMI, pregnancy, or ED history (owner: no hard-stop).  
+5. **Macros** — protein 1.6–2.2 g/kg (Phase 2 decides actual vs goal weight, informed by skeletal muscle mass when present); fat ≥ 0.7 g/kg; carbs fill the rest. Shift protein/carb emphasis by goal type (`fat_loss`, `fat_loss_retain_muscle`, `recomp`, `maintain`).  
+6. **Meals** — knapsack over slot-tagged recipes using **user-selected** diet and kitchen flags.  
+7. **Training** — **gym** movements only. Session count from **user-selected days/week**. Cardio (Zone 2 / intervals / none) is **chosen by the generator** for the goal, not a separate preference. Deload every 4th week. Same movement menu for male and female.
 
-**Hard-stops:** age < 18, BMI < 18.5, faster than cap, medical notes if collected. Wellness maths, not clinical care. Disclaimer on generate.
+**Disclaimer on generate.** No medical-treatment claims. Intended for adults 18+. The only generator **block** in v1 is **unsafe loss speed**. Calorie floors may still be used as *targets* in Phase 2 spec, but they are not a “see a doctor before continue” gate unless Phase 2 documents them as a warning, not a hard-stop.
 
 ### 5.4 UI kit
 
@@ -302,55 +301,61 @@ First design session: `/impeccable init` (product lane). Tickets in `docs/ticket
 
 ---
 
-## Phase 0 — Align and freeze the brief
+## Phase 0 — Write the brief from frozen §3 answers
 
-**Goal:** Freeze v1 as a single-user Pages + Supabase app, with auth-ready rules accepted.
+**Goal:** Turn **already-frozen** §3 answers plus auth-ready rules into `PRODUCT.md`, `CONTEXT.md`, and ADRs. Do **not** re-interview §3.
 
 ### Design
 
-- Grill remaining §3 questions (`grill-with-docs`).  
-- `PRODUCT.md`: personal tool, anti-goals (no public social, no App Store).  
-- `CONTEXT.md` glossary including `owner_id`, `DEFAULT_OWNER_ID`, Data gateway.  
-- ADR: hosting + deferred auth.
+- Read §3 as the product spec.  
+- `PRODUCT.md`: BodyPlan, personal 18+ gym planner, InBody/Tanita, user-selected diet/kitchen/days/goals, metric, swaps, no photos, no login in v1.  
+- `CONTEXT.md` glossary: BodyPlan, BodyID/InBody/Tanita, `owner_id`, `DEFAULT_OWNER_ID`, Data gateway, goal types.  
+- ADRs: hosting (project Pages + `basePath`) and deferred magic-link lock.
 
 ### Develop
 
-- Docs only: `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`.
+- Docs only: `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`.  
+- Optional: `docs/domain/inbody-fields.md` listing which machine numbers v1 stores (weight, body fat %, skeletal muscle mass, plus any extras you name — do not invent a DEXA or photo flow).
 
 ### Review
 
-- Owner agrees Pages + Supabase, no login in v1, later lock uses Supabase Auth.  
+- Docs match §3 tables exactly (gym only, metric only, no medical hard-stops except unsafe speed, magic link later).  
 - No medical-guarantee copy.
 
 ### Gate
 
-- [ ] Remaining §3 questions answered or defaults accepted  
-- [ ] Auth-ready rules in §2.2 accepted  
-- [ ] `PRODUCT.md` exists  
+- [ ] `PRODUCT.md` and `CONTEXT.md` exist and quote §3  
+- [ ] ADRs 0001 and 0002 exist  
+- [ ] No new onboarding fields that contradict §3 (no imperial, no home gym track, no photos)  
 
-**Further planning if:** public multi-user product, under-18, or clinical dietetics.
+**Further planning if:** public multi-user product, clinical dietetics, or extra InBody segmental charts.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 0 planning agent. Read InitialPlan180826.md (revision 2)
-end to end. Load grill-with-docs, domain-modeling, writing-for-agents.
+You are the Phase 0 planning agent. Read InitialPlan180826.md revision 3
+end to end, especially frozen §3. Load domain-modeling and
+writing-for-agents. Do NOT run grill-me / grill-with-docs on §3 — those
+questions are answered.
 
 Do not write application code. Do not scaffold Next.js.
 
-v1 is already decided: GitHub Pages + Supabase JS, single user, no login
-wall, auth-ready owner_id + data gateway. Do not reopen NextAuth or
-Netlify unless the owner explicitly reverses revision 2.
+v1 is decided: BodyPlan; GitHub Pages project site + basePath + Supabase
+JS; single user; no login wall; auth-ready owner_id + data gateway;
+metric; male/female; InBody/Tanita (BodyID) fields; gym; user-select
+diet, kitchen, days/week, goal type, timeline (unsafe speeds blocked);
+owned JSON catalog; swaps on; no photos; no medical hard-stops except
+unsafe loss speed; later lock = magic link.
 
 Tasks:
-1. Interview remaining §3 questions. If you cannot reach the owner, write
-   docs/questionnaires/phase-0.md and stop.
-2. Write PRODUCT.md, CONTEXT.md (glossary), docs/decisions/0001-v1-scope.md,
-   docs/decisions/0002-auth-ready-static.md (how Phase 4b will remap
-   DEFAULT_OWNER_ID → auth.uid()).
+1. Write PRODUCT.md, CONTEXT.md (glossary), docs/decisions/0001-v1-scope.md,
+   docs/decisions/0002-auth-ready-static.md (Phase 4b remap
+   DEFAULT_OWNER_ID → auth.uid(), magic link only).
+2. Optionally list v1 InBody/Tanita fields in docs/domain/inbody-fields.md.
 3. Stop at the Phase 0 gate. Docs-only PR.
 
-Review: no silent multi-user or NextAuth scope.
+Do not reopen NextAuth, Netlify, imperial units, or home-gym tracks.
+Review: docs must not contradict §3.
 ```
 
 ---
@@ -388,12 +393,13 @@ Review: no silent multi-user or NextAuth scope.
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 1 design agent. Read InitialPlan180826.md revision 2,
-PRODUCT.md, Phase 0 ADRs. Load refero-design, ui-ux-pro-max, impeccable,
-prototype.
+You are the Phase 1 design agent. Read InitialPlan180826.md revision 3
+(frozen §3), PRODUCT.md, Phase 0 ADRs. Load refero-design, ui-ux-pro-max,
+impeccable, prototype.
 
-Research before pixels. Product lane. Mobile-first. No login / marketing
-hero as the product. Aceternity is seasoning.
+Research before pixels. Product lane. Mobile-first BodyPlan for one gym
+user. Metric. InBody/Tanita onboarding. User-select diet/kitchen/days/goal.
+No login, no photos, no imperial, no home-gym track. Aceternity is seasoning.
 
 Deliver DESIGN.md, docs/ux/flows.md, component inventory, clickable
 prototype (onboarding, today, swap). Critique notes.
@@ -413,7 +419,7 @@ Gate: owner review of DESIGN.md. No Supabase yet.
 ### Design
 
 - ERD with `owner_id` on every personal table.  
-- Missing body-fat, protein rule, calorie floors, leftovers.  
+- Missing InBody fields, protein rule, calorie *warnings*, leftover/kitchen flags.  
 - Engine I/O types. Engine does not mention owner.
 
 ### Develop
@@ -431,7 +437,7 @@ Gate: owner review of DESIGN.md. No Supabase yet.
 
 - [ ] Worked examples match  
 - [ ] ERD has owner_id everywhere personal  
-- [ ] Owner agrees floors and loss cap  
+- [ ] Loss-speed cap matches §3 (block unsafe; no other medical hard-stops)  
 
 ### Implementation-agent prompt
 
@@ -442,12 +448,15 @@ Load domain-modeling, to-spec, tdd (spec/fixtures only).
 Deliver:
 1. docs/domain/erd.md — owner_id on personal tables; unique(owner_id) on
    profiles; catalog without owner_id
-2. docs/domain/engine-spec.md with two worked examples
-3. docs/domain/content-model.md
+2. docs/domain/engine-spec.md with two worked examples (male + female,
+   gym days user-selected, InBody fat % present)
+3. docs/domain/content-model.md (diet/kitchen user-select tags)
 4. Proposed supabase/migrations/0001_init.sql plus comments for v1 RLS
    vs Phase 4b RLS (do not apply without credentials)
 5. CONTEXT.md updates
 
+Honour §3: metric; gym only; four goal types; no photos; unsafe speed
+is the only generator block.
 No React. No NextAuth tables. Gate if any formula is underspecified.
 A second agent must recompute the worked examples.
 ```
@@ -462,7 +471,7 @@ A second agent must recompute the worked examples.
 
 - App Router, `src/`, fonts from `DESIGN.md`.  
 - `components.json` with `@aceternity`.  
-- `next.config`: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` if project Pages.  
+- `next.config`: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, **`basePath` for the project Pages site** (`/Katies-Adventures-2_Chapter-2` unless a custom domain ADR says otherwise).  
 - `.env.example`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` only. No `service_role`, no `AUTH_SECRET`, no `DATABASE_URL` in the web env.
 
 ### Develop
@@ -491,12 +500,12 @@ A second agent must recompute the worked examples.
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 3 scaffold agent. Read InitialPlan180826.md revision 2
+You are the Phase 3 scaffold agent. Read InitialPlan180826.md revision 3
 and DESIGN.md. Load impeccable (shell only), ui-ux-pro-max.
 
 Scaffold Next.js App Router + TypeScript + Tailwind in the repo root.
 MUST set output:'export', unoptimized images, trailingSlash, and basePath
-if this is a GitHub project site.
+for the GitHub **project** site (Katies-Adventures-2_Chapter-2).
 
 Wire shadcn + Aceternity registry. Apply DESIGN.md tokens. Placeholder
 routes: /, /onboarding, /plan, /settings. No /login.
@@ -618,8 +627,8 @@ Prove with an incognito window that personal data is no longer public.
 
 ### Design
 
-- 4–5 short steps, no “create account.” Preview kcal / protein / weeks before commit.  
-- Blocked-goal copy.
+- 4–5 short steps, no “create account.” Collect InBody/Tanita numbers, goal type, diet/kitchen flags, gym days/week, user-selected timeline. Preview kcal / protein / weeks before commit.  
+- Copy when the chosen date is faster than the loss cap (offer the fastest safe date). No other medical blocks.
 
 ### Develop
 
@@ -634,7 +643,7 @@ Prove with an incognito window that personal data is no longer public.
 
 - [ ] Engine tests green  
 - [ ] PlanVersion persisted for `DEFAULT_OWNER_ID`  
-- [ ] Unsafe goals blocked  
+- [ ] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
 - [ ] `/impeccable critique` on onboarding  
 
 ### Implementation-agent prompt
@@ -643,8 +652,10 @@ Prove with an incognito window that personal data is no longer public.
 You are the Phase 5 engine agent. Read engine-spec.md and §5.3. Load tdd,
 implement, impeccable, ui-ux-pro-max.
 
-Pure engine first, then onboarding. Persist through src/data only
+Pure engine first, then onboarding (InBody/Tanita, metric, M/F, gym
+days, user diet/kitchen/goal/timeline). Persist through src/data only
 (owner_id from getOwnerId()). No login. Dummy meal titles OK.
+Block unsafe loss speed only — no BMI/age/pregnancy hard-stops.
 
 Review: code-review + independent fixture check.
 ```
@@ -702,7 +713,7 @@ is open. No public recipe write API.
 
 ### Review
 
-- Gym vs bodyweight tracks. No missing equipment. Critique cognitive load.
+- Gym-only catalog. Critique cognitive load. Cardio sessions appear as the generator suggests.
 
 ### Gate
 
@@ -716,8 +727,9 @@ is open. No public recipe write API.
 You are the Phase 7 training agent. Read engine-spec training section and
 DESIGN.md. Load tdd, refero-design, impeccable.
 
-JSON exercise catalog, split generator, session UI. Equipment filters
-mandatory. Persist through src/data. Text cues only.
+JSON exercise catalog (gym only), split generator from user-selected
+days/week, session UI. Cardio is generator-chosen. Persist through
+src/data. Text cues only.
 ```
 
 ---
@@ -728,7 +740,7 @@ mandatory. Persist through src/data. Text cues only.
 
 ### Design
 
-- Timeline rail, weekly check-in, regenerate confirmation (pins kept).
+- Timeline rail, weekly InBody/Tanita / BodyID check-in (no photos), regenerate confirmation (pins kept).
 
 ### Develop
 
@@ -830,13 +842,13 @@ than improvising NextAuth.
 8. **`owner_id` on every personal row.**  
 9. No medical guarantees. No default scraping.  
 10. Refero + Impeccable + UX Pro Max + Aceternity (lightly) on new screens.  
-11. If blocked on a §3 question, write a questionnaire — do not guess clinical policy.
+11. **§3 is frozen.** Do not re-open those questions. If something is still ambiguous (e.g. exact InBody field list), document a Phase 2 assumption that does **not** contradict §3.
 
 ---
 
 ## 8. Suggested first prompts (owner → agents)
 
-**A.** Phase 0 prompt (docs, ADR for auth-ready static).  
+**A.** Phase 0 prompt (write PRODUCT.md / ADRs from **frozen §3** — do not re-interview).  
 **B.** Phase 1 prompt (DESIGN.md).  
 **C.** Phase 3 then Phase 4 (scaffold export, then gateway). Phase 5 only after engine-spec exists.  
 **D.** Phase 4b **only after** the owner has lived with the app and asks to lock it.
@@ -848,7 +860,8 @@ than improvising NextAuth.
 - NextAuth.js / Auth.js  
 - Prisma in the running website  
 - Login, sign-up, OAuth, passwords  
-- Native apps, wearables, AI body-scan photos  
+- Native apps, wearables, progress photos, AI body-scan  
+- Imperial units, home / bands / bodyweight training tracks  
 - Grocery delivery, social, coaching marketplace  
 - Commercial recipe scraping  
 - Public multi-user SaaS  
@@ -857,12 +870,6 @@ than improvising NextAuth.
 
 ## 10. What to expect (plain language)
 
-You asked whether GitHub Pages can host this if Supabase holds the data, and whether login can wait.
+BodyPlan is a personal 18+ gym planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, gym days, and a timeline. It builds meals from a recipe list in the repo and a gym workout (including any cardio the plan thinks you need). You can swap meals and lifts. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site can live on GitHub Pages and remember your data in Supabase. Login can wait; when you want it, a magic link is enough.
 
-**Yes.** The website can be a folder of files on github.io. The phone talks to Supabase the same way a notes app talks to the cloud. You do not need Netlify or NextAuth for that.
-
-**A database is still worth it** for one person: otherwise the plan dies when the browser cache dies.
-
-**Login is optional later.** v1 will behave as “this phone and this URL are enough.” That means a stranger who finds a **public** Pages site could also see the data. When you have tested the planner and want a lock, we add a magic-link sign-in on the same static site, tighten the database rules, and keep the screens you already use.
-
-What this document gives you is a **phased map**: design the look, prove the calorie maths, put the app on GitHub Pages, save your stats in Supabase, then meals, workouts, and timelines — with the wiring already in place so a lock can be added without starting again.
+Phase 0 (next agent) only writes the brief docs from these frozen answers. It should not ask the §3 questions again.
