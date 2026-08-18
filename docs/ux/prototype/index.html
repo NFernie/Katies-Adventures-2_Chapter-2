@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BodyPlan prototype — bumper-plate load</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --platform: #d4d0c6;
+      --iron: #161616;
+      --iron-2: #2c2c2c;
+      --chalk: #f3f0e8;
+      --way: #efc000;
+      --live: #005a70;
+      --alert: #b42318;
+      --done: #1b6b38;
+      --steel: #7a7872;
+      --hair: #b9b4a8;
+      --white: #f7f5f0;
+      --studio: #2a2926;
+      --studio-ink: #e8e4da;
+      --studio-muted: #c9c4b8;
+      --studio-line: #6a665c;
+      --bezel: #1a1917;
+      --shadow: rgba(22,22,22,.45);
+      --safe-b: 12px;
+      --nav-h: 64px;
+      --band-h: 52px;
+      --w: 390px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Archivo, system-ui, sans-serif;
+      background: var(--studio);
+      color: var(--iron);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    ::selection { background: var(--way); color: var(--iron); }
+    :focus-visible {
+      outline: 3px solid var(--iron);
+      outline-offset: 2px;
+    }
+    button, a, [role="button"] { cursor: pointer; }
+    button { font: inherit; color: inherit; }
+    input { font: inherit; font-variant-numeric: tabular-nums; }
+
+    .studio {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+      color: var(--studio-ink);
+    }
+    .studio h1 {
+      font-family: "Archivo Narrow", Archivo, sans-serif;
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+      color: var(--way);
+    }
+    .studio p { max-width: 62ch; color: var(--studio-muted); }
+    .studio a { color: var(--way); }
+    .widths { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 24px; }
+    .widths button {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--studio-line);
+      background: transparent;
+      color: var(--studio-ink);
+      border-radius: 999px;
+    }
+    .widths button[aria-pressed="true"] {
+      background: var(--way);
+      color: var(--iron);
+      border-color: var(--way);
+    }
+
+    .stage { display: flex; justify-content: center; }
+    .phone {
+      width: var(--w);
+      height: 844px;
+      background: var(--platform);
+      color: var(--iron);
+      border-radius: 36px;
+      border: 10px solid var(--bezel);
+      box-shadow: 0 24px 48px var(--shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .notch {
+      height: 12px;
+      flex: none;
+      background: var(--bezel);
+    }
+    .screen {
+      flex: 1;
+      overflow: auto;
+      padding: 8px 16px calc(var(--nav-h) + 16px);
+      -webkit-overflow-scrolling: touch;
+    }
+    .screen.onboard { padding-bottom: calc(var(--band-h) + 20px); }
+
+    .display {
+      font-family: "Archivo Narrow", Archivo, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: 1.85rem;
+      line-height: 1.1;
+      text-wrap: balance;
+      margin: 8px 0 12px;
+    }
+    .live {
+      color: var(--live);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+    .muted { color: var(--iron-2); }
+    .hair { border: 0; border-top: 1px solid var(--hair); margin: 12px 0; }
+
+    .progress {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--iron-2);
+    }
+
+    .field { margin: 14px 0; }
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--iron);
+      border-radius: 4px;
+      background: var(--white);
+      color: var(--live);
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      min-height: 44px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--iron);
+      background: transparent;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .chip[aria-pressed="true"] {
+      background: var(--iron);
+      color: var(--chalk);
+    }
+
+    .band {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: calc(var(--band-h) + var(--safe-b));
+      padding-bottom: var(--safe-b);
+      background: var(--way);
+      color: var(--iron);
+      border: 0;
+      font-family: "Archivo Narrow", Archivo, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .back {
+      min-height: 44px;
+      min-width: 44px;
+      border: 0;
+      background: transparent;
+      font-weight: 600;
+      padding: 0;
+      text-align: left;
+    }
+
+    .banner {
+      background: var(--alert);
+      color: var(--chalk);
+      padding: 12px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .disclaimer {
+      font-size: 13px;
+      color: var(--iron-2);
+      margin-top: 16px;
+    }
+
+    .printout {
+      background: var(--white);
+      border: 1px solid var(--iron);
+      padding: 10px 12px;
+      margin: 4px 0 16px;
+      box-shadow: 2px 3px 0 rgba(22,22,22,.12);
+    }
+    .printout .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-variant-numeric: tabular-nums;
+      font-size: 14px;
+      border-bottom: 1px solid var(--hair);
+      padding: 4px 0;
+    }
+    .printout .row:last-child { border: 0; }
+    .printout .k { font-weight: 600; }
+    .printout .v { color: var(--live); font-weight: 700; }
+
+    .barbell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 18px;
+    }
+    .hub {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid var(--iron);
+      display: grid;
+      place-items: center;
+      flex: none;
+      padding: 0;
+      position: relative;
+    }
+    .hub i {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--platform);
+      border: 2px solid var(--iron);
+      display: block;
+    }
+    .hub[aria-pressed="true"] {
+      filter: invert(1);
+    }
+    .hub.breakfast { background: #eceae3; }
+    .hub.lunch { background: #1e7a3c; }
+    .hub.dinner { background: #184a82; }
+    .hub.snack { background: #2b2b2b; }
+    .hub.snack i { background: var(--steel); }
+    .steel-bar {
+      flex: 1;
+      min-height: 44px;
+      background: var(--steel);
+      border: 2px solid var(--iron);
+      border-radius: 4px;
+      color: var(--chalk);
+      font-family: "Archivo Narrow", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .module {
+      border-top: 1px solid var(--iron);
+      padding: 12px 0;
+    }
+    .module:last-of-type { border-bottom: 1px solid var(--iron); }
+    .endlabel {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--iron-2);
+      margin-bottom: 4px;
+    }
+    .endlabel span:nth-child(2),
+    .endlabel span:nth-child(3) { color: var(--live); font-variant-numeric: tabular-nums; }
+    .mod-title { font-weight: 700; font-size: 1.05rem; margin: 0 0 8px; }
+    .mod-actions { display: flex; gap: 8px; }
+    .ghost, .solid {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .ghost { background: transparent; border: 1.5px solid var(--iron); }
+    .solid { background: var(--iron); color: var(--chalk); border: 1.5px solid var(--iron); }
+
+    .quarry-gap { height: 28px; }
+
+    .nav {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: calc(var(--nav-h) + var(--safe-b));
+      padding-bottom: var(--safe-b);
+      background: var(--white);
+      border-top: 1px solid var(--iron);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .nav button {
+      border: 0;
+      background: transparent;
+      min-height: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--steel);
+    }
+    .nav button[aria-current="page"] { color: var(--iron); }
+    .nav svg { width: 22px; height: 22px; }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin: 8px 0 16px;
+    }
+    .week button {
+      min-height: 44px;
+      border: 1px solid var(--iron);
+      background: transparent;
+      border-radius: 4px;
+      padding: 4px 0;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .week button.gym { background: var(--iron); color: var(--chalk); }
+    .week button[aria-current="true"] { outline: 3px solid var(--way); outline-offset: 1px; }
+
+    .set-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    .set-table th {
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--iron-2);
+      padding: 6px 4px;
+    }
+    .set-table td { padding: 6px 4px; }
+    .set-table input {
+      width: 64px;
+      min-height: 44px;
+      text-align: center;
+      border: 1px solid var(--iron);
+      border-radius: 4px;
+      background: var(--white);
+      color: var(--live);
+      font-weight: 700;
+    }
+    .check {
+      width: 44px; height: 44px;
+      border: 2px solid var(--iron);
+      border-radius: 4px;
+      background: var(--white);
+    }
+    .check[aria-pressed="true"] { background: var(--done); border-color: var(--done); }
+
+    .sheet {
+      position: absolute;
+      inset: 0;
+      background: rgba(22,22,22,.55);
+      display: flex;
+      align-items: flex-end;
+      z-index: 5;
+    }
+    .sheet[hidden] { display: none; }
+    .sheet-card {
+      width: 100%;
+      background: var(--platform);
+      border-top: 4px solid var(--iron);
+      padding: 16px 16px 28px;
+      max-height: 80%;
+      overflow: auto;
+    }
+    .alt {
+      width: 100%;
+      text-align: left;
+      min-height: 56px;
+      border: 1.5px solid var(--iron);
+      background: var(--white);
+      margin: 8px 0;
+      padding: 10px 12px;
+      border-radius: 4px;
+    }
+    .alt strong { display: block; }
+    .alt small { color: var(--live); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .note {
+      border: 1px dashed var(--hair);
+      padding: 12px;
+      font-size: 14px;
+      color: var(--iron-2);
+      margin-top: 16px;
+    }
+
+    .bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .bento div {
+      background: var(--white);
+      border: 1px solid var(--iron);
+      padding: 12px;
+    }
+    .bento .live { font-size: 1.6rem; font-family: "Archivo Narrow", sans-serif; }
+
+    .hidden { display: none !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    THESIS: Today is a loaded barbell — meals are plates you rack, the session is the bar — not a SaaS diary or a dark gym logger.
+    OWN-WORLD: Pale competition-platform grey; iron black type; wayfinding yellow only on Continue; cyan only on live figures; bumper-plate hubs as checkboxes.
+    STORY: The Owner types a BodyID printout, picks aim and kitchen/gym, then eats and lifts or swaps. No account.
+    FIRST VIEWPORT: After generate, printout strip, four plate hubs + steel bar, packed meal modules, gap, workout block, four-tab nav.
+    FORM: Bumper-plate load (seed c3180cb2, assigned index 6). Raises: yellow wayfinding band; cyan live figures; packed modules; invert-on-press hubs; stamped end-labels; quarry gap before the lift.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <div class="studio">
+    <h1>BodyPlan · prototype</h1>
+    <p>
+      Throwaway clickable screens (not the Next.js app). Open this file in a browser, or serve the folder.
+      Synthetic meals and lifts. No login. Widths match the Phase 1 gate: 375 / 390 / 430.
+    </p>
+    <div class="widths" role="group" aria-label="Artboard width">
+      <button type="button" data-w="375" aria-pressed="false">375</button>
+      <button type="button" data-w="390" aria-pressed="true">390</button>
+      <button type="button" data-w="430" aria-pressed="false">430</button>
+    </div>
+    <div class="stage">
+      <div class="phone" id="phone">
+        <div class="notch" aria-hidden="true"></div>
+        <div class="screen onboard" id="screen"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const mealsSeed = [
+      { id: "bf", slot: "Breakfast", name: "Greek yogurt berry bowl", kcal: 320, p: 32 },
+      { id: "lu", slot: "Lunch", name: "Chickpea tahini bowl", kcal: 540, p: 28 },
+      { id: "di", slot: "Dinner", name: "Tofu stir-fry + rice", kcal: 610, p: 36 },
+      { id: "sn", slot: "Snack", name: "Cottage cheese + pear", kcal: 190, p: 18 },
+    ];
+    const alts = {
+      bf: [
+        { name: "Overnight oats + whey", kcal: 310, p: 30 },
+        { name: "Egg-white oat scramble", kcal: 335, p: 34 },
+        { name: "Skyr, honey, walnuts", kcal: 305, p: 29 },
+      ],
+      lu: [
+        { name: "Lentil soup + rye", kcal: 520, p: 26 },
+        { name: "Tuna-free nicoise-ish", kcal: 555, p: 31 },
+        { name: "Tempeh wrap", kcal: 500, p: 27 },
+      ],
+      di: [
+        { name: "Bean chilli + rice", kcal: 590, p: 33 },
+        { name: "Salmon-free miso bowl", kcal: 600, p: 35 },
+        { name: "Cottage pasta bake", kcal: 630, p: 38 },
+      ],
+      sn: [
+        { name: "Kefir + banana", kcal: 180, p: 16 },
+        { name: "Edamame cup", kcal: 200, p: 20 },
+        { name: "Protein yogurt pot", kcal: 175, p: 19 },
+      ],
+    };
+    const exercises = [
+      { name: "Back squat", eq: "Barbell · rack", prev: "80 kg × 5" },
+      { name: "Bench press", eq: "Barbell · bench", prev: "62.5 kg × 5" },
+      { name: "Lat pulldown", eq: "Cable", prev: "45 kg × 10" },
+      { name: "Zone 2 bike", eq: "Assault / spin", prev: "20 min" },
+    ];
+
+    const state = {
+      route: "on1",
+      width: 390,
+      sex: "female",
+      age: 34,
+      height: 168,
+      weight: 72.4,
+      bf: 28.1,
+      smm: 26.8,
+      goal: "fat_loss_retain_muscle",
+      date: "2026-12-10",
+      diet: ["vegetarian"],
+      kitchen: ["batch"],
+      days: 4,
+      unsafe: false,
+      meals: mealsSeed.map(m => ({ ...m, eaten: false })),
+      swapFor: null,
+      ex: 0,
+      sets: [false, false, false],
+      day: 2,
+    };
+
+    const goalLabel = {
+      fat_loss: "Fat loss",
+      fat_loss_retain_muscle: "Fat loss, keep muscle",
+      recomp: "Recomp",
+      maintain: "Maintain",
+    };
+
+    function icon(name) {
+      const p = {
+        today: '<path d="M4 10h16"/><path d="M4 14h10"/><circle cx="18" cy="14" r="2"/>',
+        plan: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+        log: '<path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/>',
+        you: '<circle cx="12" cy="8" r="3"/><path d="M5 20c1.5-4 4-6 7-6s5.5 2 7 6"/>',
+      };
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">${p[name]}</svg>`;
+    }
+
+    function impliedWeekly() {
+      const start = new Date("2026-08-18");
+      const end = new Date(state.date);
+      const weeks = Math.max(1, (end - start) / (7 * 86400000));
+      const loss = (state.weight * 0.01);
+      const implied = (state.weight * 0.08) / weeks;
+      return { weeks, impliedPct: (implied / state.weight) * 100, cap: 1 };
+    }
+
+    function go(route) {
+      state.route = route;
+      if (location.hash.slice(1) !== route) history.replaceState(null, "", "#" + route);
+      render();
+    }
+
+    function render() {
+      const screen = document.getElementById("screen");
+      const app = ["today", "plan", "log", "you", "session"].includes(state.route);
+      screen.classList.toggle("onboard", !app);
+      document.getElementById("phone").style.setProperty("--w", state.width + "px");
+      screen.innerHTML = view() + (app ? nav() : "") + (state.swapFor ? sheet() : "");
+      bind();
+    }
+
+    function nav() {
+      const items = [
+        ["today", "Today", "today"],
+        ["plan", "Plan", "plan"],
+        ["log", "Log", "log"],
+        ["you", "You", "you"],
+      ];
+      return `<nav class="nav" aria-label="Primary">${items.map(([id, lab, ic]) =>
+        `<button type="button" data-go="${id}" aria-current="${state.route===id|| (state.route==="session"&&id==="today") ? "page" : "false"}">${icon(ic)}<span>${lab}</span></button>`
+      ).join("")}</nav>`;
+    }
+
+    function sheet() {
+      const id = state.swapFor;
+      const list = alts[id] || [];
+      return `<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="swap-title">
+        <div class="sheet-card">
+          <h2 id="swap-title" class="display" style="font-size:1.4rem">Swap ${state.meals.find(m=>m.id===id)?.slot}</h2>
+          <p class="muted">Same slot · ±10% kcal · ±20% protein. Synthetic catalog.</p>
+          ${list.map((a,i)=>`<button type="button" class="alt" data-pick="${i}"><strong>${a.name}</strong><small>${a.kcal} kcal · ${a.p} g protein</small></button>`).join("")}
+          <button type="button" class="ghost" data-close-sheet style="width:100%;margin-top:8px">Keep current</button>
+        </div>
+      </div>`;
+    }
+
+    function view() {
+      switch (state.route) {
+        case "on1": return on1();
+        case "on2": return on2();
+        case "on3": return on3();
+        case "on4": return on4();
+        case "on5": return on5();
+        case "today": return today();
+        case "session": return session();
+        case "plan": return plan();
+        case "log": return log();
+        case "you": return you();
+        default: return today();
+      }
+    }
+
+    function onHead(n, title) {
+      return `<button type="button" class="back" data-back ${n===1?"disabled":""}>${n===1?"":"Back"}</button>
+        <div class="progress">${n} of 5</div>
+        <h1 class="display">${title}</h1>`;
+    }
+    function continueBand(label="Continue") {
+      return `<button type="button" class="band" data-next>${label}</button>`;
+    }
+
+    function on1() {
+      return onHead(1, "You") + `
+        <p class="muted">Male or female for Mifflin–St Jeor. Metric only.</p>
+        <div class="field"><span id="sex-l" class="muted" style="display:block;font-weight:600;margin-bottom:6px">Sex</span>
+          <div class="chips" role="group" aria-labelledby="sex-l">
+            <button type="button" class="chip" data-sex="female" aria-pressed="${state.sex==="female"}">Female</button>
+            <button type="button" class="chip" data-sex="male" aria-pressed="${state.sex==="male"}">Male</button>
+          </div>
+        </div>
+        <div class="field"><label for="age">Age (years)</label>
+          <input id="age" inputmode="numeric" value="${state.age}" data-k="age" /></div>
+        <div class="field"><label for="height">Height (cm)</label>
+          <input id="height" inputmode="decimal" value="${state.height}" data-k="height" /></div>
+        ${continueBand()}`;
+    }
+    function on2() {
+      return onHead(2, "From the machine") + `
+        <p class="muted">InBody / Tanita (BodyID). Type the printout. No photos.</p>
+        <div class="field"><label for="weight">Weight (kg)</label>
+          <input id="weight" inputmode="decimal" value="${state.weight}" data-k="weight" /></div>
+        <div class="field"><label for="bf">Body fat (%)</label>
+          <input id="bf" inputmode="decimal" value="${state.bf}" data-k="bf" /></div>
+        <div class="field"><label for="smm">Skeletal muscle mass (kg)</label>
+          <input id="smm" inputmode="decimal" value="${state.smm}" data-k="smm" /></div>
+        ${continueBand()}`;
+    }
+    function on3() {
+      const { impliedPct } = impliedWeekly();
+      state.unsafe = impliedPct > 1;
+      const safe = "18 November 2026";
+      return onHead(3, "Aim") + `
+        <p class="muted">Pick one goal. You choose the date; we block unsafe speed. Try 1 September 2026 to see the block.</p>
+        <div class="chips" role="group" aria-label="Goal type">
+          ${Object.entries(goalLabel).map(([k,v])=>
+            `<button type="button" class="chip" data-goal="${k}" aria-pressed="${state.goal===k}">${v}</button>`
+          ).join("")}
+        </div>
+        <div class="field"><label for="date">Target date</label>
+          <input id="date" type="date" value="${state.date}" data-k="date" /></div>
+        ${state.unsafe ? `<div class="banner" role="alert">That date is faster than 1% of body weight a week. Fastest safe date: ${safe}. Slow is allowed; faster is not.</div>` : ""}
+        ${continueBand(state.unsafe ? "Use fastest safe date" : "Continue")}`;
+    }
+    function on4() {
+      const diets = [["vegetarian","Vegetarian"],["vegan","Vegan"],["allergy","Nut allergy"],["quick","Under 30 min"]];
+      const kits = [["batch","Batch-cook"],["leftovers","Leftovers as lunch"],["out","Eating-out days"]];
+      return onHead(4, "Kitchen and gym") + `
+        <p class="muted">Filters the catalog. Gym equipment only. Cardio is chosen later by the plan.</p>
+        <p class="muted" style="font-weight:600;margin-bottom:6px">Diet</p>
+        <div class="chips">${diets.map(([k,l])=>`<button type="button" class="chip" data-diet="${k}" aria-pressed="${state.diet.includes(k)}">${l}</button>`).join("")}</div>
+        <p class="muted" style="font-weight:600;margin:14px 0 6px">Kitchen</p>
+        <div class="chips">${kits.map(([k,l])=>`<button type="button" class="chip" data-kit="${k}" aria-pressed="${state.kitchen.includes(k)}">${l}</button>`).join("")}</div>
+        <p class="muted" style="font-weight:600;margin:14px 0 6px">Gym days per week</p>
+        <div class="chips">${[1,2,3,4,5,6,7].map(d=>`<button type="button" class="chip" data-days="${d}" aria-pressed="${state.days===d}">${d}</button>`).join("")}</div>
+        ${continueBand()}`;
+    }
+    function on5() {
+      return onHead(5, "This plan") + `
+        <div class="printout">
+          <div class="row"><span class="k">Energy</span><span class="v">1,860 kcal</span></div>
+          <div class="row"><span class="k">Protein</span><span class="v">128 g</span></div>
+          <div class="row"><span class="k">Weeks</span><span class="v">16</span></div>
+          <div class="row"><span class="k">Gym</span><span class="v">${state.days} days · generator cardio</span></div>
+        </div>
+        <p>Fat loss while keeping muscle. Meals from the USDA-checked catalog. Workouts are gym lifts.</p>
+        <p class="disclaimer">BodyPlan is a personal planner, not medical treatment. Intended for adults 18+.</p>
+        ${continueBand("Generate my plan")}`;
+    }
+
+    function today() {
+      const hubs = ["breakfast","lunch","dinner","snack"];
+      return `
+        <p class="progress">Tuesday · gym day</p>
+        <h1 class="display">Today</h1>
+        <div class="printout" aria-label="Latest BodyID">
+          <div class="row"><span class="k">Weight</span><span class="v">${state.weight} kg</span></div>
+          <div class="row"><span class="k">Body fat</span><span class="v">${state.bf} %</span></div>
+          <div class="row"><span class="k">SMM</span><span class="v">${state.smm} kg</span></div>
+        </div>
+        <div class="barbell" aria-label="Today’s load">
+          ${state.meals.map((m,i)=>`<button type="button" class="hub ${hubs[i]}" data-eat="${m.id}" aria-pressed="${m.eaten}" aria-label="${m.slot} ${m.eaten?"eaten":"not eaten"}"><i></i></button>`).join("")}
+          <button type="button" class="steel-bar" data-go="session">Lower + Zone 2</button>
+        </div>
+        ${state.meals.map(m=>`
+          <article class="module">
+            <div class="endlabel"><span>${m.slot}</span><span>${m.kcal} kcal</span><span>${m.p} g P</span></div>
+            <h2 class="mod-title">${m.name}</h2>
+            <div class="mod-actions">
+              <button type="button" class="ghost" data-swap="${m.id}">Swap</button>
+              <button type="button" class="solid" data-eat="${m.id}" aria-pressed="${m.eaten}">${m.eaten?"Eaten":"Ate it"}</button>
+            </div>
+          </article>`).join("")}
+        <div class="quarry-gap" aria-hidden="true"></div>
+        <article class="module">
+          <div class="endlabel"><span>Session</span><span>4 moves</span><span>~55 min</span></div>
+          <h2 class="mod-title">Lower + Zone 2</h2>
+          <button type="button" class="solid" data-go="session">Start workout</button>
+        </article>`;
+    }
+
+    function session() {
+      const ex = exercises[state.ex];
+      return `
+        <button type="button" class="back" data-go="today">Back</button>
+        <p class="progress">Exercise ${state.ex+1} of ${exercises.length} · gym</p>
+        <h1 class="display">${ex.name}</h1>
+        <p class="muted">${ex.eq} · Previous <span class="live">${ex.prev}</span></p>
+        <table class="set-table">
+          <thead><tr><th>Set</th><th>kg</th><th>Reps</th><th>Done</th></tr></thead>
+          <tbody>
+            ${[1,2,3].map((n,i)=>`<tr>
+              <td>${n}</td>
+              <td><input inputmode="decimal" aria-label="Set ${n} kg" value="${n===3?70:80}" /></td>
+              <td><input inputmode="numeric" aria-label="Set ${n} reps" value="5" /></td>
+              <td><button type="button" class="check" data-set="${i}" aria-pressed="${state.sets[i]}" aria-label="Mark set ${n} done"></button></td>
+            </tr>`).join("")}
+          </tbody>
+        </table>
+        <div class="mod-actions">
+          <button type="button" class="ghost" data-swap-ex>Swap lift</button>
+          <button type="button" class="solid" data-next-ex>${state.ex===exercises.length-1?"Finish":"Next exercise"}</button>
+        </div>`;
+    }
+
+    function plan() {
+      const days = ["M","T","W","T","F","S","S"];
+      const gym = [0,2,4,5];
+      return `
+        <p class="progress">Current plan</p>
+        <h1 class="display">${goalLabel[state.goal]}</h1>
+        <p class="muted">18 Aug → ${state.date} · gym ${state.days} days/week</p>
+        <div class="bento">
+          <div><div class="muted">Energy</div><div class="live">1,860</div></div>
+          <div><div class="muted">Protein</div><div class="live">128 g</div></div>
+          <div><div class="muted">Weeks</div><div class="live">16</div></div>
+          <div><div class="muted">Split</div><div class="live" style="font-size:1.1rem">Upper / lower</div></div>
+        </div>
+        <p>Meals match vegetarian + batch-cook. Cardio is Zone 2 on two gym days because the goal is fat loss with muscle kept — not because you picked cardio.</p>
+        <p class="muted" style="font-weight:600">This week</p>
+        <div class="week">
+          ${days.map((d,i)=>`<button type="button" class="${gym.includes(i)?"gym":""}" data-day="${i}" aria-current="${state.day===i}">${d}</button>`).join("")}
+        </div>
+        <button type="button" class="ghost" data-go="today">Open selected day</button>`;
+    }
+
+    function log() {
+      return `
+        <p class="progress">Timeline</p>
+        <h1 class="display">Check-ins</h1>
+        <p class="muted">Weight + BodyID fields. No photos.</p>
+        <div class="printout">
+          <div class="row"><span class="k">18 Aug (start)</span><span class="v">72.4 kg</span></div>
+          <div class="row"><span class="k">Projected 10 Dec</span><span class="v">66.1 kg</span></div>
+          <div class="row"><span class="k">Cap</span><span class="v">1.0 % / week</span></div>
+        </div>
+        <div class="field"><label for="cw">Today’s weight (kg)</label>
+          <input id="cw" inputmode="decimal" value="72.1" /></div>
+        <div class="field"><label for="cbf">Body fat (%)</label>
+          <input id="cbf" inputmode="decimal" value="27.9" /></div>
+        <div class="field"><label for="csmm">Skeletal muscle mass (kg)</label>
+          <input id="csmm" inputmode="decimal" value="26.9" /></div>
+        <button type="button" class="solid" id="save-checkin">Save check-in</button>
+        <p id="saved" class="disclaimer hidden">Saved in this prototype only (no Supabase yet).</p>`;
+    }
+
+    function you() {
+      return `
+        <p class="progress">You</p>
+        <h1 class="display">Profile</h1>
+        <div class="printout">
+          <div class="row"><span class="k">Sex</span><span class="v">${state.sex}</span></div>
+          <div class="row"><span class="k">Height</span><span class="v">${state.height} cm</span></div>
+          <div class="row"><span class="k">Gym days</span><span class="v">${state.days} / week</span></div>
+        </div>
+        <button type="button" class="ghost" data-go="on1">Edit onboarding numbers</button>
+        <p class="note" role="note">
+          Locking this data with an email link comes later. This version has no sign-in.
+        </p>
+        <p class="disclaimer">BodyPlan is not medical treatment. Adults 18+.</p>`;
+    }
+
+    function toggleArr(arr, v) {
+      const i = arr.indexOf(v);
+      if (i >= 0) arr.splice(i,1); else arr.push(v);
+    }
+
+    function bind() {
+      document.querySelectorAll("[data-w]").forEach(b => {
+        b.setAttribute("aria-pressed", String(Number(b.dataset.w) === state.width));
+        b.onclick = () => { state.width = Number(b.dataset.w); render(); };
+      });
+      document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
+      document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => {
+        const order = ["on1","on2","on3","on4","on5"];
+        const i = order.indexOf(state.route);
+        if (i > 0) go(order[i-1]);
+      });
+      document.querySelectorAll("[data-next]").forEach(b => b.onclick = () => {
+        if (state.route === "on3" && state.unsafe) state.date = "2026-11-18";
+        const order = ["on1","on2","on3","on4","on5","today"];
+        const i = order.indexOf(state.route);
+        go(order[Math.min(i+1, order.length-1)]);
+      });
+      document.querySelectorAll("[data-sex]").forEach(b => b.onclick = () => { state.sex = b.dataset.sex; render(); });
+      document.querySelectorAll("[data-goal]").forEach(b => b.onclick = () => { state.goal = b.dataset.goal; render(); });
+      document.querySelectorAll("[data-diet]").forEach(b => b.onclick = () => { toggleArr(state.diet, b.dataset.diet); render(); });
+      document.querySelectorAll("[data-kit]").forEach(b => b.onclick = () => { toggleArr(state.kitchen, b.dataset.kit); render(); });
+      document.querySelectorAll("[data-days]").forEach(b => b.onclick = () => { state.days = Number(b.dataset.days); render(); });
+      document.querySelectorAll("[data-k]").forEach(inp => inp.onchange = () => {
+        const k = inp.dataset.k;
+        state[k] = k === "date" ? inp.value : (k==="sex"?inp.value:Number(inp.value));
+      });
+      document.querySelectorAll("[data-eat]").forEach(b => b.onclick = () => {
+        const m = state.meals.find(x => x.id === b.dataset.eat);
+        if (m) m.eaten = !m.eaten;
+        render();
+      });
+      document.querySelectorAll("[data-swap]").forEach(b => b.onclick = () => { state.swapFor = b.dataset.swap; render(); });
+      document.querySelectorAll("[data-close-sheet]").forEach(b => b.onclick = () => { state.swapFor = null; render(); });
+      document.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
+        const m = state.meals.find(x => x.id === state.swapFor);
+        const a = alts[state.swapFor][Number(b.dataset.pick)];
+        if (m && a) { m.name = a.name; m.kcal = a.kcal; m.p = a.p; }
+        state.swapFor = null;
+        render();
+      });
+      document.querySelectorAll("[data-set]").forEach(b => b.onclick = () => {
+        state.sets[Number(b.dataset.set)] = !state.sets[Number(b.dataset.set)];
+        render();
+      });
+      document.querySelectorAll("[data-next-ex]").forEach(b => b.onclick = () => {
+        if (state.ex < exercises.length - 1) { state.ex += 1; state.sets = [false,false,false]; render(); }
+        else go("today");
+      });
+      document.querySelectorAll("[data-swap-ex]").forEach(b => b.onclick = () => {
+        exercises[state.ex].name = "Front squat";
+        render();
+      });
+      document.querySelectorAll("[data-day]").forEach(b => b.onclick = () => { state.day = Number(b.dataset.day); render(); });
+      const save = document.getElementById("save-checkin");
+      if (save) save.onclick = () => document.getElementById("saved").classList.remove("hidden");
+      document.querySelectorAll(".sheet").forEach(s => s.addEventListener("click", e => {
+        if (e.target === s) { state.swapFor = null; render(); }
+      }));
+    }
+
+    const hash = location.hash.slice(1);
+    if (hash === "swap") { state.route = "today"; state.swapFor = "bf"; }
+    else if (hash) state.route = hash;
+    window.addEventListener("hashchange", () => {
+      const h = location.hash.slice(1);
+      if (h && h !== state.route) { state.route = h; render(); }
+    });
+    render();
+  </script>
+</body>
+</html>

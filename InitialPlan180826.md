@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
-**Status:** Phase 0 **complete** (18 Aug 2026). Brief is `PRODUCT.md` + `CONTEXT.md` + `docs/decisions/0001-v1-scope.md` + `docs/decisions/0002-auth-ready-static.md`. §3 remains **closed**. No application code yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 1 **docs + prototype complete** (18 Aug 2026), waiting on **owner review of DESIGN.md**. Phase 0 brief remains in force. §3 remains **closed**. No Next.js scaffold yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
@@ -413,6 +413,8 @@ Review: docs must not contradict §3.
 
 ## Phase 1 — UX research and design system
 
+**Status:** Prototype complete (18 Aug 2026). Gate remaining: owner thumbs-up on `DESIGN.md`.
+
 **Goal:** Distinctive mobile product UI for **one person using their own planner**, not a SaaS sign-up funnel.
 
 ### Design
@@ -434,10 +436,12 @@ Review: docs must not contradict §3.
 
 ### Gate
 
-- [ ] `DESIGN.md` + `PRODUCT.md`  
-- [ ] Reference lock listed  
-- [ ] Five core screens prototyped  
+- [x] `DESIGN.md` + `PRODUCT.md`  
+- [x] Reference lock listed  
+- [x] Five core screens prototyped  
 - [ ] Owner thumbs-up or written proceed  
+
+**Completed (18 Aug 2026):** `DESIGN.md` (bumper-plate load, seed `c3180cb2`), `docs/ux/flows.md`, `docs/ux/component-inventory.md`, `docs/ux/critique-notes.md`, clickable HTML at `docs/ux/prototype/index.html` (onboarding, today, swap, session, timeline). See `docs/ux/prototype/README.md` for how to open it. Next: owner review, then Phase 2. No Supabase.
 
 **Further planning if:** native iOS/Android.
 
@@ -925,7 +929,7 @@ than improvising NextAuth.
 ## 8. Suggested first prompts (owner → agents)
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
-**B.** Phase 1 prompt (DESIGN.md).  
+**B.** Phase 1 — **prototype done.** Owner reviews `DESIGN.md`; screens are `docs/ux/prototype/index.html`.  
 **C.** Phase 3 then Phase 4 (scaffold export, then gateway). Phase 5 only after engine-spec exists.  
 **D.** Phase 4b **only after** the owner has lived with the app and asks to lock it.
 
@@ -948,4 +952,4 @@ than improvising NextAuth.
 
 BodyPlan is a personal 18+ gym planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, gym days, and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a gym workout (including any cardio the plan thinks you need). You can swap meals and lifts. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site can live on GitHub Pages and remember your data in Supabase. Login can wait; when you want it, a magic link is enough.
 
-Phase 0 has written the brief docs from these frozen answers. Later agents should not ask the §3 questions again.
+Phase 0 wrote the brief. Phase 1 has a clickable phone prototype in `docs/ux/prototype/index.html` (open that file in a browser). `DESIGN.md` is waiting on owner review before Phase 2. Later agents should not ask the §3 questions again.
