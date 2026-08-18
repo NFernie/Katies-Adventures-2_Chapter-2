@@ -2,70 +2,119 @@
 
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
+**Revision:** 2 — single-user GitHub Pages + Supabase; auth deferred but designed in  
 **Status:** Planning (no application code yet)  
 **Working title:** BodyPlan *(replace after the product-name question is answered)*  
 **Audience:** Implementation agents and the product owner  
-**Stack (requested):** Next.js · TypeScript · React · Tailwind CSS · Aceternity UI · NextAuth.js · Prisma · Supabase
+**Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
+**Deferred:** NextAuth.js, Prisma-at-runtime, multi-user login  
+**Host (v1):** GitHub Pages (`*.github.io`) talking **directly** to Supabase from the browser
 
 This document is the source of truth until a later plan supersedes it. Every implementation phase must **design → develop → review**, then stop at the listed gate. Do not start a later phase until its gate is green, or until the owner explicitly waives a question in writing.
 
----
-
-## 1. What we are building (plain language)
-
-A **mobile-first web app** that takes a person's sex, age, height, weight, and body-composition numbers, then produces:
-
-1. A **calorie and macro target** that is safe for the chosen timeline.
-2. A **meal plan** with breakfast, lunch, dinner, and snacks whose recipes add up to those targets.
-3. An **exercise plan** that supports fat loss, muscle retention, or recomposition.
-4. A **custom timeline** (for example 8, 12, or 16 weeks) with weekly checkpoints so the user can see whether they are on track.
-
-The app is a **planner and tracker**, not a doctor. Every generated plan must show a short medical disclaimer. It does not diagnose, treat, or claim guaranteed results.
+**Revision 2 change of course:** Auth is a **low-priority, later-stage** feature. v1 is a **single-user personal tool**. The architecture must still be **auth-ready** so a login wall can be added after the owner has used the app, without rewriting the engine, UI, or schema.
 
 ---
 
-## 2. Hosting and database advice (read this first)
+## 1. Direct answer: can GitHub Pages host this with a Supabase backend?
 
-### 2.1 GitHub Pages (`*.github.io`) is not enough for this product
+**Yes.** GitHub Pages serves the website. Supabase holds the data. They do not need to live on the same computer.
 
-GitHub Pages only serves **static files**. A Next.js app can be forced onto it with `output: 'export'`, but that export **cannot** run:
+| Piece | Where it runs | What it does |
+| --- | --- | --- |
+| Next.js `output: 'export'` | Built on GitHub Actions, files on GitHub Pages | Screens, calculator, meal/workout UI |
+| `@supabase/supabase-js` | In the visitor’s browser | Reads and writes Postgres over HTTPS |
+| Supabase Postgres | Supabase cloud | Profile, plans, check-ins, optional catalog |
 
-| Requested feature | Why GitHub Pages breaks it |
-| --- | --- |
-| NextAuth.js | Needs API routes, cookies, and OAuth callback URLs on a real server |
-| Prisma → Supabase | Needs a server (or at least a trusted backend) to hold `DATABASE_URL` |
-| Custom plans per user | Needs a database, not a single HTML file |
-| Updating recipes / workouts | Needs write APIs or a CMS, not a rebuild of static HTML every time |
-| Secrets | `AUTH_SECRET` and DB URLs cannot be hidden in a static bundle |
+GitHub Pages **cannot** run a Node server. That is why this revision **drops NextAuth.js and Prisma-from-the-app** for v1. Those need a server. The browser **can** call Supabase, because Supabase is already a hosted API.
 
-**Verdict:** GitHub Pages is fine for a **brochure or in-browser calculator demo**. It is the **wrong host** for logged-in, per-user diet and training plans.
+What still works on this path:
 
-### 2.2 Is a database (Supabase) required?
+- Custom body-comp inputs, generated meal and training plans, timelines  
+- Saving and reopening plans (they live in Supabase, not in the HTML file)  
+- Updating recipes/workouts (git JSON and/or Supabase rows)  
+- A later login wall (**Supabase Auth**, not NextAuth), because Auth.js on Pages has no API routes to land OAuth callbacks on a first-party server — Supabase Auth is built for static sites
 
-**Yes, if the product matches the brief** (different users, saved body-comp data, custom plans, recipes, workouts, and timelines that can be opened again later).
+What does **not** work on GitHub Pages:
 
-| Path | Database? | Auth? | What the user gets |
-| --- | --- | --- | --- |
-| **A. Calculator demo** | No. `localStorage` only | No | One device, plans vanish if storage is cleared, no sync |
-| **B. Personal product (recommended)** | **Yes — Supabase Postgres via Prisma** | **Yes — NextAuth.js** | Accounts, saved profiles, plan history, content updates |
-| **C. Static marketing site + hosted app** | Yes, on the app host only | Yes, on the app host only | `github.io` for the story; Netlify/Vercel for the app |
+- NextAuth.js / Auth.js with a Prisma adapter  
+- Prisma Client inside the website (Prisma is Node-only; it may be used **on a laptop** to push schema if you insist, but the running app must use `supabase-js`)  
+- Hiding secrets in the JavaScript bundle — the **anon key is public by design**
 
-**Recommendation: Path B on Netlify or Vercel, with Supabase as Postgres.** Netlify is a good default here because this workspace already has Next.js-on-Netlify guidance. Vercel is equally valid. Render is a fallback if you want a long-running Node service instead of serverless.
+### 1.1 Is a database required for a single user?
 
-Do **not** mix Supabase Auth and NextAuth.js in v1. Use **NextAuth.js (Auth.js v5) for login** and **Supabase only as the Postgres database** Prisma talks to. That matches the requested stack without two competing identity systems.
+**Yes, if you want the plan to survive a new phone, a cleared cache, or a new deploy.** `localStorage` is a fine cache, not the source of truth.
 
-### 2.3 Hosting decision (gate for Phase 3)
+For one person, Supabase is still the right store: one project, one set of tables, almost no operational cost on the free tier. You are not paying for “multi-user SaaS.” You are paying for **memory that is not stuck in one browser**.
 
-Until the owner picks a host, implementation agents must **not** configure GitHub Pages static export as the production target.
+### 1.2 Honest security note (single user, no login)
 
-**Preferred production target**
+The GitHub Pages URL plus the public anon key is enough for **anyone who finds the site** to read and write the same tables, unless Row Level Security (RLS) is locked to a signed-in user.
 
-- Host: **Netlify** (or Vercel)
-- Database: **Supabase Postgres**
-- ORM: **Prisma** with `DIRECT_URL` (migrations) and pooled `DATABASE_URL` (runtime)
-- Auth: **NextAuth.js** with Prisma adapter, Google + magic-link (email) to start
+That is acceptable for v1 **only because** this is a personal tool, not a public product. Body-comp data is still sensitive. The plan therefore:
 
-**Allowed exception:** a throwaway **Phase 1 HTML prototype** may be opened locally or dropped on GitHub Pages. That prototype is research, not the product.
+1. Ships **without** a login wall (owner request).  
+2. Puts `owner_id` on every personal row from day one.  
+3. Keeps **all** database calls behind one module.  
+4. Treats **Supabase Auth + RLS** as a **bolt-on phase after the owner has tested the app**, not as a rewrite.
+
+Do **not** put the `service_role` key in the website. Ever.
+
+---
+
+## 2. Target architecture (auth-ready single user)
+
+```
+Phone / laptop browser
+        │
+        ▼
+GitHub Pages  (static Next.js export)
+        │  @supabase/supabase-js  (anon key only)
+        ▼
+Supabase Postgres
+        │
+        ├── recipes / exercises   (optional: also shipped as JSON in the repo)
+        └── profile, goals, plans, check-ins   (always in Supabase)
+```
+
+**Later (optional Phase 4b / Phase 11):** same diagram, plus `supabase.auth` session. RLS changes from “anon may touch the single owner row” to `owner_id = auth.uid()`. UI gains a login screen. Engine and meal cards stay as they are.
+
+### 2.1 Why not NextAuth + Prisma on this host
+
+| Original idea | v1 decision | Why |
+| --- | --- | --- |
+| NextAuth.js | **Out of v1. If auth is added, use Supabase Auth.** | NextAuth wants server callbacks. Supabase Auth works from static JS. |
+| Prisma in the web app | **Out of the running app.** Optional laptop-only migrations. | Prisma does not run in the browser. |
+| Netlify/Vercel | **Not required for v1.** Keep as an escape hatch if you later want server features. | Pages + Supabase is enough for a personal planner. |
+| One Profile row with no owner | **Forbidden.** Use `owner_id` even for one person. | Otherwise adding auth means a schema rewrite. |
+
+### 2.2 Auth-ready rules (non-negotiable from Phase 4 onward)
+
+These exist so login can be added after single-user testing **without** rebuilding the product.
+
+1. **Single data gateway.** Only `src/data/*` may import `supabase-js`. Pages, components, and the engine never call `.from()` themselves.  
+2. **`owner_id uuid not null`** on every personal table: `profiles`, `goals`, `plans`, `plan_versions`, `day_plans`, `meal_slots`, `workout_sessions`, `workout_items`, `check_ins`, `favorites`.  
+3. **v1 owner constant.** `src/data/owner.ts` exports `DEFAULT_OWNER_ID` (a real UUID you generate once and commit). Every insert/select in v1 filters to that id. When auth lands, this file becomes “current user id from session” and the constant is deleted.  
+4. **One profile per owner.** `unique (owner_id)` on `profiles` — not a table that can only ever have one row in the whole database.  
+5. **RLS on from the first migration.** v1 policy: `true` for `anon` **and** `authenticated`, but only for rows where `owner_id = DEFAULT_OWNER_ID` (the UUID baked into the policy or checked in the client *and* in SQL). Document the policy in `supabase/policies.sql`. Phase 4b replaces it with `owner_id = auth.uid()`.  
+6. **No `auth.users` foreign key in v1.** `owner_id` is a UUID column, not `references auth.users`. Phase 4b may add that FK after the first real user id exists.  
+7. **Catalog vs personal data.** Recipes and exercises are **not** personal. Prefer **static JSON in the repo** (`data/recipes.json`, `data/exercises.json`) so the library is versioned in git and does not need write access from the anon key. User swaps and pins are personal rows in Supabase.  
+8. **Engine is pure.** `src/engine` has no Supabase, no owner id, no React. Auth cannot infect the maths.  
+9. **Session-shaped client now.** `createBrowserClient()` is a function, not a pile of globals, so Phase 4b can attach `Authorization: Bearer <jwt>` without touching screens.  
+10. **Do not encode “logged in” into routes.** No `/login` required in v1. Settings can later grow a “Sign in to lock this data” card. Keep `/plan` working whether a session exists or not, as long as `getOwnerId()` returns a UUID.
+
+### 2.3 How auth will be added later (so v1 does not paint us into a corner)
+
+When the owner is happy with the planner:
+
+1. Enable Email (magic link) in the Supabase project — one account.  
+2. Add a small `/lock` or Settings sign-in using `@supabase/auth-ui-react` or a custom form.  
+3. On first successful login, **map** `DEFAULT_OWNER_ID` rows to `auth.uid()` with a one-off SQL update (or keep the UUID and set that user’s id to the same UUID via `auth.users` id override — prefer the SQL remap; document it).  
+4. Tighten RLS to `owner_id = auth.uid()`. Revoke the open anon policy.  
+5. `getOwnerId()` reads `session.user.id` and throws if missing.  
+6. No NextAuth, no Prisma adapter, no Netlify requirement unless you also want other server features.
+
+**Further planning (only if this happens):** if a second person needs their own plan, the same RLS already supports it — onboard creates a new `profiles` row for the new `owner_id`. Do not build that UI in v1.
 
 ---
 
@@ -73,857 +122,747 @@ Until the owner picks a host, implementation agents must **not** configure GitHu
 
 Implementation agents must **not invent answers**. If a question is unanswered, stop and write the assumed default in a PR comment, then wait.
 
+**Already decided in this revision**
+
+- Audience: **single user**, not a public product.  
+- Host: **GitHub Pages + Supabase**.  
+- Auth: **deferred**. Design auth-ready; do not implement a login wall in v1.  
+- When auth is added: **Supabase Auth**, not NextAuth.
+
 ### Product and people
 
-1. **Product name and voice?** Working title is BodyPlan. Is this a public app, a private tool for one household, or a branded “Katie’s Adventures” chapter?
-2. **Who is the user?** Adults only (recommended 18+)? Any coaching relationship (you write the plan, they follow it)?
-3. **Sex / gender model?** The brief says male or female (needed for Mifflin–St Jeor BMR). Should the UI also offer “prefer not to say” (then require a manual BMR or a chosen formula), or stay binary for v1?
-4. **Units?** Metric, imperial, or toggle (recommended: toggle, store metric internally).
-5. **Body composition source?** DEXA, InBody/Tanita, calipers, Navy-method tape estimate, or “I only know weight”? This changes which fields are required vs optional.
-6. **Primary goal mix?** Fat loss only, fat loss + muscle retain, full recomposition, or also a maintain/gain track?
+1. **Product name and voice?** Working title is BodyPlan. Personal tool vs “Katie’s Adventures” chapter branding?  
+2. **Adults only?** Recommended 18+.  
+3. **Sex / gender model?** Male or female for Mifflin–St Jeor. Prefer-not-to-say in v1? (Default: binary for the formula.)  
+4. **Units?** Toggle; store metric internally. Confirm.  
+5. **Body composition source?** DEXA, InBody/Tanita, calipers, Navy tape, or weight-only?  
+6. **Primary goal mix?** Fat loss, fat loss + retain muscle, recomp, maintain?
 
 ### Nutrition and training
 
-7. **Dietary constraints?** Vegetarian, vegan, pescatarian, gluten-free, dairy-free, halal/kosher, allergies, budget, max cooking minutes, servings (1 vs family)?
-8. **Kitchen reality?** Batch-cook friendly? Leftovers as next-day lunch? Eating out days?
-9. **Training setting?** Full gym, home dumbbells, bands only, bodyweight only, or a mix? Days per week the user can actually train?
-10. **Cardio preference?** Walking, Zone 2, intervals, none beyond steps?
-11. **Timeline rules?** Owner picks any end date, or the engine proposes a range and blocks unsafe speed (recommended)?
-12. **Recipe source for v1?** See §4. Default recommendation: **owned seed catalog**, not live scraping.
-13. **Exercise source for v1?** Same: owned catalog, optionally enriched later from wger.de.
+7. **Dietary constraints?** Vegetarian, vegan, allergies, cooking time, servings?  
+8. **Kitchen reality?** Batch-cook, leftovers as lunch, eating-out days?  
+9. **Training setting?** Gym, home dumbbells, bands, bodyweight? Days per week?  
+10. **Cardio?** Walking, Zone 2, intervals, none beyond steps?  
+11. **Timeline rules?** Engine proposes a range and blocks unsafe speed (recommended)?  
+12. **Recipe source for v1?** Default: **owned JSON in the repo**, not scraping.  
+13. **Exercise source for v1?** Same.
 
-### Account, legal, content ops
+### Legal, content, later auth
 
-14. **Auth providers?** Google, Apple, email magic link, username/password? (Recommend Google + magic link; skip passwords in v1.)
-15. **Medical disclaimer copy** — who signs off? Any conditions that must hard-stop plan generation (pregnancy, eating-disorder history, BMI below a floor, under 18)?
-16. **Who may edit the global recipe/exercise library?** Owner only, or a future admin role?
-17. **May users edit their own plan** (swap meals, swap lifts) or only follow a locked plan?
-18. **Progress data** — weight only, tape measurements, photos, mood, sleep, cycle? Photos are sensitive; default v1 is **no photos**.
-19. **Locale / language?** English only for v1?
-20. **Hosting confirmation** — Netlify + Supabase, Vercel + Supabase, or insist on GitHub Pages anyway (which forces Path A)?
+14. **Medical disclaimer** — who signs off? Hard-stops (pregnancy, eating-disorder history, BMI floor, under 18)?  
+15. **May the single user swap meals and lifts**, or is the generated week locked? (Default: swaps allowed.)  
+16. **Progress data** — weight, tape, mood? Default v1: **no photos**.  
+17. **GitHub Pages type** — user site (`username.github.io`) or project site (`username.github.io/Katies-Adventures-2_Chapter-2`)? Project sites need `basePath`.  
+18. **After testing, do you want the optional lock?** If yes, email magic link is enough (one inbox). Do not design Google OAuth until that phase.  
+19. **Who may the later login protect against?** Random visitors to a public repo’s Pages site is the realistic threat. A determined person with the old anon policy in an old JS bundle is a further-planning item (cache + policy version).
 
-### Suggested defaults if the owner is silent after a grilling session
+### Suggested defaults if the owner says “use defaults”
 
-Use these **only** when the owner says “use defaults”:
-
-- Adults 18+, binary sex for BMR, unit toggle, fat-loss + muscle retain as default goal.
-- Optional body-fat %; if missing, plan from weight + waist (Navy) or weight-only with a conservative deficit.
-- Omnivore catalog with vegetarian filter. Gym + home dumbbell tracks.
-- Engine proposes timeline; user may slow it down, not speed it past safety caps.
-- Owned recipe + exercise seed data. Users can swap meals and exercises. No photos. Google + magic link. Netlify + Supabase.
+- Adults 18+, binary sex for BMR, unit toggle, fat-loss + muscle retain.  
+- Optional body-fat %; else waist (Navy) or conservative weight-only deficit.  
+- Omnivore catalog with vegetarian filter. Gym + home dumbbell tracks.  
+- Engine proposes timeline; user may slow it, not exceed the safety cap.  
+- Owned JSON catalog. Swaps allowed. No photos.  
+- GitHub Pages project site + `basePath`. Supabase for personal data. Auth later via magic link.
 
 ---
 
 ## 4. How to access and update recipes and exercise plans
 
-This is the content strategy. Pick one primary path for v1; the others are later phases.
+### 4.1 v1: git-owned catalog + Supabase personal plans
 
-### 4.1 Recommended v1: owned catalog in Supabase
+**Catalog (read-mostly):** `data/recipes.json` and `data/exercises.json` shipped with the static site. Update by PR. No anon write access, so a stranger cannot poison the food library.
 
-Keep recipes and exercises as **first-party rows** Prisma owns.
+**Personal plan (read/write):** generated week, pins, swaps, completions, check-ins in Supabase, always scoped by `owner_id`.
 
-**Why this wins for a low-complexity personal app**
+**Minimum catalog size**
 
-- No API bill, no scrape ToS risk, no broken third-party images.
-- Macros are known and testable.
-- Plans stay reproducible (same seed → same week 1).
-- Updates are a seed file or an admin form, not a brittle crawler.
-
-**Minimum catalog size for a credible v1**
-
-- ~40 breakfasts, ~40 lunches, ~40 dinners, ~25 snacks (with vegetarian coverage).
-- ~50–80 exercises covering squat, hinge, push, pull, lunge, carry, core, Zone 2.
+- ~40 breakfasts, ~40 lunches, ~40 dinners, ~25 snacks (vegetarian coverage).  
+- ~50–80 exercises: squat, hinge, push, pull, lunge, carry, core, Zone 2.
 
 **How the user *accesses* a plan**
 
 | Surface | Behaviour |
 | --- | --- |
-| Today | Four meal cards + today’s workout, large checkboxes, one-thumb layout |
-| This week | 7-day strip; tap a day to open |
-| Plan | Goal, timeline, calories, macros, weekly training split, “why this plan” |
-| Library | Search recipes/exercises; favourite; “use this instead” |
-| History | Past weeks stay frozen so progress is honest |
+| Today | Four meal cards + today’s workout, large checkboxes |
+| This week | 7-day strip; tap a day |
+| Plan | Goal, timeline, calories, macros, split, “why this plan” |
+| Library | Search catalog; favourite; “use this instead” |
+| History | Past weeks frozen |
 
 **How the user *updates* a plan**
 
 | Action | Rule |
 | --- | --- |
-| Swap a meal | Offer 3 alternatives in the same slot within ±10% kcal and ±20% protein |
-| Shuffle a day | Re-roll all four slots that still match remaining macros |
-| Pin a recipe | Never auto-replace pinned items on regenerate |
-| Log “I ate something else” | Optional kcal/protein note; does not rewrite the forward plan unless they tap Regenerate |
-| Swap an exercise | Same movement pattern + available equipment |
-| Skip / deload | Mark session skipped; if 2+ skips in a week, suggest a deload prompt |
-| Profile change (weight, goal, timeline) | **Do not silently overwrite.** Create `PlanVersion` n+1, keep n read-only |
-| Content library update | New recipes appear in **future** swaps only, not in locked past days |
+| Swap a meal | 3 alternatives, same slot, ±10% kcal, ±20% protein |
+| Shuffle a day | Re-roll unpinned slots |
+| Pin a recipe | Regeneration must not replace it |
+| Log “I ate something else” | Optional note; does not rewrite the forward plan unless they regenerate |
+| Swap an exercise | Same movement pattern + equipment |
+| Skip / deload | Record skip; 2+ skips in a week → deload prompt |
+| Profile / goal change | New `plan_versions` row; old week stays readable |
+| Catalog update (git) | New recipes appear in **future** swaps only |
 
 ### 4.2 Licensed APIs (Phase 9, optional)
 
-Use these to *grow* the catalog, still stored in Prisma:
+Ingest on a **laptop**, write JSON or upsert catalog tables. Never call paid APIs from the Pages bundle on every view.
 
-- **Nutrition facts:** USDA FoodData Central (free, good for ingredients).
-- **Recipes:** Spoonacular or Edamam (paid quotas; cache everything).
-- **Exercises:** [wger.de](https://wger.de) (open) or ExerciseDB via a licensed RapidAPI plan.
-
-Never call these APIs on every page view. Nightly or on-demand ingest → review → upsert.
+- USDA FoodData Central, Spoonacular/Edamam, wger.de  
 
 ### 4.3 ScrapeGraphAI (Phase 9, gated)
 
-ScrapeGraphAI is installed as a **local ingest skill**, not as a runtime dependency of the website.
+Local ingest only. Follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`. No commercial recipe-site scraping. Output JSON → PR → merge into `data/`.
 
-**Allowed:** public-domain / CC-licensed pages, government nutrition pages, the owner’s own site, sources with written permission.
+### 4.4 Owner update loop
 
-**Not allowed:** scraping commercial recipe or workout sites, copying photos, or generating a user’s daily menu by crawling the live web.
-
-Every scrape job must follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`: legal note in `docs/content-sources.md`, JSON contract, macro checksum, `reviewed: false`, PR review, then seed.
-
-### 4.4 Admin / owner update loop (suggested)
-
-**v1 (no admin UI):** edit `prisma/seed/recipes.json` and `exercises.json`, run `prisma db seed`, PR review.
-
-**v1.5:** a protected `/admin` route (owner email allow-list) with CRUD and a “mark reviewed” flag.
-
-**v2:** user-submitted recipes in a moderation queue (out of scope until v1 ships).
+**v1:** edit JSON, open a PR, GitHub Actions redeploys Pages.  
+**v1.5:** optional Supabase catalog tables + a crude edit form **behind the later auth lock** (do not ship a public write UI while anon can write).  
+**v2:** out of scope.
 
 ---
 
-## 5. Architecture (target Path B)
-
-```
-Mobile browser
-    │
-    ▼
-Next.js App Router (TypeScript)  ── Tailwind + Aceternity UI + shadcn primitives
-    │
-    ├── NextAuth.js (Auth.js v5)  Google + magic link
-    ├── Server Actions / Route Handlers (no static export)
-    └── Prisma Client
-            │
-            ▼
-     Supabase Postgres
-```
+## 5. Product surfaces and domain
 
 ### 5.1 App surfaces (mobile web)
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Marketing + “See a sample plan” |
-| `/login` | NextAuth sign-in |
+| `/` | Today if a plan exists, else start onboarding. Not a marketing SaaS landing. |
 | `/onboarding` | Sex, age, height, weight, body comp, goal, timeline, diet, equipment |
 | `/plan` | Current plan home (today + week) |
 | `/plan/meals` | Meal calendar + swap |
 | `/plan/workouts` | Training calendar + swap |
-| `/plan/timeline` | Goal date, projected weight/BF%, check-ins |
+| `/plan/timeline` | Goal date, projected vs actual, check-ins |
 | `/log` | Weigh-in and adherence |
 | `/recipes/[slug]` | Recipe detail |
 | `/exercises/[slug]` | Exercise detail |
-| `/settings` | Profile, units, regenerate with confirmation |
-| `/admin` | Later |
+| `/settings` | Profile, units, regenerate; **later:** “Lock with email” |
+| `/lock` | **Not in v1.** Phase 4b only. |
 
-Design these as a **product app** (Impeccable product lane), not a marketing-template with nested cards. Bottom navigation on small screens: Today · Plan · Log · You.
+Bottom nav: Today · Plan · Log · You. Impeccable **product** lane. Aceternity is seasoning (bento, motion on one or two surfaces), not every card.
 
-### 5.2 Domain model (draft — refine in Phase 2)
+### 5.2 Domain model (auth-ready)
 
-Prisma models (names are working vocabulary for `CONTEXT.md`):
+Working vocabulary for `CONTEXT.md`. Tables, not Prisma models, unless someone uses Prisma **only** on a laptop to emit SQL.
 
-- `User` — NextAuth fields plus `role` (`user` \| `owner`).
-- `Profile` — `sex`, `birthDate`, `heightCm`, `weightKg`, optional `bodyFatPct`, `waistCm`, `hipCm`, `activityLevel`, `dietFlags[]`, `equipment[]`, `injuriesNote`.
-- `Goal` — `type` (`fat_loss` \| `recomp` \| `maintain`), `targetWeightKg`, `targetBodyFatPct`, `startOn`, `endOn`, `weeklyLossCapPct`.
-- `Plan` — immutable header: calorie target, macros, split, `status`.
-- `PlanVersion` — snapshot of generator inputs + outputs (regenerations).
-- `DayPlan` — date, `kcalTarget`, slot assignments.
-- `MealSlot` — `breakfast` \| `lunch` \| `dinner` \| `snack`, recipe, servings, pinned.
-- `WorkoutSession` — date, focus, estimated minutes.
-- `WorkoutItem` — exercise, sets, reps or minutes, rest, swappedFromId.
-- `CheckIn` — date, weight, optional waist, energy 1–5, notes.
-- `Recipe`, `IngredientLine`, `Exercise` — catalog.
-- `Favorite` — user ↔ recipe or exercise.
+- `profiles` — `owner_id unique`, `sex`, `birth_date`, `height_cm`, `weight_kg`, optional `body_fat_pct`, `waist_cm`, `hip_cm`, `activity_level`, `diet_flags`, `equipment`, `injuries_note`  
+- `goals` — `owner_id`, `type` (`fat_loss` \| `recomp` \| `maintain`), targets, `start_on`, `end_on`, `weekly_loss_cap_pct`  
+- `plans` / `plan_versions` — calorie target, macros, split, generator input snapshot  
+- `day_plans`, `meal_slots`, `workout_sessions`, `workout_items`  
+- `check_ins`  
+- `favorites`  
+- Catalog files (or tables without `owner_id`): `Recipe`, `Exercise`
 
-Auth.js required tables: `Account`, `Session`, `VerificationToken` (and `Authenticator` if passkeys come later).
+v1 inserts always set `owner_id = DEFAULT_OWNER_ID`. Do not add NextAuth `Account` / `Session` tables.
 
-### 5.3 Planning engine (draft — must be unit-tested in Phase 5)
+### 5.3 Planning engine (unit-test in Phase 5)
 
-Pure TypeScript module `src/engine/` with **no React and no Prisma**. Easy to TDD.
+Pure TypeScript `src/engine/` — no React, no Supabase.
 
-1. **BMR** — Mifflin–St Jeor:  
-   male `10w + 6.25h − 5a + 5`, female `10w + 6.25h − 5a − 161` (kg, cm, years).
-2. **TDEE** — BMR × activity factor (sedentary 1.2 … extra 1.725). Prefer a conservative factor if the user is unsure.
-3. **Target rate** — default 0.5% of body weight per week; hard cap 1.0% (or ~0.5–1.0 kg/week for higher body weights). Never prescribe below an absolute calorie floor (proposed: **not below BMR**, and not below **1200 kcal** women / **1500 kcal** men without a further-planning flag for a dietitian review).
-4. **Timeline** — `weeks = max(8, ceil(gapKg / weeklyKg))`. If the user demands a faster date, **refuse and explain**, offer the fastest safe date.
-5. **Macros** — protein 1.6–2.2 g/kg actual (or per kg goal weight if obese — **Phase 2 must decide**); fat ≥ 0.7 g/kg; carbs fill the remainder.
-6. **Meals** — greedy + random-restart knapsack over recipes tagged for the slot, respecting diet flags, cooking time, and leftover rules.
-7. **Training** — 3 resistance + 2 Zone 2 as the fat-loss default; push/pull/legs or full-body 3× based on days available; deload every 4th week. Programming is similar for males and females; loads and energy intake differ, the movement menu does not.
+1. **BMR** — Mifflin–St Jeor: male `10w + 6.25h − 5a + 5`, female `10w + 6.25h − 5a − 161` (kg, cm, years).  
+2. **TDEE** — BMR × activity (sedentary 1.2 … extra 1.725). Conservative if unsure.  
+3. **Rate** — default 0.5% body weight / week; cap 1.0%. Not below BMR; not below **1200 kcal** (female) / **1500 kcal** (male) without a further-planning dietitian flag.  
+4. **Timeline** — `weeks = max(8, ceil(gapKg / weeklyKg))`. Faster dates are refused.  
+5. **Macros** — protein 1.6–2.2 g/kg (Phase 2 decides actual vs goal weight); fat ≥ 0.7 g/kg; carbs fill the rest.  
+6. **Meals** — knapsack over slot-tagged recipes, diet flags, leftover rule.  
+7. **Training** — default 3 resistance + 2 Zone 2; split from days available; deload every 4th week. Same movement menu for male and female.
 
-**Safety flags that block auto-generation and require a human message**
+**Hard-stops:** age < 18, BMI < 18.5, faster than cap, medical notes if collected. Wellness maths, not clinical care. Disclaimer on generate.
 
-- Age < 18  
-- BMI < 18.5  
-- Requested loss faster than the cap  
-- Pregnancy / medical notes (if collected)  
-- Very low energy availability after calculation  
+### 5.4 UI kit
 
-This engine is **wellness maths**, not clinical care. Copy must say so.
+- Tailwind tokens from `DESIGN.md`  
+- Aceternity via `npx shadcn@latest add @aceternity/...` (few components)  
+- shadcn primitives for forms/sheets  
+- Lucide/Phosphor SVGs, no emoji-as-icon  
+- 44×44 targets, `prefers-reduced-motion`  
+- `images: { unoptimized: true }` because Pages has no `/_next/image`
 
-### 5.4 UI kit rules
-
-- **Tailwind CSS** for layout and tokens.
-- **Aceternity UI** via shadcn registry (`npx shadcn@latest add @aceternity/...`) for motion-heavy marketing and a few product flourishes (bento dashboard, animated tabs). Do not Aceternity-wrap every form control.
-- **shadcn/ui** primitives for forms, dialogs, sheets (mobile swap sheet).
-- **Lucide** (or Phosphor) SVGs — no emoji-as-icon.
-- Mobile-first: 44×44 touch targets, thumb-zone primary CTA, `prefers-reduced-motion`.
-
-### 5.5 Skills already installed in this repo
-
-Implementation agents **must** load the skill that owns the task:
+### 5.5 Skills in this repo
 
 | Skill | Path | Use for |
 | --- | --- | --- |
-| Refero Design | `.agents/skills/refero-design` | Research-first UI: styles, screens, flows before pixels |
+| Refero Design | `.agents/skills/refero-design` | Research-first UI |
 | Impeccable | `.cursor/skills/impeccable` | `init`, `shape`, `craft`, `audit`, `critique`, `polish` |
-| UI/UX Pro Max | `.agents/skills/ui-ux-pro-max` | Style/palette/type search, UX checklist, fitness/habit-tracker patterns |
-| Matt Pocock set | `.agents/skills/*` | `grill-with-docs`, `tdd`, `implement`, `code-review`, `domain-modeling`, `to-spec` |
-| ScrapeGraph ingest | `.agents/skills/scrapegraph-content-ingest` | Legal, reviewed catalog ingest only |
+| UI/UX Pro Max | `.agents/skills/ui-ux-pro-max` | Style/palette/UX checklist |
+| Matt Pocock set | `.agents/skills/*` | `tdd`, `implement`, `code-review`, `domain-modeling` |
+| ScrapeGraph ingest | `.agents/skills/scrapegraph-content-ingest` | Legal catalog ingest only |
 
-Also configured: Impeccable Cursor agents and hooks under `.cursor/`.
-
-**First design session on a machine:** run `/impeccable init` (product lane, not brand-only) so `PRODUCT.md` and `DESIGN.md` exist. Run `/setup-matt-pocock-skills` if you want GitHub issues as the tracker; otherwise keep tickets in `docs/tickets.md`.
+First design session: `/impeccable init` (product lane). Tickets in `docs/tickets.md` unless the owner wants GitHub issues.
 
 ---
 
 ## 6. How every phase is gated
 
-Each phase below has the same inner loop:
-
-1. **Design** — research, spec, or UX; no unplanned coding.
-2. **Develop** — smallest vertical slice; TDD for engine/data; UI against `DESIGN.md`.
-3. **Review** — automated tests **and/or** a named further-planning checkpoint.
+1. **Design** — research or spec; no unplanned coding.  
+2. **Develop** — smallest slice; TDD for engine/data.  
+3. **Review** — tests and/or a named further-planning stop.  
 4. **Gate** — binary. Red means stop.
-
-Do not “just start the next phase” because the previous one compiled.
 
 ---
 
 ## Phase 0 — Align and freeze the brief
 
-**Goal:** Turn this document plus owner answers into a frozen v1 scope.
+**Goal:** Freeze v1 as a single-user Pages + Supabase app, with auth-ready rules accepted.
 
 ### Design
 
-- Run a grilling session (`grill-with-docs` / `grill-me`) over §3.
-- Write `PRODUCT.md` (audience, jobs-to-be-done, anti-goals, voice).
-- Start `CONTEXT.md` glossary: Profile, Goal, PlanVersion, MealSlot, CheckIn, Engine.
-- Confirm Path B hosting (or an explicit Path A waiver).
+- Grill remaining §3 questions (`grill-with-docs`).  
+- `PRODUCT.md`: personal tool, anti-goals (no public social, no App Store).  
+- `CONTEXT.md` glossary including `owner_id`, `DEFAULT_OWNER_ID`, Data gateway.  
+- ADR: hosting + deferred auth.
 
 ### Develop
 
-- No application code.
-- Capture answers in `docs/decisions/0001-v1-scope.md` (ADR).
-- Optional: `docs/tickets.md` skeleton with phase tickets.
+- Docs only: `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`.
 
 ### Review
 
-- Owner reads ADR and `PRODUCT.md`.
-- Check that unsafe medical claims are banned in copy.
+- Owner agrees Pages + Supabase, no login in v1, later lock uses Supabase Auth.  
+- No medical-guarantee copy.
 
 ### Gate
 
-- [ ] §3 questions answered or defaults accepted in writing  
-- [ ] Host + database decision recorded  
-- [ ] Recipe/exercise source for v1 recorded  
+- [ ] Remaining §3 questions answered or defaults accepted  
+- [ ] Auth-ready rules in §2.2 accepted  
 - [ ] `PRODUCT.md` exists  
 
-**Further planning if:** the owner wants clinical dietetics, under-18 users, or GitHub Pages as the only host.
+**Further planning if:** public multi-user product, under-18, or clinical dietetics.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 0 planning agent for this repo. Read InitialPlan180826.md
-end to end. Load skills: grill-with-docs, domain-modeling, writing-for-agents.
+You are the Phase 0 planning agent. Read InitialPlan180826.md (revision 2)
+end to end. Load grill-with-docs, domain-modeling, writing-for-agents.
 
 Do not write application code. Do not scaffold Next.js.
 
-Tasks:
-1. Interview using the open questions in §3. If you cannot reach the owner,
-   stop after writing docs/questionnaires/phase-0.md with the unanswered
-   list — do not invent product facts.
-2. If answers exist in the conversation or in docs/, write:
-   - PRODUCT.md
-   - CONTEXT.md (glossary only)
-   - docs/decisions/0001-v1-scope.md
-3. Record the hosting decision. If GitHub Pages is still requested as the
-   only host, explain Path A vs Path B again and wait.
-4. Stop at the Phase 0 gate. Open a PR with docs only.
+v1 is already decided: GitHub Pages + Supabase JS, single user, no login
+wall, auth-ready owner_id + data gateway. Do not reopen NextAuth or
+Netlify unless the owner explicitly reverses revision 2.
 
-Review: another agent should confirm no silent scope creep (no social feed,
-no wearables, no photo body-scan, no live web scraping in v1).
+Tasks:
+1. Interview remaining §3 questions. If you cannot reach the owner, write
+   docs/questionnaires/phase-0.md and stop.
+2. Write PRODUCT.md, CONTEXT.md (glossary), docs/decisions/0001-v1-scope.md,
+   docs/decisions/0002-auth-ready-static.md (how Phase 4b will remap
+   DEFAULT_OWNER_ID → auth.uid()).
+3. Stop at the Phase 0 gate. Docs-only PR.
+
+Review: no silent multi-user or NextAuth scope.
 ```
 
 ---
 
 ## Phase 1 — UX research and design system
 
-**Goal:** A distinctive mobile product UI direction, not generic AI SaaS purple.
+**Goal:** Distinctive mobile product UI for **one person using their own planner**, not a SaaS sign-up funnel.
 
 ### Design
 
-- Load **refero-design**. Research fitness onboarding, daily habit home, meal cards, workout players (MyFitnessPal, Strong, Future, Lifesum, Hevy — synthesise, do not clone).
-- Load **ui-ux-pro-max**. Search product type: habit tracker + recipe + fitness. Pick one style, one palette, one type pairing. Record anti-patterns.
-- Load **impeccable**. `/impeccable init` then `/impeccable shape` for: onboarding, today, meal swap sheet, workout session, timeline.
-- Choose 4–6 Aceternity components max (example: hero on `/`, bento on plan overview, animated tab on meals/workouts). Rest is calm product UI.
-- Produce wireflows: first-run → first plan in under 3 minutes.
+- Refero: habit home, meal cards, workout player (Strong, Hevy, Lifesum — synthesise).  
+- UI/UX Pro Max: habit + recipe + fitness; one style, one palette, one type pair.  
+- Impeccable: `init` then `shape` for onboarding, today, swap sheet, session, timeline.  
+- 4–6 Aceternity pieces max. **No login screen in v1.** Leave a quiet Settings slot for a later lock.  
+- First plan in under 3 minutes (no account creation step).
 
 ### Develop
 
-- Write `DESIGN.md` (tokens, type, radius, motion, dark/light).
-- Optional throwaway HTML prototype (`/prototype` skill) of Today + Onboarding. This may be static. It is not the Next.js app.
-- Component inventory: Button, MacroRing, MealCard, SessionCard, SwapSheet, TimelineRail, CheckInForm.
+- `DESIGN.md`, `docs/ux/flows.md`, `docs/ux/component-inventory.md`.  
+- Optional HTML prototype of onboarding + today + swap.
 
 ### Review
 
-- `/impeccable critique` on the prototype.
-- Accessibility pass: contrast 4.5:1, 44px targets, labels not placeholders.
-- Mobile 375 / 390 and 430 widths.
+- `/impeccable critique`. Contrast 4.5:1, 44px targets. 375 / 390 / 430 widths.
 
 ### Gate
 
-- [ ] `DESIGN.md` and `PRODUCT.md` exist  
-- [ ] Reference lock listed (apps + why)  
-- [ ] Prototype or high-fidelity frames for 5 core screens  
-- [ ] Owner visual thumbs-up **or** a written “agent may proceed with DESIGN.md”  
+- [ ] `DESIGN.md` + `PRODUCT.md`  
+- [ ] Reference lock listed  
+- [ ] Five core screens prototyped  
+- [ ] Owner thumbs-up or written proceed  
 
-**Further planning if:** the owner wants a fully custom illustration system or native iOS/Android (out of scope; this is mobile web).
+**Further planning if:** native iOS/Android.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 1 design agent. Read InitialPlan180826.md, PRODUCT.md if
-present, and the Phase 0 ADR. Load refero-design, ui-ux-pro-max, impeccable,
-and prototype.
+You are the Phase 1 design agent. Read InitialPlan180826.md revision 2,
+PRODUCT.md, Phase 0 ADRs. Load refero-design, ui-ux-pro-max, impeccable,
+prototype.
 
-Rules:
-- Research before pixels. Name real app references. Do not average them.
-- Product lane (app UI), not a marketing landing as the whole product.
-- Mobile-first. Aceternity is seasoning, not the meal.
-- No Next.js scaffold unless Phase 0 gate is green AND you only need a
-  static prototype route. Prefer a single HTML prototype if faster.
+Research before pixels. Product lane. Mobile-first. No login / marketing
+hero as the product. Aceternity is seasoning.
 
-Deliver:
-1. DESIGN.md (tokens, type, color, motion, anti-references)
-2. docs/ux/flows.md (onboarding, today, swap meal, complete workout, check-in)
-3. docs/ux/component-inventory.md
-4. A clickable prototype of onboarding + today + swap sheet
-5. A short critique notes file from /impeccable critique
+Deliver DESIGN.md, docs/ux/flows.md, component inventory, clickable
+prototype (onboarding, today, swap). Critique notes.
 
-Gate: stop for owner review of DESIGN.md. Do not start Prisma or Auth.
+Do not add a sign-up flow. Settings may show a disabled “Lock this data
+later” note in copy only if it does not look like a broken button.
+
+Gate: owner review of DESIGN.md. No Supabase yet.
 ```
 
 ---
 
 ## Phase 2 — Domain model and engine spec
 
-**Goal:** A testable specification of data and maths before UI implementation.
+**Goal:** Testable maths + auth-ready ERD.
 
 ### Design
 
-- Domain-modeling pass: stress-test Profile vs Goal vs Plan vs PlanVersion.
-- Decide body-fat missing behaviour, protein rule, calorie floors, leftover rule.
-- Draw ERD (Mermaid in `docs/domain/erd.md`).
-- Specify generator inputs/outputs as TypeScript types in the spec (even if the file is `.md` until Phase 5).
+- ERD with `owner_id` on every personal table.  
+- Missing body-fat, protein rule, calorie floors, leftovers.  
+- Engine I/O types. Engine does not mention owner.
 
 ### Develop
 
-- `docs/domain/engine-spec.md` with formulas, caps, examples (worked numbers for one male and one female fixture).
-- Draft `prisma/schema.prisma` as a **proposal** (may wait to apply until Phase 4).
-- List seed recipe tags and exercise movement patterns.
+- `docs/domain/erd.md`, `docs/domain/engine-spec.md` (male + female worked examples), `docs/domain/content-model.md`.  
+- Draft `supabase/migrations/0001_init.sql` (proposal; apply in Phase 4).  
+- Draft `src/data/owner.ts` contract in the spec (constant UUID).
 
 ### Review
 
-- Independent recalculation of the two worked examples on paper.
-- Check eating-disorder / low-BMI stop conditions.
-- `to-spec` the engine so Phase 5 can TDD it.
+- Independent recalculation of fixtures.  
+- Confirm no singleton table without `owner_id`.
 
 ### Gate
 
-- [ ] Worked examples match the spec  
-- [ ] ERD reviewed  
-- [ ] Open medical/legal questions either closed or parked as hard-stops in the engine  
-- [ ] Owner agrees calorie floors and weekly loss cap  
-
-**Further planning if:** you want athlete periodisation, medical conditions, or continuous glucose — that is a different product.
+- [ ] Worked examples match  
+- [ ] ERD has owner_id everywhere personal  
+- [ ] Owner agrees floors and loss cap  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 2 domain agent. Read InitialPlan180826.md, PRODUCT.md,
-DESIGN.md, and Phase 0 answers. Load domain-modeling, to-spec, tdd
-(spec only — you may write example fixtures, not production React).
+You are the Phase 2 domain agent. Read InitialPlan180826.md §2.2 and §5.
+Load domain-modeling, to-spec, tdd (spec/fixtures only).
 
 Deliver:
-1. docs/domain/erd.md (Mermaid)
-2. docs/domain/engine-spec.md with formulas, safety caps, and two
-   fully worked examples (one male, one female) including timeline
-3. docs/domain/content-model.md (Recipe, Exercise, tags, swap rules)
-4. A proposed prisma/schema.prisma (do not run migrate unless Phase 4
-   has started and credentials exist)
-5. CONTEXT.md updates for any new ubiquitous language
+1. docs/domain/erd.md — owner_id on personal tables; unique(owner_id) on
+   profiles; catalog without owner_id
+2. docs/domain/engine-spec.md with two worked examples
+3. docs/domain/content-model.md
+4. Proposed supabase/migrations/0001_init.sql plus comments for v1 RLS
+   vs Phase 4b RLS (do not apply without credentials)
+5. CONTEXT.md updates
 
-Do not implement the generator yet beyond spec fixtures.
-Review: a second agent must recompute the worked examples independently.
-Gate: stop if any formula is underspecified.
+No React. No NextAuth tables. Gate if any formula is underspecified.
+A second agent must recompute the worked examples.
 ```
 
 ---
 
-## Phase 3 — Next.js scaffold, Tailwind, Aceternity, CI
+## Phase 3 — Next.js static scaffold for GitHub Pages
 
-**Goal:** A typed Next.js app that deploys to the chosen **serverful** host, not GitHub Pages.
+**Goal:** Typed Next.js app that **static-exports** and deploys to GitHub Pages.
 
 ### Design
 
-- Confirm App Router, `src/` layout, path aliases, font loading from `DESIGN.md`.
-- `components.json` with `@aceternity` registry.
-- Env contract: `.env.example` with `DATABASE_URL`, `DIRECT_URL`, `AUTH_SECRET`, `AUTH_URL`, OAuth ids, `NEXTAUTH_URL`.
+- App Router, `src/`, fonts from `DESIGN.md`.  
+- `components.json` with `@aceternity`.  
+- `next.config`: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, `basePath` if project Pages.  
+- `.env.example`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` only. No `service_role`, no `AUTH_SECRET`, no `DATABASE_URL` in the web env.
 
 ### Develop
 
-- `npx create-next-app` (TypeScript, ESLint, Tailwind, App Router).
-- shadcn init; add `cn`, button, input, sheet, tabs, dialog.
-- Register Aceternity; add only the components named in Phase 1.
-- GitHub Action: `lint`, `typecheck`, `test` (placeholder until tests exist).
-- Netlify (`netlify.toml` + Next runtime) **or** Vercel project config.
-- Bind nothing to GitHub Pages `output: 'export'`.
-- `.gitignore` already has `.env`, `.netlify`, `.next`.
+- `create-next-app` (TypeScript, ESLint, Tailwind, App Router).  
+- shadcn + named Aceternity components. Token-correct shell: `/`, `/onboarding`, `/plan`.  
+- GitHub Action: lint, typecheck, test, `next build`, upload `out/` to Pages.  
+- `public/.nojekyll`.  
+- Placeholder `src/data/client.ts` that throws a clear error if env is missing (implement for real in Phase 4).
 
 ### Review
 
-- `npm run build` on the host’s Node version.
-- Empty pages render at `/` with design tokens (no Inter-on-purple-gradient default).
-- Lighthouse sanity on `/` (perf not a blocker yet; a11y contrast is).
+- Production build is static (no server).  
+- Phone can open the Pages URL (even if data is empty).  
+- Bundle must not contain `service_role`.
 
 ### Gate
 
-- [ ] Typecheck + lint clean  
-- [ ] Preview deploy URL works on a phone  
-- [ ] No `output: 'export'`  
-- [ ] `.env.example` documented  
+- [ ] lint + typecheck + export build  
+- [ ] Pages URL loads  
+- [ ] `output: 'export'` is set  
+- [ ] `.env.example` has only public keys  
 
-**Further planning if:** the owner still demands github.io-only — switch to Path A (localStorage calculator) and **drop NextAuth + Prisma from v1**, which is a new plan.
+**Further planning if:** you need SSR after all — then Netlify/Vercel is a new ADR, not a silent switch.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 3 scaffold agent. Read InitialPlan180826.md, DESIGN.md,
-and the hosting ADR. Load setup-ts-deep-modules if useful, impeccable
-(only for the empty shell visual), ui-ux-pro-max.
+You are the Phase 3 scaffold agent. Read InitialPlan180826.md revision 2
+and DESIGN.md. Load impeccable (shell only), ui-ux-pro-max.
 
-Scaffold Next.js (App Router, TypeScript, Tailwind) in the repo root
-unless a subfolder was decided. Wire shadcn + Aceternity registry.
-Apply DESIGN.md tokens in globals.css. Create a token-correct home
-shell and a placeholder /login, /onboarding, /plan.
+Scaffold Next.js App Router + TypeScript + Tailwind in the repo root.
+MUST set output:'export', unoptimized images, trailingSlash, and basePath
+if this is a GitHub project site.
 
-Hosting: Netlify or Vercel as recorded. Do NOT set output:'export'.
-Do not add Prisma credentials to the client bundle.
+Wire shadcn + Aceternity registry. Apply DESIGN.md tokens. Placeholder
+routes: /, /onboarding, /plan, /settings. No /login.
 
-Deliver working preview deploy instructions in README.
-Gate: lint + typecheck + build. Then stop. No Auth implementation yet.
-After develop, run a brief /impeccable audit on the home shell.
+GitHub Action deploys out/ to GitHub Pages. Add .nojekyll.
+
+Do not implement Prisma, NextAuth, or Server Actions (they break export).
+Do not put service_role in any NEXT_PUBLIC_ variable.
+
+Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 ```
 
 ---
 
-## Phase 4 — NextAuth.js + Prisma + Supabase
+## Phase 4 — Supabase data gateway (no login)
 
-**Goal:** A real user can sign in and persist a Profile row.
+**Goal:** The single user can persist a Profile through `src/data`, scoped by `DEFAULT_OWNER_ID`.
 
 ### Design
 
-- Auth.js v5 + Prisma adapter against Supabase Postgres.
-- OAuth redirect URLs for local, preview, and production.
-- Session: JWT vs database sessions — prefer **database sessions** so logout is real.
-- RLS: either Prisma uses the service role on the server only (simplest v1) **or** map NextAuth to Supabase JWT (further planning — do not DIY mid-phase). Recommended v1: **server-only Prisma**, no client Supabase key for user data.
+- SQL migrations + RLS as in §2.2.  
+- `src/data/client.ts`, `src/data/owner.ts`, `src/data/profiles.ts`.  
+- Human wizard: create Supabase project, paste URL + anon key into GitHub Actions secrets and `.env.local`.  
+- CORS: add the GitHub Pages origin in Supabase Auth URL allow-list even before Auth is used (prevents a surprise in 4b).
 
 ### Develop
 
-- Provision Supabase project (owner must supply URLs and keys via env).
-- Prisma schema: Auth tables + `Profile`.
-- Migrations. Seed an owner email if needed.
-- `/login` UI from DESIGN.md.
-- Server helpers: `auth()`, `requireUser()`.
-- Settings page: edit display name.
+- Apply `0001_init.sql`.  
+- Generate TypeScript types (`supabase gen types`).  
+- Settings or onboarding can save height/weight and reload them after refresh.  
+- Tests: gateway always sends `owner_id`; a mocked client never queries unscoped tables.
 
 ### Review
 
-- Integration test: magic-link or mock adapter in CI.
-- Manual: sign in, refresh, sign out, profile row exists.
-- Confirm secrets are not in git.
+- Manual: save profile, hard refresh, data still there.  
+- Confirm `service_role` is not in the repo or Pages bundle.  
+- Policy comments describe the Phase 4b replacement.
 
 ### Gate
 
-- [ ] Sign-in / sign-out works on preview  
-- [ ] Profile CRUD for the logged-in user only  
-- [ ] Prisma migrate on staging  
-- [ ] CI uses a throwaway DB or mocked adapter  
+- [ ] Profile round-trip on Pages against live Supabase  
+- [ ] All access via `src/data`  
+- [ ] RLS enabled  
+- [ ] Wizard/checklist for the owner’s dashboard clicks  
 
-**Further planning if:** you need RLS-from-the-browser or multi-tenant coaches.
+**Do not** build NextAuth. **Do not** block this phase on a login screen.
+
+**Further planning if:** credentials are missing — stop and run the wizard; do not fake production.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 4 auth/data agent. Read InitialPlan180826.md and
-docs/domain/erd.md. Load tdd, diagnosing-bugs, wizard (for any owner
-dashboard steps that only a human can click).
+You are the Phase 4 data-gateway agent. Read InitialPlan180826.md §2.2
+and the Phase 2 SQL draft. Load tdd, wizard, code-review.
 
-Implement Auth.js (NextAuth v5) with Prisma adapter and Supabase
-Postgres. Keep Prisma on the server. Follow .env.example.
+Implement supabase-js behind src/data only. DEFAULT_OWNER_ID constant.
+owner_id on every personal write. RLS on. No login UI.
 
-Deliver:
-- prisma/schema.prisma migrated
-- login + session-aware layout
-- Profile create-on-first-login
-- tests for "cannot read another user's profile"
+If the owner has not created a Supabase project, write
+docs/wizard/supabase-pages.md with exact dashboard clicks and stop.
 
-Do not build the meal generator yet.
-If SUPABASE credentials are missing, write a wizard script / checklist
-and stop — do not fake a production database.
-Review with /code-review (standards + spec).
+Tests: unscoped queries are impossible through the gateway API.
+Review with code-review. Do not add NextAuth or Prisma runtime.
+```
+
+---
+
+## Phase 4b — Optional lock (after single-user testing) — DO NOT START IN V1
+
+**Goal:** Add Supabase Auth **only when the owner asks**, after they have used the planner.
+
+### Design
+
+- Magic link, one email.  
+- Settings → “Lock this data.”  
+- Remap SQL: `update ... set owner_id = '<auth uid>' where owner_id = '<DEFAULT_OWNER_ID>'`.  
+- RLS: drop open policy; `owner_id = auth.uid()`.  
+- `getOwnerId()` from session.
+
+### Develop
+
+- `/lock` or Settings form. Session persistence in the existing browser client.  
+- Empty state if signed out: explain why data is hidden, CTA to magic link.
+
+### Review
+
+- Signed-out anon cannot read/write personal rows.  
+- Old `DEFAULT_OWNER_ID` rows are remapped, not orphaned.  
+- Pages still static; no NextAuth.
+
+### Gate
+
+- [ ] Owner can sign in on the phone  
+- [ ] RLS verified with a second incognito window  
+- [ ] Remap script is a documented one-off, not a button that runs twice  
+
+**Further planning if:** Google/Apple OAuth, multiple family members, or recovering from a leaked anon policy (rotate anon key).
+
+### Implementation-agent prompt
+
+```text
+You are the Phase 4b auth bolt-on agent. ONLY run if the owner has tested
+v1 without login and now wants a lock. Read §2.3 and
+docs/decisions/0002-auth-ready-static.md.
+
+Use Supabase Auth (magic link). Do not introduce NextAuth or a Node server.
+
+Remap DEFAULT_OWNER_ID → auth.uid(), tighten RLS, switch getOwnerId() to
+the session. Keep src/engine and meal/workout UI unchanged.
+
+Prove with an incognito window that personal data is no longer public.
 ```
 
 ---
 
 ## Phase 5 — Onboarding + planning engine
 
-**Goal:** Given a valid Profile + Goal, persist a PlanVersion with numbers that match the spec.
+**Goal:** Valid Profile + Goal → `plan_versions` row whose numbers match the spec.
 
 ### Design
 
-- Onboarding as 4–5 short steps (not one long form): body, goal, diet, training, review.
-- Show a preview: “About X kcal, Y g protein, Z weeks” before commit.
-- Copy for blocked unsafe goals.
+- 4–5 short steps, no “create account.” Preview kcal / protein / weeks before commit.  
+- Blocked-goal copy.
 
 ### Develop
 
-- Implement `src/engine/` with TDD from `engine-spec.md`.
-- Onboarding writes Profile + Goal and calls the engine.
-- Persist Plan + empty day slots (meals/workouts may be placeholders).
-- Unit tests for fixtures from Phase 2 (male and female).
-- Property-ish tests: calorie floor, loss cap, timeline rounding.
+- TDD `src/engine`. Persist via `src/data`.  
+- Male and female fixtures; floors; loss cap.
 
 ### Review
 
-- Re-run the two worked examples — must match within rounding rules.
-- UX: onboarding on a 375px device, keyboard, errors next to fields.
-- Disclaimer visible on the review step.
+- Fixtures match spec. Onboarding on 375px. Disclaimer on review step.
 
 ### Gate
 
 - [ ] Engine tests green  
-- [ ] Onboarding creates a PlanVersion  
-- [ ] Unsafe goals blocked with an explanation  
+- [ ] PlanVersion persisted for `DEFAULT_OWNER_ID`  
+- [ ] Unsafe goals blocked  
 - [ ] `/impeccable critique` on onboarding  
-
-**Further planning if:** you want lab-accurate DEXA ingestion (CSV upload) — park it.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 5 engine agent. Read docs/domain/engine-spec.md and
-InitialPlan180826.md §5.3. Load tdd, implement, impeccable (onboarding UI),
-ui-ux-pro-max (forms).
+You are the Phase 5 engine agent. Read engine-spec.md and §5.3. Load tdd,
+implement, impeccable, ui-ux-pro-max.
 
-Red-green-refactor the engine as a UI-free module first. Only then
-wire onboarding.
-
-Cover male and female fixtures, missing body-fat fallback, timeline
-caps, and calorie floors. Persist PlanVersion.
+Pure engine first, then onboarding. Persist through src/data only
+(owner_id from getOwnerId()). No login. Dummy meal titles OK.
 
 Review: code-review + independent fixture check.
-Do not scrape recipes. Dummy meal titles are OK if Phase 6 is not started.
 ```
 
 ---
 
 ## Phase 6 — Recipes and meal plan UI
 
-**Goal:** Each plan day has breakfast, lunch, dinner, snack(s) that hit macros; user can swap.
+**Goal:** Breakfast, lunch, dinner, snacks hit macros; swaps work.
 
 ### Design
 
-- MealCard, Day strip, SwapSheet (Aceternity/motion optional).
-- Empty states if catalog cannot match filters — never silent fail.
-- Recipe detail: ingredients, steps, macros, tags.
+- MealCard, day strip, SwapSheet. Empty state if filters match nothing.
 
 ### Develop
 
-- Seed recipes (JSON) with diet tags and slot tags.
-- Assigner in `src/engine/meals.ts` (TDD): match kcal/protein windows.
-- UI: `/plan/meals`, swap, pin, leftover flag.
-- Tests: vegetarian-only never returns meat; swap stays in window.
+- Seed `data/recipes.json`. `src/engine/meals.ts` TDD. Pins/swaps in Supabase.  
+- Vegetarian never returns meat.
 
 ### Review
 
-- Nutrition checksum on seed data.
-- Mobile sheet usability (thumb reach, 44px).
-- `/impeccable polish` on meal surfaces.
+- 4-4-9 checksum. 375px sheet. `/impeccable polish`.
 
 ### Gate
 
-- [ ] Seed ≥ the Phase 1 agreed counts (or documented smaller MVP)  
+- [ ] Seed size agreed  
 - [ ] Assigner tests green  
-- [ ] Swap + pin work  
-- [ ] Owner can cook through 3 sample days without a missing ingredient list  
-
-**Further planning if:** grocery aggregator, Instacart, or barcode logging is requested.
+- [ ] Swap + pin  
+- [ ] Owner can cook 3 sample days  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 6 meals agent. Read docs/domain/content-model.md and
-DESIGN.md. Load tdd, refero-design (meal tracker screens), impeccable,
-ui-ux-pro-max.
+You are the Phase 6 meals agent. Read content-model.md and DESIGN.md.
+Load tdd, refero-design, impeccable, ui-ux-pro-max.
 
-Implement the owned recipe catalog, day assigner, and mobile meal UI
-with swap/pin. Seed data must include vegetarian coverage.
-
-Do not use ScrapeGraphAI unless docs/content-sources.md already lists
-an allowed source and Phase 9 is explicitly opened.
-
-Review seed macros (4-4-9 checksum). Gate on tests + a 375px walkthrough.
+JSON catalog in the repo. Assigner + mobile meal UI with swap/pin.
+Personal rows via src/data (owner_id). No ScrapeGraphAI unless Phase 9
+is open. No public recipe write API.
 ```
 
 ---
 
-## Phase 7 — Exercise catalog and workout plan UI
+## Phase 7 — Exercise catalog and workout UI
 
-**Goal:** A week of sessions that matches equipment and days available; user can swap and complete.
+**Goal:** Weekly sessions from equipment + days; swap/complete/skip.
 
 ### Design
 
-- Session player: one exercise at a time on mobile, rest timer optional (v1: skip timer if it delays the gate).
-- Swap sheet by movement pattern.
-- Rest / deload week explanation.
+- One-exercise-at-a-time on mobile. Deload copy. Timer optional (skip if it delays the gate).
 
 ### Develop
 
-- Seed exercises.
-- `src/engine/training.ts` (TDD): split by days and equipment.
-- UI: `/plan/workouts`, complete/skip, swap.
-- Link sessions to the same PlanVersion.
+- `data/exercises.json`. `src/engine/training.ts`. Persist completions.
 
 ### Review
 
-- Beginner gym vs bodyweight tracks both generate.
-- No exercise that needs missing equipment.
-- Critique session UX (cognitive load).
+- Gym vs bodyweight tracks. No missing equipment. Critique cognitive load.
 
 ### Gate
 
 - [ ] Training tests green  
 - [ ] Complete/skip persisted  
-- [ ] Female and male profiles get appropriate volume **via the engine rules**, not a “pink” UI  
+- [ ] Volume from engine rules, not a gendered UI  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 7 training agent. Read engine-spec.md training section
-and DESIGN.md. Load tdd, refero-design (workout player flows), impeccable.
+You are the Phase 7 training agent. Read engine-spec training section and
+DESIGN.md. Load tdd, refero-design, impeccable.
 
-Implement owned exercise catalog, weekly split generator, and mobile
-session UI with swap/complete/skip. Equipment filters are mandatory.
-
-No video scraping. Cues as text. Optional YouTube links only if the
-owner supplies a licensed or official list.
-
-Review with code-review and a phone-sized walkthrough.
+JSON exercise catalog, split generator, session UI. Equipment filters
+mandatory. Persist through src/data. Text cues only.
 ```
 
 ---
 
 ## Phase 8 — Timelines, check-ins, plan access and updates
 
-**Goal:** The user can reopen, follow, and safely regenerate a plan.
+**Goal:** Reopen, follow, regenerate without destroying history.
 
 ### Design
 
-- Timeline rail: start, today, goal date, projected vs actual weight.
-- Check-in: weekly default, optional extra weigh-ins.
-- Regenerate confirmation: what changes, what is pinned, history kept.
+- Timeline rail, weekly check-in, regenerate confirmation (pins kept).
 
 ### Develop
 
-- `CheckIn` CRUD.
-- Recalculate remaining timeline from latest weight (preview first).
-- PlanVersion list (“12 Jun plan” vs “3 Jul plan”).
-- Notifications: none in v1 unless owner insists (further planning: web push).
+- Check-ins CRUD via gateway. PlanVersion list. Preview remaining timeline from latest weight.
 
 ### Review
 
-- E2E (Playwright): onboard → see meals → swap → complete workout → check-in → regenerate with pin preserved.
-- Regression: old PlanVersion still read-only.
+- Playwright (or equivalent): onboard → meals → swap → workout complete → check-in → regenerate with pin.  
+- Old versions read-only.  
+- E2E uses `DEFAULT_OWNER_ID`; **do not** add a fake auth bypass that would have to be ripped out in 4b. Prefer a test Supabase schema or stubbed `src/data`.
 
 ### Gate
 
-- [ ] Playwright (or equivalent) happy path green on CI  
-- [ ] Regenerating does not destroy history  
-- [ ] Timeline cannot be set faster than the cap  
+- [ ] Happy path green on CI  
+- [ ] History preserved  
+- [ ] Timeline cap enforced  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 8 persistence/timeline agent. Read InitialPlan180826.md
-§4.1 update rules. Load tdd, implement, code-review.
+You are the Phase 8 timeline agent. Read §4.1 update rules. Load tdd,
+implement, code-review.
 
-Build check-ins, timeline view, PlanVersion history, and regenerate
-with pin preservation. Add Playwright e2e for the happy path.
-
-No third-party fitness wearables.
-If e2e is flaky on auth, use a documented test user strategy, not a
-security bypass in production.
+Check-ins, timeline, PlanVersion history, regenerate with pins.
+E2E without a login. Stub src/data rather than disabling RLS globally.
+No wearables.
 ```
 
 ---
 
-## Phase 9 — Content pipeline (APIs / ScrapeGraphAI)
+## Phase 9 — Content pipeline (optional)
 
-**Goal:** A repeatable, legal way to grow the catalog. **Optional.** Skip if the seed catalog is enough.
+**Goal:** Grow the JSON catalog legally. Skip if seed is enough.
 
-### Design
-
-- `docs/content-sources.md` table: source, license, allow-scrape?, owner sign-off.
-- Review workflow: `reviewed: false` until checked.
-
-### Develop
-
-- Ingest scripts under `tools/ingest/` (Node or Python venv).
-- ScrapeGraphAI only for signed-off sources (skill: scrapegraph-content-ingest).
-- Prisma upsert by slug. Never overwrite `reviewed: true` without a flag.
-
-### Review
-
-- Legal pass. Macro checksum. Duplicate slug detection.
-- Sample of 10 items cooked/read by a human.
-
-### Gate
-
-- [ ] At least one allowed source fully documented  
-- [ ] No commercial scrape  
-- [ ] Ingest is offline/manual, not on the request path  
-
-**Further planning if:** you want a public UGC recipe community.
+Laptop ingest → PR into `data/`. ScrapeGraphAI only for signed-off sources. Never on the request path. Never overwrite reviewed items blindly.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 9 ingest agent. Read
-.agents/skills/scrapegraph-content-ingest/SKILL.md and §4 of
-InitialPlan180826.md.
-
-If docs/content-sources.md has no owner-approved sources, do not scrape.
-Instead add a Spoonacular/USDA/wger adapter stub behind env keys, or
-stop and request sources.
-
-Never import scrapegraphai into the Next.js client.
-Review: license, checksum, PR with reviewed:false data only.
+You are the Phase 9 ingest agent. Read scrapegraph-content-ingest SKILL
+and §4. If no approved sources, stop or stub USDA/wger laptop scripts.
+Never import scrapegraphai into the Next.js client. JSON PRs only.
 ```
 
 ---
 
-## Phase 10 — Polish, accessibility, launch
+## Phase 10 — Polish and launch (still no auth unless 4b was requested)
 
-**Goal:** Ship a mobile web app that feels intentional and does not harm.
+**Goal:** Ship a mobile Pages app that feels intentional.
 
 ### Design
 
-- `/impeccable polish` and `/impeccable harden` (errors, empty, offline-ish messaging).
-- UX Pro Max pre-delivery checklist.
-- Final motion: respect `prefers-reduced-motion`.
+- `/impeccable polish` + `harden`. Reduced motion.
 
 ### Develop
 
-- Loading/error/empty for every primary route.
-- SEO only on public `/`; app routes `noindex`.
-- Rate-limit auth routes.
-- README: local dev, env, seed, deploy, disclaimer.
+- Loading/error/empty on primary routes. `noindex` if the owner wants the tool unlisted (further planning: `robots.txt` + unlisted repo does not hide a public Pages site).  
+- README: local `next dev`, env, seed, Pages deploy, disclaimer, **how 4b will lock data**.  
+- No auth rate limits to invent until 4b.
 
 ### Review
 
-- `/impeccable audit` + Lighthouse a11y on Today, Onboarding, Meals.
-- `code-review` on the full diff since Phase 3.
-- Manual iPhone Safari and Android Chrome pass.
+- Audit + Lighthouse a11y on Today, Onboarding, Meals.  
+- iPhone Safari and Android Chrome.  
+- Recheck bundle for `service_role`.
 
 ### Gate
 
-- [ ] Audit defects fixed or waived in writing  
-- [ ] E2E still green  
+- [ ] Audit defects fixed or waived  
+- [ ] E2E green  
 - [ ] Disclaimer on generate + footer  
 - [ ] Owner launch approval  
+- [ ] `docs/launch.md` notes public-anon risk until 4b  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 10 launch agent. Read DESIGN.md and this plan's
-gates. Load impeccable (audit, polish, harden), ui-ux-pro-max,
-code-review.
+You are the Phase 10 launch agent. Load impeccable audit/polish/harden,
+ui-ux-pro-max, code-review. No new features. No surprise login wall.
 
-Fix a11y, empty/error states, auth rate limits, and copy. Do not add
-features. If a bug in the engine appears, follow diagnosing-bugs.
+docs/launch.md: Pages URL, how to set GitHub secrets, reminder that
+data is reachable via the anon key until Phase 4b.
 
-Deliver a launch checklist in docs/launch.md with the preview URL,
-test accounts (not real passwords in git), and remaining risks.
+If the owner now wants the lock, stop and hand off to Phase 4b rather
+than improvising NextAuth.
 ```
 
 ---
 
-## 7. Cross-cutting rules for all implementation agents
+## 7. Cross-cutting rules for implementation agents
 
-1. **Read this file and `DESIGN.md` / `PRODUCT.md` before coding.**  
-2. **TypeScript strict.** No `any` except at a documented boundary.  
-3. **Engine code stays pure** and unit-tested.  
-4. **No GitHub Pages static export** unless a new ADR replaces Path B.  
-5. **No secrets in git.**  
-6. **No medical guarantees** in UI copy.  
-7. **Do not scrape by default.**  
-8. **Aceternity + Impeccable + Refero + UX Pro Max** on every new screen.  
-9. **After develop, commit with a clear message, then run the phase review.**  
-10. If blocked on a §3 question, write a questionnaire — do not guess body-comp clinical policy.
+1. Read this file, `DESIGN.md`, and `PRODUCT.md` before coding.  
+2. TypeScript strict.  
+3. Engine stays pure.  
+4. **Static export on GitHub Pages** is the v1 host. Do not silently switch to Netlify.  
+5. **No `service_role` in the client.** No secrets in git.  
+6. **No NextAuth in v1.** Future auth = Supabase Auth (Phase 4b).  
+7. **No unscoped personal queries.** Data gateway only.  
+8. **`owner_id` on every personal row.**  
+9. No medical guarantees. No default scraping.  
+10. Refero + Impeccable + UX Pro Max + Aceternity (lightly) on new screens.  
+11. If blocked on a §3 question, write a questionnaire — do not guess clinical policy.
 
 ---
 
-## 8. Suggested first three prompts (owner → agents)
+## 8. Suggested first prompts (owner → agents)
 
-Use these in order after merging this plan.
-
-**Prompt A — Phase 0**  
-Paste the Phase 0 prompt in §6.
-
-**Prompt B — Phase 1**  
-Paste the Phase 1 prompt once Phase 0 is gated.
-
-**Prompt C — Phases 3–5** (only after DESIGN.md and engine-spec exist)  
-Ask one implementation agent to do Phase 3, a second to do Phase 4 when env keys exist, a third to TDD Phase 5. Do not combine 3–8 in a single unattended run.
+**A.** Phase 0 prompt (docs, ADR for auth-ready static).  
+**B.** Phase 1 prompt (DESIGN.md).  
+**C.** Phase 3 then Phase 4 (scaffold export, then gateway). Phase 5 only after engine-spec exists.  
+**D.** Phase 4b **only after** the owner has lived with the app and asks to lock it.
 
 ---
 
 ## 9. Out of scope for v1
 
-- Native App Store apps  
-- Wearables, Apple Health, Google Fit  
-- Photo DEXA-from-selfie or “AI body scan”  
-- Grocery delivery  
-- Social feeds / leaderboards  
-- Coaching marketplace  
-- Live web scraping of commercial recipe sites  
-- GitHub Pages as the authenticated app host  
+- NextAuth.js / Auth.js  
+- Prisma in the running website  
+- Login, sign-up, OAuth, passwords  
+- Native apps, wearables, AI body-scan photos  
+- Grocery delivery, social, coaching marketplace  
+- Commercial recipe scraping  
+- Public multi-user SaaS  
 
 ---
 
-## 10. What to expect after this plan is followed
+## 10. What to expect (plain language)
 
-You will not get a finished diet app from this document alone. You will get a **phased build** where:
+You asked whether GitHub Pages can host this if Supabase holds the data, and whether login can wait.
 
-- Look and feel are decided with real design-research skills before components are copied from Aceternity.  
-- The maths for calories, macros, and timelines is written down and tested so two people with the same stats get a defensible plan.  
-- Login and saved data live on a real host with a real database, which GitHub Pages cannot provide.  
-- Meals and workouts can be opened, swapped, and regenerated without destroying last week’s plan.  
-- Recipe growth, if you want it later, is a reviewed catalog pipeline — not a scraper bolted onto the website.
+**Yes.** The website can be a folder of files on github.io. The phone talks to Supabase the same way a notes app talks to the cloud. You do not need Netlify or NextAuth for that.
 
-In everyday terms: **the phone app asks for your stats, builds a week of food and training aimed at the body-comp goal you chose, and remembers it the next time you log in** — provided you accept Netlify/Vercel + Supabase instead of github.io for the real product.
+**A database is still worth it** for one person: otherwise the plan dies when the browser cache dies.
+
+**Login is optional later.** v1 will behave as “this phone and this URL are enough.” That means a stranger who finds a **public** Pages site could also see the data. When you have tested the planner and want a lock, we add a magic-link sign-in on the same static site, tighten the database rules, and keep the screens you already use.
+
+What this document gives you is a **phased map**: design the look, prove the calorie maths, put the app on GitHub Pages, save your stats in Supabase, then meals, workouts, and timelines — with the wiring already in place so a lock can be added without starting again.
