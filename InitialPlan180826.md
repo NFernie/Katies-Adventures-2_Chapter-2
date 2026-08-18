@@ -2,8 +2,8 @@
 
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
-**Revision:** 3 — §3 product questions frozen by owner (18 Aug 2026)  
-**Status:** Planning (no application code yet). §3 is **closed**. Phase 0 writes docs from these answers; it must not re-interview them.  
+**Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
+**Status:** Planning (no application code yet). §3 is **closed**. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
@@ -15,6 +15,8 @@ This document is the source of truth until a later plan supersedes it. Every imp
 **Revision 2:** Auth is a **low-priority, later-stage** feature. v1 is a **single-user personal tool**. The architecture must still be **auth-ready** so a login wall can be added after the owner has used the app, without rewriting the engine, UI, or schema.
 
 **Revision 3:** Owner answers to §3 are frozen in §3. Phase 0 must turn them into `PRODUCT.md` / ADRs, not open a new grilling session on the same list.
+
+**Revision 4:** Every recipe in `data/recipes.json` must have macros **computed from USDA FoodData Central at write/CI time**. The Pages app only reads the committed JSON. No live USDA calls in the browser.
 
 ---
 
@@ -151,7 +153,7 @@ These are **closed**. Implementation agents and the Phase 0 agent must not re-as
 | 9 | Training setting? Days per week? | **Gym** equipment track only in v1. **User selects days per week.** Do not build home / bands / bodyweight tracks unless the owner reopens this. |
 | 10 | Cardio? | **Not a separate onboarding preference.** Cardio is **whatever the workout generator suggests** for the chosen goal and gym days. |
 | 11 | Timeline rules? | **User selects** the target date / duration. Engine **blocks unsafe speeds** (see §5.3). User may go slower than the cap, not faster. |
-| 12 | Recipe source for v1? | **Owned JSON in the repo** (`data/recipes.json`). No scraping in v1. |
+| 12 | Recipe source for v1? | **Owned JSON in the repo** (`data/recipes.json`). No scraping in v1. **Macros must be USDA FoodData Central–computed when the file is written** (§4.2). Not a live API from the website. |
 | 13 | Exercise source for v1? | **Owned JSON in the repo** (`data/exercises.json`). Same as recipes. |
 
 ### Legal, content, later auth
@@ -172,6 +174,8 @@ These are **closed**. Implementation agents and the Phase 0 agent must not re-as
 ### 4.1 v1: git-owned catalog + Supabase personal plans
 
 **Catalog (read-mostly):** `data/recipes.json` and `data/exercises.json` shipped with the static site. Update by PR. No anon write access, so a stranger cannot poison the food library.
+
+**Recipe macros are not LLM guesses.** An agent may draft titles, steps, and ingredient *lists*, but kcal / protein / carbs / fat are filled by the USDA write-time pipeline in §4.2 before the file is mergeable.
 
 **Personal plan (read/write):** generated week, pins, swaps, completions, check-ins in Supabase, always scoped by `owner_id`.
 
@@ -203,20 +207,61 @@ These are **closed**. Implementation agents and the Phase 0 agent must not re-as
 | Profile / goal change | New `plan_versions` row; old week stays readable |
 | Catalog update (git) | New recipes appear in **future** swaps only |
 
-### 4.2 Licensed APIs (Phase 9, optional)
+### 4.2 USDA write-time nutrition (**required**, not a live app call)
 
-Ingest on a **laptop**, write JSON or upsert catalog tables. Never call paid APIs from the Pages bundle on every view.
+The website on GitHub Pages **never** calls USDA. Nutrition is baked into `data/recipes.json` when recipes are authored or CI runs.
 
-- USDA FoodData Central, Spoonacular/Edamam, wger.de  
+**Pipeline (every new or edited recipe)**
 
-### 4.3 ScrapeGraphAI (Phase 9, gated)
+1. Author (human or agent) writes **ingredients with grams** (and optional household measure for the UI).  
+2. Each ingredient is mapped to a USDA FoodData Central food (`fdcId`). Prefer Foundation / SR Legacy generic foods over random branded hits, unless the recipe truly uses that brand. Record a short `matchNote` if the match is approximate (e.g. “plain low-fat yogurt”).  
+3. A **local or CI script** (`tools/nutrition/` — name locked in Phase 6) calls the FDC API **once per missing cache entry**, using `USDA_FDC_API_KEY` from `.env` / GitHub Actions secrets. **Not** `NEXT_PUBLIC_`.  
+4. The script sums nutrients for the recipe, writes `kcal`, `proteinG`, `carbG`, `fatG`, and a 4-4-9 checksum flag.  
+5. Lookups are saved in a committed cache (e.g. `data/nutrition/fdc-cache.json`) so later CI can **re-check maths without hitting USDA** if cache hits. Cache misses (new `fdcId`) may call USDA in CI.  
+6. PR / `npm run nutrition:check` **fails** if any recipe is missing `fdcId`s, has `nutrition.source` other than `usda-fdc`, fails checksum beyond a small rounding tolerance, or still has placeholder macros (`0`/`TODO`/LLM-only).
 
-Local ingest only. Follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`. No commercial recipe-site scraping. Output JSON → PR → merge into `data/`.
+**Required JSON shape (conceptual)**
 
-### 4.4 Owner update loop
+```json
+{
+  "slug": "greek-yogurt-berry-bowl",
+  "ingredients": [
+    { "name": "Greek yogurt, plain, nonfat", "grams": 200, "fdcId": 170903, "matchNote": "FDC nonfat Greek yogurt" }
+  ],
+  "nutrition": {
+    "kcal": 146,
+    "proteinG": 20.4,
+    "carbG": 8.1,
+    "fatG": 0.8,
+    "source": "usda-fdc",
+    "computedAt": "2026-08-18T00:00:00Z",
+    "checksumOk": true
+  }
+}
+```
 
-**v1:** edit JSON, open a PR, GitHub Actions redeploys Pages.  
-**v1.5:** optional Supabase catalog tables + a crude edit form **behind the later auth lock** (do not ship a public write UI while anon can write).  
+**Rules for agents**
+
+- Do not commit `data/recipes.json` until `nutrition:check` passes.  
+- Do not copy commercial recipe-site nutrition labels and pretend they are USDA.  
+- If FDC has no honest match, **do not invent macros** — pick the closest generic food and `matchNote`, or drop the recipe.  
+- The Next.js bundle must not import the USDA client.  
+- Exercises are **not** USDA-checked (movement catalog, not food).
+
+**Owner setup:** one free [FoodData Central API key](https://fdc.nal.usda.gov/api-guide) in GitHub Actions (and local `.env`). Demo keys are too fragile for CI.
+
+### 4.3 Other licensed ingest (Phase 9, optional)
+
+Still laptop/CI only, never on page view. Spoonacular/Edamam may grow *ideas* for recipes; **macros still go through §4.2 USDA** before they land in `data/recipes.json`. wger.de is for exercises, not food.
+
+### 4.4 ScrapeGraphAI (Phase 9, gated)
+
+Local ingest only. Follow `.agents/skills/scrapegraph-content-ingest/SKILL.md`. No commercial recipe-site scraping. Output is a **draft ingredient list** → then **§4.2 USDA enrich** → PR into `data/`.
+
+### 4.5 Owner update loop
+
+**v1:** draft recipe → USDA enrich script → PR. GitHub Actions runs `nutrition:check` then deploys Pages.  
+**v1.5:** optional Supabase catalog tables + a crude edit form **behind the later auth lock** (do not ship a public write UI while anon can write). New rows still need USDA enrich before they are trusted.  
 **v2:** out of scope.
 
 ---
@@ -251,7 +296,7 @@ Working vocabulary for `CONTEXT.md`. Tables, not Prisma models, unless someone u
 - `day_plans`, `meal_slots`, `workout_sessions`, `workout_items`  
 - `check_ins` — date, InBody/Tanita / BodyID snapshot (weight, body fat %, skeletal muscle mass, optional extras); **no photos**  
 - `favorites`  
-- Catalog files (or tables without `owner_id`): `Recipe`, `Exercise`
+- Catalog files (or tables without `owner_id`): `Recipe` (ingredients + `fdcId` + `nutrition.source: usda-fdc`), `Exercise` (no USDA)
 
 v1 inserts always set `owner_id = DEFAULT_OWNER_ID`. Do not add NextAuth `Account` / `Session` tables.
 
@@ -315,7 +360,7 @@ First design session: `/impeccable init` (product lane). Tickets in `docs/ticket
 ### Develop
 
 - Docs only: `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`.  
-- Optional: `docs/domain/inbody-fields.md` listing which machine numbers v1 stores (weight, body fat %, skeletal muscle mass, plus any extras you name — do not invent a DEXA or photo flow).
+- Optional: `docs/domain/inbody-fields.md` and `docs/domain/recipe-nutrition.md` (USDA write-time contract from §4.2 — do not treat USDA as a runtime dependency).
 
 ### Review
 
@@ -333,8 +378,8 @@ First design session: `/impeccable init` (product lane). Tickets in `docs/ticket
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 0 planning agent. Read InitialPlan180826.md revision 3
-end to end, especially frozen §3. Load domain-modeling and
+You are the Phase 0 planning agent. Read InitialPlan180826.md revision 4
+end to end, especially frozen §3 and §4.2 USDA write-time nutrition. Load domain-modeling and
 writing-for-agents. Do NOT run grill-me / grill-with-docs on §3 — those
 questions are answered.
 
@@ -344,14 +389,16 @@ v1 is decided: BodyPlan; GitHub Pages project site + basePath + Supabase
 JS; single user; no login wall; auth-ready owner_id + data gateway;
 metric; male/female; InBody/Tanita (BodyID) fields; gym; user-select
 diet, kitchen, days/week, goal type, timeline (unsafe speeds blocked);
-owned JSON catalog; swaps on; no photos; no medical hard-stops except
+owned JSON catalog with USDA write-time macros (§4.2); swaps on; no photos; no medical hard-stops except
 unsafe loss speed; later lock = magic link.
 
 Tasks:
 1. Write PRODUCT.md, CONTEXT.md (glossary), docs/decisions/0001-v1-scope.md,
    docs/decisions/0002-auth-ready-static.md (Phase 4b remap
    DEFAULT_OWNER_ID → auth.uid(), magic link only).
-2. Optionally list v1 InBody/Tanita fields in docs/domain/inbody-fields.md.
+2. Optionally list v1 InBody/Tanita fields in docs/domain/inbody-fields.md
+   and restate the USDA write-time recipe contract in
+   docs/domain/recipe-nutrition.md (no live USDA in the app).
 3. Stop at the Phase 0 gate. Docs-only PR.
 
 Do not reopen NextAuth, Netlify, imperial units, or home-gym tracks.
@@ -393,7 +440,7 @@ Review: docs must not contradict §3.
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 1 design agent. Read InitialPlan180826.md revision 3
+You are the Phase 1 design agent. Read InitialPlan180826.md revision 4
 (frozen §3), PRODUCT.md, Phase 0 ADRs. Load refero-design, ui-ux-pro-max,
 impeccable, prototype.
 
@@ -450,7 +497,8 @@ Deliver:
    profiles; catalog without owner_id
 2. docs/domain/engine-spec.md with two worked examples (male + female,
    gym days user-selected, InBody fat % present)
-3. docs/domain/content-model.md (diet/kitchen user-select tags)
+3. docs/domain/content-model.md (diet/kitchen user-select tags; recipe
+   JSON with ingredients.grams, fdcId, nutrition.source usda-fdc per §4.2)
 4. Proposed supabase/migrations/0001_init.sql plus comments for v1 RLS
    vs Phase 4b RLS (do not apply without credentials)
 5. CONTEXT.md updates
@@ -472,7 +520,7 @@ A second agent must recompute the worked examples.
 - App Router, `src/`, fonts from `DESIGN.md`.  
 - `components.json` with `@aceternity`.  
 - `next.config`: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`, **`basePath` for the project Pages site** (`/Katies-Adventures-2_Chapter-2` unless a custom domain ADR says otherwise).  
-- `.env.example`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` only. No `service_role`, no `AUTH_SECRET`, no `DATABASE_URL` in the web env.
+- `.env.example`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` for the app. `USDA_FDC_API_KEY` for **tools/CI only** — never `NEXT_PUBLIC_`. No `service_role`, no `AUTH_SECRET`, no `DATABASE_URL` in the web env.
 
 ### Develop
 
@@ -493,14 +541,14 @@ A second agent must recompute the worked examples.
 - [ ] lint + typecheck + export build  
 - [ ] Pages URL loads  
 - [ ] `output: 'export'` is set  
-- [ ] `.env.example` has only public keys  
+- [ ] `.env.example` documents public Supabase keys and a **non-public** `USDA_FDC_API_KEY` (tools/CI only)  
 
 **Further planning if:** you need SSR after all — then Netlify/Vercel is a new ADR, not a silent switch.
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 3 scaffold agent. Read InitialPlan180826.md revision 3
+You are the Phase 3 scaffold agent. Read InitialPlan180826.md revision 4
 and DESIGN.md. Load impeccable (shell only), ui-ux-pro-max.
 
 Scaffold Next.js App Router + TypeScript + Tailwind in the repo root.
@@ -513,7 +561,8 @@ routes: /, /onboarding, /plan, /settings. No /login.
 GitHub Action deploys out/ to GitHub Pages. Add .nojekyll.
 
 Do not implement Prisma, NextAuth, or Server Actions (they break export).
-Do not put service_role in any NEXT_PUBLIC_ variable.
+Do not put service_role or USDA_FDC_API_KEY in any NEXT_PUBLIC_ variable.
+Document USDA_FDC_API_KEY in .env.example as tools/CI-only (Phase 6 wires the script).
 
 Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 ```
@@ -662,39 +711,59 @@ Review: code-review + independent fixture check.
 
 ---
 
-## Phase 6 — Recipes and meal plan UI
+## Phase 6 — Recipes, USDA enrich, and meal plan UI
 
-**Goal:** Breakfast, lunch, dinner, snacks hit macros; swaps work.
+**Goal:** Breakfast, lunch, dinner, snacks hit **USDA-computed** macros; swaps work.
 
 ### Design
 
-- MealCard, day strip, SwapSheet. Empty state if filters match nothing.
+- MealCard, day strip, SwapSheet. Empty state if filters match nothing.  
+- Recipe JSON + cache layout per §4.2.
 
 ### Develop
 
-- Seed `data/recipes.json`. `src/engine/meals.ts` TDD. Pins/swaps in Supabase.  
-- Vegetarian never returns meat.
+- `tools/nutrition/` enrich + `npm run nutrition:check`.  
+- Committed `data/nutrition/fdc-cache.json`.  
+- Seed `data/recipes.json` **only after** enrich (no LLM-only macros).  
+- `src/engine/meals.ts` TDD. Pins/swaps in Supabase.  
+- Vegetarian never returns meat.  
+- GitHub Action: `nutrition:check` on PRs that touch `data/recipes.json` or the cache. Use repo secret `USDA_FDC_API_KEY` only on cache miss.
 
 ### Review
 
-- 4-4-9 checksum. 375px sheet. `/impeccable polish`.
+- Every seed recipe has `nutrition.source: usda-fdc` and `checksumOk`.  
+- Confirm the Next.js client bundle has no USDA URL/key.  
+- 375px sheet. `/impeccable polish`.
 
 ### Gate
 
 - [ ] Seed size agreed  
+- [ ] `nutrition:check` green  
 - [ ] Assigner tests green  
 - [ ] Swap + pin  
 - [ ] Owner can cook 3 sample days  
+- [ ] No live USDA from Pages  
 
 ### Implementation-agent prompt
 
 ```text
-You are the Phase 6 meals agent. Read content-model.md and DESIGN.md.
-Load tdd, refero-design, impeccable, ui-ux-pro-max.
+You are the Phase 6 meals agent. Read InitialPlan180826.md §4.2,
+content-model.md, and DESIGN.md. Load tdd, refero-design, impeccable,
+ui-ux-pro-max.
 
-JSON catalog in the repo. Assigner + mobile meal UI with swap/pin.
-Personal rows via src/data (owner_id). No ScrapeGraphAI unless Phase 9
-is open. No public recipe write API.
+Build tools/nutrition to map ingredient grams → USDA FDC fdcId → summed
+macros, with a committed fdc-cache. Wire npm run nutrition:check.
+
+Draft recipes if you want, but you MUST run enrich before committing
+data/recipes.json. Reject LLM-guessed kcal/protein. Do not call USDA
+from the Next.js app.
+
+Then: assigner + mobile meal UI with swap/pin. Personal rows via
+src/data (owner_id). No ScrapeGraphAI unless Phase 9 is open.
+No public recipe write API.
+
+If USDA_FDC_API_KEY is missing, write a wizard for the data.gov FDC key
+and stop before claiming the catalog is done.
 ```
 
 ---
@@ -771,18 +840,20 @@ No wearables.
 
 ---
 
-## Phase 9 — Content pipeline (optional)
+## Phase 9 — Content pipeline (optional growth)
 
-**Goal:** Grow the JSON catalog legally. Skip if seed is enough.
+**Goal:** Grow the JSON catalog legally. Skip if the USDA-checked seed is enough.
 
-Laptop ingest → PR into `data/`. ScrapeGraphAI only for signed-off sources. Never on the request path. Never overwrite reviewed items blindly.
+Laptop ingest → **§4.2 USDA enrich** → PR into `data/`. ScrapeGraphAI only for signed-off sources, and only as a draft ingredient list. Never on the request path. Never overwrite reviewed items blindly. Never skip USDA because “the other API already had calories.”
 
 ### Implementation-agent prompt
 
 ```text
 You are the Phase 9 ingest agent. Read scrapegraph-content-ingest SKILL
-and §4. If no approved sources, stop or stub USDA/wger laptop scripts.
-Never import scrapegraphai into the Next.js client. JSON PRs only.
+and §4.2–4.4. Drafts must run through tools/nutrition (USDA) before
+merge. Do not stub USDA — the enricher already exists from Phase 6.
+wger is exercises only. Never import scrapegraphai or USDA into the
+Next.js client. JSON PRs only.
 ```
 
 ---
@@ -842,7 +913,8 @@ than improvising NextAuth.
 8. **`owner_id` on every personal row.**  
 9. No medical guarantees. No default scraping.  
 10. Refero + Impeccable + UX Pro Max + Aceternity (lightly) on new screens.  
-11. **§3 is frozen.** Do not re-open those questions. If something is still ambiguous (e.g. exact InBody field list), document a Phase 2 assumption that does **not** contradict §3.
+11. **§3 is frozen.** Do not re-open those questions. If something is still ambiguous (e.g. exact InBody field list), document a Phase 2 assumption that does **not** contradict §3.  
+12. **Recipe macros = USDA write-time (§4.2).** No live USDA in the Pages app. No merge of `data/recipes.json` without `nutrition:check`.
 
 ---
 
@@ -870,6 +942,6 @@ than improvising NextAuth.
 
 ## 10. What to expect (plain language)
 
-BodyPlan is a personal 18+ gym planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, gym days, and a timeline. It builds meals from a recipe list in the repo and a gym workout (including any cardio the plan thinks you need). You can swap meals and lifts. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site can live on GitHub Pages and remember your data in Supabase. Login can wait; when you want it, a magic link is enough.
+BodyPlan is a personal 18+ gym planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, gym days, and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a gym workout (including any cardio the plan thinks you need). You can swap meals and lifts. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site can live on GitHub Pages and remember your data in Supabase. Login can wait; when you want it, a magic link is enough.
 
 Phase 0 (next agent) only writes the brief docs from these frozen answers. It should not ask the §3 questions again.
