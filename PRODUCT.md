@@ -1,6 +1,56 @@
 # BodyPlan
 
+<!-- impeccable:product-schema 1 -->
+
 BodyPlan is a personal 18+ gym planner for one adult. The owner enters InBody / Tanita (BodyID) numbers, chooses a goal, diet flags, kitchen flags, gym days per week, and a timeline; the app builds meals and gym sessions they can follow and swap.
+
+## Platform
+
+web
+
+## Stack
+
+Next.js static export on GitHub Pages (frozen, InitialPlan revision 4). Phase 1 ships a throwaway HTML prototype in `docs/ux/prototype/` — not the production app.
+
+## Users
+
+One adult gym-goer (the Owner), 18+, using a phone at the gym or kitchen. They have an InBody / Tanita (BodyID) printout in hand. They are not creating an account.
+
+## Product Purpose
+
+Turn machine numbers + a few choices into today’s meals and gym session, then let the Owner check them off and swap. Success: first plan in under three minutes, no sign-up.
+
+## Positioning
+
+Plans from BodyID machine fields and a USDA-checked owned catalog — not photos, not a public food log, not a social gym feed.
+
+## Operating Context
+
+Bright gym floor and kitchen counters. Metric printouts (kg, cm, %). Sweaty-thumb taps between sets. Four meal slots plus one session per training day.
+
+## Capabilities and Constraints
+
+Confirmed in frozen §3 below. No login wall in v1. No photos. No imperial. Gym equipment only. Unsafe loss speed is the only generator block. Later lock is magic link (Phase 4b).
+
+## Brand Commitments
+
+In-app name is **BodyPlan**. Katie’s Adventures is the repo name only. Copy does not claim medical treatment.
+
+## Evidence on Hand
+
+No photography, no testimonials, no competitor screenshots in the product. Recipe macros are USDA write-time; InBody fields are typed by the Owner. Prototype data is labelled synthetic.
+
+## Product Principles
+
+1. The Owner is already in the building — skip the funnel.
+2. Numbers from the machine and USDA are louder than chrome.
+3. One job on Today: eat and lift what was planned, or swap.
+4. Familiar gym/kitchen affordances over SaaS surprise.
+5. Auth-ready without looking like a login product.
+
+## Accessibility & Inclusion
+
+WCAG 2.2 AA intent: 4.5:1 text contrast, 44×44 px targets, visible focus, `prefers-reduced-motion`, labelled inputs, numeric keyboards for kg/cm/% . Intended audience 18+. Sex is male or female only (Mifflin–St Jeor).
 
 This file is the agent-facing product brief. The freeze it restates is `InitialPlan180826.md` **§3** (18 Aug 2026, revision 4). If this file and §3 ever disagree, **§3 wins** — do not invent extras that conflict. Language: `CONTEXT.md`. Hosting and lock: `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`.
 
