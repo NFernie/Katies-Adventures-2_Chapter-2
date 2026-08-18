@@ -36,4 +36,13 @@ Settings (**You**) has a dashed **note**, not a button: locking with email comes
 
 ## Stills
 
-If present, PNGs in `docs/ux/prototype/screenshots/` are captures of those screens at 390px. The HTML is the source of truth.
+Captures at 390px (prototype chrome + phone):
+
+- `screenshots/on1.png` — onboarding You
+- `screenshots/today.png` — Today (printout, plate hubs, meals)
+- `screenshots/swap.png` — swap sheet
+- `screenshots/session.png` — one-exercise set table
+- `screenshots/plan.png` — plan + week strip
+- `screenshots/you.png` — profile + lock note (not a button)
+
+The HTML is the source of truth. Click through `#on1` → `#on5` for the full onboarding.

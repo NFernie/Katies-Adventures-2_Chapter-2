@@ -1,8 +1,10 @@
 # Phase 1 critique notes
 
-Target: `docs/ux/prototype/index.html` (clickable BodyPlan, bumper-plate load).
+⚠️ DEGRADED: single-context (critique A/B not isolated sub-agents; detector regex fallback because htmlparser2 is unavailable).
 
-Impeccable Assessment A + B were run after screenshots (see below). Owner review of `DESIGN.md` is still the Phase 1 gate.
+Target: `docs/ux/prototype/index.html` (clickable BodyPlan, bumper-plate load). Stills: `docs/ux/prototype/screenshots/`.
+
+Impeccable `detect.mjs --json` on the prototype: **0 findings** after tokens were aligned to `DESIGN.md`. Owner review of `DESIGN.md` is still the Phase 1 gate.
 
 ## What is working
 
