@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
-**Status:** Planning (no application code yet). §3 is **closed**. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 0 **complete** (18 Aug 2026). Brief is `PRODUCT.md` + `CONTEXT.md` + `docs/decisions/0001-v1-scope.md` + `docs/decisions/0002-auth-ready-static.md`. §3 remains **closed**. No application code yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
@@ -348,6 +348,8 @@ First design session: `/impeccable init` (product lane). Tickets in `docs/ticket
 
 ## Phase 0 — Write the brief from frozen §3 answers
 
+**Status:** Complete (18 Aug 2026).
+
 **Goal:** Turn **already-frozen** §3 answers plus auth-ready rules into `PRODUCT.md`, `CONTEXT.md`, and ADRs. Do **not** re-interview §3.
 
 ### Design
@@ -369,9 +371,11 @@ First design session: `/impeccable init` (product lane). Tickets in `docs/ticket
 
 ### Gate
 
-- [ ] `PRODUCT.md` and `CONTEXT.md` exist and quote §3  
-- [ ] ADRs 0001 and 0002 exist  
-- [ ] No new onboarding fields that contradict §3 (no imperial, no home gym track, no photos)  
+- [x] `PRODUCT.md` and `CONTEXT.md` exist and quote §3  
+- [x] ADRs 0001 and 0002 exist  
+- [x] No new onboarding fields that contradict §3 (no imperial, no home gym track, no photos)  
+
+**Completed (18 Aug 2026):** `PRODUCT.md`, `CONTEXT.md`, `docs/decisions/0001-v1-scope.md`, `docs/decisions/0002-auth-ready-static.md`, `docs/domain/inbody-fields.md`, `docs/domain/recipe-nutrition.md`. Next: Phase 1 (DESIGN.md). Do not re-interview §3.
 
 **Further planning if:** public multi-user product, clinical dietetics, or extra InBody segmental charts.
 
@@ -920,7 +924,7 @@ than improvising NextAuth.
 
 ## 8. Suggested first prompts (owner → agents)
 
-**A.** Phase 0 prompt (write PRODUCT.md / ADRs from **frozen §3** — do not re-interview).  
+**A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 prompt (DESIGN.md).  
 **C.** Phase 3 then Phase 4 (scaffold export, then gateway). Phase 5 only after engine-spec exists.  
 **D.** Phase 4b **only after** the owner has lived with the app and asks to lock it.
@@ -944,4 +948,4 @@ than improvising NextAuth.
 
 BodyPlan is a personal 18+ gym planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, gym days, and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a gym workout (including any cardio the plan thinks you need). You can swap meals and lifts. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site can live on GitHub Pages and remember your data in Supabase. Login can wait; when you want it, a magic link is enough.
 
-Phase 0 (next agent) only writes the brief docs from these frozen answers. It should not ask the §3 questions again.
+Phase 0 has written the brief docs from these frozen answers. Later agents should not ask the §3 questions again.
