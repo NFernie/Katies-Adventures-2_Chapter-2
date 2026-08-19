@@ -129,7 +129,12 @@ export function patternFromWger(name: string, category = ""): MovementPattern | 
     return "vertical_pull";
   }
   if (/\brow\b/.test(n) && !/row(ing)? machine|erg/.test(n)) return "horizontal_pull";
-  if (cat === "cardio" || /walk|jog|run|bike|cycle/.test(n)) return "zone2";
+  if (
+    cat === "cardio" ||
+    /\b(walk|jog|run|bike|cycle)\b/.test(n)
+  ) {
+    return "zone2";
+  }
   return null;
 }
 
