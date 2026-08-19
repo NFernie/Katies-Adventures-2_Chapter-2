@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { MagicLinkForm } from "@/components/auth/magic-link-form";
+import { AuthForm } from "@/components/auth/auth-form";
 import { MissingSupabaseNote } from "@/components/auth/signed-out-empty";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { RouteStatus } from "@/components/shell/route-status";
@@ -22,7 +22,7 @@ export function LockScreen() {
         setCallbackError(
           caught instanceof Error
             ? caught.message
-            : "Could not open this magic link.",
+            : "Could not open this confirmation link.",
         );
       })
       .finally(() => {
@@ -40,49 +40,63 @@ export function LockScreen() {
 
   return (
     <main>
-      <p className="font-sans text-[13px] font-semibold text-iron-2">Sign in</p>
+      <p className="font-sans text-[13px] font-semibold text-iron-2">Account</p>
       {status === "loading" ? (
         <RouteStatus loading loadingLabel="Opening your session…" />
+      ) : status === "missing-config" ? (
+        <>
+          <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
+            Sign in
+          </h1>
+          <MissingSupabaseNote />
+        </>
       ) : status === "signed-in" ? (
         <>
           <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
             You are in
           </h1>
           <p className="mt-3 font-sans text-[16px] leading-[1.45] text-iron-2">
-            The magic-link session is on this device. Open You to see your
-            profile. Personal rows use your Auth user id as owner_id.
+            This device has your session. Open You to see your profile. Personal
+            rows use your Auth user id as owner_id.
           </p>
           <Link href="/settings" className={cn(buttonVariants(), "mt-4 inline-flex")}>
             Open You
           </Link>
         </>
-      ) : (
+      ) : justSent ? (
         <>
           <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
             Check your email
           </h1>
           <p className="mt-3 font-sans text-[16px] leading-[1.45] text-iron-2">
-            {justSent
-              ? "We sent a sign-in link. Open it in this same browser. Do not send another unless that one expired."
-              : "Open the emailed magic link in this browser to sign in to your profile. No password."}
+            We sent a confirmation link. Open it in this same browser, then
+            sign in with the email and password. Do not send another unless
+            that one expired.
           </p>
           {callbackError ? (
             <p role="alert" className="mt-3 font-sans text-[14px] text-alert">
-              {callbackError} Send a new link from this browser, then open that
-              email here.
+              {callbackError}
             </p>
           ) : null}
+          <AuthForm redirectOnSend={false} />
+        </>
+      ) : (
+        <>
+          <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
+            Sign in
+          </h1>
+          <p className="mt-3 font-sans text-[16px] leading-[1.45] text-iron-2">
+            Confirmed email? Sign in with the password. New here? Create
+            account — that step emails a confirmation link once.
+          </p>
+          {callbackError ? (
+            <p role="alert" className="mt-3 font-sans text-[14px] text-alert">
+              {callbackError}
+            </p>
+          ) : null}
+          <AuthForm redirectOnSend={false} />
         </>
       )}
-      {status === "missing-config" ? <MissingSupabaseNote /> : null}
-      {status === "signed-out" ? (
-        <details className="mt-4">
-          <summary className="min-h-11 cursor-pointer font-sans text-[14px] font-semibold">
-            Send a new magic link
-          </summary>
-          <MagicLinkForm redirectOnSend={false} />
-        </details>
-      ) : null}
     </main>
   );
 }

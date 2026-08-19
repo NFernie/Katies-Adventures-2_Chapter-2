@@ -17,16 +17,16 @@ export function SignedOutEmpty({
     >
       <h2 className="font-sans text-[1.05rem] font-bold">{heading}</h2>
       <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
-        Personal rows live in Supabase behind a magic-link session. Signed-out
+        Personal rows live in Supabase behind a signed-in session. Signed-out
         visitors (including incognito) cannot read them. Onboarding can still
-        start; saving needs the email link.
+        start; saving needs Sign in (confirmed email + password).
       </p>
       {showCta ? (
         <Link
           href="/lock"
           className={cn(buttonVariants(), "mt-3 inline-flex")}
         >
-          Sign in with magic link
+          Sign in
         </Link>
       ) : null}
     </section>

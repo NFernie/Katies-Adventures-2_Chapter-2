@@ -15,7 +15,7 @@ export function isSupabaseConfigured(): boolean {
 
 /**
  * Session-shaped browser client. Attaches Authorization: Bearer <jwt> from
- * the persisted magic-link session. Only src/data may import supabase-js.
+ * the persisted session. Only src/data may import supabase-js.
  */
 export function createBrowserClient(): BodyPlanClient {
   if (browserClient) return browserClient;

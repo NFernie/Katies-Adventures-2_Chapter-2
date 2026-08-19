@@ -19,7 +19,7 @@ Prototype source: `docs/ux/prototype/index.html`. Production maps these to shadc
 | **WeekStrip** | 7 days | Each cell shows weekday + setting (or rest). Filled = train day. Tap → that day |
 | **TimelineRail** | Projected vs check-ins | Numbers + dates; no body photos |
 | **BottomNav** | Today · Plan · Log · You | Four items; 44px; active = iron, not yellow |
-| **MagicLinkField** | Phase 4 sign-in | Email + iron Send. `/lock` check-email. Must not look like a disabled button |
+| **AuthForm** | Sign in / Create account | Email + password; iron Sign in. Create account emails a confirmation link once. `/lock` completes that link. Not a yellow Continue |
 | **Disclaimer** | Review + footer | Not medical treatment; 18+ |
 | **UnsafeBanner** | Timeline intercept | Utility red; names fastest safe date |
 

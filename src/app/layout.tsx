@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s · BodyPlan",
   },
   description:
-    "Personal 18+ gym planner. Type an InBody / Tanita printout. No photos. Email magic link.",
+    "Personal 18+ gym planner. Type an InBody / Tanita printout. No photos. Email sign-in.",
   applicationName: "BodyPlan",
   robots: { index: false, follow: false },
 };

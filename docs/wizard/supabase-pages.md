@@ -37,14 +37,14 @@ NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon or publishable>
 ```
 
-## 3. Email magic link (no Google, no password product)
+## 3. Email provider (confirmation link + password sign-in)
 
 1. Left sidebar **Authentication** → **Sign In / Providers** ([deep link](https://supabase.com/dashboard/project/_/auth/providers)).
 2. Open **Email**.
 3. **Enable Email provider:** ON (often already on for new projects).
-4. Leave **Confirm email** ON. Clicking the magic link is the confirmation.
+4. Leave **Confirm email** ON. Create account emails a confirmation link. Sign in with password only works after that click.
 5. Do **not** enable Google, Apple, GitHub, Phone, or Anonymous.
-6. You are not adding a password form. BodyPlan v1 is email magic link only.
+6. BodyPlan v1: **Create account** = confirmation magic link. **Sign in** = confirmed email + password. No NextAuth.
 
 ## 4. Redirect URLs
 
@@ -83,13 +83,14 @@ Do not add `service_role` here.
 
 ## 7. Prove it
 
-1. Local: `npm run dev` → `http://localhost:3000/Katies-Adventures-2_Chapter-2/settings/` → **Send magic link**.
-2. Open the email on the same device. `/lock/` should say you are in.
+1. Local: `npm run dev` → `http://localhost:3000/Katies-Adventures-2_Chapter-2/settings/` → **Create account** (or **Sign in** if the email is already confirmed).
+2. If you created an account: open the confirmation email on the same device. `/lock/` should say you are in. Set a password on You if you had only a link before.
 3. On **You**, save height/weight + at least one train day. Hard-refresh. Numbers stay.
-4. **Incognito** (or signed out): Today/You show the empty state. Personal rows are not readable.
+4. Sign out, then **Sign in** with the same email and password — no new email.
+5. **Incognito** (or signed out): Today/You show the empty state. Personal rows are not readable.
 
-Keys in `.env.local` only wire the local browser client. Until SQL is auth-scoped (`0001` or `0003`), saving a profile and hiding rows from incognito will fail even if the magic-link form sends mail.
+Keys in `.env.local` only wire the local browser client. Until SQL is auth-scoped (`0001` or `0003`), saving a profile and hiding rows from incognito will fail even if Sign in works.
 
 Until URL + anon key are in `.env.local` (and GitHub Actions for Pages), the static export still builds; the form explains that Supabase is not configured.
 
-This repo’s live project (`gbpwayarlvdvrotjnufa`) finished this checklist on 19 Aug 2026: `0003` applied, Pages keys baked, signed-out REST deny green, owner same-device magic-link + save.
+This repo’s live project (`gbpwayarlvdvrotjnufa`) finished this checklist on 19 Aug 2026: `0003` applied, Pages keys baked, signed-out REST deny green, owner same-device confirmation + save. Sign-in is now confirmed email + password (revision 6).

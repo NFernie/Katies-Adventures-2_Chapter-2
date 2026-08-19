@@ -52,6 +52,24 @@ export type AuthClient = SessionReader & {
       email: string;
       options?: { emailRedirectTo?: string; shouldCreateUser?: boolean };
     }) => Promise<{ error: { message: string } | null }>;
+    signInWithPassword: (args: {
+      email: string;
+      password: string;
+    }) => Promise<{
+      data: { session: Session | null };
+      error: { message: string } | null;
+    }>;
+    signUp: (args: {
+      email: string;
+      password: string;
+      options?: { emailRedirectTo?: string };
+    }) => Promise<{
+      data: { session: Session | null };
+      error: { message: string } | null;
+    }>;
+    updateUser: (args: {
+      password: string;
+    }) => Promise<{ error: { message: string } | null }>;
     signOut: () => Promise<{ error: { message: string } | null }>;
     verifyOtp?: (args: {
       token_hash: string;

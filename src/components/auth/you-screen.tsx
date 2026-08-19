@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 
-import { MagicLinkForm } from "@/components/auth/magic-link-form";
+import { AuthForm } from "@/components/auth/auth-form";
 import {
   MissingSupabaseNote,
   SignedOutEmpty,
@@ -11,9 +11,11 @@ import { useAuthSession } from "@/components/auth/use-auth-session";
 import { RouteStatus } from "@/components/shell/route-status";
 import { Button } from "@/components/ui/button";
 import {
+  MIN_PASSWORD_LENGTH,
   getProfile,
   listTrainingDays,
   replaceTrainingDays,
+  setAccountPassword,
   signOut,
   upsertProfile,
   type ProfileWrite,
@@ -158,7 +160,7 @@ export function YouScreen() {
       {status === "signed-out" ? (
         <>
           <SignedOutEmpty heading="Sign in to save this profile" showCta={false} />
-          <MagicLinkForm />
+          <AuthForm />
         </>
       ) : null}
       {status === "signed-in" ? (
@@ -277,7 +279,63 @@ export function YouScreen() {
           ) : null}
         </form>
       ) : null}
+      {status === "signed-in" ? <PasswordSettings /> : null}
     </main>
+  );
+}
+
+function PasswordSettings() {
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setMessage(null);
+    try {
+      await setAccountPassword(password);
+      setPassword("");
+      setMessage("Password saved. Next visit, sign in with email and password.");
+    } catch (caught) {
+      setMessage(
+        caught instanceof Error ? caught.message : "Could not save the password.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="mt-8 border-t border-hair pt-4">
+      <h2 className="font-sans text-[1.05rem] font-bold">Password for next visit</h2>
+      <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
+        If you confirmed with a link and never chose a password, set one here.
+        Sign-in will not email a new link.
+      </p>
+      <label className="mt-4 block font-sans text-[14px] font-semibold" htmlFor="you-password">
+        New password
+        <input
+          id="you-password"
+          name="new-password"
+          type="password"
+          required
+          minLength={MIN_PASSWORD_LENGTH}
+          autoComplete="new-password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          className="mt-1.5 min-h-12 w-full rounded-[4px] border border-iron bg-white px-3 font-sans text-[1.15rem] font-semibold"
+        />
+      </label>
+      <Button type="submit" disabled={busy} className="mt-2 w-full">
+        {busy ? "Saving…" : "Save password"}
+      </Button>
+      {message ? (
+        <p role="status" className="mt-3 font-sans text-[14px] text-iron-2">
+          {message}
+        </p>
+      ) : null}
+    </form>
   );
 }
 

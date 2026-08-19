@@ -8,16 +8,18 @@ Revision 2 deferred a login wall and planned an optional Phase 4b to swap `DEFAU
 
 ## Decision
 
-Phase 4 implements **Supabase Auth email magic link** together with the data gateway.
+Phase 4 implements **Supabase Auth** together with the data gateway.
 
-- Client: `@supabase/supabase-js`. Magic link email. No Google OAuth, no passwords-as-product, no NextAuth.
+- Client: `@supabase/supabase-js`. **Create account** emails a confirmation magic link. **Sign in** is confirmed email + password (`signInWithPassword`). No Google OAuth, no NextAuth.
 - Session: `getOwnerId()` returns `session.user.id` or **throws**. Production writes never use `DEFAULT_OWNER_ID`.
 - RLS on every personal table: `authenticated` only, `owner_id = auth.uid()`. **Revoke** `anon`. No `is_v1_owner` open policy.
-- `/lock` (or Settings magic-link) **is in v1**.
+- `/lock` (or Settings) **is in v1**.
 - Optional `owner_id uuid references auth.users(id)` when applying SQL in a project with Auth enabled.
 - Pages stays a static export. Engine stays owner-agnostic. No `service_role` in the browser.
 
 `DEFAULT_OWNER_ID` in `src/data/owner.ts` remains a **test/fixture** constant only.
+
+**Amended (19 Aug 2026):** the owner rejected “every sign-in sends a new magic link.” Returning visits use a password after the email is confirmed. A one-time link remains only for confirmation and for accounts that never set a password.
 
 ## Consequences
 

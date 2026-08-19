@@ -124,12 +124,12 @@ The UUID on every personal row that says whose data it is. Catalog rows do not h
 _Avoid_: a singleton table with no owner, NextAuth `Account` / `Session` tables
 
 **DEFAULT_OWNER_ID**:
-A committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) used **only** in tests and fixtures. Production writes use `auth.uid()` from the magic-link session.
+A committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) used **only** in tests and fixtures. Production writes use `auth.uid()` from the signed-in session.
 _Avoid_: baking this UUID into RLS, production inserts, an open anon policy
 
 **Magic link**:
-Supabase Auth email sign-in, implemented in Phase 4 with the data gateway. No Google OAuth, no NextAuth. Settings and `/lock` send the mail. Live project setup: `docs/wizard/supabase-pages.md`.
-_Avoid_: Phase 4b remap, passwords-as-product
+Supabase Auth confirmation email for **Create account**. Returning **Sign in** uses the confirmed email plus a password and must not send a new link. No Google OAuth, no NextAuth. Settings and `/lock`. Live project setup: `docs/wizard/supabase-pages.md`.
+_Avoid_: Phase 4b remap, email-only login with no password, NextAuth
 
 **Data gateway**:
 The single authorised path for reading and writing personal storage.

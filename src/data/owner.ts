@@ -9,7 +9,7 @@ export const DEFAULT_OWNER_ID =
   "198e5a49-c748-4bcc-b6ad-86445a76eb7b" as const;
 
 /**
- * Returns the magic-link session user id, or throws. Does not return
+ * Returns the signed-in session user id, or throws. Does not return
  * DEFAULT_OWNER_ID — that constant is test/fixture only.
  */
 export async function getOwnerId(client: SessionReader): Promise<string> {

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { MagicLinkForm } from "@/components/auth/magic-link-form";
+import { AuthForm } from "@/components/auth/auth-form";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { Disclaimer } from "@/components/shell/copy";
 import { WayfindingBand } from "@/components/shell/wayfinding-band";
@@ -288,7 +288,7 @@ export function OnboardingFlow() {
   async function generate() {
     if (!success) return;
     if (status !== "signed-in") {
-      setMessage("Sign in with the magic link to save this plan.");
+      setMessage("Sign in to save this plan.");
       return;
     }
     setBusy(true);
@@ -324,7 +324,7 @@ export function OnboardingFlow() {
       router.push("/");
     } catch (error) {
       if (error instanceof SignedOutError) {
-        setMessage("Sign in with the magic link to save this plan.");
+        setMessage("Sign in to save this plan.");
       } else {
         setMessage(error instanceof Error ? error.message : "Could not save the plan.");
       }
@@ -706,10 +706,10 @@ export function OnboardingFlow() {
           {status !== "signed-in" ? (
             <div className="mt-4">
               <p className="font-sans text-[16px] leading-[1.45] text-iron-2">
-                Email a one-time link to save this plan. Open it on this phone,
-                then generate.
+                Sign in with a confirmed email and password to save this plan.
+                New email? Create account — we send one confirmation link.
               </p>
-              <MagicLinkForm
+              <AuthForm
                 redirectOnSend={false}
                 emailRedirectTo={onboardingRedirectUrl()}
               />

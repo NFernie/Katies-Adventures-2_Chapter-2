@@ -165,7 +165,7 @@ These are **closed**. Implementation agents and the Phase 0 agent must not re-as
 | 15 | Swap meals and lifts? | **Swaps allowed.** |
 | 16 | Progress data? Photos? | **No photos.** Progress is **weight + InBody/Tanita / BodyID machine** fields (same family as onboarding). |
 | 17 | GitHub Pages type? | **Project site** (default): `username.github.io/Katies-Adventures-2_Chapter-2` with Next.js **`basePath`**. |
-| 18 | Lock? | **In Phase 4, with persistence:** email **magic link**. No Google OAuth. No passwords-as-product. `/lock` (or Settings) is in v1. |
+| 18 | Lock? | **In Phase 4, with persistence:** **Create account** emails a confirmation link. **Sign in** is confirmed email + password. No Google OAuth. No NextAuth. `/lock` (or Settings) is in v1. **Amended revision 6 (19 Aug 2026):** returning sign-in must not send a new magic link. |
 | 19 | Who does login protect against? | **Random visitors to a public repo’s Pages site.** A determined person using an old JS bundle with an old anon policy is **further planning** (cache + policy version / key rotation). |
 
 ---
@@ -450,6 +450,8 @@ Review: docs must not contradict §3.
 **Caveat fix (19 Aug 2026):** helper copy (including “InBody / Tanita (BodyID). Type the printout. No photos.”) uses **iron-2** `#1a1a1a` instead of `#2c2c2c`.
 
 **Revision 5 amendment (19 Aug 2026):** mixed-week picker on onboarding step 4; week strip shows each day’s setting; You collects an email for the Phase 4 magic link (`/lock` check-email state). Screenshots were **not** regenerated. Next: Phase 4 (do not re-scaffold Phase 3).
+
+**Revision 6 amendment (19 Aug 2026):** Q18 — Create account emails a confirmation link once; Sign in is confirmed email + password. Returning visits must not send a new magic link.
 
 **Further planning if:** native iOS/Android.
 
