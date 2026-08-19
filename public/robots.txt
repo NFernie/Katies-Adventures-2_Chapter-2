@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Personal planner. Pages is still a public URL; this file asks crawlers not to index.

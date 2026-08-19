@@ -11,9 +11,12 @@ import { SwapSheet } from "@/components/meals/swap-sheet";
 import { sessionHeadline } from "@/components/session/labels";
 import { WorkoutModule } from "@/components/session/workout-module";
 import { RegenerateSheet } from "@/components/plan/regenerate-sheet";
-import { Disclaimer } from "@/components/shell/copy";
 import { LoadedBar } from "@/components/shell/loaded-bar";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
+import {
+  RouteGate,
+  type RouteLoadState,
+} from "@/components/shell/route-status";
 import { buttonVariants } from "@/components/ui/button";
 import { CATALOG_RECIPES, catalogSeeded } from "@/catalog/recipes";
 import { cn } from "@/lib/utils";
@@ -83,32 +86,30 @@ export function TodayScreen() {
   const [deload, setDeload] = useState(false);
   const [daySetting, setDaySetting] = useState("rest");
   const [confirmRegen, setConfirmRegen] = useState(false);
+  const [loadState, setLoadState] = useState<RouteLoadState>("loading");
+  const [attempt, setAttempt] = useState(0);
 
   const fetchToday = useCallback(async (): Promise<TodayPayload> => {
     if (status !== "signed-in") return emptyToday();
-    try {
-      const [nextProfile, versions, days] = await Promise.all([
-        getProfile(),
-        listPlanVersions(),
-        listCurrentDayPlans(),
-      ]);
-      const today = new Date().toISOString().slice(0, 10);
-      const day = days.find((row) => row.onDate === today) ?? days[0];
-      const nextMeals = day ? await listMealSlotsForDay(day.id) : [];
-      const nextSession = day ? await listWorkoutSessionForDay(day.id) : null;
-      const nextItems = nextSession ? await listWorkoutItems(nextSession.id) : [];
-      return {
-        profile: nextProfile,
-        version: versions[0] ?? null,
-        meals: nextMeals,
-        session: nextSession,
-        workoutItems: nextItems,
-        deload: day?.isDeload ?? false,
-        daySetting: day?.trainingSetting ?? (nextSession?.setting ?? "rest"),
-      };
-    } catch {
-      return emptyToday();
-    }
+    const [nextProfile, versions, days] = await Promise.all([
+      getProfile(),
+      listPlanVersions(),
+      listCurrentDayPlans(),
+    ]);
+    const today = new Date().toISOString().slice(0, 10);
+    const day = days.find((row) => row.onDate === today) ?? days[0];
+    const nextMeals = day ? await listMealSlotsForDay(day.id) : [];
+    const nextSession = day ? await listWorkoutSessionForDay(day.id) : null;
+    const nextItems = nextSession ? await listWorkoutItems(nextSession.id) : [];
+    return {
+      profile: nextProfile,
+      version: versions[0] ?? null,
+      meals: nextMeals,
+      session: nextSession,
+      workoutItems: nextItems,
+      deload: day?.isDeload ?? false,
+      daySetting: day?.trainingSetting ?? (nextSession?.setting ?? "rest"),
+    };
   }, [status]);
 
   const applyToday = useCallback((next: TodayPayload) => {
@@ -122,19 +123,27 @@ export function TodayScreen() {
   }, []);
 
   useEffect(() => {
+    if (status === "loading") return;
     let cancelled = false;
     const id = window.setTimeout(() => {
       void (async () => {
-        const next = await fetchToday();
-        if (cancelled) return;
-        applyToday(next);
+        if (status === "signed-in") setLoadState("loading");
+        try {
+          const next = await fetchToday();
+          if (cancelled) return;
+          applyToday(next);
+          setLoadState("ready");
+        } catch {
+          if (cancelled) return;
+          setLoadState("error");
+        }
       })();
     }, 0);
     return () => {
       cancelled = true;
       window.clearTimeout(id);
     };
-  }, [fetchToday, applyToday]);
+  }, [status, fetchToday, applyToday, attempt]);
 
   const shownProfile = status === "signed-in" ? profile : null;
   const shownVersion = status === "signed-in" ? version : null;
@@ -170,128 +179,143 @@ export function TodayScreen() {
     return shownMeals.find((meal) => meal.slot === slot);
   }
 
+  function refreshSilently() {
+    void fetchToday()
+      .then(applyToday)
+      .catch(() => {});
+  }
+
   return (
     <main>
       <p className="font-sans text-[13px] font-semibold text-iron-2">
-        {hasPlan ? "Today" : "No plan yet"}
+        {loadState === "ready" && !hasPlan ? "No plan yet" : "Today"}
       </p>
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
         Today
       </h1>
       <SignedOutBanner />
-      <PrintoutStrip
-        weight={shownProfile ? `${shownProfile.weightKg} kg` : "— kg"}
-        bodyFat={shownProfile ? `${shownProfile.bodyFatPct} %` : "— %"}
-        smm={shownProfile ? `${shownProfile.skeletalMuscleMassKg} kg` : "— kg"}
-      />
-      <LoadedBar
-        eaten={eaten}
-        onToggle={
-          canAct
-            ? (slot) => {
-                const row = rowFor(slot);
-                if (!row) return;
-                void setMealEaten(row.id, !row.eaten).then(() =>
-                  fetchToday().then(applyToday),
-                );
-              }
-            : undefined
-        }
-      />
-      {!catalogSeeded ? (
-        <p role="status" className="mb-3 font-sans text-[16px] leading-[1.45] text-iron-2">
-          Meals wait on the USDA catalog. Get a data.gov FDC key with{" "}
-          <code className="font-semibold">bash scripts/wizard-usda-fdc.sh</code>
-          , then enrich. The catalog is not done.
-        </p>
-      ) : null}
-      <section className="border-t border-iron">
-        {MEAL_SLOTS.map((slot) => {
-          const row = rowFor(slot);
-          const recipe = CATALOG_RECIPES.find((item) => item.slug === row?.recipeSlug);
-          return (
-            <MealCard
-              key={slot}
-              slot={slot}
-              title={
-                recipe?.title ??
-                (hasPlan ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate" : "After generate")
-              }
-              kcal={recipe?.nutrition.kcal ?? null}
-              proteinG={recipe?.nutrition.proteinG ?? null}
-              eaten={row?.eaten ?? false}
-              pinned={row?.pinned ?? false}
-              canSwap={Boolean(catalogSeeded && row && canAct)}
-              canAct={Boolean(row && canAct)}
-              onSwap={() => setSwapSlot(slot)}
-              onAte={() => {
-                if (!row) return;
-                void setMealEaten(row.id, !row.eaten).then(() =>
-                  fetchToday().then(applyToday),
-                );
-              }}
-              onPin={() => {
-                if (!row) return;
-                void pinMealSlot(row.id, !row.pinned).then(() =>
-                  fetchToday().then(applyToday),
-                );
-              }}
-            />
-          );
-        })}
-      </section>
-      <div className="h-7" aria-hidden />
-      <WorkoutModule
-        title={
-          shownSession
-            ? sessionHeadline({
-                focus: shownSession.focus,
-                setting: shownSession.setting,
-                cardio: shownSession.cardio,
+      <RouteGate
+        loadState={loadState}
+        onRetry={() => {
+          setLoadState("loading");
+          setAttempt((n) => n + 1);
+        }}
+      >
+        <PrintoutStrip
+          weight={shownProfile ? `${shownProfile.weightKg} kg` : "— kg"}
+          bodyFat={shownProfile ? `${shownProfile.bodyFatPct} %` : "— %"}
+          smm={shownProfile ? `${shownProfile.skeletalMuscleMassKg} kg` : "— kg"}
+        />
+        <LoadedBar
+          eaten={eaten}
+          onToggle={
+            canAct
+              ? (slot) => {
+                  const row = rowFor(slot);
+                  if (!row) return;
+                  void setMealEaten(row.id, !row.eaten)
+                    .then(refreshSilently)
+                    .catch(() => {});
+                }
+              : undefined
+          }
+        />
+        {!catalogSeeded ? (
+          <p role="status" className="mb-3 font-sans text-[16px] leading-[1.45] text-iron-2">
+            Meals wait on the USDA catalog. Get a data.gov FDC key with{" "}
+            <code className="font-semibold">bash scripts/wizard-usda-fdc.sh</code>
+            , then enrich. The catalog is not done.
+          </p>
+        ) : null}
+        <section className="border-t border-iron">
+          {MEAL_SLOTS.map((slot) => {
+            const row = rowFor(slot);
+            const recipe = CATALOG_RECIPES.find((item) => item.slug === row?.recipeSlug);
+            return (
+              <MealCard
+                key={slot}
+                slot={slot}
+                title={
+                  recipe?.title ??
+                  (hasPlan ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate" : "After generate")
+                }
+                kcal={recipe?.nutrition.kcal ?? null}
+                proteinG={recipe?.nutrition.proteinG ?? null}
+                eaten={row?.eaten ?? false}
+                pinned={row?.pinned ?? false}
+                canSwap={Boolean(catalogSeeded && row && canAct)}
+                canAct={Boolean(row && canAct)}
+                onSwap={() => setSwapSlot(slot)}
+                onAte={() => {
+                  if (!row) return;
+                  void setMealEaten(row.id, !row.eaten)
+                    .then(refreshSilently)
+                    .catch(() => {});
+                }}
+                onPin={() => {
+                  if (!row) return;
+                  void pinMealSlot(row.id, !row.pinned)
+                    .then(refreshSilently)
+                    .catch(() => {});
+                }}
+              />
+            );
+          })}
+        </section>
+        <div className="h-7" aria-hidden />
+        <WorkoutModule
+          title={
+            shownSession
+              ? sessionHeadline({
+                  focus: shownSession.focus,
+                  setting: shownSession.setting,
+                  cardio: shownSession.cardio,
+                })
+              : "Rest"
+          }
+          setting={shownSession?.setting ?? (status === "signed-in" ? daySetting : "rest")}
+          moveCount={shownWorkoutItems.length}
+          deload={status === "signed-in" ? deload : false}
+          empty={!shownSession || shownWorkoutItems.length === 0}
+        />
+        {hasPlan ? (
+          <button
+            type="button"
+            className={cn(buttonVariants(), "mt-4 inline-flex")}
+            onClick={() => setConfirmRegen(true)}
+          >
+            Regenerate
+          </button>
+        ) : (
+          <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
+            Start onboarding
+          </Link>
+        )}
+        <RegenerateSheet
+          open={confirmRegen}
+          onClose={() => setConfirmRegen(false)}
+          onConfirm={() => {
+            setConfirmRegen(false);
+            router.push("/onboarding");
+          }}
+        />
+        <SwapSheet
+          slot={swapSlot ?? "breakfast"}
+          open={swapSlot != null}
+          candidates={candidates}
+          emptyReason="No USDA-checked swaps yet. Catalog is not done."
+          onClose={() => setSwapSlot(null)}
+          onPick={(slug) => {
+            if (!swapping) return;
+            void swapMealSlot(swapping.id, slug)
+              .then(() => {
+                setSwapSlot(null);
+                return fetchToday().then(applyToday);
               })
-            : "Rest"
-        }
-        setting={shownSession?.setting ?? (status === "signed-in" ? daySetting : "rest")}
-        moveCount={shownWorkoutItems.length}
-        deload={status === "signed-in" ? deload : false}
-        empty={!shownSession || shownWorkoutItems.length === 0}
-      />
-      {hasPlan ? (
-        <button
-          type="button"
-          className={cn(buttonVariants(), "mt-4 inline-flex")}
-          onClick={() => setConfirmRegen(true)}
-        >
-          Regenerate
-        </button>
-      ) : (
-        <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
-          Start onboarding
-        </Link>
-      )}
-      <Disclaimer />
-      <RegenerateSheet
-        open={confirmRegen}
-        onClose={() => setConfirmRegen(false)}
-        onConfirm={() => {
-          setConfirmRegen(false);
-          router.push("/onboarding");
-        }}
-      />
-      <SwapSheet
-        slot={swapSlot ?? "breakfast"}
-        open={swapSlot != null}
-        candidates={candidates}
-        emptyReason="No USDA-checked swaps yet. Catalog is not done."
-        onClose={() => setSwapSlot(null)}
-        onPick={(slug) => {
-          if (!swapping) return;
-          void swapMealSlot(swapping.id, slug).then(() => {
-            setSwapSlot(null);
-            return fetchToday().then(applyToday);
-          });
-        }}
-      />
+              .catch(() => {});
+          }}
+        />
+      </RouteGate>
     </main>
   );
 }

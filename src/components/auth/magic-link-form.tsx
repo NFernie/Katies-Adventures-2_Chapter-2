@@ -47,6 +47,10 @@ export function MagicLinkForm({
           type="email"
           required
           autoComplete="email"
+          autoCapitalize="none"
+          spellCheck={false}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? "magic-link-error" : undefined}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@example.com"
@@ -57,7 +61,11 @@ export function MagicLinkForm({
         {busy ? "Sending…" : "Send magic link"}
       </Button>
       {error ? (
-        <p role="alert" className="mt-2 font-sans text-[14px] text-alert">
+        <p
+          id="magic-link-error"
+          role="alert"
+          className="mt-2 font-sans text-[14px] text-alert"
+        >
           {error}
         </p>
       ) : null}

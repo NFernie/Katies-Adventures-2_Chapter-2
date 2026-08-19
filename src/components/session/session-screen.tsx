@@ -10,6 +10,10 @@ import { useAuthSession } from "@/components/auth/use-auth-session";
 import { sessionHeadline } from "@/components/session/labels";
 import { SetTable } from "@/components/session/set-table";
 import { SwapLiftSheet } from "@/components/session/swap-lift-sheet";
+import {
+  RouteGate,
+  type RouteLoadState,
+} from "@/components/shell/route-status";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -36,43 +40,49 @@ export function SessionScreen() {
   const [index, setIndex] = useState(0);
   const [sets, setSets] = useState<WorkoutSetRow[]>([]);
   const [swapOpen, setSwapOpen] = useState(false);
+  const [loadState, setLoadState] = useState<RouteLoadState>("loading");
+  const [attempt, setAttempt] = useState(0);
 
   const load = useCallback(async () => {
     if (status !== "signed-in") {
       return { session: null, items: [] as WorkoutItemRow[], deload: false };
     }
-    try {
-      const days = await listCurrentDayPlans();
-      const today = new Date().toISOString().slice(0, 10);
-      const day = days.find((row) => row.onDate === today) ?? days[0];
-      if (!day) return { session: null, items: [] as WorkoutItemRow[], deload: false };
-      const nextSession = await listWorkoutSessionForDay(day.id);
-      const nextItems = nextSession ? await listWorkoutItems(nextSession.id) : [];
-      return { session: nextSession, items: nextItems, deload: day.isDeload };
-    } catch {
-      return { session: null, items: [] as WorkoutItemRow[], deload: false };
-    }
+    const days = await listCurrentDayPlans();
+    const today = new Date().toISOString().slice(0, 10);
+    const day = days.find((row) => row.onDate === today) ?? days[0];
+    if (!day) return { session: null, items: [] as WorkoutItemRow[], deload: false };
+    const nextSession = await listWorkoutSessionForDay(day.id);
+    const nextItems = nextSession ? await listWorkoutItems(nextSession.id) : [];
+    return { session: nextSession, items: nextItems, deload: day.isDeload };
   }, [status]);
 
   useEffect(() => {
+    if (status === "loading") return;
     let cancelled = false;
     const id = window.setTimeout(() => {
       void (async () => {
-        const next = await load();
-        if (cancelled) return;
-        setSession(next.session);
-        setItems(next.items);
-        setDeload(next.deload);
-        setIndex(0);
-        const first = next.items[0];
-        setSets(first && !isSkippedSets(first.sets) ? first.sets : []);
+        if (status === "signed-in") setLoadState("loading");
+        try {
+          const next = await load();
+          if (cancelled) return;
+          setSession(next.session);
+          setItems(next.items);
+          setDeload(next.deload);
+          setIndex(0);
+          const first = next.items[0];
+          setSets(first && !isSkippedSets(first.sets) ? first.sets : []);
+          setLoadState("ready");
+        } catch {
+          if (cancelled) return;
+          setLoadState("error");
+        }
       })();
     }, 0);
     return () => {
       cancelled = true;
       window.clearTimeout(id);
     };
-  }, [load]);
+  }, [status, load, attempt]);
 
   const current = items[index];
   const exercise = CATALOG_EXERCISES.find((row) => row.slug === current?.exerciseSlug);
@@ -143,6 +153,13 @@ export function SessionScreen() {
         Back
       </Link>
       <SignedOutBanner />
+      <RouteGate
+        loadState={loadState}
+        onRetry={() => {
+          setLoadState("loading");
+          setAttempt((n) => n + 1);
+        }}
+      >
       <p className="font-sans text-[13px] font-semibold text-iron-2">
         {session
           ? `Exercise ${Math.min(index + 1, Math.max(items.length, 1))} of ${Math.max(items.length, 1)} · ${session.setting}`
@@ -201,15 +218,18 @@ export function SessionScreen() {
         onClose={() => setSwapOpen(false)}
         onPick={(slug) => {
           if (!current) return;
-          void swapWorkoutItem(current.id, slug).then(() =>
-            load().then((next) => {
-              setSession(next.session);
-              applyItem(next.items, index);
-              setSwapOpen(false);
-            }),
-          );
+          void swapWorkoutItem(current.id, slug)
+            .then(() =>
+              load().then((next) => {
+                setSession(next.session);
+                applyItem(next.items, index);
+                setSwapOpen(false);
+              }),
+            )
+            .catch(() => {});
         }}
       />
+      </RouteGate>
     </main>
   );
 }
