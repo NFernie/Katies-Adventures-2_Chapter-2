@@ -4,6 +4,20 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 6 pipeline; catalog not done (FDC key missing)
+
+`USDA_FDC_API_KEY` is not in the environment. Do **not** treat the recipe catalog as complete.
+
+- `tools/nutrition/` — grams → `fdcId` → cache per 100 g → summed macros. Tests use the §4.2 yogurt literals (146 / 20.4 / 8.1 / 0.8). Cache miss throws; no invented kcal.
+- Empty `data/nutrition/fdc-cache.json` (`foods: {}`) is the layout only — no USDA foods until enrich with a real key.
+- `npm run nutrition:check` / `nutrition:enrich`. Check fails closed if `data/recipes.json` is missing or empty (exit 2).
+- Wizard: `bash scripts/wizard-usda-fdc.sh` (data.gov signup → gitignored `.env` → Actions secret). Walkthrough: `docs/wizard/usda-fdc.md`.
+- `src/engine/meals.ts` — vegetarian never gets meat; swap band ±10% kcal / ±20% protein; pins kept.
+- Today: MealCard + SwapSheet + Pin / Ate it via `src/data` (`owner_id` from session). Empty catalog copy. No USDA URL in `src/`.
+- `data/recipes.json` **not** committed.
+
+---
+
 ## 19 Aug 2026 — Phase 5 engine + onboarding
 
 Pure planning maths, then a five-step onboarding that can persist a `plan_versions` row.

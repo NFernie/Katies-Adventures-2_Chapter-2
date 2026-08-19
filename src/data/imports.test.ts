@@ -31,6 +31,23 @@ test("only src/data may import supabase-js", () => {
   assert.deepEqual(offenders, []);
 });
 
+test("src/ never contains a USDA client or USDA_FDC_API_KEY", () => {
+  const files = walk(srcRoot);
+  const offenders: string[] = [];
+  for (const file of files) {
+    if (file.endsWith(".test.ts")) continue;
+    const text = readFileSync(file, "utf8");
+    if (
+      text.includes("api.nal.usda.gov") ||
+      text.includes("USDA_FDC_API_KEY") ||
+      text.includes("fdc.nal.usda.gov")
+    ) {
+      offenders.push(file);
+    }
+  }
+  assert.deepEqual(offenders, []);
+});
+
 test("src/engine stays free of React, Supabase, and owner_id", () => {
   const engineRoot = join(srcRoot, "engine");
   const files = walk(engineRoot);
