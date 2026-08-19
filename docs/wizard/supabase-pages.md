@@ -87,6 +87,8 @@ Do not add `service_role` here.
 3. On **You**, save height/weight + at least one train day. Hard-refresh. Numbers stay.
 4. **Incognito** (or signed out): Today/You show the empty state. Personal rows are not readable.
 
-Keys in `.env.local` only wire the browser client. Until SQL is auth-scoped (`0001` or `0003`), saving a profile and hiding rows from incognito will fail even if the magic-link form sends mail.
+Keys in `.env.local` only wire the local browser client. Until SQL is auth-scoped (`0001` or `0003`), saving a profile and hiding rows from incognito will fail even if the magic-link form sends mail.
 
 Until URL + anon key are in `.env.local` (and GitHub Actions for Pages), the static export still builds; the form explains that Supabase is not configured.
+
+This repo’s live project (`gbpwayarlvdvrotjnufa`) finished this checklist on 19 Aug 2026: `0003` applied, Pages keys baked, signed-out REST deny green, owner same-device magic-link + save.

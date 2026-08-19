@@ -4,6 +4,18 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 4 prove-it complete
+
+Owner finished wizard step 7. Phase 4 live gates are green.
+
+- GitHub Actions `NEXT_PUBLIC_SUPABASE_*` are baked into Pages (project URL + publishable key in the JS chunk; no `service_role` / `sb_secret_` material). Production signed-out: Today **Your plan is hidden**, You shows the magic-link form (not “Supabase is not configured”), `/lock/` **Check your email**.
+- `bash scripts/prove-supabase-anon.sh` still passes (anon cannot read/write personal rows).
+- Owner completed same-device magic link (`/lock/` you are in) and saved height/weight + at least one train day (hard-refresh persist). This agent cannot open Gmail; that round-trip is owner-confirmed.
+
+Next: Phase 5 onboarding + planning engine.
+
+---
+
 ## 19 Aug 2026 — Phase 4 prove-it: live 0003 applied, signed-out REST denied
 
 Owner ran `0003_repair_auth_rls.sql` on project `gbpwayarlvdvrotjnufa`.
