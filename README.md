@@ -35,7 +35,19 @@ Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md):
 
 ## Env
 
-Copy `.env.example`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Phase 4). `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
+Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
+
+If you have not created a Supabase project yet:
+
+```bash
+bash scripts/wizard-supabase-pages.sh
+```
+
+Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.md): new project, Email provider, `/lock/` redirect URLs, paste `0001_init.sql`, GitHub Actions variables.
+
+## Magic-link sign-in
+
+**You** (`/settings`) and `/lock` send a Supabase Auth email link. Personal rows use `owner_id = auth.uid()`. Incognito cannot see them. No Google OAuth, no password product.
 
 ## See the prototype
 

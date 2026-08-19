@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 3 **scaffold merged**. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. Phase 4 implements the data gateway **and** email magic-link auth together. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 4 **code complete** (19 Aug 2026) — data gateway + magic-link UI in the repo. **Live SQL / phone round-trip blocked** on the owner creating a Supabase project (`docs/wizard/supabase-pages.md`). Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. Phase 4 implements the data gateway **and** email magic-link auth together. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -597,6 +597,8 @@ Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 
 ## Phase 4 — Supabase data gateway + magic-link auth
 
+**Status:** Code complete (19 Aug 2026). Remaining: owner dashboard wizard (project, Email auth, redirect URLs, apply SQL, GitHub variables) then phone sign-in + profile round-trip.
+
 **Goal:** The signed-in owner can persist a Profile through `src/data`, scoped by `auth.uid()`. Phase 4b is **retired** — do not ship an open `DEFAULT_OWNER_ID` policy and remap later.
 
 ### Design
@@ -623,11 +625,16 @@ Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 
 ### Gate
 
-- [ ] Owner can sign in on the phone with a magic link  
-- [ ] Profile + `training_days` round-trip on Pages against live Supabase  
-- [ ] All access via `src/data`  
-- [ ] RLS: `owner_id = auth.uid()`; anon revoked on personal tables  
-- [ ] Wizard/checklist for the owner’s dashboard clicks (project, Auth, secrets, CORS)  
+- [x] Gateway + tests: unscoped queries impossible through `src/data`; signed-out throws; `DEFAULT_OWNER_ID` is not a write path
+- [x] Magic-link UI on Settings and `/lock`; signed-out empty state
+- [x] RLS SQL: `owner_id = auth.uid()`; anon revoked; no `is_v1_owner`
+- [x] Wizard/checklist for the owner’s dashboard clicks (project, Auth, secrets, CORS)
+- [ ] Owner can sign in on the phone with a magic link **(blocked: no Supabase project yet)**
+- [ ] Profile + `training_days` round-trip on Pages against live Supabase **(same block)**
+- [x] All access via `src/data`
+- [x] Pages still static; no NextAuth / Prisma runtime
+
+**Completed (19 Aug 2026):** `@supabase/supabase-js` only under `src/data`. `createBrowserClient()` persists the magic-link JWT. `getOwnerId()` reads `session.user.id` or throws. `profiles` + `training_days` writes always set `owner_id` from the session. Settings + `/lock` send `signInWithOtp`. Tests cover unscoped-query impossibility and incognito/signed-out. SQL unchanged in intent (`0001_init.sql` + optional `0002_owner_auth_fk.sql`). **Did not apply SQL** — no project credentials. Owner: `docs/wizard/supabase-pages.md` or `bash scripts/wizard-supabase-pages.sh`.
 
 **Do not** build NextAuth. **Do not** apply the old open v1-owner policy.
 
@@ -918,7 +925,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Next is Phase 4 (gateway **+** magic link). Phase 5 only after engine-spec (amended) exists.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **code done**; owner must run the Supabase wizard before live save. Phase 5 only after engine-spec (amended) exists.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -943,4 +950,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–3 are done. Phase 1 and Phase 2 were amended for mixed weeks and auth-at-persistence. Next is Phase 4 (save data **and** sign in). Later agents should not ask the §3 questions again.
+Phase 0–4 **code** are done. Phase 4 **live** data waits on the owner’s Supabase project. Phase 1 and Phase 2 were amended for mixed weeks and auth-at-persistence. Later agents should not ask the §3 questions again.

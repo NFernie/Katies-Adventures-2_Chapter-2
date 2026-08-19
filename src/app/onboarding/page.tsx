@@ -53,8 +53,8 @@ export default function OnboardingPage() {
         />
       </label>
       <p className="mt-4 font-sans text-[16px] leading-[1.45] text-iron-2">
-        InBody / Tanita (BodyID). Type the printout. No photos. Persistence is
-        Phase 4 — this screen is a token-correct shell.
+        InBody / Tanita (BodyID). Type the printout. No photos. Saving the
+        profile needs a magic-link session (Phase 4).
       </p>
       <Disclaimer />
     </main>

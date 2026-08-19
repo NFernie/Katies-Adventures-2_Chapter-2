@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SignedOutBanner } from "@/components/auth/signed-out-banner";
 import { Disclaimer } from "@/components/shell/copy";
 import { LoadedBar } from "@/components/shell/loaded-bar";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
@@ -15,6 +16,7 @@ export default function TodayPage() {
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
         Today
       </h1>
+      <SignedOutBanner />
       <PrintoutStrip weight="— kg" bodyFat="— %" smm="— kg" />
       <LoadedBar />
       <section className="border-t border-iron">
@@ -39,8 +41,9 @@ export default function TodayPage() {
       </section>
       <div className="h-7" aria-hidden />
       <p className="font-sans text-[16px] leading-[1.45]">
-        Four meals and today’s gym session will land here. Start without an
-        account.
+        Four meals and today’s gym session will land here after you generate a
+        plan. Saved personal data stays hidden until a magic-link session
+        exists.
       </p>
       <Link
         href="/onboarding"
