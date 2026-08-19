@@ -26,7 +26,10 @@ export function BottomNav() {
       className="absolute inset-x-0 bottom-0 grid h-[calc(64px+env(safe-area-inset-bottom))] grid-cols-4 border-t border-iron bg-white pb-[env(safe-area-inset-bottom)]"
     >
       {items.map(({ href, label, icon: Icon }) => {
-        const active = current === norm(href);
+        const active =
+          href === "/"
+            ? current === "/" || current === "/session"
+            : current === norm(href);
         return (
           <Link
             key={href}

@@ -175,6 +175,44 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["meal_slots"]["Insert"]>;
         Relationships: [];
       };
+      workout_sessions: {
+        Row: PersonalRow & {
+          id: string;
+          day_plan_id: string;
+          focus: string;
+          setting: "gym" | "home" | "bands" | "bodyweight";
+          cardio: Json;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          day_plan_id: string;
+          focus: string;
+          setting: "gym" | "home" | "bands" | "bodyweight";
+          cardio?: Json;
+        };
+        Update: Partial<Database["public"]["Tables"]["workout_sessions"]["Insert"]>;
+        Relationships: [];
+      };
+      workout_items: {
+        Row: PersonalRow & {
+          id: string;
+          workout_session_id: string;
+          exercise_slug: string;
+          order_index: number;
+          sets: Json;
+          completed: boolean;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          workout_session_id: string;
+          exercise_slug: string;
+          order_index: number;
+          sets?: Json;
+          completed?: boolean;
+        };
+        Update: Partial<Database["public"]["Tables"]["workout_items"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

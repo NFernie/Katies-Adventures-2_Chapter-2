@@ -103,3 +103,33 @@ test("commitPlanVersion assigns USDA catalog meals for 3 days and skips meat on 
   assert.ok(slugs.every((slug) => !/chicken|salmon|tuna/i.test(slug)));
   assert.ok(slugs.every((slug) => !slug.startsWith("empty-")));
 });
+
+test("commitPlanVersion writes in-setting sessions and never barbell squat on a bands day", async () => {
+  const client = createRecordingClient({ userId: SESSION_ID, data: null });
+  await commitPlanVersion(payload, client);
+  const sessions = client.calls.filter(
+    (call) => call.table === "workout_sessions" && call.op === "insert",
+  );
+  assert.ok(sessions.length > 0);
+  for (const call of sessions) {
+    for (const row of call.rows) {
+      const typed = row as { owner_id: string; setting: string };
+      assert.equal(typed.owner_id, SESSION_ID);
+      assert.notEqual(typed.owner_id, DEFAULT_OWNER_ID);
+    }
+  }
+  const bands = sessions.flatMap((call) => call.rows).filter((row) => {
+    return (row as { setting: string }).setting === "bands";
+  });
+  assert.equal(bands.length, 1);
+  const bandsId = (bands[0] as { id: string }).id;
+  const items = client.calls
+    .filter((call) => call.table === "workout_items" && call.op === "insert")
+    .flatMap((call) => call.rows);
+  const bandSlugs = items
+    .filter((row) => (row as { workout_session_id: string }).workout_session_id === bandsId)
+    .map((row) => (row as { exercise_slug: string }).exercise_slug);
+  assert.ok(bandSlugs.includes("band-squat"));
+  assert.ok(!bandSlugs.includes("barbell-back-squat"));
+  assertEveryCallScopedTo(client.calls, SESSION_ID);
+});

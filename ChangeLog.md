@@ -4,6 +4,21 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 7 exercise catalog and session UI
+
+Weekly sessions follow the mixed week. Split comes from train-day **count**; the day’s **setting** filters the catalog and the swap pool.
+
+- `data/exercises.json` — gym, home, bands, and bodyweight tracks. Text `cue` only (no photos/video). Same movement rules for male and female.
+- `src/engine/training.ts` — Monday-first mapping (4-day example: U gym, L bands, U gym, L home). Cardio is generator-chosen; rest days first, then after a lift if there is no rest day.
+- Deload: planned sets × 0.6 (`deloadSets(3) === 2`).
+- `src/data` persists `workout_sessions` / `workout_items` with `owner_id` from the session. Skip stores `{ skipped: true }` in `sets` jsonb.
+- `/session`: one exercise, set table (Set / Prev / kg / Reps / Done), Swap lift sheet, Skip, iron Next/Finish. Yellow stays Continue-only.
+- Today: 28px quarry gap then workout module; steel bar goes to `/session`. Plan: week strip of each day’s setting.
+
+Also in this window (already on the Phase 6 catalog branch): 16 USDA-checked recipes, generate writes 3 sample days, `.env.example` must not hold `USDA_FDC_API_KEY`. If a real key was committed on `main`, rotate it on data.gov.
+
+---
+
 ## 19 Aug 2026 — Phase 6 USDA catalog seeded
 
 `npm run nutrition:check` is green on 16 recipes. Macros came from FoodData Central enrich, not guesses.

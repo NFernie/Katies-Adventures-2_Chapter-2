@@ -7,6 +7,22 @@ export {
   SLOT_SHARE,
 } from "./meals";
 export type { AssignedMeal, CatalogRecipe, MealSlot } from "./meals";
+export {
+  assignSession,
+  deloadSets,
+  exerciseEligible,
+  mapWeekSessions,
+  swapLiftCandidates,
+} from "./training";
+export type {
+  AssignedSession,
+  AssignedSessionItem,
+  CatalogExercise,
+  CardioPrescription,
+  MovementPattern,
+  SessionFocus,
+  WeekSessionSlot,
+} from "./training";
 export type {
   CardioKind,
   DaySetting,

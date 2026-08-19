@@ -61,10 +61,10 @@ export function LoadedBar({
         );
       })}
       <Link
-        href="/plan"
+        href="/session"
         className="flex min-h-11 min-w-0 flex-1 items-center justify-center border-2 border-iron bg-steel px-2 font-display text-[12px] font-bold tracking-[0.06em] text-chalk uppercase"
       >
-        Gym session
+        Session
       </Link>
     </div>
   );

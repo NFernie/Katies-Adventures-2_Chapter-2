@@ -1,6 +1,16 @@
-import type { DietFlag, EngineSuccess, KitchenFlag } from "../engine/types";
-import { assignDayMeals, MEAL_SLOTS } from "../engine/meals";
+import { CATALOG_EXERCISES } from "../catalog/exercises";
 import { CATALOG_RECIPES } from "../catalog/recipes";
+import { assignDayMeals, MEAL_SLOTS } from "../engine/meals";
+import { WEEKDAYS } from "../engine/plan-energy-and-training";
+import { assignSession } from "../engine/training";
+import type {
+  DaySetting,
+  DietFlag,
+  EngineSuccess,
+  KitchenFlag,
+  SplitId,
+  Weekday as EngineWeekday,
+} from "../engine/types";
 import type { Json } from "./database.types";
 import { createBrowserClient } from "./client";
 import { GatewayError } from "./errors";
@@ -16,6 +26,7 @@ import type {
   TrainingSetting,
   Weekday,
 } from "./types";
+import { emptySets } from "./workouts";
 
 function addUtcDays(iso: string, days: number): string {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
@@ -40,6 +51,29 @@ function weekdayOf(iso: string): Weekday {
   ).getUTCDay();
   const map: Weekday[] = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   return map[js] ?? "mon";
+}
+
+function trainingWeekFrom(result: EngineSuccess): Record<EngineWeekday, DaySetting> {
+  const week = Object.fromEntries(WEEKDAYS.map((day) => [day, "rest"])) as Record<
+    EngineWeekday,
+    DaySetting
+  >;
+  WEEKDAYS.forEach((day, index) => {
+    week[day] = result.trainDaySettings[index] ?? "rest";
+  });
+  return week;
+}
+
+function persistSetting(setting: DaySetting): TrainingSetting {
+  return setting === "rest" ? "home" : setting;
+}
+
+function isDeloadOn(startOn: string, onDate: string, deloadWeeks: number[]): boolean {
+  const start = Date.parse(`${startOn}T00:00:00Z`);
+  const on = Date.parse(`${onDate}T00:00:00Z`);
+  const days = Math.round((on - start) / 86_400_000);
+  const week = Math.floor(days / 7) + 1;
+  return deloadWeeks.includes(week);
 }
 
 async function throwIfError(
@@ -117,12 +151,18 @@ export async function commitPlanVersion(
     pinned: {},
   });
 
+  const trainingWeek = trainingWeekFrom(input.result);
+
   for (let offset = 0; offset < 3; offset += 1) {
     const onDate = addUtcDays(input.goal.startOn, offset);
     const weekday = weekdayOf(onDate);
-    const trainSetting = input.trainingDays.find((day) => day.weekday === weekday)
-      ?.setting;
-    const isTrainDay = Boolean(trainSetting);
+    const daySetting = trainingWeek[weekday];
+    const isTrainDay = daySetting !== "rest";
+    const isDeload = isDeloadOn(
+      input.goal.startOn,
+      onDate,
+      input.result.deloadWeeks,
+    );
     const dayPlanId = crypto.randomUUID();
     const { error: dayError } = await db.from("day_plans").insert({
       id: dayPlanId,
@@ -130,8 +170,8 @@ export async function commitPlanVersion(
       plan_version_id: planVersionId,
       on_date: onDate,
       is_train_day: isTrainDay,
-      training_setting: isTrainDay ? (trainSetting as TrainingSetting) : null,
-      is_deload: false,
+      training_setting: isTrainDay ? persistSetting(daySetting) : null,
+      is_deload: isDeload,
     });
     await throwIfError(dayError);
 
@@ -146,6 +186,41 @@ export async function commitPlanVersion(
     }));
     const { error: mealError } = await db.from("meal_slots").insert(meals);
     await throwIfError(mealError);
+
+    const session = assignSession({
+      weekday,
+      trainingWeek,
+      splitId: input.result.splitId as SplitId,
+      cardio: input.result.cardio,
+      catalog: CATALOG_EXERCISES,
+      deload: isDeload,
+    });
+    if (session.items.length === 0) continue;
+
+    const workoutSessionId = crypto.randomUUID();
+    const { error: sessionError } = await db.from("workout_sessions").insert({
+      id: workoutSessionId,
+      owner_id: ownerId,
+      day_plan_id: dayPlanId,
+      focus: session.focus,
+      setting: persistSetting(session.setting),
+      cardio: session.withCardio
+        ? { kind: input.result.cardio.kind }
+        : {},
+    });
+    await throwIfError(sessionError);
+
+    const items = session.items.map((item, orderIndex) => ({
+      id: crypto.randomUUID(),
+      owner_id: ownerId,
+      workout_session_id: workoutSessionId,
+      exercise_slug: item.slug,
+      order_index: orderIndex,
+      sets: emptySets(item.plannedSets),
+      completed: false,
+    }));
+    const { error: itemError } = await db.from("workout_items").insert(items);
+    await throwIfError(itemError);
   }
 
   return { planVersionId, planId, goalId };
@@ -209,6 +284,8 @@ export type DayPlan = {
   planVersionId: string;
   onDate: string;
   isTrainDay: boolean;
+  trainingSetting: TrainingSetting | null;
+  isDeload: boolean;
 };
 
 export async function listDayPlans(
@@ -227,6 +304,8 @@ export async function listDayPlans(
     plan_version_id: string;
     on_date: string;
     is_train_day: boolean;
+    training_setting: TrainingSetting | null;
+    is_deload: boolean;
   }>;
   return rows
     .map((row) => ({
@@ -235,6 +314,8 @@ export async function listDayPlans(
       planVersionId: row.plan_version_id,
       onDate: row.on_date,
       isTrainDay: row.is_train_day,
+      trainingSetting: row.training_setting,
+      isDeload: row.is_deload,
     }))
     .sort((a, b) => (a.onDate < b.onDate ? 1 : -1));
 }

@@ -3,22 +3,33 @@
 import { useEffect, useState } from "react";
 
 import { useAuthSession } from "@/components/auth/use-auth-session";
+import { WeekStrip } from "@/components/plan/week-strip";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-import { listPlanVersions, type PlanVersion } from "@/data";
+import {
+  listPlanVersions,
+  listTrainingDays,
+  type PlanVersion,
+  type TrainingDay,
+} from "@/data";
 
 export function PlanScreen() {
   const { status } = useAuthSession();
   const [version, setVersion] = useState<PlanVersion | null>(null);
+  const [days, setDays] = useState<TrainingDay[]>([]);
 
   useEffect(() => {
     if (status !== "signed-in") return;
     let cancelled = false;
-    void listPlanVersions()
-      .then((rows) => {
-        if (!cancelled) setVersion(rows[0] ?? null);
+    void Promise.all([listPlanVersions(), listTrainingDays()])
+      .then(([rows, trainingDays]) => {
+        if (cancelled) return;
+        setVersion(rows[0] ?? null);
+        setDays(trainingDays);
       })
       .catch(() => {
-        if (!cancelled) setVersion(null);
+        if (cancelled) return;
+        setVersion(null);
+        setDays([]);
       });
     return () => {
       cancelled = true;
@@ -26,6 +37,7 @@ export function PlanScreen() {
   }, [status]);
 
   const shown = status === "signed-in" ? version : null;
+  const shownDays = status === "signed-in" ? days : [];
 
   return (
     <main>
@@ -55,6 +67,7 @@ export function PlanScreen() {
         male and female. Each session uses that day’s setting. Unsafe speed is
         the only block.
       </p>
+      <WeekStrip days={shownDays} />
     </main>
   );
 }

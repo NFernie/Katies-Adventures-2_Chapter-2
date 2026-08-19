@@ -110,11 +110,14 @@ Movements tagged by **track**. **Not** USDA-checked. No `owner_id`. A session on
   "equipment": ["barbell", "rack"],
   "laterality": "bilateral",
   "defaultSets": 3,
-  "defaultReps": "5-8"
+  "defaultReps": "5-8",
+  "cue": "Sit between the hips. Keep the chest tall."
 }
 ```
 
 `tracks` is a non-empty subset of `gym` | `home` | `bands` | `bodyweight`. An exercise may appear in more than one (example: a bodyweight squat tagged `["home","bodyweight"]`).
+
+Each row has a `cue` string — **text only**. No photos or video.
 
 Sex does not change the movement rules. Cardio entries (`zone2-walk`, `bike-intervals`) may exist as catalog rows the **generator** picks; they are not an onboarding preference. Cardio rows still declare which settings they can use (a gym bike vs a walk).
 
