@@ -81,4 +81,5 @@ export type PlanVersion = {
   splitId: string;
   cardio: { kind: string; sessionsPerWeek: number };
   warnings: string[];
+  generatorInput?: unknown;
 };

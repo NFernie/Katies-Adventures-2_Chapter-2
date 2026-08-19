@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 7 **exercise catalog + session UI** (19 Aug 2026): `data/exercises.json` tagged by gym/home/bands/bodyweight; sessions persist through `src/data`; `/session` is one-exercise-at-a-time with text cues. Phase 6 USDA catalog seeded (16 recipes). Put `USDA_FDC_API_KEY` in gitignored `.env` / Actions secrets — **never** `.env.example`. Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 8 **timeline, check-ins, plan history** (19 Aug 2026): BodyID check-ins, remaining-timeline cap from latest weight, PlanVersion history, regenerate keeps pins. Phase 7 exercise catalog + session UI shipped. Phase 6 USDA catalog seeded (16 recipes). Put `USDA_FDC_API_KEY` in gitignored `.env` / Actions secrets — **never** `.env.example`. Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -813,7 +813,7 @@ only. Same movement rules for male and female.
 
 ## Phase 8 — Timelines, check-ins, plan access and updates
 
-**Goal:** Reopen, follow, regenerate without destroying history.
+**Status:** Done (19 Aug 2026). Check-ins, remaining timeline (cap enforced from latest weight), PlanVersion history, regenerate with pins. E2E uses a stubbed signed-in `src/data` client, not a global RLS off switch.
 
 ### Design
 
@@ -831,9 +831,11 @@ only. Same movement rules for male and female.
 
 ### Gate
 
-- [ ] Happy path green on CI  
-- [ ] History preserved  
-- [ ] Timeline cap enforced  
+- [x] Happy path green on CI  
+- [x] History preserved  
+- [x] Timeline cap enforced  
+
+**Done (19 Aug 2026):** `previewRemainingTimeline` uses the locked unsafe fixture (fastest safe date **2026-10-16**). Check-ins CRUD via `src/data` (`owner_id` from the session; no photo columns). Regenerating increments `version_n` on the same plan and keeps pinned meal slugs; old `day_plans` stay. Log shows the timeline rail + BodyID form. Plan lists versions (older rows read-only) and confirms regenerate. E2E: `src/data/happy-path.test.ts` with `createMemoryClient` (stubbed session). No wearables. No NextAuth.
 
 ### Implementation-agent prompt
 
@@ -931,7 +933,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Next is Phase 8.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Phase 8 — **done** (timeline + check-ins). Next is Phase 9 (optional catalog growth) or Phase 10 polish.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -956,4 +958,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–7 training catalog and USDA meals are in the repo. Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 8 (timelines and check-ins).
+Phase 0–8 are in the repo (meals, training, check-ins, plan history). Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 9 (optional ingest) or Phase 10 polish.

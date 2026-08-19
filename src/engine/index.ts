@@ -14,6 +14,8 @@ export {
   mapWeekSessions,
   swapLiftCandidates,
 } from "./training";
+export { previewRemainingTimeline } from "./timeline";
+export type { RemainingTimeline } from "./timeline";
 export type {
   AssignedSession,
   AssignedSessionItem,

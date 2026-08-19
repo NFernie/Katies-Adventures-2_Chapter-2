@@ -4,6 +4,18 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 8 timeline, check-ins, regenerate with pins
+
+Reopen a plan, log BodyID check-ins, and regenerate without wiping history.
+
+- `previewRemainingTimeline` — remaining pace from the **latest weight** to the goal date. Same 1% cap as generate; locked unsafe date **2026-10-16**.
+- `src/data/check-ins.ts` — list/upsert scoped to the magic-link session. No photo fields. Unique `(owner_id, logged_on)`.
+- `commitPlanVersion` reuses the plan, increments `version_n`, and keeps pinned meal slugs. Old `day_plans` stay readable.
+- Log: timeline rail (start / check-ins / projected / cap) + BodyID form. Plan: version history (older = read-only) + regenerate confirm (“pins stay”).
+- E2E: stubbed session via `createMemoryClient` (`src/data/happy-path.test.ts`) — onboard → swap → pin → complete a lift → check-in → regenerate. Does **not** disable RLS. No wearables. No NextAuth.
+
+---
+
 ## 19 Aug 2026 — Phase 7 exercise catalog and session UI
 
 Weekly sessions follow the mixed week. Split comes from train-day **count**; the day’s **setting** filters the catalog and the swap pool.

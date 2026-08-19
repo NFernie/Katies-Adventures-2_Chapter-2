@@ -11,6 +11,7 @@ export { GatewayError, SignedOutError } from "./errors";
 export { DEFAULT_OWNER_ID, getOwnerId } from "./owner";
 export { getProfile, upsertProfile } from "./profiles";
 export { commitPlanVersion, listPlanVersions, listDayPlans } from "./plans";
+export { listCheckIns, upsertCheckIn } from "./check-ins";
 export {
   listMealSlotsForDay,
   swapMealSlot,
@@ -43,6 +44,7 @@ export type {
 export type { Session } from "./gateway-client";
 export type { MealSlotRow } from "./meals";
 export type { DayPlan } from "./plans";
+export type { CheckIn, CheckInWrite } from "./check-ins";
 export type {
   WorkoutItemRow,
   WorkoutSessionRow,

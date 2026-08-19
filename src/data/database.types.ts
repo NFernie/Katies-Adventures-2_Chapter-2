@@ -213,6 +213,34 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["workout_items"]["Insert"]>;
         Relationships: [];
       };
+      check_ins: {
+        Row: PersonalRow & {
+          id: string;
+          logged_on: string;
+          weight_kg: number;
+          body_fat_pct: number;
+          skeletal_muscle_mass_kg: number;
+          body_fat_mass_kg: number | null;
+          visceral_fat_level: number | null;
+          visceral_fat_scale: "inbody_level" | "tanita_rating" | null;
+          total_body_water_kg: number | null;
+          created_at: string;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          logged_on: string;
+          weight_kg: number;
+          body_fat_pct: number;
+          skeletal_muscle_mass_kg: number;
+          body_fat_mass_kg?: number | null;
+          visceral_fat_level?: number | null;
+          visceral_fat_scale?: "inbody_level" | "tanita_rating" | null;
+          total_body_water_kg?: number | null;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["check_ins"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

@@ -314,6 +314,7 @@ export function OnboardingFlow() {
         goal: engineInput.goal,
         result: success,
         generatorInput: JSON.parse(JSON.stringify(engineInput)),
+        keepPins: true,
       });
       try {
         localStorage.removeItem(DRAFT_KEY);
@@ -697,8 +698,9 @@ export function OnboardingFlow() {
             </p>
           ) : null}
           <p className="mt-4 font-sans text-[16px] leading-[1.45]">
-            {GOAL_LABEL[draft.goalType]}. Meals are placeholders until the USDA
-            catalog. Each session uses that day’s setting.
+            {GOAL_LABEL[draft.goalType]}. Meals from the USDA-checked catalog.
+            Each session uses that day’s setting. Pinned meals stay if you
+            already have a plan. Old weeks stay readable.
           </p>
           <Disclaimer />
           {status !== "signed-in" ? (
