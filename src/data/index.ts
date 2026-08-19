@@ -5,6 +5,8 @@ export {
   lockRedirectUrl,
   onboardingRedirectUrl,
   subscribeToSession,
+  completeAuthFromUrl,
+  MAGIC_LINK_SENT_KEY,
 } from "./auth";
 export { isSupabaseConfigured } from "./client";
 export { GatewayError, SignedOutError } from "./errors";

@@ -11,6 +11,12 @@ const policies = readFileSync(
   fileURLToPath(new URL("../../supabase/policies.sql", import.meta.url)),
   "utf8",
 );
+const repair = readFileSync(
+  fileURLToPath(
+    new URL("../../supabase/migrations/0004_day_plans_training_setting.sql", import.meta.url),
+  ),
+  "utf8",
+);
 
 const personalTables = [
   "profiles",
@@ -43,4 +49,10 @@ test("no is_v1_owner open policy and no DEFAULT_OWNER_ID baked into RLS", () => 
   assert.doesNotMatch(executableSql, /198e5a49-c748-4bcc-b6ad-86445a76eb7b/);
   assert.doesNotMatch(policies.replace(/--[^\n]*/g, ""), /is_v1_owner/);
   assert.match(policies, /DEFAULT_OWNER_ID is test\/fixture only/);
+});
+
+test("0004 adds day_plans.training_setting and reloads PostgREST", () => {
+  assert.match(repair, /add column if not exists training_setting/);
+  assert.match(repair, /notify pgrst,\s*'reload schema'/);
+  assert.doesNotMatch(repair.replace(/--[^\n]*/g, ""), /is_v1_owner/);
 });

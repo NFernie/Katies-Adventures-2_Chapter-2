@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import {
   createBrowserClient,
@@ -34,4 +36,14 @@ test("createBrowserClient refuses a service_role key", () => {
     delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     resetBrowserClientForTests();
   }
+});
+
+test("browser client uses implicit magic-link flow on static Pages", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("./client.ts", import.meta.url)),
+    "utf8",
+  );
+  assert.match(source, /flowType:\s*"implicit"/);
+  assert.match(source, /detectSessionInUrl:\s*true/);
+  assert.doesNotMatch(source.replace(/\/\/[^\n]*/g, ""), /flowType:\s*"pkce"/);
 });

@@ -75,8 +75,9 @@ export function MagicLinkForm({
         </p>
       ) : null}
       <p className="mt-3 font-sans text-[14px] leading-snug text-iron-2">
-        No Google, no password. We email a one-time link. Open it on this
-        device.
+        No Google, no password. We email a one-time link. Open it in this
+        same browser, then You will show your profile. Do not send a second
+        link unless the first one expired.
       </p>
     </form>
   );
