@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 8 **timeline, check-ins, plan history** (19 Aug 2026): BodyID check-ins, remaining-timeline cap from latest weight, PlanVersion history, regenerate keeps pins. Phase 7 exercise catalog + session UI shipped. Phase 6 USDA catalog seeded (16 recipes). Put `USDA_FDC_API_KEY` in gitignored `.env` / Actions secrets — **never** `.env.example`. Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 9 **catalog ingest** (19 Aug 2026): laptop ingest → USDA enrich → JSON PR. 21 USDA-checked recipes, wger exercises mapped in git. Phase 8 timeline + check-ins shipped. Phase 7 exercise catalog + session UI shipped. Phase 6 USDA catalog seeded. Put `USDA_FDC_API_KEY` in gitignored `.env` / Actions secrets — **never** `.env.example`. Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -852,9 +852,30 @@ disabling RLS globally. No wearables. No NextAuth.
 
 ## Phase 9 — Content pipeline (optional growth)
 
-**Goal:** Grow the JSON catalog legally. Skip if the USDA-checked seed is enough.
+**Status:** Done (19 Aug 2026). Laptop ingest → §4.2 USDA enrich → PR into `data/`. ScrapeGraphAI has **no signed-off HTML sources**. wger is exercises only. The Next.js client does not import scrapegraphai, USDA, or wger.
 
-Laptop ingest → **§4.2 USDA enrich** → PR into `data/`. ScrapeGraphAI only for signed-off sources, and only as a draft ingredient list. Never on the request path. Never overwrite reviewed items blindly. Never skip USDA because “the other API already had calories.”
+### Design
+
+- Grow the JSON catalog legally. First-party drafts + licensed APIs. No commercial recipe-site scraping.
+
+### Develop
+
+- `tools/ingest` — source allowlist, USDA merge (existing Phase 6 enricher), wger `exerciseinfo` mapper.
+- `docs/content-sources.md` records the legal decision. Drafts in `data/ingest/`. Merge refuses to overwrite reviewed catalog slugs and refuses wger food endpoints.
+
+### Review
+
+- `nutrition:check` green on the merged recipes. Macros are USDA cache sums, not Spoonacular/Edamam/LLM labels.
+- `src/` contains no scrapegraphai, USDA client, or wger.de.
+
+### Gate
+
+- [x] Drafts USDA-enriched before merge
+- [x] JSON PR only (no scrapegraphai in the Next.js bundle)
+- [x] wger exercises only
+- [x] Reviewed catalog rows not overwritten
+
+**Done (19 Aug 2026):** 5 first-party recipes (21 total) enriched with `tools/nutrition` against the committed FDC cache. 3 wger-mapped lifts (pull-ups, hip thrust, face pull) with CC-BY-SA attribution. No HTML scrape URLs signed off. No USDA stub.
 
 ### Implementation-agent prompt
 
@@ -933,7 +954,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Phase 8 — **done** (timeline + check-ins). Next is Phase 9 (optional catalog growth) or Phase 10 polish.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Phase 8 — **done** (timeline + check-ins). Phase 9 — **done** (ingest). Next is Phase 10 polish.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -958,4 +979,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–8 are in the repo (meals, training, check-ins, plan history). Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 9 (optional ingest) or Phase 10 polish.
+Phase 0–9 are in the repo (meals, training, check-ins, plan history, USDA-checked catalog ingest). Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 10 polish.

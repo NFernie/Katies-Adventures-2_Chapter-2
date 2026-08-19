@@ -1,0 +1,50 @@
+[
+  {
+    "id": 227,
+    "category": { "name": "Back" },
+    "equipment": [{ "name": "Pull-up bar" }],
+    "license": {
+      "short_name": "CC-BY-SA 4",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+    },
+    "translations": [
+      {
+        "language": 2,
+        "name": "Pull-ups",
+        "description": "<p>Hang long. Pull the chest to the bar.</p>"
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "category": { "name": "Legs" },
+    "equipment": [{ "name": "Barbell" }],
+    "license": {
+      "short_name": "CC-BY-SA 4",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+    },
+    "translations": [
+      {
+        "language": 2,
+        "name": "Hip thrust",
+        "description": "<p>Upper back on a bench. Drive the hips up until the torso is flat.</p>"
+      }
+    ]
+  },
+  {
+    "id": 192,
+    "category": { "name": "Shoulders" },
+    "equipment": [{ "name": "Cable" }],
+    "license": {
+      "short_name": "CC-BY-SA 4",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+    },
+    "translations": [
+      {
+        "language": 2,
+        "name": "Face pull",
+        "description": "<p>Pull the rope to the face. Elbows high. Squeeze the rear shoulders.</p>"
+      }
+    ]
+  }
+]

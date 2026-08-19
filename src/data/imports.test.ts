@@ -31,7 +31,7 @@ test("only src/data may import supabase-js", () => {
   assert.deepEqual(offenders, []);
 });
 
-test("src/ never contains a USDA client or USDA_FDC_API_KEY", () => {
+test("src/ never contains a USDA client, USDA_FDC_API_KEY, or scrapegraphai", () => {
   const files = walk(srcRoot);
   const offenders: string[] = [];
   for (const file of files) {
@@ -40,7 +40,9 @@ test("src/ never contains a USDA client or USDA_FDC_API_KEY", () => {
     if (
       text.includes("api.nal.usda.gov") ||
       text.includes("USDA_FDC_API_KEY") ||
-      text.includes("fdc.nal.usda.gov")
+      text.includes("fdc.nal.usda.gov") ||
+      text.includes("scrapegraphai") ||
+      text.includes("wger.de")
     ) {
       offenders.push(file);
     }

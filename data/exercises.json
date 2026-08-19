@@ -339,5 +339,47 @@
     "defaultSets": 8,
     "defaultReps": "20s on / 40s off",
     "cue": "Hard 20 seconds, easy 40. Stay seated unless you need to stand."
+  },
+  {
+    "slug": "pull-ups",
+    "title": "Pull-ups",
+    "pattern": "vertical_pull",
+    "tracks": ["gym", "bodyweight"],
+    "equipment": ["bar"],
+    "laterality": "bilateral",
+    "defaultSets": 3,
+    "defaultReps": "8-12",
+    "cue": "Hang long. Pull the chest to the bar.",
+    "source": "wger",
+    "sourceUrl": "https://wger.de/en/exercise/227/view",
+    "license": "CC-BY-SA 4"
+  },
+  {
+    "slug": "hip-thrust",
+    "title": "Hip thrust",
+    "pattern": "hinge",
+    "tracks": ["gym"],
+    "equipment": ["barbell"],
+    "laterality": "bilateral",
+    "defaultSets": 3,
+    "defaultReps": "8-12",
+    "cue": "Upper back on a bench. Drive the hips up until the torso is flat.",
+    "source": "wger",
+    "sourceUrl": "https://wger.de/en/exercise/106/view",
+    "license": "CC-BY-SA 4"
+  },
+  {
+    "slug": "face-pull",
+    "title": "Face pull",
+    "pattern": "vertical_pull",
+    "tracks": ["gym"],
+    "equipment": ["cable"],
+    "laterality": "bilateral",
+    "defaultSets": 3,
+    "defaultReps": "8-12",
+    "cue": "Pull the rope to the face. Elbows high. Squeeze the rear shoulders.",
+    "source": "wger",
+    "sourceUrl": "https://wger.de/en/exercise/192/view",
+    "license": "CC-BY-SA 4"
   }
 ]

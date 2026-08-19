@@ -1,0 +1,40 @@
+{
+  "allowedApiHosts": [
+    "api.nal.usda.gov",
+    "fdc.nal.usda.gov",
+    "wger.de"
+  ],
+  "deniedHosts": [
+    "allrecipes.com",
+    "www.allrecipes.com",
+    "cooking.nytimes.com",
+    "bbcgoodfood.com",
+    "www.bbcgoodfood.com",
+    "bodybuilding.com",
+    "www.bodybuilding.com",
+    "tasty.co",
+    "foodnetwork.com",
+    "www.foodnetwork.com",
+    "epicurious.com",
+    "www.epicurious.com",
+    "bonappetit.com",
+    "www.bonappetit.com"
+  ],
+  "signedOffScrapeUrls": [],
+  "wgerExercisePathPrefixes": [
+    "/api/v2/exerciseinfo",
+    "/api/v2/exercise",
+    "/api/v2/exercisecategory",
+    "/api/v2/equipment",
+    "/api/v2/muscle",
+    "/api/v2/exercisecomment",
+    "/api/v2/exercisealias"
+  ],
+  "wgerForbiddenPathPrefixes": [
+    "/api/v2/ingredient",
+    "/api/v2/ingredientinfo",
+    "/api/v2/nutritionplan",
+    "/api/v2/meal",
+    "/api/v2/mealitem"
+  ]
+}

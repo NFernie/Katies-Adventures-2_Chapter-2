@@ -1,0 +1,243 @@
+[
+  {
+    "slug": "spinach-tofu-scramble",
+    "title": "Spinach tofu scramble",
+    "slots": ["breakfast"],
+    "dietTags": ["vegan", "vegetarian"],
+    "allergens": ["soy"],
+    "kitchenTags": ["batch_cook"],
+    "cookMinutes": 15,
+    "servings": 1,
+    "equipment": ["hob"],
+    "steps": ["Scramble crumbled tofu with spinach and onion."],
+    "ingredients": [
+      {
+        "name": "Tofu, firm",
+        "grams": 250,
+        "household": "about 1 block",
+        "fdcId": 172448,
+        "matchNote": "SR Legacy firm tofu with calcium sulfate and nigari"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 80,
+        "household": "about 2 cups",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      },
+      {
+        "name": "Onions, raw",
+        "grams": 40,
+        "household": "1/4 cup",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy onions, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "1.5 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "sourceKind": "first-party",
+    "license": "first-party"
+  },
+  {
+    "slug": "lentil-tomato-rice",
+    "title": "Lentil tomato rice",
+    "slots": ["lunch", "dinner"],
+    "dietTags": ["vegan", "vegetarian"],
+    "allergens": [],
+    "kitchenTags": ["batch_cook", "leftovers_as_lunch"],
+    "cookMinutes": 30,
+    "servings": 1,
+    "equipment": ["hob"],
+    "steps": ["Simmer lentils in crushed tomato. Serve over rice."],
+    "ingredients": [
+      {
+        "name": "Lentils, cooked",
+        "grams": 200,
+        "household": "1 cup",
+        "fdcId": 172421,
+        "matchNote": "SR Legacy lentils, boiled, unsalted"
+      },
+      {
+        "name": "Tomatoes, crushed, canned",
+        "grams": 180,
+        "household": "3/4 cup",
+        "fdcId": 170501,
+        "matchNote": "SR Legacy canned crushed tomato"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 180,
+        "household": "1 cup",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Onions, raw",
+        "grams": 50,
+        "household": "1/3 cup",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy onions, raw"
+      },
+      {
+        "name": "Garlic, raw",
+        "grams": 6,
+        "household": "2 cloves",
+        "fdcId": 169230,
+        "matchNote": "SR Legacy garlic, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "1.5 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "sourceKind": "first-party",
+    "license": "first-party"
+  },
+  {
+    "slug": "broccoli-tahini-chickpeas",
+    "title": "Broccoli tahini chickpeas",
+    "slots": ["lunch"],
+    "dietTags": ["vegan", "vegetarian"],
+    "allergens": [],
+    "kitchenTags": ["batch_cook"],
+    "cookMinutes": 15,
+    "servings": 1,
+    "equipment": ["hob"],
+    "steps": ["Warm chickpeas and broccoli. Stir through tahini."],
+    "ingredients": [
+      {
+        "name": "Broccoli, boiled",
+        "grams": 200,
+        "household": "2 cups",
+        "fdcId": 169967,
+        "matchNote": "SR Legacy broccoli, boiled, unsalted"
+      },
+      {
+        "name": "Chickpeas, cooked",
+        "grams": 180,
+        "household": "1 cup",
+        "fdcId": 173757,
+        "matchNote": "SR Legacy chickpeas, boiled, unsalted"
+      },
+      {
+        "name": "Tahini",
+        "grams": 18,
+        "household": "1 tbsp",
+        "fdcId": 170189,
+        "matchNote": "SR Legacy sesame tahini from toasted kernels"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 5,
+        "household": "1 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      },
+      {
+        "name": "Garlic, raw",
+        "grams": 4,
+        "household": "1 clove",
+        "fdcId": 169230,
+        "matchNote": "SR Legacy garlic, raw"
+      }
+    ],
+    "sourceKind": "first-party",
+    "license": "first-party"
+  },
+  {
+    "slug": "banana-oat-cup",
+    "title": "Banana oat cup",
+    "slots": ["snack"],
+    "dietTags": ["vegan", "vegetarian"],
+    "allergens": ["gluten"],
+    "kitchenTags": [],
+    "cookMinutes": 5,
+    "servings": 1,
+    "equipment": ["none"],
+    "steps": ["Mash banana through dry oats. Top with blueberries."],
+    "ingredients": [
+      {
+        "name": "Bananas, raw",
+        "grams": 120,
+        "household": "1 medium",
+        "fdcId": 173944,
+        "matchNote": "SR Legacy banana, raw"
+      },
+      {
+        "name": "Oats, dry",
+        "grams": 40,
+        "household": "1/3 cup dry",
+        "fdcId": 173904,
+        "matchNote": "SR Legacy oats, regular and quick, dry"
+      },
+      {
+        "name": "Blueberries, raw",
+        "grams": 40,
+        "household": "1/4 cup",
+        "fdcId": 171711,
+        "matchNote": "SR Legacy blueberries, raw"
+      }
+    ],
+    "sourceKind": "first-party",
+    "license": "first-party"
+  },
+  {
+    "slug": "chicken-spinach-rice",
+    "title": "Chicken spinach rice",
+    "slots": ["dinner"],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": ["batch_cook", "leftovers_as_lunch"],
+    "cookMinutes": 20,
+    "servings": 1,
+    "equipment": ["hob"],
+    "steps": ["Cook chicken. Wilt spinach. Serve over rice."],
+    "ingredients": [
+      {
+        "name": "Chicken breast, roasted",
+        "grams": 160,
+        "household": "one small breast",
+        "fdcId": 171477,
+        "matchNote": "SR Legacy chicken breast, meat only, roasted"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 80,
+        "household": "about 2 cups",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 200,
+        "household": "1.25 cups",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "1.5 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      },
+      {
+        "name": "Garlic, raw",
+        "grams": 5,
+        "household": "1 clove",
+        "fdcId": 169230,
+        "matchNote": "SR Legacy garlic, raw"
+      }
+    ],
+    "sourceKind": "first-party",
+    "license": "first-party"
+  }
+]
