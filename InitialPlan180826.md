@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
-**Status:** Phase 1 **docs + prototype complete** (18 Aug 2026), waiting on **owner review of DESIGN.md**. Phase 0 brief remains in force. §3 remains **closed**. No Next.js scaffold yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 2 **complete** pending owner spot-check of fixtures (19 Aug 2026). Independent second-agent recompute **matched** the male/female/unsafe literals. Phase 1 complete (contrast caveat fixed). Phase 0 brief remains in force. §3 remains **closed**. No Next.js scaffold yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
@@ -413,7 +413,7 @@ Review: docs must not contradict §3.
 
 ## Phase 1 — UX research and design system
 
-**Status:** Prototype complete (18 Aug 2026). Gate remaining: owner thumbs-up on `DESIGN.md`.
+**Status:** Complete (19 Aug 2026). Owner assured proceed to Phase 2 with one caveat (helper-copy contrast). Caveat addressed: `iron-2` `#2c2c2c` → `#1a1a1a` in `DESIGN.md` and the prototype CSS. Screenshots were **not** regenerated.
 
 **Goal:** Distinctive mobile product UI for **one person using their own planner**, not a SaaS sign-up funnel.
 
@@ -439,9 +439,11 @@ Review: docs must not contradict §3.
 - [x] `DESIGN.md` + `PRODUCT.md`  
 - [x] Reference lock listed  
 - [x] Five core screens prototyped  
-- [ ] Owner thumbs-up or written proceed  
+- [x] Owner thumbs-up or written proceed (19 Aug 2026; contrast caveat then fixed)
 
-**Completed (18 Aug 2026):** `DESIGN.md` (bumper-plate load, seed `c3180cb2`), `docs/ux/flows.md`, `docs/ux/component-inventory.md`, `docs/ux/critique-notes.md`, clickable HTML at `docs/ux/prototype/index.html` (onboarding, today, swap, session, timeline). See `docs/ux/prototype/README.md` for how to open it. Next: owner review, then Phase 2. No Supabase.
+**Completed (18 Aug 2026):** `DESIGN.md` (bumper-plate load, seed `c3180cb2`), `docs/ux/flows.md`, `docs/ux/component-inventory.md`, `docs/ux/critique-notes.md`, clickable HTML at `docs/ux/prototype/index.html` (onboarding, today, swap, session, timeline). See `docs/ux/prototype/README.md` for how to open it.
+
+**Caveat fix (19 Aug 2026):** helper copy (including “InBody / Tanita (BodyID). Type the printout. No photos.”) uses **iron-2** `#1a1a1a` instead of `#2c2c2c`. Next: Phase 2. No Supabase apply.
 
 **Further planning if:** native iOS/Android.
 
@@ -469,6 +471,8 @@ Gate: owner review of DESIGN.md. No Supabase yet.
 
 ## Phase 2 — Domain model and engine spec
 
+**Status:** Spec complete (19 Aug 2026). Independent recompute matched. Remaining: owner spot-check.
+
 **Goal:** Testable maths + auth-ready ERD.
 
 ### Design
@@ -490,9 +494,11 @@ Gate: owner review of DESIGN.md. No Supabase yet.
 
 ### Gate
 
-- [ ] Worked examples match  
-- [ ] ERD has owner_id everywhere personal  
-- [ ] Loss-speed cap matches §3 (block unsafe; no other medical hard-stops)  
+- [x] ERD has owner_id everywhere personal  
+- [x] Loss-speed cap matches §3 (block unsafe; no other medical hard-stops)  
+- [x] Worked examples match (second agent recompute, 19 Aug 2026; owner may still spot-check)
+
+**Completed (19 Aug 2026):** `docs/domain/erd.md`, `docs/domain/engine-spec.md` (male + female worked examples; gym days user-selected; InBody fat % present), `docs/domain/content-model.md`, `docs/domain/fixtures/engine-examples.json`, proposed `supabase/migrations/0001_init.sql` (not applied), `supabase/policies.sql`, `CONTEXT.md` glossary updates. `DEFAULT_OWNER_ID` = `198e5a49-c748-4bcc-b6ad-86445a76eb7b`. Independent agent recomputed both examples and the unsafe-date block; literals matched. No React. No NextAuth tables. Next: Phase 3 scaffold after owner spot-check.  
 
 ### Implementation-agent prompt
 

@@ -44,6 +44,34 @@ _Avoid_: fixed 12-week default the owner cannot slow down
 A Timeline that would require losing more than 1.0% of body weight per week. The only generator block in v1.
 _Avoid_: BMI hard-stop, age gate, pregnancy block, ED-history block
 
+**PAL**:
+The activity factor multiplied by BMR to get TDEE, taken only from user-selected gym days per week (1–2 → 1.375, 3–5 → 1.55, 6–7 → 1.725).
+_Avoid_: a separate NEAT questionnaire, machine-printed BMR
+
+**Energy target**:
+Daily kcal the engine emits after TDEE minus the timeline deficit, rounded to the nearest 10 kcal.
+_Avoid_: eating the machine BMR, ad-lib cut
+
+**Calorie-floor warning**:
+A note when the Energy target is below 1200 kcal (female) or 1500 kcal (male). Generate still succeeds.
+_Avoid_: medical hard-stop, “see a doctor” gate, silently raising kcal
+
+**Deload**:
+Every 4th week of the Timeline, planned gym sets drop; not a rest-week preference the Owner picks.
+_Avoid_: optional deload toggle in onboarding
+
+**Diet flag**:
+A closed user-select tag (vegetarian, vegan, named allergies, cook-under-30) that filters the Recipe catalog.
+_Avoid_: free-text diet, open tag soup
+
+**Kitchen flag**:
+A closed user-select tag (batch-cook, leftovers as lunch, eating-out days) that filters or skips meal slots.
+_Avoid_: a second equipment track
+
+**Split**:
+The gym session pattern implied by user-selected days per week (full body, upper/lower, PPL).
+_Avoid_: home / bands / bodyweight track, sex-specific menus
+
 **Plan version**:
 A generated calorie, macro, and split snapshot. A new version is created when the profile or goal changes; older weeks stay readable.
 _Avoid_: overwriting the only plan row
@@ -88,7 +116,7 @@ The UUID on every personal row that says whose data it is. Catalog rows do not h
 _Avoid_: a singleton table with no owner, NextAuth `Account` / `Session` tables
 
 **DEFAULT_OWNER_ID**:
-The one committed UUID that is the Owner’s `owner_id` in v1, until a later lock remaps those rows to a signed-in user id.
+The one committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) that is the Owner’s `owner_id` in v1, until a later lock remaps those rows to a signed-in user id.
 _Avoid_: `auth.uid()` in v1, anonymous unscoped rows
 
 **Data gateway**:

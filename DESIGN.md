@@ -4,7 +4,7 @@ description: Personal gym planner — bumper-plate load on a competition platfor
 colors:
   platform: "#d4d0c6"
   iron: "#161616"
-  iron-2: "#2c2c2c"
+  iron-2: "#1a1a1a"
   chalk: "#f3f0e8"
   wayfinding: "#efc000"
   live: "#005a70"
@@ -74,6 +74,15 @@ typography:
     fontFamily: "Archivo Narrow, Archivo, sans-serif"
     fontSize: "1.1rem"
     fontWeight: 700
+  input-live:
+    fontFamily: "Archivo, sans-serif"
+    fontSize: "1.15rem"
+    fontWeight: 600
+  band:
+    fontFamily: "Archivo Narrow, Archivo, sans-serif"
+    fontSize: "1.15rem"
+    fontWeight: 700
+    letterSpacing: "0.04em"
 rounded:
   sm: "4px"
   pill: "999px"
@@ -145,6 +154,7 @@ Restrained neutrals plus three named inks.
 
 ### Primary
 - **Iron** (`#161616`): Type, hairlines, primary solid buttons, selected chips (invert).
+- **Iron-2** (`#1a1a1a`): Helper copy on platform (printout instructions, field labels, progress captions). Darker than the first prototype’s `#2c2c2c`, which washed out on platform grey. Not **steel** (inactive tabs only) and not **iron** (primary type). Target contrast on platform ≥ 7:1.
 
 ### Secondary
 - **Wayfinding yellow** (`#efc000`): Continue / Generate band only. Black type on yellow. Never backgrounds, never nav.
@@ -178,6 +188,8 @@ Restrained neutrals plus three named inks.
 - **Body** (400, 16px, 1.45): Instructions, disclaimer.
 - **Label** (700, 12px, uppercase, 0.04em): End-labels, column headers.
 - **Live** (700, tabular-nums, cyan): All measurements.
+- **Input-live** (600, 1.15rem): Typed BodyID figures in fields.
+- **Band** (700, 1.15rem, uppercase, 0.04em): Continue / Generate hanging sign.
 
 **The number-loud rule.** If a value can change, it is cyan + tabular-nums.
 
@@ -207,6 +219,7 @@ See `docs/ux/component-inventory.md`. Touch targets ≥44px. Visible 3px iron fo
 - Show four meals and today’s gym session on Today.
 - Block only unsafe loss speed; offer the fastest safe date.
 - Keep Aceternity to sheet motion, hub pop, Plan bento, optional rest ring.
+- Set helper copy to **iron-2** (`#1a1a1a`) so printout instructions hold on platform grey.
 
 **Don't**
 
