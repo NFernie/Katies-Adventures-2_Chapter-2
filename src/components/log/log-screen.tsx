@@ -158,7 +158,7 @@ export function LogScreen() {
         />
       ) : (
         <p className="font-sans text-[16px] leading-[1.45] text-iron-2">
-          Sign in with the magic link to save a check-in.
+          Sign in to save a check-in.
         </p>
       )}
       {status === "signed-in" && shownCheckIns.length > 0 ? (

@@ -14,7 +14,7 @@ Next.js static export on GitHub Pages (frozen, InitialPlan revision 5). Producti
 
 ## Users
 
-One adult (the Owner), 18+, using a phone at the gym, at home, or in the kitchen. They have an InBody / Tanita (BodyID) printout in hand. They sign in with an **email magic link** (Phase 4).
+One adult (the Owner), 18+, using a phone at the gym, at home, or in the kitchen. They have an InBody / Tanita (BodyID) printout in hand. They **create an account** (confirmation magic link once), then **sign in** with that confirmed email and a password.
 
 ## Product Purpose
 
@@ -93,14 +93,14 @@ Katie’s Adventures is the **repo / chapter container**. It is not the in-app p
 | 15 | **Swaps allowed** (meals and lifts). |
 | 16 | **No photos.** Progress is weight + InBody/Tanita / BodyID machine fields (same family as onboarding). |
 | 17 | GitHub Pages **project site** with Next.js **`basePath`**. |
-| 18 | **Phase 4 with persistence:** email **magic link**. No Google OAuth. `/lock` is in v1. |
+| 18 | **Phase 4 with persistence:** **Create account** emails a confirmation link. **Sign in** is confirmed email + password. No Google OAuth. `/lock` is in v1. (Owner amendment 19 Aug 2026: returning visits must not send a new magic link.) |
 | 19 | That lock is for **random visitors** to a public Pages site. Recovering from a leaked anon policy is further planning. |
 
 ---
 
 ## What the owner does in v1
 
-1. Opens the site. First plan in under three minutes is the Phase 1 bar. Persistence requires a magic-link session (Phase 4).
+1. Opens the site. First plan in under three minutes is the Phase 1 bar. Persistence requires a signed-in session (Phase 4).
 2. Onboards: sex (male/female), age, height (cm), InBody/Tanita fields, goal type, timeline, diet flags, kitchen flags, **7-weekday training map**.
 3. Reviews kcal / protein / weeks, with a disclaimer. If the chosen date is faster than the loss cap, the engine refuses that date and offers the fastest safe date.
 4. Uses **Today** (four meal cards + today’s session for that day’s setting), **This week**, **Plan**, **Library**, **History**.
@@ -125,7 +125,7 @@ Minimum catalog size (Phase 6–7): ~40 breakfasts, ~40 lunches, ~40 dinners, ~2
 
 Personal rows live in Supabase so a new phone or a cleared cache still has the plan. Catalog JSON is git-owned so the anon key cannot poison the library.
 
-Every personal row has `owner_id`. Phase 4 uses `auth.uid()` from a magic-link session. All database calls go through the **data gateway**. `DEFAULT_OWNER_ID` is **test/fixture only**. ADR: `docs/decisions/0004-auth-at-persistence.md`.
+Every personal row has `owner_id`. Phase 4 uses `auth.uid()` from the signed-in session. All database calls go through the **data gateway**. `DEFAULT_OWNER_ID` is **test/fixture only**. ADR: `docs/decisions/0004-auth-at-persistence.md`.
 
 The planning engine is pure maths: no storage, no owner id, no React.
 
@@ -140,10 +140,10 @@ Personal tables revoke `anon`. Never put `service_role` in the website.
 - Block **unsafe loss speed** only. Show a disclaimer. Use calorie floors as targets or warnings only if a later spec says so — not as a “see a doctor” gate.
 - Keep recipe macros on the USDA write-time contract. Keep USDA keys and clients out of the Next.js bundle.
 - Keep personal access behind the data gateway and `owner_id = auth.uid()`.
-- Settings / `/lock` send a magic link. Do not build NextAuth or Google OAuth.
+- Settings / `/lock`: **Sign in** (confirmed email + password) and **Create account** (one confirmation link). Do not build NextAuth or Google OAuth.
 
 ---
 
 ## Out of v1
 
-NextAuth.js / Auth.js, Prisma in the running website, Google/Apple OAuth, password forms as the product, native apps, wearables, progress photos, AI body-scan, imperial units, grocery delivery, social, coaching marketplace, commercial recipe scraping, public multi-user SaaS, live USDA from Pages, medical-treatment claims, an open anon `DEFAULT_OWNER_ID` policy.
+NextAuth.js / Auth.js, Prisma in the running website, Google/Apple OAuth, native apps, wearables, progress photos, AI body-scan, imperial units, grocery delivery, social, coaching marketplace, commercial recipe scraping, public multi-user SaaS, live USDA from Pages, medical-treatment claims, an open anon `DEFAULT_OWNER_ID` policy.

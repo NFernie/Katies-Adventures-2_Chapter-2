@@ -4,6 +4,15 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Sign in vs Create account
+
+Owner: every visit was sending a new magic link. That is not the product.
+
+- **Create account** (`signUp`) emails one confirmation link.
+- **Sign in** (`signInWithPassword`) uses a confirmed email + password and does **not** send mail.
+- One-time link stays under a disclosure for accounts that confirmed with a link and never set a password — then **Save password** on You.
+- No NextAuth. No Google. No email-only login (anyone who knew the address could open the public Pages site).
+
 ## 19 Aug 2026 — Re-run 0004 without assuming `workout_sessions.setting`
 
 Pasting the first 0004 failed with `column s.setting does not exist`. Live `workout_sessions` has `focus` / `cardio` but no `setting` (same partial schema as `day_plans` missing `training_setting`). The migration now adds **both** columns, copies from `s.setting` only after `information_schema` says that column exists, falls back through `training_days.setting` then `'gym'`, backfills sessions, and `NOTIFY pgrst`. Paste the whole file again — it is safe to re-run. No `service_role` in the website.

@@ -1,5 +1,8 @@
 export {
   sendMagicLink,
+  signInWithEmail,
+  signUpWithEmail,
+  setAccountPassword,
   getSession,
   signOut,
   lockRedirectUrl,
@@ -7,6 +10,7 @@ export {
   subscribeToSession,
   completeAuthFromUrl,
   MAGIC_LINK_SENT_KEY,
+  MIN_PASSWORD_LENGTH,
 } from "./auth";
 export { isSupabaseConfigured } from "./client";
 export { GatewayError, SignedOutError } from "./errors";

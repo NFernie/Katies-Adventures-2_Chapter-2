@@ -25,7 +25,88 @@ export function onboardingRedirectUrl(): string {
 }
 
 export const MAGIC_LINK_SENT_KEY = "bodyplan-magic-link-sent";
+export const MIN_PASSWORD_LENGTH = 8;
 
+function requirePassword(password: string): string {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    throw new GatewayError(
+      `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+    );
+  }
+  return password;
+}
+
+function markMagicLinkSent(): void {
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.setItem(MAGIC_LINK_SENT_KEY, "1");
+  }
+}
+
+function explainSignInError(message: string): string {
+  const lower = message.toLowerCase();
+  if (lower.includes("email not confirmed") || lower.includes("not confirmed")) {
+    return "Open the confirmation link we emailed, then sign in here. We will not send another link for a confirmed email.";
+  }
+  if (
+    lower.includes("invalid login") ||
+    lower.includes("invalid credentials") ||
+    lower.includes("invalid email or password")
+  ) {
+    return "Check the email and password. If you confirmed with a link and never chose a password, email a one-time link below, then set a password on You.";
+  }
+  return message;
+}
+
+/** Create account: email a confirmation link. Does not leave you signed in. */
+export async function signUpWithEmail(
+  email: string,
+  password: string,
+  options?: { client?: AuthClient; emailRedirectTo?: string },
+): Promise<void> {
+  const client = asAuthClient(options?.client);
+  const { error } = await client.auth.signUp({
+    email,
+    password: requirePassword(password),
+    options: {
+      emailRedirectTo: options?.emailRedirectTo ?? lockRedirectUrl(),
+    },
+  });
+  if (error) throw new GatewayError(error.message);
+  markMagicLinkSent();
+}
+
+/** Sign in a confirmed email with the password. Does not send mail. */
+export async function signInWithEmail(
+  email: string,
+  password: string,
+  options?: { client?: AuthClient },
+): Promise<Session> {
+  const client = asAuthClient(options?.client);
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password: requirePassword(password),
+  });
+  if (error) throw new GatewayError(explainSignInError(error.message));
+  if (!data.session?.user.id) {
+    throw new GatewayError(
+      "Open the confirmation link we emailed, then sign in here.",
+    );
+  }
+  return data.session;
+}
+
+export async function setAccountPassword(
+  password: string,
+  options?: { client?: AuthClient },
+): Promise<void> {
+  const client = asAuthClient(options?.client);
+  const { error } = await client.auth.updateUser({
+    password: requirePassword(password),
+  });
+  if (error) throw new GatewayError(error.message);
+}
+
+/** One-time link for an email that already exists (no new account). */
 export async function sendMagicLink(
   email: string,
   options?: { client?: AuthClient; emailRedirectTo?: string },
@@ -35,13 +116,11 @@ export async function sendMagicLink(
     email,
     options: {
       emailRedirectTo: options?.emailRedirectTo ?? lockRedirectUrl(),
-      shouldCreateUser: true,
+      shouldCreateUser: false,
     },
   });
   if (error) throw new GatewayError(error.message);
-  if (typeof sessionStorage !== "undefined") {
-    sessionStorage.setItem(MAGIC_LINK_SENT_KEY, "1");
-  }
+  markMagicLinkSent();
 }
 
 export async function getSession(

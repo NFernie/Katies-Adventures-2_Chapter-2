@@ -1,12 +1,12 @@
 # BodyPlan flows (v1)
 
-Mobile web, one Owner. Visitor mode: **Operate**. First plan in under three minutes. Persistence uses an email **magic link** (Phase 4); onboarding itself is not a SaaS sign-up funnel.
+Mobile web, one Owner. Visitor mode: **Operate**. First plan in under three minutes. Persistence uses **Create account** (one confirmation link) then **Sign in** (confirmed email + password). Onboarding itself is not a SaaS sign-up funnel.
 
 Screenshots of the clickable prototype: `docs/ux/prototype/README.md`. HTML is the source of truth after the mixed-week amendment; stills were not regenerated.
 
 ## 0. Entry
 
-`/` → if no plan, `/onboarding`. If a plan exists, `/` is **Today**. There is no marketing landing. Signed-out personal data is hidden (Phase 4); `/lock` collects or completes the magic link.
+`/` → if no plan, `/onboarding`. If a plan exists, `/` is **Today**. There is no marketing landing. Signed-out personal data is hidden (Phase 4); `/lock` is Sign in / Create account and completes the confirmation link.
 
 ## 1. Onboarding (five steps)
 
@@ -59,8 +59,8 @@ Strong, not Hevy-social: **one exercise at a time** on the phone.
 
 ## 6. You (settings)
 
-Profile (metric). Regenerate. Magic-link email field + **Send magic link** (iron button, not yellow). `/lock` is the check-email state. Prototype must not look like a disabled fake login.
+Profile (metric). Regenerate. **Sign in** (email + password) and **Create account** (confirmation link once). Iron buttons, not yellow. `/lock` completes the emailed link. Must not look like a disabled fake login.
 
 ## Anti-flows (v1)
 
-Sign-up funnel, Google OAuth, password product, photo upload, imperial toggle, one global “home-gym track” instead of a weekday map, cardio preference as an onboarding chip, NextAuth.
+Google OAuth, photo upload, imperial toggle, one global “home-gym track” instead of a weekday map, cardio preference as an onboarding chip, NextAuth, email-only login with no password.

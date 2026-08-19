@@ -209,7 +209,7 @@ Mostly flat. Printout uses a 2px × 3px iron-tinted offset (`box-shadow: 2px 3px
 
 See `docs/ux/component-inventory.md`. Touch targets ≥44px. Visible 3px iron focus ring. `prefers-reduced-motion` kills animation. Lucide-style 2px square-cap SVGs.
 
-**Lock / magic link:** email field + iron **Send magic link** on You. `/lock` is the check-email state. Not a disabled button. Not a yellow Continue (yellow stays onboarding Continue only).
+**Lock / account:** Sign in (email + password, iron button) and Create account (confirmation link once). `/lock` completes the emailed link, then is a sign-in screen — not a “send another link” wall. Yellow stays onboarding Continue only.
 
 ## Do's and Don'ts
 
@@ -228,4 +228,4 @@ See `docs/ux/component-inventory.md`. Touch targets ≥44px. Visible 3px iron fo
 - Default to dark mode or indigo.
 - Put emoji in the tab bar.
 - Claim medical treatment.
-- Fake a broken login control. Magic link is real in Phase 4.
+- Fake a broken login control. Sign in is real in Phase 4.

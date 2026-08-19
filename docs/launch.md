@@ -1,6 +1,6 @@
 # Launch (Phase 10)
 
-BodyPlan is a **personal** planner on a **public** GitHub Pages URL. Auth is already the Phase 4 **email magic link**. There is no NextAuth, no Google OAuth, and no second login wall.
+BodyPlan is a **personal** planner on a **public** GitHub Pages URL. Auth is Phase 4 **email sign-in**: Create account emails a confirmation link once; Sign in uses that confirmed email plus a password. There is no NextAuth, no Google OAuth, and no second login wall.
 
 Owner launch approval is a **human** step. Merging this branch and using the live URL is that checkbox. An agent cannot grant it.
 
@@ -37,9 +37,9 @@ Dashboard: **Authentication → URL Configuration**.
 | Redirect | `https://nfernie.github.io/Katies-Adventures-2_Chapter-2/lock/` |
 | Local redirect | `http://localhost:3000/Katies-Adventures-2_Chapter-2/lock/` |
 
-The app sends `emailRedirectTo` to `/lock/` on the current origin (`lockRedirectUrl()` in `src/data/auth.ts`). Onboarding generate can send the same link back to `/onboarding/`.
+The app sends confirmation `emailRedirectTo` to `/lock/` on the current origin (`lockRedirectUrl()` in `src/data/auth.ts`). Onboarding can send the same link back to `/onboarding/`.
 
-Send the link from **You** (`/settings`) or `/lock`. Open it in **this same browser**. No password form. `/lock/` no longer leads with a second Send button — that sits under **Send a new magic link**.
+**Create account** emails one confirmation link. **Sign in** is email + password for an address that is already confirmed — it does not send mail. If you confirmed with a link before passwords existed, open **Email a one-time link**, then set a password on You.
 
 ## Personal rows need a signed-in session
 
@@ -57,13 +57,13 @@ BodyPlan does **not** add a custom limiter. Use the Supabase project defaults ([
 - Magic link / OTP (`/auth/v1/otp`): **30 OTPs per hour** project-wide (customizable); **60 seconds** between sends to the same address.
 - Magic links expire in **1 hour** by default.
 
-If send fails after a couple of tries, wait; do not hammer **Send magic link**.
+If send fails after a couple of tries, wait; do not hammer **Email a one-time link**.
 
-## How magic-link sign-in works
+## How sign-in works
 
-1. Type an email on You or `/lock`. Paste is allowed (`autocomplete="email"`).
-2. Supabase emails a one-time link.
-3. Open the link on this phone. `/lock/` confirms the session.
+1. **Create account:** email + password on You or `/lock`. Paste is allowed. Supabase emails a confirmation link.
+2. Open the link on this phone. `/lock/` confirms the session.
+3. Later visits: **Sign in** with the same email and password. No new email.
 4. Personal writes stamp `owner_id` from `auth.uid()`.
 
 ## Disclaimer
@@ -77,7 +77,7 @@ Onboarding **Generate** still shows the 18+ / not-medical disclaimer. The same l
 
 ## Owner launch approval
 
-- [ ] I (the owner) accept the live Pages URL and the magic-link + RLS setup above.
+- [ ] I (the owner) accept the live Pages URL and the email sign-in + RLS setup above.
 
 Until that box is ticked in this file (or equivalently: you merge and use the site), Phase 10 is **code-complete**, not owner-signed-off.
 
@@ -91,7 +91,9 @@ The live project applied `0003` (RLS repair) on an older `day_plans` table. The 
 2. Paste **all** of the current `supabase/migrations/0004_day_plans_training_setting.sql` → **Run**. Safe to re-run; it adds both columns only if missing.
 3. Generate again. Do not put `service_role` in the website.
 
-### Sign-in keeps offering a fresh magic link
+### Sign-in emails a new magic link every time
 
-Open the emailed link in the **same browser** that requested it. `/lock/` is the check-email screen; send a **new** link only if the first expired (about an hour) or the click failed. After a successful click you should see **You are in**, then **Open You**.
+Sign in is email + password for a **confirmed** address. Create account is the only step that should email a link.
+
+If you already confirmed with a link and never set a password: **Email a one-time link** once → You → **Save password**. After that, Sign in must not send mail.
 

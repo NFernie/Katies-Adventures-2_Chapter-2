@@ -37,7 +37,7 @@ Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md):
 
 Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`. Put the real FDC key in gitignored `.env` (or `.env.local`), **not** in `.env.example`.
 
-Launch checklist (Pages URL, GitHub secrets, magic-link redirects, RLS): [`docs/launch.md`](./docs/launch.md).
+Launch checklist (Pages URL, GitHub secrets, auth redirects, RLS): [`docs/launch.md`](./docs/launch.md).
 
 ## Seed
 
@@ -62,9 +62,9 @@ bash scripts/wizard-supabase-pages.sh
 
 Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.md): new project, Email provider, `/lock/` redirect URLs, paste `0001_init.sql` (or `0003_repair_auth_rls.sql` if tables already exist, then `0004_day_plans_training_setting.sql`), GitHub Actions variables. Prove signed-out REST with `bash scripts/prove-supabase-anon.sh`.
 
-## Magic-link sign-in
+## Sign in
 
-**You** (`/settings`) and `/lock` send a Supabase Auth email link. Personal rows use `owner_id = auth.uid()`. Incognito cannot see them. No Google OAuth, no password product. Redirect URLs and rate-limit defaults: [`docs/launch.md`](./docs/launch.md).
+**You** (`/settings`) and `/lock`: **Create account** emails a confirmation link once; **Sign in** is that confirmed email plus a password (no new email). Personal rows use `owner_id = auth.uid()`. Incognito cannot see them. No Google OAuth. No NextAuth. Redirect URLs and rate-limit defaults: [`docs/launch.md`](./docs/launch.md).
 
 ## Disclaimer
 
@@ -74,4 +74,4 @@ BodyPlan is a personal planner, not medical treatment. Intended for adults 18+. 
 
 The throwaway HTML is still at [`docs/ux/prototype/index.html`](./docs/ux/prototype/index.html).
 
-v1: GitHub Pages project site + `basePath` + Supabase, single user, **magic-link auth in Phase 4** (with persistence). Mixed training week (gym / home / bands / bodyweight per weekday). Recipe macros in `data/recipes.json` are USDA-checked when written, not via a live API from the site. Phase 6 catalog is **not done** until the FDC key wizard + enrich have run. §3 is frozen (revision 5 amends Q9 and Q18) — do not re-interview it.
+v1: GitHub Pages project site + `basePath` + Supabase, single user, **email sign-in in Phase 4** (confirmation link on create; password after confirm). Mixed training week (gym / home / bands / bodyweight per weekday). Recipe macros in `data/recipes.json` are USDA-checked when written, not via a live API from the site. Phase 6 catalog is **not done** until the FDC key wizard + enrich have run. §3 is frozen (revision 5 amends Q9; revision 6 amends Q18) — do not re-interview it.

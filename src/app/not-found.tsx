@@ -10,8 +10,8 @@ export default function NotFound() {
         Missing plate
       </h1>
       <p className="mt-2 font-sans text-[16px] leading-[1.45]">
-        That route is not in BodyPlan. Open Today — send a magic link from You
-        if you need one.
+        That route is not in BodyPlan. Open Today — sign in from You
+        if you need to.
       </p>
       <Link href="/" className={cn(buttonVariants(), "mt-4 inline-flex")}>
         Today
