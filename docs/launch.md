@@ -39,7 +39,7 @@ Dashboard: **Authentication → URL Configuration**.
 
 The app sends `emailRedirectTo` to `/lock/` on the current origin (`lockRedirectUrl()` in `src/data/auth.ts`). Onboarding generate can send the same link back to `/onboarding/`.
 
-Send the link from **You** (`/settings`) or `/lock`. Open it on the **same device**. No password form.
+Send the link from **You** (`/settings`) or `/lock`. Open it in **this same browser**. No password form. `/lock/` no longer leads with a second Send button — that sits under **Send a new magic link**.
 
 ## Personal rows need a signed-in session
 
@@ -80,3 +80,18 @@ Onboarding **Generate** still shows the 18+ / not-medical disclaimer. The same l
 - [ ] I (the owner) accept the live Pages URL and the magic-link + RLS setup above.
 
 Until that box is ticked in this file (or equivalently: you merge and use the site), Phase 10 is **code-complete**, not owner-signed-off.
+
+## Troubleshooting
+
+### Generate: `Could not find the 'training_setting' column of 'day_plans'`
+
+The live project applied `0003` (RLS repair) on an older `day_plans` table. The app writes `training_setting`; Postgres does not have that column yet.
+
+1. SQL Editor → New query.
+2. Paste all of `supabase/migrations/0004_day_plans_training_setting.sql` → **Run**.
+3. Generate again. Do not put `service_role` in the website.
+
+### Sign-in keeps offering a fresh magic link
+
+Open the emailed link in the **same browser** that requested it. `/lock/` is the check-email screen; send a **new** link only if the first expired (about an hour) or the click failed. After a successful click you should see **You are in**, then **Open You**.
+

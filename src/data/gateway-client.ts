@@ -53,6 +53,13 @@ export type AuthClient = SessionReader & {
       options?: { emailRedirectTo?: string; shouldCreateUser?: boolean };
     }) => Promise<{ error: { message: string } | null }>;
     signOut: () => Promise<{ error: { message: string } | null }>;
+    verifyOtp?: (args: {
+      token_hash: string;
+      type: string;
+    }) => Promise<{ error: { message: string } | null }>;
+    exchangeCodeForSession?: (
+      code: string,
+    ) => Promise<{ error: { message: string } | null }>;
     onAuthStateChange?: (
       listener: (event: string, session: Session | null) => void,
     ) => AuthChangeUnsubscribe;

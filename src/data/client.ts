@@ -40,7 +40,9 @@ export function createBrowserClient(): BodyPlanClient {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      flowType: "pkce",
+      // Static GitHub Pages has no server to hold a PKCE verifier. Magic-link
+      // clicks from an email app would otherwise land signed-out on /lock/.
+      flowType: "implicit",
     },
   });
 

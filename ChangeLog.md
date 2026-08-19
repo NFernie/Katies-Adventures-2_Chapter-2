@@ -4,6 +4,15 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Generate `training_setting` column + magic-link session
+
+Two live bugs on the Pages project. No NextAuth.
+
+- **Generate after onboarding** failed with `Could not find the 'training_setting' column of 'day_plans' in the schema cache`. Live `day_plans` (project `gbpwayarlvdvrotjnufa`) never got that column: `0003` repaired RLS only. `supabase/migrations/0004_day_plans_training_setting.sql` adds it, backfills from `workout_sessions.setting`, and `NOTIFY pgrst`. Paste in the SQL Editor — the website cannot apply SQL.
+- **Sign-in looked like “send another magic link.”** PKCE needs a verifier in the tab that requested the email; opening the link in a mail app left `/lock/` signed-out with a Send form. Browser client now uses **implicit** flow, completes `token_hash` / leftover `code` from the URL, and tucks “Send a new magic link” under a disclosure. Open the emailed link in the same browser, then **Open You**.
+
+---
+
 ## 19 Aug 2026 — Phase 10 polish and launch docs
 
 No new features. Magic link stays Phase 4. No NextAuth.

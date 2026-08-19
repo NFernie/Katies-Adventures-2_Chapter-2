@@ -66,8 +66,9 @@ The app sends `emailRedirectTo` to `/lock/` on the current origin (`src/data/aut
 2. **New empty project:** paste all of `supabase/migrations/0001_init.sql` → **Run**.
 3. **Tables already exist** (0001 errors, or `profiles` still has `gym_days_per_week`, or `training_days` is missing): paste `supabase/migrations/0003_repair_auth_rls.sql` instead → **Run**. Do not re-run 0001.
 4. **New query** → optionally paste `supabase/migrations/0002_owner_auth_fk.sql` → **Run**. This FK is **optional** (`owner_id` → `auth.users`). Skip if it errors.
-5. **Table Editor** → `profiles` / `training_days`: **RLS ON**. Policies named `*_auth_owner` use `owner_id = auth.uid()` for **`authenticated`**. **`anon` is revoked.** There is no `is_v1_owner` policy. Do not add one.
-6. From the repo: `bash scripts/prove-supabase-anon.sh` — must print that `training_days` exists and anon insert is denied.
+5. **Tables already exist from 0003:** paste `supabase/migrations/0004_day_plans_training_setting.sql` → **Run**. This adds `day_plans.training_setting` (Generate fails without it) and reloads the PostgREST schema cache.
+6. **Table Editor** → `profiles` / `training_days`: **RLS ON**. Policies named `*_auth_owner` use `owner_id = auth.uid()` for **`authenticated`**. **`anon` is revoked.** There is no `is_v1_owner` policy. Do not add one.
+7. From the repo: `bash scripts/prove-supabase-anon.sh` — must print that `training_days` exists and anon insert is denied.
 
 ## 6. GitHub Actions secrets (and optional variables)
 
