@@ -335,12 +335,15 @@ export function OnboardingFlow() {
   const titles = ["You", "From the machine", "Aim", "Kitchen and training", "This plan"];
 
   useEffect(() => {
-    const stored = readStoredOnboarding();
-    if (stored) {
-      setDraft(stored.draft);
-      if (stored.step >= 1 && stored.step <= 5) setStep(stored.step);
-    }
-    setDraftReady(true);
+    const id = window.setTimeout(() => {
+      const stored = readStoredOnboarding();
+      if (stored) {
+        setDraft(stored.draft);
+        if (stored.step >= 1 && stored.step <= 5) setStep(stored.step);
+      }
+      setDraftReady(true);
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   useEffect(() => {
