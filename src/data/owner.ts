@@ -1,8 +1,22 @@
-/** Test/fixture UUID only. Production writes use auth.uid() (Phase 4). */
+import { SignedOutError } from "./errors";
+import type { SessionReader } from "./gateway-client";
+
+/**
+ * Test/fixture UUID only. Production writes use session.user.id via getOwnerId().
+ * Never bake this into RLS or insert it as a stand-in owner.
+ */
 export const DEFAULT_OWNER_ID =
   "198e5a49-c748-4bcc-b6ad-86445a76eb7b" as const;
 
-/** Scaffold stand-in until Phase 4. Production must read the magic-link session. */
-export function getOwnerId(): string {
-  return DEFAULT_OWNER_ID;
+/**
+ * Returns the magic-link session user id, or throws. Does not return
+ * DEFAULT_OWNER_ID — that constant is test/fixture only.
+ */
+export async function getOwnerId(client: SessionReader): Promise<string> {
+  const { data } = await client.auth.getSession();
+  const id = data.session?.user?.id;
+  if (!id) {
+    throw new SignedOutError();
+  }
+  return id;
 }

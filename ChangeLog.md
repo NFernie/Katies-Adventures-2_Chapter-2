@@ -4,6 +4,21 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 4 data gateway + magic-link auth (code; live apply blocked)
+
+Persistence and email magic-link land together. No open `DEFAULT_OWNER_ID` policy. No NextAuth. No Prisma runtime.
+
+- `src/data`: `@supabase/supabase-js` only here. `createBrowserClient()` persists the session JWT. `getOwnerId()` returns `session.user.id` or throws. `DEFAULT_OWNER_ID` is fixture-only.
+- `profiles` + `training_days` writes always stamp `owner_id` from the session. Gateway tests: unscoped queries are impossible; signed-out/incognito cannot read personal rows.
+- Settings (**You**) and `/lock` send a magic link (`signInWithOtp`). Signed-out empty state on Today and You. No Google OAuth, no password form.
+- RLS SQL unchanged in intent: `authenticated` + `owner_id = auth.uid()`, `anon` revoked, no `is_v1_owner`. Optional `0002_owner_auth_fk.sql` → `auth.users(id)`.
+- **Did not apply SQL or generate types from a live project** — no owner credentials. Wizard: `docs/wizard/supabase-pages.md` + `scripts/wizard-supabase-pages.sh` (project, Email provider, redirect URLs, paste SQL, GitHub `NEXT_PUBLIC_` variables).
+- Pages workflow can bake `vars.NEXT_PUBLIC_SUPABASE_URL` / `ANON_KEY` at build time.
+
+Until the wizard is finished, the static site still exports; the form explains that Supabase is not configured.
+
+---
+
 ## 19 Aug 2026 — Revision 5: mixed training week + auth at persistence
 
 Owner reopened Q9 and auth after Phase 3. Specs and UX updated; Phase 3 scaffold was **not** rebuilt. Energy fixture kcal/macros are **unchanged**.

@@ -14,7 +14,7 @@ Next.js static export on GitHub Pages (frozen, InitialPlan revision 5). Producti
 
 ## Users
 
-One adult (the Owner), 18+, using a phone at the gym, at home, or in the kitchen. They have an InBody / Tanita (BodyID) printout in hand. They sign in with an **email magic link** when persistence ships (Phase 4).
+One adult (the Owner), 18+, using a phone at the gym, at home, or in the kitchen. They have an InBody / Tanita (BodyID) printout in hand. They sign in with an **email magic link** (Phase 4).
 
 ## Product Purpose
 

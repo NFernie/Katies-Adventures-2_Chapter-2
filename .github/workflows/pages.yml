@@ -18,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,8 +35,14 @@ jobs:
       - run: npm run build
       - name: Fail if secrets leaked into the static export
         run: |
-          if grep -R --fixed-strings "service_role" out; then
-            echo "service_role must not appear in out/"
+          # supabase-js contains the prefixes sb_secret_ and the word service_role.
+          # Ban key material (a secret key or a service_role JWT payload), not library source.
+          if grep -RE 'sb_secret_[A-Za-z0-9]' out; then
+            echo "A Supabase secret key must not appear in out/"
+            exit 1
+          fi
+          if grep -R --fixed-strings "eyJyb2xlIjoic2VydmljZV9yb2xl" out; then
+            echo "A service_role JWT must not appear in out/"
             exit 1
           fi
           if grep -R --fixed-strings "USDA_FDC_API_KEY" out; then

@@ -128,7 +128,7 @@ A committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) used **only** in tests
 _Avoid_: baking this UUID into RLS, production inserts, an open anon policy
 
 **Magic link**:
-Supabase Auth email sign-in, implemented in Phase 4 with the data gateway. No Google OAuth, no NextAuth.
+Supabase Auth email sign-in, implemented in Phase 4 with the data gateway. No Google OAuth, no NextAuth. Settings and `/lock` send the mail. Live project setup: `docs/wizard/supabase-pages.md`.
 _Avoid_: Phase 4b remap, passwords-as-product
 
 **Data gateway**:
