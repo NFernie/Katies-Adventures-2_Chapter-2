@@ -5,11 +5,7 @@ export {
   lockRedirectUrl,
   subscribeToSession,
 } from "./auth";
-export {
-  createBrowserClient,
-  getSupabaseBrowserClient,
-  isSupabaseConfigured,
-} from "./client";
+export { isSupabaseConfigured } from "./client";
 export { GatewayError, SignedOutError } from "./errors";
 export { DEFAULT_OWNER_ID, getOwnerId } from "./owner";
 export { getProfile, upsertProfile } from "./profiles";

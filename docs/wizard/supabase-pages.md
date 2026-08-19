@@ -58,20 +58,22 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon or publishable>
 
 The app sends `emailRedirectTo` to `/lock/` on the current origin (`src/data/auth.ts`).
 
+**CORS:** hosted Data API allows browser origins by default. There is no extra CORS click. The redirect allow-list above is the origin lock for magic links. If you later restrict CORS, allow `https://nfernie.github.io` and `http://localhost:3000`.
+
 ## 5. Apply SQL (auth-scoped RLS from the first apply)
 
 1. Left sidebar **SQL Editor** → **New query** ([deep link](https://supabase.com/dashboard/project/_/sql/new)).
 2. Paste all of `supabase/migrations/0001_init.sql` → **Run**.
-3. **New query** → paste `supabase/migrations/0002_owner_auth_fk.sql` → **Run**.
+3. **New query** → optionally paste `supabase/migrations/0002_owner_auth_fk.sql` → **Run**. This FK is **optional** (`owner_id` → `auth.users`). Skip if it errors.
 4. **Table Editor** → `profiles` / `training_days`: **RLS ON**. Policies named `*_auth_owner` use `owner_id = auth.uid()` for **`authenticated`**. **`anon` is revoked.** There is no `is_v1_owner` policy. Do not add one.
 
-## 6. GitHub Actions variables (Pages build)
+## 6. GitHub Actions secrets (and optional variables)
 
-`NEXT_PUBLIC_` values are compiled into the static export.
+`NEXT_PUBLIC_` values are compiled into the static export. The Pages workflow reads **secrets first**, then variables.
 
-1. Repo **Settings → Secrets and variables → Actions → Variables**.
-2. `NEXT_PUBLIC_SUPABASE_URL`
-3. `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+1. Repo **Settings → Secrets and variables → Actions**.
+2. **Secrets:** `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. **Variables:** the same two names (optional duplicate).
 4. Re-run the **pages** workflow so production gets the keys.
 
 Do not add `service_role` here.
