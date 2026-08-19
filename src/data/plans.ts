@@ -1,6 +1,6 @@
 import { CATALOG_EXERCISES } from "../catalog/exercises";
 import { CATALOG_RECIPES } from "../catalog/recipes";
-import { assignDayMeals, MEAL_SLOTS } from "../engine/meals";
+import { assignDayMeals, MEAL_SLOTS, type MealSlot } from "../engine/meals";
 import { WEEKDAYS } from "../engine/plan-energy-and-training";
 import { assignSession } from "../engine/training";
 import type {
@@ -15,6 +15,7 @@ import type { Json } from "./database.types";
 import { createBrowserClient } from "./client";
 import { GatewayError } from "./errors";
 import type { GatewayClient } from "./gateway-client";
+import { listMealSlotsForDay } from "./meals";
 import { getOwnerId } from "./owner";
 import { upsertProfile } from "./profiles";
 import { replaceTrainingDays } from "./training-days";
@@ -88,6 +89,7 @@ export type CommitPlanInput = {
   goal: GoalWrite;
   result: EngineSuccess;
   generatorInput: Json;
+  keepPins?: boolean;
 };
 
 export async function commitPlanVersion(
@@ -100,9 +102,26 @@ export async function commitPlanVersion(
   await upsertProfile(input.profile, db);
   await replaceTrainingDays(input.trainingDays, db);
 
+  const existing = await listPlanVersions(db);
+  const latest = existing[0] ?? null;
+  const keepPins = input.keepPins !== false;
+  const pinned: Partial<Record<MealSlot, string>> = {};
+  if (keepPins && latest) {
+    const days = (await listDayPlans(db))
+      .filter((day) => day.planVersionId === latest.id)
+      .sort((a, b) => (a.onDate < b.onDate ? -1 : 1));
+    for (const day of days) {
+      const meals = await listMealSlotsForDay(day.id, db);
+      for (const meal of meals) {
+        if (meal.pinned) pinned[meal.slot] = meal.recipeSlug;
+      }
+    }
+  }
+
   const goalId = crypto.randomUUID();
-  const planId = crypto.randomUUID();
+  const planId = latest?.planId ?? crypto.randomUUID();
   const planVersionId = crypto.randomUUID();
+  const versionN = latest ? latest.versionN + 1 : 1;
 
   const { error: goalError } = await db.from("goals").insert({
     id: goalId,
@@ -115,19 +134,21 @@ export async function commitPlanVersion(
   });
   await throwIfError(goalError);
 
-  const { error: planError } = await db.from("plans").insert({
-    id: planId,
-    owner_id: ownerId,
-    goal_id: goalId,
-    status: "active",
-  });
-  await throwIfError(planError);
+  if (!latest) {
+    const { error: planError } = await db.from("plans").insert({
+      id: planId,
+      owner_id: ownerId,
+      goal_id: goalId,
+      status: "active",
+    });
+    await throwIfError(planError);
+  }
 
   const { error: versionError } = await db.from("plan_versions").insert({
     id: planVersionId,
     owner_id: ownerId,
     plan_id: planId,
-    version_n: 1,
+    version_n: versionN,
     bmr_kcal: input.result.bmrKcal,
     pal: input.result.pal,
     tdee_kcal: input.result.tdeeKcal,
@@ -148,7 +169,7 @@ export async function commitPlanVersion(
     recipes: CATALOG_RECIPES,
     dietFlags: (input.profile.dietFlags ?? []) as DietFlag[],
     kitchenFlags: (input.profile.kitchenFlags ?? []) as KitchenFlag[],
-    pinned: {},
+    pinned,
   });
 
   const trainingWeek = trainingWeekFrom(input.result);
@@ -181,7 +202,7 @@ export async function commitPlanVersion(
       day_plan_id: dayPlanId,
       slot,
       recipe_slug: assigned.slots[slot]?.slug ?? `empty-${slot}`,
-      pinned: false,
+      pinned: Boolean(pinned[slot]),
       eaten: false,
     }));
     const { error: mealError } = await db.from("meal_slots").insert(meals);
@@ -241,6 +262,7 @@ type PlanVersionRow = {
   split_id: string;
   cardio: PlanVersion["cardio"];
   warnings: string[];
+  generator_input: Json;
 };
 
 function mapVersion(row: PlanVersionRow): PlanVersion {
@@ -259,6 +281,7 @@ function mapVersion(row: PlanVersionRow): PlanVersion {
     splitId: row.split_id,
     cardio: row.cardio,
     warnings: row.warnings,
+    generatorInput: row.generator_input,
   };
 }
 
@@ -318,4 +341,15 @@ export async function listDayPlans(
       isDeload: row.is_deload,
     }))
     .sort((a, b) => (a.onDate < b.onDate ? 1 : -1));
+}
+
+/** Current plan only — older versions stay readable via listDayPlans but are not the live week. */
+export async function listCurrentDayPlans(
+  client?: GatewayClient,
+): Promise<DayPlan[]> {
+  const versions = await listPlanVersions(client);
+  const latestId = versions[0]?.id;
+  const days = await listDayPlans(client);
+  if (!latestId) return days;
+  return days.filter((day) => day.planVersionId === latestId);
 }

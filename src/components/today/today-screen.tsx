@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SignedOutBanner } from "@/components/auth/signed-out-banner";
@@ -9,6 +10,7 @@ import { MealCard } from "@/components/meals/meal-card";
 import { SwapSheet } from "@/components/meals/swap-sheet";
 import { sessionHeadline } from "@/components/session/labels";
 import { WorkoutModule } from "@/components/session/workout-module";
+import { RegenerateSheet } from "@/components/plan/regenerate-sheet";
 import { Disclaimer } from "@/components/shell/copy";
 import { LoadedBar } from "@/components/shell/loaded-bar";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
@@ -17,7 +19,7 @@ import { CATALOG_RECIPES, catalogSeeded } from "@/catalog/recipes";
 import { cn } from "@/lib/utils";
 import {
   getProfile,
-  listDayPlans,
+  listCurrentDayPlans,
   listMealSlotsForDay,
   listPlanVersions,
   listWorkoutItems,
@@ -70,6 +72,7 @@ function emptyToday(): TodayPayload {
 }
 
 export function TodayScreen() {
+  const router = useRouter();
   const { status } = useAuthSession();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [version, setVersion] = useState<PlanVersion | null>(null);
@@ -79,6 +82,7 @@ export function TodayScreen() {
   const [workoutItems, setWorkoutItems] = useState<WorkoutItemRow[]>([]);
   const [deload, setDeload] = useState(false);
   const [daySetting, setDaySetting] = useState("rest");
+  const [confirmRegen, setConfirmRegen] = useState(false);
 
   const fetchToday = useCallback(async (): Promise<TodayPayload> => {
     if (status !== "signed-in") return emptyToday();
@@ -86,7 +90,7 @@ export function TodayScreen() {
       const [nextProfile, versions, days] = await Promise.all([
         getProfile(),
         listPlanVersions(),
-        listDayPlans(),
+        listCurrentDayPlans(),
       ]);
       const today = new Date().toISOString().slice(0, 10);
       const day = days.find((row) => row.onDate === today) ?? days[0];
@@ -252,10 +256,28 @@ export function TodayScreen() {
         deload={status === "signed-in" ? deload : false}
         empty={!shownSession || shownWorkoutItems.length === 0}
       />
-      <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
-        {hasPlan ? "Regenerate" : "Start onboarding"}
-      </Link>
+      {hasPlan ? (
+        <button
+          type="button"
+          className={cn(buttonVariants(), "mt-4 inline-flex")}
+          onClick={() => setConfirmRegen(true)}
+        >
+          Regenerate
+        </button>
+      ) : (
+        <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
+          Start onboarding
+        </Link>
+      )}
       <Disclaimer />
+      <RegenerateSheet
+        open={confirmRegen}
+        onClose={() => setConfirmRegen(false)}
+        onConfirm={() => {
+          setConfirmRegen(false);
+          router.push("/onboarding");
+        }}
+      />
       <SwapSheet
         slot={swapSlot ?? "breakfast"}
         open={swapSlot != null}

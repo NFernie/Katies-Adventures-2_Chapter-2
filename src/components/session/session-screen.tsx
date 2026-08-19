@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import {
   completeWorkoutItem,
   isSkippedSets,
-  listDayPlans,
+  listCurrentDayPlans,
   listWorkoutItems,
   listWorkoutSessionForDay,
   saveWorkoutSets,
@@ -42,7 +42,7 @@ export function SessionScreen() {
       return { session: null, items: [] as WorkoutItemRow[], deload: false };
     }
     try {
-      const days = await listDayPlans();
+      const days = await listCurrentDayPlans();
       const today = new Date().toISOString().slice(0, 10);
       const day = days.find((row) => row.onDate === today) ?? days[0];
       if (!day) return { session: null, items: [] as WorkoutItemRow[], deload: false };
