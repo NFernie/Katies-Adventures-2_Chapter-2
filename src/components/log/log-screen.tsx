@@ -9,6 +9,7 @@ import { CheckInForm } from "@/components/log/check-in-form";
 import { TimelineRail } from "@/components/log/timeline-rail";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
 import {
+  deleteCheckIn,
   getProfile,
   listCheckIns,
   listPlanVersions,
@@ -88,11 +89,13 @@ export function LogScreen() {
     <main>
       <p className="font-sans text-[13px] font-semibold text-iron-2">Timeline</p>
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
-        Check-ins
+        Weekly BodyID
       </h1>
       <SignedOutBanner />
       <p className="mt-2 mb-4 font-sans text-[16px] leading-[1.45] text-iron-2">
-        Weight + BodyID fields. No photos. No wearables.
+        Weekly InBody / Tanita check-in. Weight, body fat %, skeletal muscle
+        mass. No photos. No wearables. Any date is allowed; the rail uses the
+        latest weight.
       </p>
       <PrintoutStrip
         weight={currentKg == null ? "— kg" : `${currentKg} kg`}
@@ -140,6 +143,46 @@ export function LogScreen() {
           Sign in with the magic link to save a check-in.
         </p>
       )}
+      {status === "signed-in" && shownCheckIns.length > 0 ? (
+        <section className="mt-6 border-t border-iron pt-3">
+          <p className="font-sans text-[13px] font-semibold text-iron-2">
+            Saved check-ins
+          </p>
+          <ul className="mt-2">
+            {shownCheckIns.map((row) => (
+              <li
+                key={row.id}
+                className="flex min-h-11 items-center justify-between gap-3 border-b border-hair"
+              >
+                <span className="font-sans text-[16px] font-semibold tabular-nums">
+                  {row.loggedOn} · {row.weightKg} kg
+                </span>
+                <button
+                  type="button"
+                  disabled={busy}
+                  className="min-h-11 shrink-0 font-sans text-[14px] font-semibold text-live disabled:opacity-50"
+                  onClick={() => {
+                    void (async () => {
+                      setBusy(true);
+                      try {
+                        await deleteCheckIn(row.id);
+                        const next = await load();
+                        setProfile(next.profile);
+                        setVersion(next.version);
+                        setCheckIns(next.checkIns);
+                      } finally {
+                        setBusy(false);
+                      }
+                    })();
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </main>
   );
 }

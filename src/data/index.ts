@@ -10,8 +10,13 @@ export { isSupabaseConfigured } from "./client";
 export { GatewayError, SignedOutError } from "./errors";
 export { DEFAULT_OWNER_ID, getOwnerId } from "./owner";
 export { getProfile, upsertProfile } from "./profiles";
-export { commitPlanVersion, listPlanVersions, listDayPlans } from "./plans";
-export { listCheckIns, upsertCheckIn } from "./check-ins";
+export {
+  commitPlanVersion,
+  listPlanVersions,
+  listDayPlans,
+  listCurrentDayPlans,
+} from "./plans";
+export { listCheckIns, upsertCheckIn, deleteCheckIn } from "./check-ins";
 export {
   listMealSlotsForDay,
   swapMealSlot,

@@ -126,6 +126,10 @@ export function PlanScreen() {
       ) : null}
       <section className="mt-4 border-t border-iron pt-3">
         <p className="font-sans text-[13px] font-semibold text-iron-2">History</p>
+        <p className="mt-1 font-sans text-[14px] leading-[1.45] text-iron-2">
+          Older weeks stay frozen. Today and Session always load the current
+          version.
+        </p>
         {shownVersions.length === 0 ? (
           <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
             No versions yet. Generate from onboarding.

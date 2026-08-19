@@ -9,10 +9,11 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 Reopen a plan, log BodyID check-ins, and regenerate without wiping history.
 
 - `previewRemainingTimeline` — remaining pace from the **latest weight** to the goal date. Same 1% cap as generate; locked unsafe date **2026-10-16**.
-- `src/data/check-ins.ts` — list/upsert scoped to the magic-link session. No photo fields. Unique `(owner_id, logged_on)`.
-- `commitPlanVersion` reuses the plan, increments `version_n`, and keeps pinned meal slugs. Old `day_plans` stay readable.
-- Log: timeline rail (start / check-ins / projected / cap) + BodyID form. Plan: version history (older = read-only) + regenerate confirm (“pins stay”).
-- E2E: stubbed session via `createMemoryClient` (`src/data/happy-path.test.ts`) — onboard → swap → pin → complete a lift → check-in → regenerate. Does **not** disable RLS. No wearables. No NextAuth.
+- `src/data/check-ins.ts` — list / upsert / delete scoped to the magic-link session. No photo fields. Unique `(owner_id, logged_on)`.
+- `commitPlanVersion` reuses the plan, increments `version_n`, and keeps pinned meal slugs **and** the `pinned` flag so a second regenerate still holds them. Old `day_plans` stay readable.
+- `listCurrentDayPlans` — Today and Session load only the latest `plan_version`. Older weeks stay frozen (kcal listed on Plan; not writable).
+- Log: weekly BodyID check-in copy, timeline rail, form, and Remove on saved rows. Plan: version history (older = read-only) + regenerate confirm (“pins stay”).
+- E2E: stubbed session via `createMemoryClient` (`src/data/happy-path.test.ts`) — onboard → swap → pin → complete a lift → check-in → regenerate (pin survives a second generate). Does **not** disable RLS. No wearables. No NextAuth.
 
 ---
 

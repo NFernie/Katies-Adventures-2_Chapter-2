@@ -44,7 +44,7 @@ export function CheckInForm({
       }}
     >
       <label className="mt-2 block font-sans text-[14px] font-semibold" htmlFor="logged-on">
-        Check-in date
+        Check-in date (weekly BodyID)
         <input
           id="logged-on"
           type="date"

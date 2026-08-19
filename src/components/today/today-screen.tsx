@@ -19,7 +19,7 @@ import { CATALOG_RECIPES, catalogSeeded } from "@/catalog/recipes";
 import { cn } from "@/lib/utils";
 import {
   getProfile,
-  listDayPlans,
+  listCurrentDayPlans,
   listMealSlotsForDay,
   listPlanVersions,
   listWorkoutItems,
@@ -90,7 +90,7 @@ export function TodayScreen() {
       const [nextProfile, versions, days] = await Promise.all([
         getProfile(),
         listPlanVersions(),
-        listDayPlans(),
+        listCurrentDayPlans(),
       ]);
       const today = new Date().toISOString().slice(0, 10);
       const day = days.find((row) => row.onDate === today) ?? days[0];

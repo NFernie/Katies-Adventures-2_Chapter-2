@@ -202,7 +202,7 @@ export async function commitPlanVersion(
       day_plan_id: dayPlanId,
       slot,
       recipe_slug: assigned.slots[slot]?.slug ?? `empty-${slot}`,
-      pinned: false,
+      pinned: Boolean(pinned[slot]),
       eaten: false,
     }));
     const { error: mealError } = await db.from("meal_slots").insert(meals);
@@ -341,4 +341,15 @@ export async function listDayPlans(
       isDeload: row.is_deload,
     }))
     .sort((a, b) => (a.onDate < b.onDate ? 1 : -1));
+}
+
+/** Current plan only — older versions stay readable via listDayPlans but are not the live week. */
+export async function listCurrentDayPlans(
+  client?: GatewayClient,
+): Promise<DayPlan[]> {
+  const versions = await listPlanVersions(client);
+  const latestId = versions[0]?.id;
+  const days = await listDayPlans(client);
+  if (!latestId) return days;
+  return days.filter((day) => day.planVersionId === latestId);
 }

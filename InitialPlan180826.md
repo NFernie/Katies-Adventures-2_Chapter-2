@@ -821,7 +821,7 @@ only. Same movement rules for male and female.
 
 ### Develop
 
-- Check-ins CRUD via gateway. PlanVersion list. Preview remaining timeline from latest weight.
+- Check-ins CRUD via gateway (`list` / `upsert` / `delete`). PlanVersion list. Preview remaining timeline from latest weight. Today/Session load the current version only.
 
 ### Review
 
@@ -835,7 +835,7 @@ only. Same movement rules for male and female.
 - [x] History preserved  
 - [x] Timeline cap enforced  
 
-**Done (19 Aug 2026):** `previewRemainingTimeline` uses the locked unsafe fixture (fastest safe date **2026-10-16**). Check-ins CRUD via `src/data` (`owner_id` from the session; no photo columns). Regenerating increments `version_n` on the same plan and keeps pinned meal slugs; old `day_plans` stay. Log shows the timeline rail + BodyID form. Plan lists versions (older rows read-only) and confirms regenerate. E2E: `src/data/happy-path.test.ts` with `createMemoryClient` (stubbed session). No wearables. No NextAuth.
+**Done (19 Aug 2026):** `previewRemainingTimeline` uses the locked unsafe fixture (fastest safe date **2026-10-16**). Check-ins CRUD via `src/data` (`list` / `upsert` / `delete`; `owner_id` from the session; no photo columns). Regenerating increments `version_n` on the same plan, keeps pinned slugs **and** the pin flag, and stamps new meal rows so a second regenerate still holds them. Old `day_plans` stay; Today/Session use `listCurrentDayPlans`. Log is a weekly BodyID check-in (any date allowed; rail uses latest weight). Plan lists versions (older rows read-only) and confirms regenerate. E2E: `src/data/happy-path.test.ts` with `createMemoryClient` (stubbed session; workout complete asserted). No wearables. No NextAuth.
 
 ### Implementation-agent prompt
 

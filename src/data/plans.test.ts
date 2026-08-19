@@ -9,7 +9,7 @@ import {
   createRecordingClient,
 } from "./recording-client.ts";
 import { createMemoryClient } from "./memory-client.ts";
-import { commitPlanVersion, listDayPlans, listPlanVersions } from "./plans.ts";
+import { commitPlanVersion, listCurrentDayPlans, listDayPlans, listPlanVersions } from "./plans.ts";
 import { listMealSlotsForDay, pinMealSlot, swapMealSlot } from "./meals.ts";
 
 const SESSION_ID = "11111111-2222-4333-8444-555555555555";
@@ -167,4 +167,20 @@ test("regenerate writes a new version, keeps the old week, and holds pinned meal
   const regenerated = await listMealSlotsForDay(newDays[0]?.id ?? "", client);
   const newDinner = regenerated.find((meal) => meal.slot === "dinner");
   assert.equal(newDinner?.recipeSlug, otherDinner);
+  assert.equal(newDinner?.pinned, true);
+
+  const current = await listCurrentDayPlans(client);
+  assert.equal(current.length, 3);
+  assert.ok(current.every((day) => day.planVersionId === versions[0]?.id));
+
+  await commitPlanVersion({ ...payload, keepPins: true }, client);
+  const third = await listPlanVersions(client);
+  assert.equal(third.length, 3);
+  const thirdDays = await listCurrentDayPlans(client);
+  assert.equal(thirdDays.length, 3);
+  assert.ok(thirdDays.every((day) => day.planVersionId === third[0]?.id));
+  const thirdMeals = await listMealSlotsForDay(thirdDays[0]?.id ?? "", client);
+  const thirdDinner = thirdMeals.find((meal) => meal.slot === "dinner");
+  assert.equal(thirdDinner?.recipeSlug, otherDinner);
+  assert.equal(thirdDinner?.pinned, true);
 });

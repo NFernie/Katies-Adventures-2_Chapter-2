@@ -5,19 +5,23 @@ import { CATALOG_RECIPES } from "../catalog/recipes.ts";
 import { previewRemainingTimeline } from "../engine/timeline.ts";
 import type { EngineSuccess } from "../engine/types.ts";
 import { upsertCheckIn } from "./check-ins.ts";
-import { completeWorkoutItem } from "./workouts.ts";
-import {
-  listDayPlans,
-  listPlanVersions,
-  commitPlanVersion,
-} from "./plans.ts";
+import { createMemoryClient } from "./memory-client.ts";
 import {
   listMealSlotsForDay,
   pinMealSlot,
   swapMealSlot,
 } from "./meals.ts";
-import { listWorkoutItems, listWorkoutSessionForDay } from "./workouts.ts";
-import { createMemoryClient } from "./memory-client.ts";
+import {
+  commitPlanVersion,
+  listCurrentDayPlans,
+  listDayPlans,
+  listPlanVersions,
+} from "./plans.ts";
+import {
+  completeWorkoutItem,
+  listWorkoutItems,
+  listWorkoutSessionForDay,
+} from "./workouts.ts";
 
 const SESSION_ID = "11111111-2222-4333-8444-555555555555";
 
@@ -100,10 +104,12 @@ test("stubbed session happy path: onboard, swap, complete, check-in, regenerate 
   const trainDay = days.find((day) => day.isTrainDay) ?? days[0];
   assert.ok(trainDay);
   const session = await listWorkoutSessionForDay(trainDay.id, client);
-  if (session) {
-    const items = await listWorkoutItems(session.id, client);
-    if (items[0]) await completeWorkoutItem(items[0].id, client);
-  }
+  assert.ok(session);
+  const items = await listWorkoutItems(session.id, client);
+  assert.ok(items[0]);
+  await completeWorkoutItem(items[0].id, client);
+  const afterComplete = await listWorkoutItems(session.id, client);
+  assert.equal(afterComplete[0]?.completed, true);
 
   await upsertCheckIn(
     {
@@ -140,11 +146,22 @@ test("stubbed session happy path: onboard, swap, complete, check-in, regenerate 
   const previousDays = daysFor(client, versions[1]?.id ?? "");
   assert.equal(previousDays.length, 3);
   assert.equal(latestDays.length, 3);
+  const current = await listCurrentDayPlans(client);
+  assert.equal(current.length, 3);
+  assert.ok(current.every((day) => day.planVersionId === versions[0]?.id));
   const regenerated = await listMealSlotsForDay(latestDays[0]?.id ?? "", client);
-  assert.equal(
-    regenerated.find((meal) => meal.slot === "dinner")?.recipeSlug,
-    alt.slug,
-  );
+  const regenDinner = regenerated.find((meal) => meal.slot === "dinner");
+  assert.equal(regenDinner?.recipeSlug, alt.slug);
+  assert.equal(regenDinner?.pinned, true);
+
+  await commitPlanVersion({ ...payload, keepPins: true }, client);
+  const afterSecond = await listPlanVersions(client);
+  assert.equal(afterSecond.length, 3);
+  const secondCurrent = await listCurrentDayPlans(client);
+  const secondMeals = await listMealSlotsForDay(secondCurrent[0]?.id ?? "", client);
+  const secondDinner = secondMeals.find((meal) => meal.slot === "dinner");
+  assert.equal(secondDinner?.recipeSlug, alt.slug);
+  assert.equal(secondDinner?.pinned, true);
 });
 
 function daysFor(

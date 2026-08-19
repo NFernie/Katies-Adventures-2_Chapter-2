@@ -102,3 +102,17 @@ export async function upsertCheckIn(
   );
   await throwIfError(error);
 }
+
+export async function deleteCheckIn(
+  id: string,
+  client?: GatewayClient,
+): Promise<void> {
+  const db = asClient(client);
+  const ownerId = await getOwnerId(db);
+  const { error } = await db
+    .from("check_ins")
+    .delete()
+    .eq("id", id)
+    .eq("owner_id", ownerId);
+  await throwIfError(error);
+}
