@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 5 **engine + onboarding shipped** (19 Aug 2026). Critique on onboarding done. Locked kcal fixtures unchanged. Persist through `src/data` for `auth.uid()`. Next is Phase 6 (USDA meals). Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 6 **pipeline + meal UI** (19 Aug 2026); **catalog not done** (FDC key missing). Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -714,7 +714,7 @@ Review: code-review + independent fixture check.
 
 ## Phase 6 — Recipes, USDA enrich, and meal plan UI
 
-**Goal:** Breakfast, lunch, dinner, snacks hit **USDA-computed** macros; swaps work.
+**Status:** Pipeline + meal UI shipped; **catalog is not done.** `USDA_FDC_API_KEY` is missing in this environment. Owner must run `bash scripts/wizard-usda-fdc.sh`, then enrich, before `data/recipes.json` is mergeable.
 
 ### Design
 
@@ -724,8 +724,8 @@ Review: code-review + independent fixture check.
 ### Develop
 
 - `tools/nutrition/` enrich + `npm run nutrition:check`.  
-- Committed `data/nutrition/fdc-cache.json`.  
-- Seed `data/recipes.json` **only after** enrich (no LLM-only macros).  
+- `data/nutrition/fdc-cache.json` exists as an empty layout (`foods: {}`). Real foods land only after enrich with a data.gov key.  
+- Seed `data/recipes.json` **only after** enrich (no LLM-only macros). **Not committed.**  
 - `src/engine/meals.ts` TDD. Pins/swaps in Supabase.  
 - Vegetarian never returns meat.  
 - GitHub Action: `nutrition:check` on PRs that touch `data/recipes.json` or the cache. Use repo secret `USDA_FDC_API_KEY` only on cache miss.
@@ -740,10 +740,12 @@ Review: code-review + independent fixture check.
 
 - [ ] Seed size agreed  
 - [ ] `nutrition:check` green  
-- [ ] Assigner tests green  
-- [ ] Swap + pin  
+- [x] Assigner tests green  
+- [x] Swap + pin (data gateway + Today sheet; empty catalog until enrich)  
 - [ ] Owner can cook 3 sample days  
-- [ ] No live USDA from Pages  
+- [x] No live USDA from Pages  
+
+**Stopped (19 Aug 2026):** FDC key missing. Wizard: `scripts/wizard-usda-fdc.sh` + `docs/wizard/usda-fdc.md`. `tools/nutrition` sums grams × cache per 100 g; `npm run nutrition:check` refuses LLM/zero macros and cache misses. No `data/recipes.json` committed. Assigner never returns meat on a vegetarian flag. Today lists four slots + Swap sheet; swaps/pins/eaten go through `src/data` with session `owner_id`.  
 
 ### Implementation-agent prompt
 

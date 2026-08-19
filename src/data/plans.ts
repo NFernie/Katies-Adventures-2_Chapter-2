@@ -185,3 +185,39 @@ export async function listPlanVersions(
     .map(mapVersion)
     .sort((a, b) => b.versionN - a.versionN);
 }
+
+export type DayPlan = {
+  id: string;
+  ownerId: string;
+  planVersionId: string;
+  onDate: string;
+  isTrainDay: boolean;
+};
+
+export async function listDayPlans(
+  client?: GatewayClient,
+): Promise<DayPlan[]> {
+  const db = asClient(client);
+  const ownerId = await getOwnerId(db);
+  const { data, error } = await db
+    .from("day_plans")
+    .select("*")
+    .eq("owner_id", ownerId);
+  if (error) throw new GatewayError(error.message);
+  const rows = (Array.isArray(data) ? data : data ? [data] : []) as Array<{
+    id: string;
+    owner_id: string;
+    plan_version_id: string;
+    on_date: string;
+    is_train_day: boolean;
+  }>;
+  return rows
+    .map((row) => ({
+      id: row.id,
+      ownerId: row.owner_id,
+      planVersionId: row.plan_version_id,
+      onDate: row.on_date,
+      isTrainDay: row.is_train_day,
+    }))
+    .sort((a, b) => (a.onDate < b.onDate ? 1 : -1));
+}

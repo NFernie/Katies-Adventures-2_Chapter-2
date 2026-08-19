@@ -37,6 +37,14 @@ Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md):
 
 Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
 
+If the FDC key is missing (catalog **not** done):
+
+```bash
+bash scripts/wizard-usda-fdc.sh
+```
+
+Walkthrough: [`docs/wizard/usda-fdc.md`](./docs/wizard/usda-fdc.md). Do not commit `data/recipes.json` until `npm run nutrition:check` is green.
+
 If you have not created a Supabase project yet:
 
 ```bash
@@ -53,4 +61,4 @@ Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.
 
 The throwaway HTML is still at [`docs/ux/prototype/index.html`](./docs/ux/prototype/index.html).
 
-v1: GitHub Pages project site + `basePath` + Supabase, single user, **magic-link auth in Phase 4** (with persistence). Mixed training week (gym / home / bands / bodyweight per weekday). Recipe macros in `data/recipes.json` are USDA-checked when written, not via a live API from the site. §3 is frozen (revision 5 amends Q9 and Q18) — do not re-interview it.
+v1: GitHub Pages project site + `basePath` + Supabase, single user, **magic-link auth in Phase 4** (with persistence). Mixed training week (gym / home / bands / bodyweight per weekday). Recipe macros in `data/recipes.json` are USDA-checked when written, not via a live API from the site. Phase 6 catalog is **not done** until the FDC key wizard + enrich have run. §3 is frozen (revision 5 amends Q9 and Q18) — do not re-interview it.

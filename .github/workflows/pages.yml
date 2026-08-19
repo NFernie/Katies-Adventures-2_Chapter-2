@@ -31,6 +31,11 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      - name: Nutrition check when a catalog exists
+        if: hashFiles('data/recipes.json') != ''
+        env:
+          USDA_FDC_API_KEY: ${{ secrets.USDA_FDC_API_KEY }}
+        run: npm run nutrition:check
       - run: npm run assert:static
       - run: npm run build
       - name: Fail if secrets leaked into the static export
@@ -47,6 +52,10 @@ jobs:
           fi
           if grep -R --fixed-strings "USDA_FDC_API_KEY" out; then
             echo "USDA_FDC_API_KEY must not appear in the Pages bundle"
+            exit 1
+          fi
+          if grep -R --fixed-strings "api.nal.usda.gov" out; then
+            echo "USDA FDC URL must not appear in the Pages bundle"
             exit 1
           fi
       - name: Ensure .nojekyll shipped

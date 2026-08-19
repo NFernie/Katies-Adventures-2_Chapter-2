@@ -1,51 +1,131 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SignedOutBanner } from "@/components/auth/signed-out-banner";
 import { useAuthSession } from "@/components/auth/use-auth-session";
+import { MealCard } from "@/components/meals/meal-card";
+import { SwapSheet } from "@/components/meals/swap-sheet";
 import { Disclaimer } from "@/components/shell/copy";
 import { LoadedBar } from "@/components/shell/loaded-bar";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { CATALOG_RECIPES, catalogSeeded } from "@/catalog/recipes";
 import { cn } from "@/lib/utils";
-import { getProfile, listPlanVersions, type PlanVersion, type Profile } from "@/data";
+import {
+  getProfile,
+  listDayPlans,
+  listMealSlotsForDay,
+  listPlanVersions,
+  pinMealSlot,
+  setMealEaten,
+  swapMealSlot,
+  type MealSlotRow,
+  type PlanVersion,
+  type Profile,
+} from "@/data";
+import {
+  MEAL_SLOTS,
+  SLOT_SHARE,
+  swapCandidates,
+  type DietFlag,
+  type KitchenFlag,
+  type MealSlot,
+} from "@/engine";
 
-const DUMMY = [
-  { slot: "Breakfast", name: "Oats (placeholder)" },
-  { slot: "Lunch", name: "Rice bowl (placeholder)" },
-  { slot: "Dinner", name: "Chicken plate (placeholder)" },
-  { slot: "Snack", name: "Yogurt (placeholder)" },
-];
+const EMPTY_EATEN: Record<MealSlot, boolean> = {
+  breakfast: false,
+  lunch: false,
+  dinner: false,
+  snack: false,
+};
 
 export function TodayScreen() {
   const { status } = useAuthSession();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [version, setVersion] = useState<PlanVersion | null>(null);
+  const [meals, setMeals] = useState<MealSlotRow[]>([]);
+  const [swapSlot, setSwapSlot] = useState<MealSlot | null>(null);
+
+  const fetchToday = useCallback(async () => {
+    if (status !== "signed-in") {
+      return { profile: null, version: null, meals: [] as MealSlotRow[] };
+    }
+    try {
+      const [nextProfile, versions, days] = await Promise.all([
+        getProfile(),
+        listPlanVersions(),
+        listDayPlans(),
+      ]);
+      const today = new Date().toISOString().slice(0, 10);
+      const day = days.find((row) => row.onDate === today) ?? days[0];
+      const nextMeals = day ? await listMealSlotsForDay(day.id) : [];
+      return {
+        profile: nextProfile,
+        version: versions[0] ?? null,
+        meals: nextMeals,
+      };
+    } catch {
+      return { profile: null, version: null, meals: [] as MealSlotRow[] };
+    }
+  }, [status]);
+
+  const applyToday = useCallback(
+    (next: { profile: Profile | null; version: PlanVersion | null; meals: MealSlotRow[] }) => {
+      setProfile(next.profile);
+      setVersion(next.version);
+      setMeals(next.meals);
+    },
+    [],
+  );
 
   useEffect(() => {
-    if (status !== "signed-in") return;
     let cancelled = false;
-    void Promise.all([getProfile(), listPlanVersions()])
-      .then(([nextProfile, versions]) => {
+    const id = window.setTimeout(() => {
+      void (async () => {
+        const next = await fetchToday();
         if (cancelled) return;
-        setProfile(nextProfile);
-        setVersion(versions[0] ?? null);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setProfile(null);
-        setVersion(null);
-      });
+        applyToday(next);
+      })();
+    }, 0);
     return () => {
       cancelled = true;
+      window.clearTimeout(id);
     };
-  }, [status]);
+  }, [fetchToday, applyToday]);
 
   const shownProfile = status === "signed-in" ? profile : null;
   const shownVersion = status === "signed-in" ? version : null;
+  const shownMeals = useMemo(
+    () => (status === "signed-in" ? meals : []),
+    [status, meals],
+  );
   const hasPlan = Boolean(shownVersion);
+  const canAct = status === "signed-in";
+
+  const eaten = useMemo(() => {
+    const next = { ...EMPTY_EATEN };
+    for (const meal of shownMeals) next[meal.slot] = meal.eaten;
+    return next;
+  }, [shownMeals]);
+
+  const swapping = shownMeals.find((meal) => meal.slot === swapSlot);
+  const candidates = swapSlot
+    ? swapCandidates({
+        slot: swapSlot,
+        currentSlug: swapping?.recipeSlug ?? "",
+        recipes: CATALOG_RECIPES,
+        dietFlags: (shownProfile?.dietFlags ?? []) as DietFlag[],
+        kitchenFlags: (shownProfile?.kitchenFlags ?? []) as KitchenFlag[],
+        targetKcal: (shownVersion?.energyKcal ?? 0) * SLOT_SHARE[swapSlot],
+        targetProteinG: (shownVersion?.proteinG ?? 0) * SLOT_SHARE[swapSlot],
+      })
+    : [];
+
+  function rowFor(slot: MealSlot): MealSlotRow | undefined {
+    return shownMeals.find((meal) => meal.slot === slot);
+  }
 
   return (
     <main>
@@ -61,42 +141,81 @@ export function TodayScreen() {
         bodyFat={shownProfile ? `${shownProfile.bodyFatPct} %` : "— %"}
         smm={shownProfile ? `${shownProfile.skeletalMuscleMassKg} kg` : "— kg"}
       />
-      <LoadedBar />
+      <LoadedBar
+        eaten={eaten}
+        onToggle={
+          canAct
+            ? (slot) => {
+                const row = rowFor(slot);
+                if (!row) return;
+                void setMealEaten(row.id, !row.eaten).then(() =>
+                  fetchToday().then(applyToday),
+                );
+              }
+            : undefined
+        }
+      />
+      {!catalogSeeded ? (
+        <p role="status" className="mb-3 font-sans text-[16px] leading-[1.45] text-iron-2">
+          Meals wait on the USDA catalog. Get a data.gov FDC key with{" "}
+          <code className="font-semibold">bash scripts/wizard-usda-fdc.sh</code>
+          , then enrich. The catalog is not done.
+        </p>
+      ) : null}
       <section className="border-t border-iron">
-        {DUMMY.map((meal) => (
-          <article key={meal.slot} className="border-b border-iron py-3">
-            <p className="grid grid-cols-[1fr_auto_auto] gap-2.5 font-sans text-[12px] font-bold tracking-[0.04em] text-iron-2 uppercase">
-              <span>{meal.slot}</span>
-              <span className="text-live tabular-nums">— kcal</span>
-              <span className="text-live tabular-nums">— p</span>
-            </p>
-            <h2 className="font-sans text-[1.05rem] font-bold">
-              {hasPlan ? meal.name : "After generate"}
-            </h2>
-            <div className="mt-2 flex gap-2">
-              <Button variant="outline" type="button" disabled>
-                Swap
-              </Button>
-              <Button type="button" disabled>
-                Ate it
-              </Button>
-            </div>
-          </article>
-        ))}
+        {MEAL_SLOTS.map((slot) => {
+          const row = rowFor(slot);
+          const recipe = CATALOG_RECIPES.find((item) => item.slug === row?.recipeSlug);
+          return (
+            <MealCard
+              key={slot}
+              slot={slot}
+              title={
+                recipe?.title ??
+                (hasPlan ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate" : "After generate")
+              }
+              kcal={recipe?.nutrition.kcal ?? null}
+              proteinG={recipe?.nutrition.proteinG ?? null}
+              eaten={row?.eaten ?? false}
+              pinned={row?.pinned ?? false}
+              canSwap={Boolean(catalogSeeded && row && canAct)}
+              canAct={Boolean(row && canAct)}
+              onSwap={() => setSwapSlot(slot)}
+              onAte={() => {
+                if (!row) return;
+                void setMealEaten(row.id, !row.eaten).then(() =>
+                  fetchToday().then(applyToday),
+                );
+              }}
+              onPin={() => {
+                if (!row) return;
+                void pinMealSlot(row.id, !row.pinned).then(() =>
+                  fetchToday().then(applyToday),
+                );
+              }}
+            />
+          );
+        })}
       </section>
       <div className="h-7" aria-hidden />
-      <p className="font-sans text-[16px] leading-[1.45]">
-        Dummy meal titles until the USDA catalog. Each session uses that day’s
-        setting. Saved personal data stays hidden until a magic-link session
-        exists.
-      </p>
-      <Link
-        href="/onboarding"
-        className={cn(buttonVariants(), "mt-4 inline-flex")}
-      >
+      <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
         {hasPlan ? "Regenerate" : "Start onboarding"}
       </Link>
       <Disclaimer />
+      <SwapSheet
+        slot={swapSlot ?? "breakfast"}
+        open={swapSlot != null}
+        candidates={candidates}
+        emptyReason="No USDA-checked swaps yet. Catalog is not done."
+        onClose={() => setSwapSlot(null)}
+        onPick={(slug) => {
+          if (!swapping) return;
+          void swapMealSlot(swapping.id, slug).then(() => {
+            setSwapSlot(null);
+            return fetchToday().then(applyToday);
+          });
+        }}
+      />
     </main>
   );
 }
