@@ -44,7 +44,7 @@ Exercises are a movement catalog. They are **not** USDA-checked.
 - Do not copy commercial recipe-site nutrition labels and present them as USDA.
 - If FDC has no honest match, do not invent macros — pick the closest generic food and `matchNote`, or drop the recipe.
 - The Next.js bundle must not import the USDA client.
-- Spoonacular, Edamam, or ScrapeGraphAI (Phase 9, optional) may draft ingredient *lists*. Macros still go through this contract before they land in `data/recipes.json`.
+- Spoonacular, Edamam, or ScrapeGraphAI (Phase 9) may draft ingredient *lists*. Macros still go through this contract before they land in `data/recipes.json`. Legal sources: `docs/content-sources.md`. Merge: `npm run ingest:recipes`.
 
 ## Owner setup
 

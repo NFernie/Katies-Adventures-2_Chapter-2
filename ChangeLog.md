@@ -4,6 +4,18 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 9 catalog ingest (USDA + wger)
+
+Grow the JSON catalog on a laptop. Macros still come from the Phase 6 USDA enricher. wger is exercises only.
+
+- `docs/content-sources.md` + `tools/ingest/sources.json` — allow first-party / FDC / wger exercise endpoints; deny commercial recipe sites. No HTML scrape URLs are signed off.
+- Recipe drafts in `data/ingest/recipe-drafts.json` are summed with `tools/nutrition` (committed FDC cache). Spoonacular-style labels are discarded. Reviewed catalog slugs are not overwritten.
+- wger `exerciseinfo` JSON maps to BodyPlan patterns/tracks. Ingredient endpoints throw. Text cues + CC-BY-SA `sourceUrl`. No photos.
+- Catalog: **21** USDA-checked recipes (+5), **34** exercises (+ pull-ups, hip thrust, face pull).
+- Next.js `src/` does not import scrapegraphai, USDA, or wger. `scrapegraph_draft.py` is local-only and refuses unsigned URLs.
+
+---
+
 ## 19 Aug 2026 — Phase 8 timeline, check-ins, regenerate with pins
 
 Reopen a plan, log BodyID check-ins, and regenerate without wiping history.

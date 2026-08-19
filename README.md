@@ -42,7 +42,11 @@ Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL`
 ```bash
 npx tsx tools/nutrition/enrich.ts
 npm run nutrition:check
+npm run ingest:recipes
+npm run ingest:exercises
 ```
+
+Catalog ingest (Phase 9): first-party drafts and wger exercise JSON live under `data/ingest/`. Sources: [`docs/content-sources.md`](./docs/content-sources.md). Never import scrapegraphai or USDA from `src/`.
 
 Walkthrough: [`docs/wizard/usda-fdc.md`](./docs/wizard/usda-fdc.md). If a key was ever committed, rotate it on data.gov and run `gh secret set USDA_FDC_API_KEY`.
 

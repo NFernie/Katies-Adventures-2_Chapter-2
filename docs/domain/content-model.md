@@ -93,7 +93,7 @@ Rules:
 - 4-4-9 checksum: `|kcal - (4·proteinG + 4·carbG + 9·fatG)|` within the Phase 6 tolerance.
 - Recipes list kitchen equipment (`oven`, `hob`, `none`). Training settings live on exercises, not recipes.
 
-Phase 6 writes the real file. This document is the shape.
+Phase 6 wrote the seed file. Phase 9 grows it via `npm run ingest:recipes` (USDA enrich, no overwrite of reviewed slugs).
 
 ---
 
@@ -117,7 +117,7 @@ Movements tagged by **track**. **Not** USDA-checked. No `owner_id`. A session on
 
 `tracks` is a non-empty subset of `gym` | `home` | `bands` | `bodyweight`. An exercise may appear in more than one (example: a bodyweight squat tagged `["home","bodyweight"]`).
 
-Each row has a `cue` string — **text only**. No photos or video.
+Each row has a `cue` string — **text only**. No photos or video. Optional `source` / `sourceUrl` / `license` (wger CC-BY-SA) are ingest metadata; the app mapper ignores them.
 
 Sex does not change the movement rules. Cardio entries (`zone2-walk`, `bike-intervals`) may exist as catalog rows the **generator** picks; they are not an onboarding preference. Cardio rows still declare which settings they can use (a gym bike vs a walk).
 
