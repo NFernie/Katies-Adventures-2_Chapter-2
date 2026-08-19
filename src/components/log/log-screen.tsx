@@ -9,6 +9,10 @@ import { CheckInForm } from "@/components/log/check-in-form";
 import { TimelineRail } from "@/components/log/timeline-rail";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
 import {
+  RouteGate,
+  type RouteLoadState,
+} from "@/components/shell/route-status";
+import {
   deleteCheckIn,
   getProfile,
   listCheckIns,
@@ -30,42 +34,49 @@ export function LogScreen() {
   const [version, setVersion] = useState<PlanVersion | null>(null);
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
   const [busy, setBusy] = useState(false);
+  const [loadState, setLoadState] = useState<RouteLoadState>("loading");
+  const [attempt, setAttempt] = useState(0);
 
   const load = useCallback(async () => {
     if (status !== "signed-in") {
       return { profile: null, version: null, checkIns: [] as CheckIn[] };
     }
-    try {
-      const [nextProfile, versions, nextCheckIns] = await Promise.all([
-        getProfile(),
-        listPlanVersions(),
-        listCheckIns(),
-      ]);
-      return {
-        profile: nextProfile,
-        version: versions[0] ?? null,
-        checkIns: nextCheckIns,
-      };
-    } catch {
-      return { profile: null, version: null, checkIns: [] as CheckIn[] };
-    }
+    const [nextProfile, versions, nextCheckIns] = await Promise.all([
+      getProfile(),
+      listPlanVersions(),
+      listCheckIns(),
+    ]);
+    return {
+      profile: nextProfile,
+      version: versions[0] ?? null,
+      checkIns: nextCheckIns,
+    };
   }, [status]);
 
   useEffect(() => {
+    if (status === "loading") return;
     let cancelled = false;
     const id = window.setTimeout(() => {
-      void load().then((next) => {
-        if (cancelled) return;
-        setProfile(next.profile);
-        setVersion(next.version);
-        setCheckIns(next.checkIns);
-      });
+      void (async () => {
+        if (status === "signed-in") setLoadState("loading");
+        try {
+          const next = await load();
+          if (cancelled) return;
+          setProfile(next.profile);
+          setVersion(next.version);
+          setCheckIns(next.checkIns);
+          setLoadState("ready");
+        } catch {
+          if (cancelled) return;
+          setLoadState("error");
+        }
+      })();
     }, 0);
     return () => {
       cancelled = true;
       window.clearTimeout(id);
     };
-  }, [load]);
+  }, [status, load, attempt]);
 
   const shownProfile = status === "signed-in" ? profile : null;
   const shownVersion = status === "signed-in" ? version : null;
@@ -92,6 +103,13 @@ export function LogScreen() {
         Weekly BodyID
       </h1>
       <SignedOutBanner />
+      <RouteGate
+        loadState={loadState}
+        onRetry={() => {
+          setLoadState("loading");
+          setAttempt((n) => n + 1);
+        }}
+      >
       <p className="mt-2 mb-4 font-sans text-[16px] leading-[1.45] text-iron-2">
         Weekly InBody / Tanita check-in. Weight, body fat %, skeletal muscle
         mass. No photos. No wearables. Any date is allowed; the rail uses the
@@ -183,6 +201,7 @@ export function LogScreen() {
           </ul>
         </section>
       ) : null}
+      </RouteGate>
     </main>
   );
 }

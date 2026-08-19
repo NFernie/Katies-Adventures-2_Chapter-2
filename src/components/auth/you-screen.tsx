@@ -8,7 +8,7 @@ import {
   SignedOutEmpty,
 } from "@/components/auth/signed-out-empty";
 import { useAuthSession } from "@/components/auth/use-auth-session";
-import { Disclaimer } from "@/components/shell/copy";
+import { RouteStatus } from "@/components/shell/route-status";
 import { Button } from "@/components/ui/button";
 import {
   getProfile,
@@ -152,10 +152,13 @@ export function YouScreen() {
         You
       </h1>
       {status === "missing-config" ? <MissingSupabaseNote /> : null}
-      {status === "signed-out" || status === "loading" ? (
+      {status === "loading" ? (
+        <RouteStatus loading loadingLabel="Checking your session…" />
+      ) : null}
+      {status === "signed-out" ? (
         <>
           <SignedOutEmpty heading="Sign in to save this profile" showCta={false} />
-          {status === "signed-out" ? <MagicLinkForm /> : null}
+          <MagicLinkForm />
         </>
       ) : null}
       {status === "signed-in" ? (
@@ -274,7 +277,6 @@ export function YouScreen() {
           ) : null}
         </form>
       ) : null}
-      <Disclaimer />
     </main>
   );
 }

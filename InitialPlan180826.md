@@ -891,6 +891,8 @@ Next.js client. JSON PRs only.
 
 ## Phase 10 — Polish and launch (auth is in)
 
+**Status:** Code-complete (19 Aug 2026). Owner launch approval is still a human checkbox in `docs/launch.md`.
+
 **Goal:** Ship a mobile Pages app that feels intentional.
 
 ### Design
@@ -912,11 +914,13 @@ Next.js client. JSON PRs only.
 
 ### Gate
 
-- [ ] Audit defects fixed or waived  
-- [ ] E2E green (signed-in path)  
-- [ ] Disclaimer on generate + footer  
+- [x] Audit defects fixed or waived  
+- [x] E2E green (signed-in path)  
+- [x] Disclaimer on generate + footer  
 - [ ] Owner launch approval  
-- [ ] `docs/launch.md` notes magic-link Auth + RLS (`auth.uid()`); no open-anon personal tables  
+- [x] `docs/launch.md` notes magic-link Auth + RLS (`auth.uid()`); no open-anon personal tables  
+
+**Done (19 Aug 2026):** Skip link, sheet focus trap, loading/error on Today/Plan/Log/Session, signed-out empty on Plan, `noindex` + `robots.txt`, footer disclaimer (generate still has its own). Magic link stays Phase 4 OTP — no NextAuth. `docs/launch.md` records Pages URL, GitHub secrets, `/lock/` redirects, `owner_id = auth.uid()`, and Supabase auth rate-limit defaults. Device Lighthouse / iPhone Safari / Android Chrome remain an owner pass. Owner sign-off is the last gate.
 
 ### Implementation-agent prompt
 
@@ -954,7 +958,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Phase 8 — **done** (timeline + check-ins). Phase 9 — **done** (ingest). Next is Phase 10 polish.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Phase 7 — **done** (exercise catalog + session). Phase 8 — **done** (timeline + check-ins). Phase 9 — **done** (ingest). Phase 10 — **code-complete** (polish + `docs/launch.md`; owner launch approval still a human step).  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -979,4 +983,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–9 are in the repo (meals, training, check-ins, plan history, USDA-checked catalog ingest). Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 10 polish.
+Phase 0–10 are in the repo (meals, training, check-ins, plan history, USDA-checked catalog ingest, launch polish). Phase 4 live persist is on. Later agents should not ask the §3 questions again. Owner launch approval is the remaining human checkbox in `docs/launch.md`.

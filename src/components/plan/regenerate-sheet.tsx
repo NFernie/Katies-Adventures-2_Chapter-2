@@ -1,5 +1,7 @@
 "use client";
 
+import { useSheetFocus } from "@/components/shell/use-sheet-focus";
+
 export function RegenerateSheet({
   open,
   onConfirm,
@@ -9,6 +11,7 @@ export function RegenerateSheet({
   onConfirm: () => void;
   onClose: () => void;
 }) {
+  const panelRef = useSheetFocus(open, onClose);
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-20">
@@ -19,6 +22,7 @@ export function RegenerateSheet({
         onClick={onClose}
       />
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="regen-title"

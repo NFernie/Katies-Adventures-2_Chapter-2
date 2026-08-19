@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { SignedOutBanner } from "@/components/auth/signed-out-banner";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { goalFromVersion } from "@/components/plan/goal-snapshot";
 import { RegenerateSheet } from "@/components/plan/regenerate-sheet";
 import { WeekStrip } from "@/components/plan/week-strip";
 import { TimelineRail } from "@/components/log/timeline-rail";
+import {
+  RouteGate,
+  type RouteLoadState,
+} from "@/components/shell/route-status";
 import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
@@ -31,36 +36,55 @@ export function PlanScreen() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
   const [confirm, setConfirm] = useState(false);
+  const [loadState, setLoadState] = useState<RouteLoadState>("loading");
+  const [attempt, setAttempt] = useState(0);
 
-  useEffect(() => {
-    if (status !== "signed-in") return;
-    let cancelled = false;
-    void Promise.all([
+  const load = useCallback(async () => {
+    if (status !== "signed-in") {
+      return {
+        versions: [] as PlanVersion[],
+        days: [] as TrainingDay[],
+        profile: null as Profile | null,
+        checkIns: [] as CheckIn[],
+      };
+    }
+    const [rows, trainingDays, nextProfile, nextCheckIns] = await Promise.all([
       listPlanVersions(),
       listTrainingDays(),
       getProfile(),
       listCheckIns(),
-    ])
-      .then(([rows, trainingDays, nextProfile, nextCheckIns]) => {
+    ]);
+    return {
+      versions: rows,
+      days: trainingDays,
+      profile: nextProfile,
+      checkIns: nextCheckIns,
+    };
+  }, [status]);
+
+  useEffect(() => {
+    if (status === "loading") return;
+    let cancelled = false;
+    void (async () => {
+      if (status === "signed-in") setLoadState("loading");
+      try {
+        const next = await load();
         if (cancelled) return;
-        setVersions(rows);
-        setVersion(rows[0] ?? null);
-        setDays(trainingDays);
-        setProfile(nextProfile);
-        setCheckIns(nextCheckIns);
-      })
-      .catch(() => {
+        setVersions(next.versions);
+        setVersion(next.versions[0] ?? null);
+        setDays(next.days);
+        setProfile(next.profile);
+        setCheckIns(next.checkIns);
+        setLoadState("ready");
+      } catch {
         if (cancelled) return;
-        setVersion(null);
-        setVersions([]);
-        setDays([]);
-        setProfile(null);
-        setCheckIns([]);
-      });
+        setLoadState("error");
+      }
+    })();
     return () => {
       cancelled = true;
     };
-  }, [status]);
+  }, [status, load, attempt]);
 
   const shown = status === "signed-in" ? version : null;
   const shownDays = status === "signed-in" ? days : [];
@@ -89,6 +113,14 @@ export function PlanScreen() {
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
         Plan
       </h1>
+      <SignedOutBanner />
+      <RouteGate
+        loadState={loadState}
+        onRetry={() => {
+          setLoadState("loading");
+          setAttempt((n) => n + 1);
+        }}
+      >
       <BentoGrid className="mt-4">
         <BentoGridItem
           title="Energy"
@@ -169,6 +201,7 @@ export function PlanScreen() {
           router.push("/onboarding");
         }}
       />
+      </RouteGate>
     </main>
   );
 }

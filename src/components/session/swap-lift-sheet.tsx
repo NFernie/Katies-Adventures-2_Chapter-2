@@ -1,5 +1,6 @@
 "use client";
 
+import { useSheetFocus } from "@/components/shell/use-sheet-focus";
 import type { CatalogExercise } from "@/engine";
 
 export function SwapLiftSheet({
@@ -15,6 +16,7 @@ export function SwapLiftSheet({
   onPick: (slug: string) => void;
   onClose: () => void;
 }) {
+  const panelRef = useSheetFocus(open, onClose);
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-20">
@@ -25,6 +27,7 @@ export function SwapLiftSheet({
         onClick={onClose}
       />
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="swap-lift-title"

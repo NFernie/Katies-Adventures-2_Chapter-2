@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MagicLinkForm } from "@/components/auth/magic-link-form";
 import { MissingSupabaseNote } from "@/components/auth/signed-out-empty";
 import { useAuthSession } from "@/components/auth/use-auth-session";
-import { Disclaimer } from "@/components/shell/copy";
+import { RouteStatus } from "@/components/shell/route-status";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,9 @@ export function LockScreen() {
   return (
     <main>
       <p className="font-sans text-[13px] font-semibold text-iron-2">Sign in</p>
-      {status === "signed-in" ? (
+      {status === "loading" ? (
+        <RouteStatus loading loadingLabel="Checking your session…" />
+      ) : status === "signed-in" ? (
         <>
           <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
             You are in
@@ -41,7 +43,6 @@ export function LockScreen() {
       )}
       {status === "missing-config" ? <MissingSupabaseNote /> : null}
       {status === "signed-out" ? <MagicLinkForm redirectOnSend={false} /> : null}
-      <Disclaimer />
     </main>
   );
 }

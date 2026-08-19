@@ -35,9 +35,9 @@ Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md):
 
 ## Env
 
-Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
+Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`. Put the real FDC key in gitignored `.env` (or `.env.local`), **not** in `.env.example`.
 
-`USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`. Put the real key in gitignored `.env` (or `.env.local`), **not** in `.env.example`.
+Launch checklist (Pages URL, GitHub secrets, magic-link redirects, RLS): [`docs/launch.md`](./docs/launch.md).
 
 ```bash
 npx tsx tools/nutrition/enrich.ts
@@ -60,7 +60,11 @@ Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.
 
 ## Magic-link sign-in
 
-**You** (`/settings`) and `/lock` send a Supabase Auth email link. Personal rows use `owner_id = auth.uid()`. Incognito cannot see them. No Google OAuth, no password product.
+**You** (`/settings`) and `/lock` send a Supabase Auth email link. Personal rows use `owner_id = auth.uid()`. Incognito cannot see them. No Google OAuth, no password product. Redirect URLs and rate-limit defaults: [`docs/launch.md`](./docs/launch.md).
+
+## Disclaimer
+
+BodyPlan is a personal planner, not medical treatment. Intended for adults 18+. The same line is on onboarding Generate and in the app footer.
 
 ## See the prototype
 

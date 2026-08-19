@@ -4,6 +4,17 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 10 polish and launch docs
+
+No new features. Magic link stays Phase 4. No NextAuth.
+
+- `docs/launch.md` — Pages URL, GitHub secrets (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, tools-only `USDA_FDC_API_KEY`), `/lock/` auth redirects, RLS `owner_id = auth.uid()`, Supabase auth rate-limit **defaults** (not a custom limiter). Owner launch approval is a human checkbox.
+- Skip link, sheet Escape/Tab trap, loading + Try again on Today / Plan / Log / Session. Plan signed-out empty. You / `/lock` wait for the session before showing the form.
+- Footer disclaimer on nav routes; Generate still has its own. `noindex` + `robots.txt` (Pages URL is still public).
+- Reduced motion stays the global `prefers-reduced-motion` kill in `globals.css` (DESIGN.md). E2E remains `src/data/happy-path.test.ts` (stubbed session).
+
+---
+
 ## 19 Aug 2026 — Phase 9 catalog ingest (USDA + wger)
 
 Grow the JSON catalog on a laptop. Macros still come from the Phase 6 USDA enricher. wger is exercises only.
