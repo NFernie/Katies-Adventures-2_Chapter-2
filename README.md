@@ -23,6 +23,16 @@ npm run build
 
 `out/` is the static export. `public/.nojekyll` ships with it.
 
+## GitHub Pages (one-time)
+
+The first deploy failed with **404** until Pages is turned on. That is a repo setting, not a build bug.
+
+```bash
+bash scripts/wizard-github-pages.sh
+```
+
+Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md): **Settings → Pages → Source → GitHub Actions**, skip templates, then **Re-run failed jobs**. Live URL: `https://nfernie.github.io/Katies-Adventures-2_Chapter-2/`.
+
 ## Env
 
 Copy `.env.example`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Phase 4). `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
