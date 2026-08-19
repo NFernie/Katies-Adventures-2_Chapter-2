@@ -4,6 +4,16 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 4 prove-it: live 0003 applied, signed-out REST denied
+
+Owner ran `0003_repair_auth_rls.sql` on project `gbpwayarlvdvrotjnufa`.
+
+- `bash scripts/prove-supabase-anon.sh` **passes**. Anon GET/POST `profiles` and `training_days` is HTTP 401 / `42501` (permission denied). `gym_days_per_week` is gone. `training_days` is in the schema.
+- Local Settings/Today still show the signed-out empty state (not “Supabase is not configured”). Height/weight save stays hidden until a session exists.
+- Phone `/lock/` “you are in” and signed-in profile round-trip are **not** ticked: this agent cannot open Gmail; a later OTP send hit email rate limit. GitHub Actions still has no `NEXT_PUBLIC_SUPABASE_*` secrets, so Pages will not bake the client.
+
+---
+
 ## 19 Aug 2026 — Phase 4 prove-it: project exists, SQL not yet auth-scoped
 
 Owner wired a live project (`gbpwayarlvdvrotjnufa`) and Email OTP. Step 7 is **not** complete.
