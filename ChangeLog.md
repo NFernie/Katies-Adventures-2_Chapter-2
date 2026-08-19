@@ -4,6 +4,17 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 4 prove-it: project exists, SQL not yet auth-scoped
+
+Owner wired a live project (`gbpwayarlvdvrotjnufa`) and Email OTP. Step 7 is **not** complete.
+
+- Live `profiles` still has `gym_days_per_week` NOT NULL. `training_days` is missing (`PGRST205`). Signed-out POST reaches the table (constraint errors, not permission denied).
+- Added `supabase/migrations/0003_repair_auth_rls.sql` (drop `gym_days_per_week`, create `training_days`, revoke anon, `*_auth_owner`). Use this instead of `0001_init.sql` when tables already exist.
+- `scripts/prove-supabase-anon.sh` + wizard step 5/7 notes. Do not tick the Phase 4 live gates until that script is green and a magic-link session round-trips.
+- Stripped a real `USDA_FDC_API_KEY` from `.env.example` (rotate that data.gov key). Publishable Supabase key may stay public; never commit USDA.
+
+---
+
 ## 19 Aug 2026 — Phase 4 data gateway + magic-link auth (code; live apply blocked)
 
 Persistence and email magic-link land together. No open `DEFAULT_OWNER_ID` policy. No NextAuth. No Prisma runtime.

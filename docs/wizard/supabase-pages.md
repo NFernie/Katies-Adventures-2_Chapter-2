@@ -1,6 +1,6 @@
 # Create a Supabase project for BodyPlan (one-time)
 
-Phase 4 code is in the repo. **Live persistence needs a project you create.** There is no `NEXT_PUBLIC_SUPABASE_URL` in this environment, so SQL is **not** applied from CI.
+Phase 4 code is in the repo. **Live persistence needs a project you create**, then auth-scoped SQL. CI cannot apply SQL (no `service_role` in the website).
 
 Walk-through script (opens the URLs and writes `.env.local` + GitHub Actions variables):
 
@@ -63,9 +63,11 @@ The app sends `emailRedirectTo` to `/lock/` on the current origin (`src/data/aut
 ## 5. Apply SQL (auth-scoped RLS from the first apply)
 
 1. Left sidebar **SQL Editor** → **New query** ([deep link](https://supabase.com/dashboard/project/_/sql/new)).
-2. Paste all of `supabase/migrations/0001_init.sql` → **Run**.
-3. **New query** → optionally paste `supabase/migrations/0002_owner_auth_fk.sql` → **Run**. This FK is **optional** (`owner_id` → `auth.users`). Skip if it errors.
-4. **Table Editor** → `profiles` / `training_days`: **RLS ON**. Policies named `*_auth_owner` use `owner_id = auth.uid()` for **`authenticated`**. **`anon` is revoked.** There is no `is_v1_owner` policy. Do not add one.
+2. **New empty project:** paste all of `supabase/migrations/0001_init.sql` → **Run**.
+3. **Tables already exist** (0001 errors, or `profiles` still has `gym_days_per_week`, or `training_days` is missing): paste `supabase/migrations/0003_repair_auth_rls.sql` instead → **Run**. Do not re-run 0001.
+4. **New query** → optionally paste `supabase/migrations/0002_owner_auth_fk.sql` → **Run**. This FK is **optional** (`owner_id` → `auth.users`). Skip if it errors.
+5. **Table Editor** → `profiles` / `training_days`: **RLS ON**. Policies named `*_auth_owner` use `owner_id = auth.uid()` for **`authenticated`**. **`anon` is revoked.** There is no `is_v1_owner` policy. Do not add one.
+6. From the repo: `bash scripts/prove-supabase-anon.sh` — must print that `training_days` exists and anon insert is denied.
 
 ## 6. GitHub Actions secrets (and optional variables)
 
@@ -85,4 +87,6 @@ Do not add `service_role` here.
 3. On **You**, save height/weight + at least one train day. Hard-refresh. Numbers stay.
 4. **Incognito** (or signed out): Today/You show the empty state. Personal rows are not readable.
 
-Until this wizard is finished, the app still static-exports; the magic-link form explains that Supabase is not configured.
+Keys in `.env.local` only wire the browser client. Until SQL is auth-scoped (`0001` or `0003`), saving a profile and hiding rows from incognito will fail even if the magic-link form sends mail.
+
+Until URL + anon key are in `.env.local` (and GitHub Actions for Pages), the static export still builds; the form explains that Supabase is not configured.

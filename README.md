@@ -43,7 +43,7 @@ If you have not created a Supabase project yet:
 bash scripts/wizard-supabase-pages.sh
 ```
 
-Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.md): new project, Email provider, `/lock/` redirect URLs, paste `0001_init.sql`, GitHub Actions variables.
+Or click through [`docs/wizard/supabase-pages.md`](./docs/wizard/supabase-pages.md): new project, Email provider, `/lock/` redirect URLs, paste `0001_init.sql` (or `0003_repair_auth_rls.sql` if tables already exist), GitHub Actions variables. Prove signed-out REST with `bash scripts/prove-supabase-anon.sh`.
 
 ## Magic-link sign-in
 
