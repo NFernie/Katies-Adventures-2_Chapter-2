@@ -1,0 +1,99 @@
+{
+  "comment": "Known-good Phase 2 fixtures. Phase 5 tests compare engine output to these literals. Do not derive expected values inside the test.",
+  "kcalPerKg": 7700,
+  "examples": [
+    {
+      "id": "male-fat-loss-4d",
+      "input": {
+        "sex": "male",
+        "birthDate": "1990-03-15",
+        "heightCm": 178,
+        "weightKg": 88.0,
+        "bodyFatPct": 22.0,
+        "skeletalMuscleMassKg": 36.5,
+        "gymDaysPerWeek": 4,
+        "goal": {
+          "type": "fat_loss",
+          "startOn": "2026-08-18",
+          "endOn": "2026-12-08",
+          "targetWeightKg": 80.0,
+          "weeklyLossCapPct": 1.0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "ageYears": 36,
+        "bmrKcal": 1817.5,
+        "pal": 1.55,
+        "tdeeKcal": 2817.125,
+        "days": 112,
+        "lossKg": 8.0,
+        "impliedWeeklyLossPct": 0.5681818181818182,
+        "dailyDeficitKcal": 550,
+        "energyKcal": 2270,
+        "proteinG": 161,
+        "fatG": 70,
+        "carbG": 249,
+        "macroChecksumKcal": 2270,
+        "warnings": [],
+        "splitId": "upper_lower",
+        "cardio": { "kind": "zone2", "sessionsPerWeek": 2 },
+        "deloadWeeks": [4, 8, 12, 16]
+      }
+    },
+    {
+      "id": "female-retain-muscle-6d",
+      "input": {
+        "sex": "female",
+        "birthDate": "1994-11-02",
+        "heightCm": 165,
+        "weightKg": 72.0,
+        "bodyFatPct": 28.0,
+        "skeletalMuscleMassKg": 26.0,
+        "gymDaysPerWeek": 6,
+        "goal": {
+          "type": "fat_loss_retain_muscle",
+          "startOn": "2026-08-18",
+          "endOn": "2026-11-10",
+          "targetWeightKg": 66.0,
+          "weeklyLossCapPct": 1.0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "ageYears": 31,
+        "bmrKcal": 1435.25,
+        "pal": 1.725,
+        "tdeeKcal": 2475.80625,
+        "days": 84,
+        "lossKg": 6.0,
+        "impliedWeeklyLossPct": 0.6944444444444444,
+        "dailyDeficitKcal": 550,
+        "energyKcal": 1930,
+        "proteinG": 158,
+        "fatG": 58,
+        "carbG": 194,
+        "macroChecksumKcal": 1930,
+        "warnings": [],
+        "splitId": "ppl_twice",
+        "cardio": { "kind": "zone2", "sessionsPerWeek": 1 },
+        "deloadWeeks": [4, 8, 12]
+      }
+    }
+  ],
+  "unsafeBlock": {
+    "id": "female-unsafe-1-sep-2026",
+    "comment": "Same female body as female-retain-muscle-6d; only endOn changes.",
+    "endOn": "2026-09-01",
+    "expected": {
+      "ok": false,
+      "block": {
+        "code": "unsafe_loss_speed",
+        "impliedWeeklyLossPct": 4.166666666666667,
+        "capPct": 1.0,
+        "fastestSafeEndOn": "2026-10-16",
+        "daysMin": 59
+      }
+    }
+  }
+}

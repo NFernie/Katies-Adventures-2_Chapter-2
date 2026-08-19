@@ -45,4 +45,4 @@ Captures at 390px (prototype chrome + phone):
 - `screenshots/plan.png` — plan + week strip
 - `screenshots/you.png` — profile + lock note (not a button)
 
-The HTML is the source of truth. Click through `#on1` → `#on5` for the full onboarding.
+The HTML is the source of truth. Click through `#on1` → `#on5` for the full onboarding. Helper copy uses **iron-2** `#1a1a1a` (DESIGN.md). The PNG stills were captured before that contrast tweak; they are not regenerated.

@@ -21,6 +21,8 @@ Impeccable `detect.mjs --json` on the prototype: **0 findings** after tokens wer
 4. **Plan bento** leans toward generic metric tiles. Keep it as the only Aceternity-ish block; do not repeat on Today.
 5. **Contrast on snack hub** (near-black plate on platform grey) relies on the iron ring — keep the ring at 3px.
 
+**Addressed 19 Aug 2026 (owner caveat, no new stills):** helper copy (`.muted` / **iron-2**) darkened `#2c2c2c` → `#1a1a1a` so printout instructions hold on platform grey. PNG stills in `screenshots/` predate that tweak; HTML is source of truth.
+
 ## Heuristic snapshot (Operate)
 
 | Heuristic | Score (0–4) |

@@ -14,15 +14,16 @@ Engine maths still uses **Mifflin–St Jeor** for BMR. A machine-printed BMR is 
 
 Tanita printouts often say “muscle mass” rather than “skeletal muscle mass”. Store it as `skeletal_muscle_mass_kg` and keep a short note if the machine label differs.
 
-## Optional (Phase 2 may promote)
+## Optional columns (Phase 2: stored, engine ignores)
 
-Not required for the first onboarding. Phase 2 decides which become columns. The engine ignores them until that spec says otherwise. Staying in the BodyID family is required; adding a different source (tape, photos) is not.
+Nullable on `profiles` and `check_ins`. Staying in the BodyID family is required; adding a different source (tape, photos) is not. The planning engine **does not read** these in v1.
 
 | Field | Typical machine label | Notes |
 | --- | --- | --- |
 | `body_fat_mass_kg` | Body fat mass / BFM | Often printed next to % |
-| `visceral_fat_level` | Visceral fat level / rating | InBody level or Tanita rating; store the number and the scale name in Phase 2 |
-| `total_body_water_kg` | Total body water / TBW | Common InBody line; not an engine input in v1 |
+| `visceral_fat_level` | Visceral fat level / rating | Number from the printout |
+| `visceral_fat_scale` | — | `inbody_level` or `tanita_rating` (the scale name, stored next to the number) |
+| `total_body_water_kg` | Total body water / TBW | Common InBody line |
 
 ## Same family, not a different source
 
