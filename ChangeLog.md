@@ -4,6 +4,17 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — GitHub Pages 404 on first deploy
+
+The Phase 3 **build** was green. `actions/deploy-pages` 404’d because the repo had Pages off (`has_pages: false`). Not a Next.js export bug.
+
+- `docs/wizard/github-pages.md` + `scripts/wizard-github-pages.sh` — Settings → Pages → Source → **GitHub Actions**, skip templates, re-run the failed job.
+- Deploy job now fails with that URL if Pages is still off, then runs `configure-pages`.
+
+Live URL after the owner click: `https://nfernie.github.io/Katies-Adventures-2_Chapter-2/`.
+
+---
+
 ## 19 Aug 2026 — Phase 3 Next.js static scaffold
 
 GitHub Pages **project** site app in the repo root.

@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
-**Status:** Phase 3 **scaffold in this PR** (19 Aug 2026). Phase 2 complete (independent recompute matched). Phase 1 complete (contrast caveat fixed). Phase 0 brief remains in force. §3 remains **closed**. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 3 **scaffold merged**. Public Pages URL blocked until the owner sets Pages source to **GitHub Actions** (`docs/wizard/github-pages.md`). Phase 2 complete. Phase 1 complete. Phase 0 brief remains in force. §3 remains **closed**. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
