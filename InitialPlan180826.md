@@ -669,7 +669,7 @@ Do not add NextAuth or Prisma runtime.
 
 ## Phase 5 — Onboarding + planning engine
 
-**Goal:** Valid Profile + Goal + training week → `plan_versions` row whose numbers match the spec.
+**Status:** Engine + onboarding shipped (19 Aug 2026). Remaining: `/impeccable critique` on onboarding in this PR.
 
 ### Design
 
@@ -687,10 +687,12 @@ Do not add NextAuth or Prisma runtime.
 
 ### Gate
 
-- [ ] Engine tests green (kcal literals unchanged; week maps mixed)  
-- [ ] PlanVersion persisted for `auth.uid()`  
-- [ ] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
+- [x] Engine tests green (kcal literals unchanged; week maps mixed)  
+- [x] PlanVersion persisted for `auth.uid()`  
+- [x] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
 - [ ] `/impeccable critique` on onboarding  
+
+**Completed (19 Aug 2026):** Pure `src/engine/planEnergyAndTraining` vs `docs/domain/fixtures/engine-examples.json` (male 2270 / female 1930 / unsafe `2026-10-16`). Independent recompute: `node scripts/recompute-engine-fixtures.mjs`. `commitPlanVersion` writes profile, `training_days`, goal, plan, `plan_versions`, and dummy meal slots through `src/data` with session `owner_id`. Five-step onboarding (You → printout → Aim → kitchen/week → review). Yellow Continue band. Disclaimer on review. No BMI/age/pregnancy blocks. Dummy meal titles on Today.  
 
 ### Implementation-agent prompt
 
@@ -925,7 +927,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **code done**; owner must run the Supabase wizard before live save. Phase 5 only after engine-spec (amended) exists.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 is USDA meals.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -950,4 +952,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–4 **code** are done. Phase 4 **live** data waits on the owner’s Supabase project. Phase 1 and Phase 2 were amended for mixed weeks and auth-at-persistence. Later agents should not ask the §3 questions again.
+Phase 0–5 engine/onboarding are in the repo. Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 6 (USDA meals).

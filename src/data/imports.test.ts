@@ -30,3 +30,21 @@ test("only src/data may import supabase-js", () => {
   }
   assert.deepEqual(offenders, []);
 });
+
+test("src/engine stays free of React, Supabase, and owner_id", () => {
+  const engineRoot = join(srcRoot, "engine");
+  const files = walk(engineRoot);
+  const offenders: string[] = [];
+  for (const file of files) {
+    if (file.endsWith(".test.ts")) continue;
+    const text = readFileSync(file, "utf8");
+    if (
+      text.includes("from \"react\"") ||
+      text.includes("@supabase") ||
+      text.includes("owner_id")
+    ) {
+      offenders.push(file);
+    }
+  }
+  assert.deepEqual(offenders, []);
+});

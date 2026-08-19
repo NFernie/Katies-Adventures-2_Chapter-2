@@ -51,3 +51,34 @@ export type TrainingDayWrite = {
   weekday: Weekday;
   setting: TrainingSetting;
 };
+
+export type GoalType =
+  | "fat_loss"
+  | "fat_loss_retain_muscle"
+  | "recomp"
+  | "maintain";
+
+export type GoalWrite = {
+  type: GoalType;
+  startOn: string;
+  endOn: string;
+  targetWeightKg: number | null;
+  weeklyLossCapPct: number;
+};
+
+export type PlanVersion = {
+  id: string;
+  ownerId: string;
+  planId: string;
+  versionN: number;
+  bmrKcal: number;
+  pal: number;
+  tdeeKcal: number;
+  energyKcal: number;
+  proteinG: number;
+  carbG: number;
+  fatG: number;
+  splitId: string;
+  cardio: { kind: string; sessionsPerWeek: number };
+  warnings: string[];
+};
