@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 4 **code complete** (19 Aug 2026) — data gateway + magic-link UI in the repo. **Live SQL / phone round-trip blocked** on the owner creating a Supabase project (`docs/wizard/supabase-pages.md`). Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. Phase 4 implements the data gateway **and** email magic-link auth together. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 4 **code complete** (19 Aug 2026). A live project exists (`gbpwayarlvdvrotjnufa`); Email OTP sends. **Prove-it is not green:** the database is still the pre-revision-5 draft (`gym_days_per_week`, no `training_days`, signed-out insert is not denied). Owner: paste `supabase/migrations/0003_repair_auth_rls.sql` in SQL Editor, then re-run step 7. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. Phase 4 implements the data gateway **and** email magic-link auth together. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -597,7 +597,7 @@ Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 
 ## Phase 4 — Supabase data gateway + magic-link auth
 
-**Status:** Code complete (19 Aug 2026). Remaining: owner dashboard wizard (project, Email auth, redirect URLs, apply SQL, GitHub variables) then phone sign-in + profile round-trip.
+**Status:** Code complete (19 Aug 2026). Live project + Email OTP exist. Remaining: apply `0003_repair_auth_rls.sql` (not 0001 — tables already exist), then magic-link round-trip + profile/`training_days` persist, then incognito REST deny (`bash scripts/prove-supabase-anon.sh`).
 
 **Goal:** The signed-in owner can persist a Profile through `src/data`, scoped by `auth.uid()`. Phase 4b is **retired** — do not ship an open `DEFAULT_OWNER_ID` policy and remap later.
 
@@ -629,12 +629,12 @@ Gate: lint, typecheck, static build, /impeccable audit on the home shell.
 - [x] Magic-link UI on Settings and `/lock`; signed-out empty state
 - [x] RLS SQL: `owner_id = auth.uid()`; anon revoked; no `is_v1_owner`
 - [x] Wizard/checklist for the owner’s dashboard clicks (project, Auth, secrets, CORS)
-- [ ] Owner can sign in on the phone with a magic link **(blocked: no Supabase project yet)**
-- [ ] Profile + `training_days` round-trip on Pages against live Supabase **(same block)**
+- [ ] Owner can sign in on the phone with a magic link **(OTP sends; email click + `/lock/` “you are in” not confirmed from this agent)**
+- [ ] Profile + `training_days` round-trip on Pages against live Supabase **(blocked: live DB still has `gym_days_per_week`; `training_days` missing; anon insert not denied — run `0003_repair_auth_rls.sql`)**
 - [x] All access via `src/data`
 - [x] Pages still static; no NextAuth / Prisma runtime
 
-**Completed (19 Aug 2026):** `@supabase/supabase-js` only under `src/data`. `createBrowserClient()` persists the magic-link JWT. `getOwnerId()` reads `session.user.id` or throws. `profiles` + `training_days` writes always set `owner_id` from the session. Settings + `/lock` send `signInWithOtp`. Tests cover unscoped-query impossibility and incognito/signed-out. SQL unchanged in intent (`0001_init.sql` + optional `0002_owner_auth_fk.sql`). **Did not apply SQL** — no project credentials. Owner: `docs/wizard/supabase-pages.md` or `bash scripts/wizard-supabase-pages.sh`.
+**Completed (19 Aug 2026):** `@supabase/supabase-js` only under `src/data`. `createBrowserClient()` persists the magic-link JWT. `getOwnerId()` reads `session.user.id` or throws. `profiles` + `training_days` writes always set `owner_id` from the session. Settings + `/lock` send `signInWithOtp`. Tests cover unscoped-query impossibility and incognito/signed-out. SQL intent: `0001_init.sql` + optional `0002_owner_auth_fk.sql`. **Repair for an already-created draft schema:** `0003_repair_auth_rls.sql`. Owner: `docs/wizard/supabase-pages.md` or `bash scripts/wizard-supabase-pages.sh`. **Live prove-it (19 Aug 2026):** project URL + publishable key wired; Email provider on; `POST /auth/v1/otp` returned 200. Did **not** mark the phone/profile gates green — apply 0003 first.
 
 **Do not** build NextAuth. **Do not** apply the old open v1-owner policy.
 
