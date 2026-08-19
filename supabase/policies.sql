@@ -1,9 +1,13 @@
 -- Policy notes for BodyPlan. Canonical SQL is supabase/migrations/0001_init.sql.
 --
--- v1: owner_id = '198e5a49-c748-4bcc-b6ad-86445a76eb7b' (DEFAULT_OWNER_ID)
---     for both anon and authenticated.
+-- authenticated: owner_id = auth.uid()
+-- anon: revoked on every personal table (including training_days)
+-- DEFAULT_OWNER_ID is test/fixture only — do not bake it into RLS.
 --
--- Phase 4b: owner_id = auth.uid() for authenticated; revoke anon.
---           Remap rows first (docs/decisions/0002-auth-ready-static.md).
+-- Optional when Auth is on in the project:
+--   alter table public.profiles
+--     add constraint profiles_owner_id_auth_fk
+--     foreign key (owner_id) references auth.users (id);
 --
 -- Do not apply without credentials.
+-- See docs/decisions/0004-auth-at-persistence.md.

@@ -340,8 +340,41 @@
       font-size: 11px;
       font-weight: 700;
     }
-    .week button.gym { background: var(--iron); color: var(--chalk); }
+    .week button.train { background: var(--iron); color: var(--chalk); }
     .week button[aria-current="true"] { outline: 3px solid var(--way); outline-offset: 1px; }
+    .week button small {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .week-pick { display: grid; gap: 8px; margin: 12px 0; }
+    .wd-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+    .wd-row .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--iron-2);
+    }
+    .wd-row button {
+      min-height: 44px;
+      border: 1.5px solid var(--iron);
+      background: var(--white);
+      border-radius: 4px;
+      font-weight: 600;
+      text-align: left;
+      padding: 0 14px;
+    }
+    .wd-row button.train {
+      background: var(--iron);
+      color: var(--chalk);
+    }
+    .band:disabled { opacity: 0.35; cursor: not-allowed; }
 
     .set-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
     .set-table th {
@@ -433,7 +466,7 @@
   <!--
     THESIS: Today is a loaded barbell — meals are plates you rack, the session is the bar — not a SaaS diary or a dark gym logger.
     OWN-WORLD: Pale competition-platform grey; iron black type; wayfinding yellow only on Continue; cyan only on live figures; bumper-plate hubs as checkboxes.
-    STORY: The Owner types a BodyID printout, picks aim and kitchen/gym, then eats and lifts or swaps. No account.
+    STORY: The Owner types a BodyID printout, picks aim, kitchen, and a mixed training week, then eats and lifts or swaps. Magic-link sign-in ships with persistence.
     FIRST VIEWPORT: After generate, printout strip, four plate hubs + steel bar, packed meal modules, gap, workout block, four-tab nav.
     FORM: Bumper-plate load (seed c3180cb2, assigned index 6). Raises: yellow wayfinding band; cyan live figures; packed modules; invert-on-press hubs; stamped end-labels; quarry gap before the lift.
     FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
@@ -442,7 +475,7 @@
     <h1>BodyPlan · prototype</h1>
     <p>
       Throwaway clickable screens (not the Next.js app). Open this file in a browser, or serve the folder.
-      Synthetic meals and lifts. No login. Widths match the Phase 1 gate: 375 / 390 / 430.
+      Synthetic meals and lifts. Mixed week (gym / home / bands / bodyweight). Magic-link copy on You is the Phase 4 product, not a fake disabled login. Widths match the Phase 1 gate: 375 / 390 / 430.
     </p>
     <div class="widths" role="group" aria-label="Artboard width">
       <button type="button" data-w="375" aria-pressed="false">375</button>
@@ -493,6 +526,19 @@
       { name: "Zone 2 bike", eq: "Assault / spin", prev: "20 min" },
     ];
 
+    const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+    const WEEKDAY_SHORT = ["M", "T", "W", "T", "F", "S", "S"];
+    const WEEKDAY_LABEL = { mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun" };
+    const SETTINGS = ["rest", "gym", "home", "bands", "bodyweight"];
+    const SETTING_LABEL = {
+      rest: "Rest",
+      gym: "Gym",
+      home: "Home",
+      bands: "Bands",
+      bodyweight: "Bodyweight",
+    };
+    const SETTING_SHORT = { rest: "·", gym: "Gym", home: "Home", bands: "Bands", bodyweight: "BW" };
+
     const state = {
       route: "on1",
       width: 390,
@@ -506,13 +552,22 @@
       date: "2026-12-10",
       diet: ["vegetarian"],
       kitchen: ["batch"],
-      days: 4,
+      trainingWeek: {
+        mon: "gym",
+        tue: "rest",
+        wed: "bands",
+        thu: "rest",
+        fri: "gym",
+        sat: "home",
+        sun: "rest",
+      },
+      email: "",
       unsafe: false,
       meals: mealsSeed.map(m => ({ ...m, eaten: false })),
       swapFor: null,
       ex: 0,
       sets: [false, false, false],
-      day: 2,
+      day: 4,
     };
 
     const goalLabel = {
@@ -539,6 +594,17 @@
       const loss = (state.weight * 0.01);
       const implied = (state.weight * 0.08) / weeks;
       return { weeks, impliedPct: (implied / state.weight) * 100, cap: 1 };
+    }
+
+    function countTrainDays(week) {
+      return WEEKDAYS.filter((d) => week[d] !== "rest").length;
+    }
+    function cycleSetting(current) {
+      const i = SETTINGS.indexOf(current);
+      return SETTINGS[(i + 1) % SETTINGS.length];
+    }
+    function todaySetting() {
+      return state.trainingWeek[WEEKDAYS[state.day]];
     }
 
     function go(route) {
@@ -593,6 +659,7 @@
         case "plan": return plan();
         case "log": return log();
         case "you": return you();
+        case "lock": return lock();
         default: return today();
       }
     }
@@ -602,8 +669,8 @@
         <div class="progress">${n} of 5</div>
         <h1 class="display">${title}</h1>`;
     }
-    function continueBand(label="Continue") {
-      return `<button type="button" class="band" data-next>${label}</button>`;
+    function continueBand(label="Continue", disabled=false) {
+      return `<button type="button" class="band" data-next ${disabled ? "disabled" : ""}>${label}</button>`;
     }
 
     function on1() {
@@ -651,25 +718,37 @@
     function on4() {
       const diets = [["vegetarian","Vegetarian"],["vegan","Vegan"],["allergy","Nut allergy"],["quick","Under 30 min"]];
       const kits = [["batch","Batch-cook"],["leftovers","Leftovers as lunch"],["out","Eating-out days"]];
-      return onHead(4, "Kitchen and gym") + `
-        <p class="muted">Filters the catalog. Gym equipment only. Cardio is chosen later by the plan.</p>
+      const n = countTrainDays(state.trainingWeek);
+      return onHead(4, "Kitchen and training") + `
+        <p class="muted">Filters the catalog. Mix kit in the same week — gym Tuesday, bands Thursday is allowed. Cardio is chosen later by the plan.</p>
         <p class="muted" style="font-weight:600;margin-bottom:6px">Diet</p>
         <div class="chips">${diets.map(([k,l])=>`<button type="button" class="chip" data-diet="${k}" aria-pressed="${state.diet.includes(k)}">${l}</button>`).join("")}</div>
         <p class="muted" style="font-weight:600;margin:14px 0 6px">Kitchen</p>
         <div class="chips">${kits.map(([k,l])=>`<button type="button" class="chip" data-kit="${k}" aria-pressed="${state.kitchen.includes(k)}">${l}</button>`).join("")}</div>
-        <p class="muted" style="font-weight:600;margin:14px 0 6px">Gym days per week</p>
-        <div class="chips">${[1,2,3,4,5,6,7].map(d=>`<button type="button" class="chip" data-days="${d}" aria-pressed="${state.days===d}">${d}</button>`).join("")}</div>
-        ${continueBand()}`;
+        <p class="muted" style="font-weight:600;margin:14px 0 6px">This week</p>
+        <div class="week-pick">
+          ${WEEKDAYS.map((d) => {
+            const setting = state.trainingWeek[d];
+            const train = setting !== "rest";
+            return `<div class="wd-row">
+              <span class="name">${WEEKDAY_LABEL[d]}</span>
+              <button type="button" class="${train ? "train" : ""}" data-weekday="${d}">${SETTING_LABEL[setting]}</button>
+            </div>`;
+          }).join("")}
+        </div>
+        <p class="muted">${n} train day${n === 1 ? "" : "s"} · PAL follows the count, not the kit. Tap a day to cycle Rest → Gym → Home → Bands → Bodyweight.</p>
+        ${continueBand(n < 1 ? "Pick at least one train day" : "Continue", n < 1)}`;
     }
     function on5() {
+      const n = countTrainDays(state.trainingWeek);
       return onHead(5, "This plan") + `
         <div class="printout">
           <div class="row"><span class="k">Energy</span><span class="v">1,860 kcal</span></div>
           <div class="row"><span class="k">Protein</span><span class="v">128 g</span></div>
           <div class="row"><span class="k">Weeks</span><span class="v">16</span></div>
-          <div class="row"><span class="k">Gym</span><span class="v">${state.days} days · generator cardio</span></div>
+          <div class="row"><span class="k">Training</span><span class="v">${n} days · mixed week · generator cardio</span></div>
         </div>
-        <p>Fat loss while keeping muscle. Meals from the USDA-checked catalog. Workouts are gym lifts.</p>
+        <p>Fat loss while keeping muscle. Meals from the USDA-checked catalog. Each session uses that day’s setting.</p>
         <p class="disclaimer">BodyPlan is a personal planner, not medical treatment. Intended for adults 18+.</p>
         ${continueBand("Generate my plan")}`;
     }
@@ -677,7 +756,7 @@
     function today() {
       const hubs = ["breakfast","lunch","dinner","snack"];
       return `
-        <p class="progress">Tuesday · gym day</p>
+        <p class="progress">Friday · gym</p>
         <h1 class="display">Today</h1>
         <div class="printout" aria-label="Latest BodyID">
           <div class="row"><span class="k">Weight</span><span class="v">${state.weight} kg</span></div>
@@ -711,7 +790,7 @@
         <button type="button" class="back" data-go="today">Back</button>
         <p class="progress">Exercise ${state.ex+1} of ${exercises.length} · gym</p>
         <h1 class="display">${ex.name}</h1>
-        <p class="muted">${ex.eq} · Previous <span class="live">${ex.prev}</span></p>
+        <p class="muted">${ex.eq} · gym · Previous <span class="live">${ex.prev}</span></p>
         <table class="set-table">
           <thead><tr><th>Set</th><th>kg</th><th>Reps</th><th>Done</th></tr></thead>
           <tbody>
@@ -730,22 +809,25 @@
     }
 
     function plan() {
-      const days = ["M","T","W","T","F","S","S"];
-      const gym = [0,2,4,5];
+      const n = countTrainDays(state.trainingWeek);
       return `
         <p class="progress">Current plan</p>
         <h1 class="display">${goalLabel[state.goal]}</h1>
-        <p class="muted">18 Aug → ${state.date} · gym ${state.days} days/week</p>
+        <p class="muted">18 Aug → ${state.date} · ${n} train days · mixed week</p>
         <div class="bento">
           <div><div class="muted">Energy</div><div class="live">1,860</div></div>
           <div><div class="muted">Protein</div><div class="live">128 g</div></div>
           <div><div class="muted">Weeks</div><div class="live">16</div></div>
           <div><div class="muted">Split</div><div class="live" style="font-size:1.1rem">Upper / lower</div></div>
         </div>
-        <p>Meals match vegetarian + batch-cook. Cardio is Zone 2 on two gym days because the goal is fat loss with muscle kept — not because you picked cardio.</p>
+        <p>Meals match vegetarian + batch-cook. Cardio is Zone 2 on two train days because the goal is fat loss with muscle kept — not because you picked cardio.</p>
         <p class="muted" style="font-weight:600">This week</p>
         <div class="week">
-          ${days.map((d,i)=>`<button type="button" class="${gym.includes(i)?"gym":""}" data-day="${i}" aria-current="${state.day===i}">${d}</button>`).join("")}
+          ${WEEKDAYS.map((d,i)=>{
+            const setting = state.trainingWeek[d];
+            const train = setting !== "rest";
+            return `<button type="button" class="${train?"train":""}" data-day="${i}" aria-current="${state.day===i}">${WEEKDAY_SHORT[i]}<small>${SETTING_SHORT[setting]}</small></button>`;
+          }).join("")}
         </div>
         <button type="button" class="ghost" data-go="today">Open selected day</button>`;
     }
@@ -771,19 +853,31 @@
     }
 
     function you() {
+      const n = countTrainDays(state.trainingWeek);
       return `
         <p class="progress">You</p>
         <h1 class="display">Profile</h1>
         <div class="printout">
           <div class="row"><span class="k">Sex</span><span class="v">${state.sex}</span></div>
           <div class="row"><span class="k">Height</span><span class="v">${state.height} cm</span></div>
-          <div class="row"><span class="k">Gym days</span><span class="v">${state.days} / week</span></div>
+          <div class="row"><span class="k">Train days</span><span class="v">${n} / week · mixed</span></div>
         </div>
         <button type="button" class="ghost" data-go="on1">Edit onboarding numbers</button>
-        <p class="note" role="note">
-          Locking this data with an email link comes later. This version has no sign-in.
-        </p>
+        <div class="field"><label for="email">Email for magic link</label>
+          <input id="email" type="email" placeholder="you@example.com" value="${state.email}" data-k="email" /></div>
+        <button type="button" class="solid" data-go="lock" style="width:100%;margin-top:8px">Send magic link</button>
+        <p class="muted">No Google, no password. Phase 4 sends a real Supabase link. This prototype opens the check-email state.</p>
         <p class="disclaimer">BodyPlan is not medical treatment. Adults 18+.</p>`;
+    }
+
+    function lock() {
+      return `
+        <button type="button" class="back" data-go="you">Back</button>
+        <p class="progress">Sign in</p>
+        <h1 class="display">Check your email</h1>
+        <p class="muted">We sent a sign-in link. Open it on this device. No password.</p>
+        <button type="button" class="solid" data-go="plan" style="width:100%;margin-top:16px">I’ve opened the link</button>
+        <p class="disclaimer">Prototype shortcut — Phase 4 uses the real Supabase magic-link callback.</p>`;
     }
 
     function toggleArr(arr, v) {
@@ -812,10 +906,16 @@
       document.querySelectorAll("[data-goal]").forEach(b => b.onclick = () => { state.goal = b.dataset.goal; render(); });
       document.querySelectorAll("[data-diet]").forEach(b => b.onclick = () => { toggleArr(state.diet, b.dataset.diet); render(); });
       document.querySelectorAll("[data-kit]").forEach(b => b.onclick = () => { toggleArr(state.kitchen, b.dataset.kit); render(); });
-      document.querySelectorAll("[data-days]").forEach(b => b.onclick = () => { state.days = Number(b.dataset.days); render(); });
+      document.querySelectorAll("[data-weekday]").forEach(b => b.onclick = () => {
+        const d = b.dataset.weekday;
+        state.trainingWeek[d] = cycleSetting(state.trainingWeek[d]);
+        render();
+      });
       document.querySelectorAll("[data-k]").forEach(inp => inp.onchange = () => {
         const k = inp.dataset.k;
-        state[k] = k === "date" ? inp.value : (k==="sex"?inp.value:Number(inp.value));
+        if (k === "date" || k === "email") state[k] = inp.value;
+        else if (k === "sex") state[k] = inp.value;
+        else state[k] = Number(inp.value);
       });
       document.querySelectorAll("[data-eat]").forEach(b => b.onclick = () => {
         const m = state.meals.find(x => x.id === b.dataset.eat);

@@ -5,7 +5,7 @@ Vocabulary for the personal gym planner in this repo. Use these terms in specs, 
 ## Product
 
 **BodyPlan**:
-The in-app product: a personal 18+ gym planner for one adult.
+The in-app product: a personal 18+ planner for one adult.
 _Avoid_: Katie’s Adventures (repo / chapter container only), SaaS, coach marketplace
 
 **Owner**:
@@ -45,8 +45,16 @@ A Timeline that would require losing more than 1.0% of body weight per week. The
 _Avoid_: BMI hard-stop, age gate, pregnancy block, ED-history block
 
 **PAL**:
-The activity factor multiplied by BMR to get TDEE, taken only from user-selected gym days per week (1–2 → 1.375, 3–5 → 1.55, 6–7 → 1.725).
-_Avoid_: a separate NEAT questionnaire, machine-printed BMR
+The activity factor multiplied by BMR to get TDEE, taken only from the **count** of non-rest training weekdays (1–2 → 1.375, 3–5 → 1.55, 6–7 → 1.725). The day’s kit (gym vs bands) does not change PAL.
+_Avoid_: a separate NEAT questionnaire, machine-printed BMR, PAL-by-setting
+
+**Training setting**:
+Where a given weekday’s session happens: `gym`, `home`, `bands`, or `bodyweight`. Rest days have no setting.
+_Avoid_: one global track for the whole plan
+
+**Training week**:
+Seven weekdays. Each is rest (no `training_days` row) or one Training setting. At least one train day. Stored on `training_days`.
+_Avoid_: `gym_days_per_week` on `profiles`
 
 **Energy target**:
 Daily kcal the engine emits after TDEE minus the timeline deficit, rounded to the nearest 10 kcal.
@@ -57,7 +65,7 @@ A note when the Energy target is below 1200 kcal (female) or 1500 kcal (male). G
 _Avoid_: medical hard-stop, “see a doctor” gate, silently raising kcal
 
 **Deload**:
-Every 4th week of the Timeline, planned gym sets drop; not a rest-week preference the Owner picks.
+Every 4th week of the Timeline, planned sets drop; not a rest-week preference the Owner picks.
 _Avoid_: optional deload toggle in onboarding
 
 **Diet flag**:
@@ -69,8 +77,8 @@ A closed user-select tag (batch-cook, leftovers as lunch, eating-out days) that 
 _Avoid_: a second equipment track
 
 **Split**:
-The gym session pattern implied by user-selected days per week (full body, upper/lower, PPL).
-_Avoid_: home / bands / bodyweight track, sex-specific menus
+The session pattern implied by **train-day count** (full body, upper/lower, PPL). Split slots land on train days in Monday-first order. Each slot still uses **that day’s** Training setting for exercise choice.
+_Avoid_: sex-specific menus, PAL-by-setting
 
 **Plan version**:
 A generated calorie, macro, and split snapshot. A new version is created when the profile or goal changes; older weeks stay readable.
@@ -94,16 +102,16 @@ _Avoid_: user-writable public food library, live USDA, scraped commercial recipe
 A catalog meal with ingredients in grams, each matched to a USDA food, and macros filled at write time.
 _Avoid_: LLM-only macros, commercial nutrition labels presented as USDA
 
-**Exercise**:
-A catalog gym movement. Exercises are not USDA-checked.
-_Avoid_: home, bands, or bodyweight tracks (v1 is gym only)
-
 **USDA write-time nutrition**:
 Macros computed from USDA FoodData Central when a Recipe is authored or CI runs, then stored on the Recipe.
 _Avoid_: live USDA from the website, runtime FDC client
 
+**Exercise**:
+A catalog movement tagged with `tracks` (`gym`, `home`, `bands`, `bodyweight`). Exercises are not USDA-checked. A session may only pick rows whose tracks include **that day’s** setting.
+_Avoid_: a separate library per setting that ignores the week map
+
 **Swap**:
-Replacing one meal or exercise in the Personal plan with an allowed alternative (same slot / movement pattern; meal swaps stay within kcal and protein bands).
+Replacing one meal or exercise in the Personal plan with an allowed alternative (meals: same slot / kcal and protein bands; lifts: same movement pattern **and that day’s Training setting**).
 _Avoid_: editing the Catalog from the public site
 
 **Pin**:
@@ -116,8 +124,12 @@ The UUID on every personal row that says whose data it is. Catalog rows do not h
 _Avoid_: a singleton table with no owner, NextAuth `Account` / `Session` tables
 
 **DEFAULT_OWNER_ID**:
-The one committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) that is the Owner’s `owner_id` in v1, until a later lock remaps those rows to a signed-in user id.
-_Avoid_: `auth.uid()` in v1, anonymous unscoped rows
+A committed UUID (`198e5a49-c748-4bcc-b6ad-86445a76eb7b`) used **only** in tests and fixtures. Production writes use `auth.uid()` from the magic-link session.
+_Avoid_: baking this UUID into RLS, production inserts, an open anon policy
+
+**Magic link**:
+Supabase Auth email sign-in, implemented in Phase 4 with the data gateway. No Google OAuth, no NextAuth.
+_Avoid_: Phase 4b remap, passwords-as-product
 
 **Data gateway**:
 The single authorised path for reading and writing personal storage.

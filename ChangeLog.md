@@ -4,6 +4,20 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Revision 5: mixed training week + auth at persistence
+
+Owner reopened Q9 and auth after Phase 3. Specs and UX updated; Phase 3 scaffold was **not** rebuilt. Energy fixture kcal/macros are **unchanged**.
+
+- `InitialPlan180826.md` revision 5. Q9 = mixed week (gym / home / bands / bodyweight per weekday). Q18 = magic link **in Phase 4**. Phase 4 and old 4b are **one** phase. Phases 5, 7, 8, 10 prompts retargeted.
+- Phase 1: `DESIGN.md`, flows, inventory, critique, prototype weekday picker + week strip + You magic-link / `#lock`. Screenshots **not** regenerated (HTML is source of truth).
+- Phase 2: `training_days` table; drop `gym_days_per_week`; engine `trainingWeek`; exercise `tracks`; RLS `auth.uid()` (revoke anon). ADRs `0003`, `0004` (0002 superseded).
+- Male 4-day week map: Mon gym, Tue rest, Wed bands, Thu rest, Fri gym, Sat home, Sun rest (still 2270 kcal). Female 6-day: Mon gym … Sat bands, Sun rest (still 1930 kcal).
+- `DEFAULT_OWNER_ID` is test/fixture only. Shell copy on Settings / Plan updated.
+
+Do not apply SQL without credentials. Do not reopen NextAuth, OAuth, imperial, or photos.
+
+---
+
 ## 19 Aug 2026 — GitHub Pages 404 on first deploy
 
 The Phase 3 **build** was green. `actions/deploy-pages` 404’d because the repo had Pages off (`has_pages: false`). Not a Next.js export bug.

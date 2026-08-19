@@ -1,25 +1,17 @@
--- BodyPlan v1 schema proposal (Phase 2).
+-- BodyPlan v1 schema proposal (Phase 2, revision 5).
 -- DO NOT APPLY without Owner credentials (Phase 4). No secrets in this repo.
 --
--- DEFAULT_OWNER_ID (locked): 198e5a49-c748-4bcc-b6ad-86445a76eb7b
+-- DEFAULT_OWNER_ID is test/fixture only: 198e5a49-c748-4bcc-b6ad-86445a76eb7b
 -- Catalog (recipes/exercises) is git JSON — do not create catalog tables here.
--- No NextAuth tables. No auth.users FK in v1. No photo columns.
+-- No NextAuth tables. No photo columns.
+-- Optional later: ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY (owner_id) REFERENCES auth.users(id);
 --
 -- ---------------------------------------------------------------------------
--- RLS: v1 vs Phase 4b
+-- RLS: auth at persistence (no Phase 4b remap)
 -- ---------------------------------------------------------------------------
--- v1 (this file): enable RLS on every personal table. Policies for roles
---   `anon` AND `authenticated` allow ALL when owner_id = DEFAULT_OWNER_ID.
---   Anyone who finds the Pages URL + public anon key can read/write that
---   owner's rows. Accepted for this personal tool until the Owner asks to lock.
---
--- Phase 4b (do not run in v1):
---   1. Remap DEFAULT_OWNER_ID rows to auth.uid() (see docs/decisions/0002).
---   2. DROP POLICY *-v1-owner on each table.
---   3. CREATE POLICY *-auth-owner ... USING (owner_id = auth.uid())
---        WITH CHECK (owner_id = auth.uid()) TO authenticated;
---   4. REVOKE ALL ON <table> FROM anon;
---   5. Optional later: ALTER TABLE ... ADD FK owner_id REFERENCES auth.users(id);
+-- authenticated: ALL when owner_id = auth.uid().
+-- REVOKE ALL FROM anon on every personal table.
+-- Do not create is_v1_owner / open DEFAULT_OWNER_ID policies.
 -- ---------------------------------------------------------------------------
 
 create extension if not exists pgcrypto;
@@ -40,6 +32,12 @@ create type public.meal_slot_kind as enum (
 create type public.plan_status as enum ('active', 'archived');
 create type public.visceral_fat_scale as enum ('inbody_level', 'tanita_rating');
 create type public.favorite_kind as enum ('recipe', 'exercise');
+create type public.weekday as enum (
+  'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
+);
+create type public.training_setting as enum (
+  'gym', 'home', 'bands', 'bodyweight'
+);
 
 -- Shared BodyID columns live on profiles and check_ins (no photos).
 -- Optional machine fields are nullable; the engine ignores them in v1.
@@ -59,11 +57,18 @@ create table public.profiles (
   total_body_water_kg numeric(6, 2) check (total_body_water_kg is null or total_body_water_kg >= 0),
   diet_flags text[] not null default '{}',
   kitchen_flags text[] not null default '{}',
-  gym_days_per_week integer not null check (gym_days_per_week between 1 and 7),
   servings integer not null default 1 check (servings >= 1),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (owner_id)
+);
+
+create table public.training_days (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null,
+  weekday public.weekday not null,
+  setting public.training_setting not null,
+  unique (owner_id, weekday)
 );
 
 create table public.goals (
@@ -116,8 +121,13 @@ create table public.day_plans (
   plan_version_id uuid not null references public.plan_versions (id) on delete cascade,
   on_date date not null,
   is_train_day boolean not null,
+  training_setting public.training_setting,
   is_deload boolean not null default false,
-  unique (plan_version_id, on_date)
+  unique (plan_version_id, on_date),
+  constraint day_plans_setting_when_training check (
+    (is_train_day = false and training_setting is null)
+    or (is_train_day = true and training_setting is not null)
+  )
 );
 
 create table public.meal_slots (
@@ -137,6 +147,7 @@ create table public.workout_sessions (
   owner_id uuid not null,
   day_plan_id uuid not null references public.day_plans (id) on delete cascade,
   focus text not null,
+  setting public.training_setting not null,
   cardio jsonb not null default '{}'::jsonb,
   unique (day_plan_id)
 );
@@ -176,6 +187,7 @@ create table public.favorites (
   unique (owner_id, kind, slug)
 );
 
+create index training_days_owner_id_idx on public.training_days (owner_id);
 create index goals_owner_id_idx on public.goals (owner_id);
 create index plans_owner_id_idx on public.plans (owner_id);
 create index plan_versions_owner_id_idx on public.plan_versions (owner_id);
@@ -186,22 +198,14 @@ create index workout_items_owner_id_idx on public.workout_items (owner_id);
 create index check_ins_owner_id_idx on public.check_ins (owner_id);
 create index favorites_owner_id_idx on public.favorites (owner_id);
 
--- v1 owner predicate (Phase 4b: stop using this; switch to auth.uid()).
-create or replace function public.is_v1_owner(oid uuid)
-returns boolean
-language sql
-immutable
-as $$
-  select oid = '198e5a49-c748-4bcc-b6ad-86445a76eb7b'::uuid;
-$$;
-
--- Repeatable RLS helper pattern for each personal table.
+-- Auth-scoped RLS. No is_v1_owner. No open anon policy.
 do $$
 declare
   t text;
 begin
   foreach t in array array[
     'profiles',
+    'training_days',
     'goals',
     'plans',
     'plan_versions',
@@ -214,21 +218,13 @@ begin
   ]
   loop
     execute format('alter table public.%I enable row level security', t);
+    execute format('revoke all on public.%I from anon, public', t);
     execute format(
-      'create policy %I on public.%I for all to anon, authenticated using (public.is_v1_owner(owner_id)) with check (public.is_v1_owner(owner_id))',
-      t || '_v1_owner',
+      'create policy %I on public.%I for all to authenticated using (owner_id = auth.uid()) with check (owner_id = auth.uid())',
+      t || '_auth_owner',
       t
     );
-    execute format('grant select, insert, update, delete on public.%I to anon, authenticated', t);
+    execute format('grant select, insert, update, delete on public.%I to authenticated', t);
   end loop;
 end
 $$;
-
--- Phase 4b sketch (commented — do not uncomment in v1):
--- drop policy profiles_v1_owner on public.profiles;
--- create policy profiles_auth_owner on public.profiles
---   for all to authenticated
---   using (owner_id = auth.uid())
---   with check (owner_id = auth.uid());
--- revoke all on public.profiles from anon;
--- Repeat per personal table. Then remap DEFAULT_OWNER_ID → auth.uid().

@@ -1,10 +1,10 @@
 # Auth-ready static v1; later lock is magic link + remap
 
-v1 has **no login wall**. The Owner uses BodyPlan as a personal tool on a public Pages URL. Architecture is still **auth-ready**: every personal row has `owner_id`, all access goes through the **data gateway**, and v1 inserts/selects use a committed **`DEFAULT_OWNER_ID`**. When the Owner has lived with the app and asks to lock it, **Phase 4b** enables Supabase Auth **email magic link** (one account, no Google OAuth in the first lock), remaps `DEFAULT_OWNER_ID` → `auth.uid()`, and tightens RLS. Engine, meal cards, and workout UI stay as they are. Frozen in `InitialPlan180826.md` §2.2–2.3 and §3 items 18–19.
+**Status:** **Superseded** (19 Aug 2026) by [0004-auth-at-persistence.md](0004-auth-at-persistence.md). Keep this file for history. Do not implement the open `DEFAULT_OWNER_ID` policy or a later Phase 4b remap.
 
-## Status
+v1 originally had **no login wall**. The Owner used BodyPlan as a personal tool on a public Pages URL. Architecture was **auth-ready**: every personal row has `owner_id`, all access goes through the **data gateway**, and v1 inserts/selects used a committed **`DEFAULT_OWNER_ID`**. When the Owner asked to lock it, **Phase 4b** would enable Supabase Auth **email magic link**, remap `DEFAULT_OWNER_ID` → `auth.uid()`, and tighten RLS.
 
-accepted
+Revision 5 **rejects** shipping that open policy. Phase 4 implements magic link **with** persistence. `DEFAULT_OWNER_ID` is test/fixture only. See ADR 0004.
 
 ## v1 shape (so Phase 4b is a remap, not a rewrite)
 
