@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 import { BottomNav } from "@/components/shell/bottom-nav";
-import { WayfindingBand } from "@/components/shell/wayfinding-band";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "/";
@@ -21,11 +20,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         {children}
       </div>
-      {onboarding ? (
-        <WayfindingBand href="/">Continue</WayfindingBand>
-      ) : (
-        <BottomNav />
-      )}
+      {onboarding ? null : <BottomNav />}
     </div>
   );
 }

@@ -65,6 +65,116 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["training_days"]["Insert"]>;
         Relationships: [];
       };
+      goals: {
+        Row: PersonalRow & {
+          id: string;
+          type: "fat_loss" | "fat_loss_retain_muscle" | "recomp" | "maintain";
+          target_weight_kg: number | null;
+          start_on: string;
+          end_on: string;
+          weekly_loss_cap_pct: number;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          type: "fat_loss" | "fat_loss_retain_muscle" | "recomp" | "maintain";
+          target_weight_kg?: number | null;
+          start_on: string;
+          end_on: string;
+          weekly_loss_cap_pct?: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["goals"]["Insert"]>;
+        Relationships: [];
+      };
+      plans: {
+        Row: PersonalRow & {
+          id: string;
+          goal_id: string;
+          status: "active" | "archived";
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          goal_id: string;
+          status?: "active" | "archived";
+        };
+        Update: Partial<Database["public"]["Tables"]["plans"]["Insert"]>;
+        Relationships: [];
+      };
+      plan_versions: {
+        Row: PersonalRow & {
+          id: string;
+          plan_id: string;
+          version_n: number;
+          bmr_kcal: number;
+          pal: number;
+          tdee_kcal: number;
+          energy_kcal: number;
+          protein_g: number;
+          carb_g: number;
+          fat_g: number;
+          split_id: string;
+          cardio: Json;
+          warnings: string[];
+          generator_input: Json;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          plan_id: string;
+          version_n: number;
+          bmr_kcal: number;
+          pal: number;
+          tdee_kcal: number;
+          energy_kcal: number;
+          protein_g: number;
+          carb_g: number;
+          fat_g: number;
+          split_id: string;
+          cardio?: Json;
+          warnings?: string[];
+          generator_input: Json;
+        };
+        Update: Partial<Database["public"]["Tables"]["plan_versions"]["Insert"]>;
+        Relationships: [];
+      };
+      day_plans: {
+        Row: PersonalRow & {
+          id: string;
+          plan_version_id: string;
+          on_date: string;
+          is_train_day: boolean;
+          training_setting: "gym" | "home" | "bands" | "bodyweight" | null;
+          is_deload: boolean;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          plan_version_id: string;
+          on_date: string;
+          is_train_day: boolean;
+          training_setting?: "gym" | "home" | "bands" | "bodyweight" | null;
+          is_deload?: boolean;
+        };
+        Update: Partial<Database["public"]["Tables"]["day_plans"]["Insert"]>;
+        Relationships: [];
+      };
+      meal_slots: {
+        Row: PersonalRow & {
+          id: string;
+          day_plan_id: string;
+          slot: "breakfast" | "lunch" | "dinner" | "snack";
+          recipe_slug: string;
+          pinned: boolean;
+          eaten: boolean;
+        };
+        Insert: PersonalRow & {
+          id?: string;
+          day_plan_id: string;
+          slot: "breakfast" | "lunch" | "dinner" | "snack";
+          recipe_slug: string;
+          pinned?: boolean;
+          eaten?: boolean;
+        };
+        Update: Partial<Database["public"]["Tables"]["meal_slots"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

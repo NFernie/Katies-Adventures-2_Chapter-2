@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000/Katies-Adventures-2_Chapter-2/` (the root `/` is empty on purpose).
+Open `http://localhost:3000/Katies-Adventures-2_Chapter-2/` then **Start onboarding** (`/onboarding`).
 
 ```bash
 npm run lint

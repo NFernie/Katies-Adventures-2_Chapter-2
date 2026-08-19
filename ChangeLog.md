@@ -4,6 +4,18 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 5 engine + onboarding
+
+Pure planning maths, then a five-step onboarding that can persist a `plan_versions` row.
+
+- `src/engine/planEnergyAndTraining` — Mifflin–St Jeor, PAL from train-day **count**, mixed week map, macros, generator cardio, deload weeks. Tests assert locked JSON literals (male **2270** / 161 / 70 / 249, female **1930** / 158 / 58 / 194, unsafe date **2026-10-16**). Independent recompute: `node scripts/recompute-engine-fixtures.mjs` (does not import the engine).
+- `commitPlanVersion` in `src/data` stamps `owner_id` from the session on goal, plan, plan_versions, dummy `day_plans` / `meal_slots`. Signed-out throws. No `DEFAULT_OWNER_ID` writes.
+- `/onboarding`: You → printout → Aim → kitchen/mixed week → review. Yellow Continue / Generate band. Unsafe speed offers the fastest safe date. Disclaimer on review. Magic link on review if signed out. Dummy meal titles on Today.
+- No BMI / age / pregnancy hard-stops. Diet flags do not change kcal.
+- Critique on onboarding (26/40). Magic link stays on review (`redirectOnSend={false}`, draft in `localStorage`, return URL `/onboarding/`). Diet flags include shellfish/egg/soy. Unsafe banner on chalk (contrast). Dummy Today meals no longer fake-split daily kcal.
+
+---
+
 ## 19 Aug 2026 — Phase 4 prove-it complete
 
 Owner finished wizard step 7. Phase 4 live gates are green.

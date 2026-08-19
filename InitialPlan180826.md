@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 4 **complete** (19 Aug 2026) — data gateway, magic-link UI, live `0003` RLS, Pages client keys, signed-out REST deny, owner same-device magic-link + profile/`training_days` persist. Next is Phase 5 (onboarding + planning engine). Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 5 **engine + onboarding shipped** (19 Aug 2026). Critique on onboarding done. Locked kcal fixtures unchanged. Persist through `src/data` for `auth.uid()`. Next is Phase 6 (USDA meals). Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -669,7 +669,7 @@ Do not add NextAuth or Prisma runtime.
 
 ## Phase 5 — Onboarding + planning engine
 
-**Goal:** Valid Profile + Goal + training week → `plan_versions` row whose numbers match the spec.
+**Status:** Engine + onboarding shipped (19 Aug 2026). `/impeccable critique` on onboarding done (26/40; P0/P1 applied).
 
 ### Design
 
@@ -687,10 +687,12 @@ Do not add NextAuth or Prisma runtime.
 
 ### Gate
 
-- [ ] Engine tests green (kcal literals unchanged; week maps mixed)  
-- [ ] PlanVersion persisted for `auth.uid()`  
-- [ ] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
-- [ ] `/impeccable critique` on onboarding  
+- [x] Engine tests green (kcal literals unchanged; week maps mixed)  
+- [x] PlanVersion persisted for `auth.uid()`  
+- [x] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
+- [x] `/impeccable critique` on onboarding  
+
+**Completed (19 Aug 2026):** Pure `src/engine/planEnergyAndTraining` vs `docs/domain/fixtures/engine-examples.json` (male 2270 / female 1930 / unsafe `2026-10-16`). Independent recompute: `node scripts/recompute-engine-fixtures.mjs`. `commitPlanVersion` writes profile, `training_days`, goal, plan, `plan_versions`, and dummy meal slots through `src/data` with session `owner_id`. Five-step onboarding (You → printout → Aim → kitchen/week → review). Yellow Continue band. Disclaimer on review. No BMI/age/pregnancy blocks. Dummy meal titles on Today. Critique: 26/40; P0 magic-link stay-on-flow + draft restore; missing diet flags added.  
 
 ### Implementation-agent prompt
 
@@ -925,7 +927,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **code done**; owner must run the Supabase wizard before live save. Phase 5 only after engine-spec (amended) exists.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 is USDA meals.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -950,4 +952,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–4 **code** are done. Phase 4 **live** data waits on the owner’s Supabase project. Phase 1 and Phase 2 were amended for mixed weeks and auth-at-persistence. Later agents should not ask the §3 questions again.
+Phase 0–5 engine/onboarding are in the repo. Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 6 (USDA meals).

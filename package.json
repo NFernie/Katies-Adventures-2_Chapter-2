@@ -7,7 +7,7 @@
     "build": "next build",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/config/site.test.ts src/data/*.test.ts",
+    "test": "tsx --test src/config/site.test.ts src/data/*.test.ts src/engine/*.test.ts && node scripts/recompute-engine-fixtures.mjs",
     "assert:static": "node scripts/assert-static.mjs"
   },
   "dependencies": {
