@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 4 — USDA write-time nutrition for `data/recipes.json` (18 Aug 2026)  
-**Status:** Phase 2 **complete** pending owner spot-check of fixtures (19 Aug 2026). Independent second-agent recompute **matched** the male/female/unsafe literals. Phase 1 complete (contrast caveat fixed). Phase 0 brief remains in force. §3 remains **closed**. No Next.js scaffold yet. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 3 **scaffold in this PR** (19 Aug 2026). Phase 2 complete (independent recompute matched). Phase 1 complete (contrast caveat fixed). Phase 0 brief remains in force. §3 remains **closed**. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres  
@@ -527,6 +527,8 @@ A second agent must recompute the worked examples.
 
 ## Phase 3 — Next.js static scaffold for GitHub Pages
 
+**Status:** Scaffold complete (19 Aug 2026). Remaining: Pages URL loads after GitHub Pages is pointed at this Action.
+
 **Goal:** Typed Next.js app that **static-exports** and deploys to GitHub Pages.
 
 ### Design
@@ -552,10 +554,12 @@ A second agent must recompute the worked examples.
 
 ### Gate
 
-- [ ] lint + typecheck + export build  
-- [ ] Pages URL loads  
-- [ ] `output: 'export'` is set  
-- [ ] `.env.example` documents public Supabase keys and a **non-public** `USDA_FDC_API_KEY` (tools/CI only)  
+- [x] lint + typecheck + export build  
+- [ ] Pages URL loads (enable Pages → GitHub Actions after merge)  
+- [x] `output: 'export'` is set  
+- [x] `.env.example` documents public Supabase keys and a **non-public** `USDA_FDC_API_KEY` (tools/CI only)
+
+**Completed (19 Aug 2026):** Next.js App Router + TypeScript + Tailwind in the repo root. `basePath` `/Katies-Adventures-2_Chapter-2`, `trailingSlash`, unoptimized images. shadcn + `@aceternity` registry (Plan bento only). Placeholder `/`, `/onboarding`, `/plan`, `/settings` (and `/log` for the four-tab nav). `src/data/owner.ts` + throwing `src/data/client.ts`. GitHub Action deploys `out/` to Pages. `public/.nojekyll`. No Prisma, NextAuth, or Server Actions. No `service_role` / USDA in `NEXT_PUBLIC_`. Next: Phase 4 data gateway (do not apply SQL without credentials).  
 
 **Further planning if:** you need SSR after all — then Netlify/Vercel is a new ADR, not a silent switch.
 

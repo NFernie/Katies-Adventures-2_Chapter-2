@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-archivo-narrow);
+  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-display: var(--font-archivo-narrow), "Archivo Narrow", "Archivo",
+    sans-serif;
+  --color-platform: #d4d0c6;
+  --color-iron: #161616;
+  --color-iron-2: #1a1a1a;
+  --color-chalk: #f3f0e8;
+  --color-wayfinding: #efc000;
+  --color-live: #005a70;
+  --color-alert: #b42318;
+  --color-done: #1b6b38;
+  --color-steel: #7a7872;
+  --color-hair: #b9b4a8;
+  --color-white: #f7f5f0;
+  --color-plate-breakfast: #eceae3;
+  --color-plate-lunch: #1e7a3c;
+  --color-plate-dinner: #184a82;
+  --color-plate-snack: #2b2b2b;
+  --color-studio: #2a2926;
+  --color-bezel: #1a1917;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
+}
+
+:root {
+  --background: #d4d0c6;
+  --foreground: #161616;
+  --card: #f7f5f0;
+  --card-foreground: #161616;
+  --popover: #f7f5f0;
+  --popover-foreground: #161616;
+  --primary: #161616;
+  --primary-foreground: #f3f0e8;
+  --secondary: #f3f0e8;
+  --secondary-foreground: #161616;
+  --muted: #f3f0e8;
+  --muted-foreground: #1a1a1a;
+  --accent: #f7f5f0;
+  --accent-foreground: #161616;
+  --destructive: #b42318;
+  --border: #161616;
+  --input: #f7f5f0;
+  --ring: #161616;
+  --chart-1: #005a70;
+  --chart-2: #1b6b38;
+  --chart-3: #184a82;
+  --chart-4: #7a7872;
+  --chart-5: #161616;
+  --radius: 4px;
+  --sidebar: #f7f5f0;
+  --sidebar-foreground: #161616;
+  --sidebar-primary: #161616;
+  --sidebar-primary-foreground: #f3f0e8;
+  --sidebar-accent: #f3f0e8;
+  --sidebar-accent-foreground: #161616;
+  --sidebar-border: #161616;
+  --sidebar-ring: #161616;
+}
+
+.dark {
+  --background: #d4d0c6;
+  --foreground: #161616;
+  --card: #f7f5f0;
+  --card-foreground: #161616;
+  --popover: #f7f5f0;
+  --popover-foreground: #161616;
+  --primary: #161616;
+  --primary-foreground: #f3f0e8;
+  --secondary: #f3f0e8;
+  --secondary-foreground: #161616;
+  --muted: #f3f0e8;
+  --muted-foreground: #1a1a1a;
+  --accent: #f7f5f0;
+  --accent-foreground: #161616;
+  --destructive: #b42318;
+  --border: #161616;
+  --input: #f7f5f0;
+  --ring: #161616;
+  --sidebar: #f7f5f0;
+  --sidebar-foreground: #161616;
+  --sidebar-primary: #161616;
+  --sidebar-primary-foreground: #f3f0e8;
+  --sidebar-accent: #f3f0e8;
+  --sidebar-accent-foreground: #161616;
+  --sidebar-border: #161616;
+  --sidebar-ring: #161616;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-archivo), Archivo, system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-bezel text-iron antialiased;
+  }
+
+  ::selection {
+    background: #161616;
+    color: #f3f0e8;
+  }
+
+  :focus-visible {
+    outline: 3px solid #161616;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

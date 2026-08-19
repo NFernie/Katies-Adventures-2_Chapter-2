@@ -1,0 +1,59 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run assert:static
+      - run: npm run build
+      - name: Fail if secrets leaked into the static export
+        run: |
+          if grep -R --fixed-strings "service_role" out; then
+            echo "service_role must not appear in out/"
+            exit 1
+          fi
+          if grep -R --fixed-strings "USDA_FDC_API_KEY" out; then
+            echo "USDA_FDC_API_KEY must not appear in the Pages bundle"
+            exit 1
+          fi
+      - name: Ensure .nojekyll shipped
+        run: test -f out/.nojekyll
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
