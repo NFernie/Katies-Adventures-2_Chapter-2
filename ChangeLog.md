@@ -4,6 +4,17 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 6 USDA catalog seeded
+
+`npm run nutrition:check` is green on 16 recipes. Macros came from FoodData Central enrich, not guesses.
+
+- `data/recipes.json` + `data/nutrition/fdc-cache.json` committed after enrich.
+- Atwater tolerance 40 kcal so FDC tofu/legume energy can still checksum (yogurt example stays ~25).
+- Generate writes **3 sample days** of assigned meals via `src/data`. Vegetarian plans do not get chicken/salmon/tuna.
+- **Security:** `USDA_FDC_API_KEY` must live in gitignored `.env` or Actions secrets. `.env.example` stays empty. If a real key was committed to `.env.example` on `main`, rotate it on data.gov.
+
+---
+
 ## 19 Aug 2026 — Phase 6 pipeline; catalog not done (FDC key missing)
 
 `USDA_FDC_API_KEY` is not in the environment. Do **not** treat the recipe catalog as complete.

@@ -10,6 +10,7 @@
     "test": "tsx --test src/config/site.test.ts src/data/*.test.ts src/engine/*.test.ts tools/nutrition/*.test.ts && node scripts/recompute-engine-fixtures.mjs",
     "nutrition:check": "tsx tools/nutrition/check.ts",
     "nutrition:enrich": "tsx tools/nutrition/enrich.ts",
+    "nutrition:search": "tsx tools/nutrition/search.ts",
     "assert:static": "node scripts/assert-static.mjs"
   },
   "dependencies": {
