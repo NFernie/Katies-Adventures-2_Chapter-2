@@ -115,9 +115,8 @@ function fatCoeff(type: GoalType): number {
 }
 
 function deloadWeeks(days: number): number[] {
-  const weekCount = days / 7;
   const weeks: number[] = [];
-  for (let week = 4; week <= weekCount; week += 4) {
+  for (let week = 4; (week - 1) * 7 < days; week += 4) {
     weeks.push(week);
   }
   return weeks;
@@ -174,6 +173,9 @@ export function planEnergyAndTraining(input: {
   const trainingDaysPerWeek = countTrainDays(prefs.trainingWeek);
   if (trainingDaysPerWeek < 1 || trainingDaysPerWeek > 7) {
     throw new Error("At least one train day is required");
+  }
+  if (!(goal.weeklyLossCapPct > 0 && goal.weeklyLossCapPct <= 1)) {
+    throw new Error("weeklyLossCapPct must be > 0 and <= 1.0");
   }
 
   const days = wholeDaysBetween(goal.startOn, goal.endOn);

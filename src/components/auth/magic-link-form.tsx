@@ -8,12 +8,15 @@ import { sendMagicLink } from "@/data";
 
 export function MagicLinkForm({
   redirectOnSend = true,
+  emailRedirectTo,
 }: {
   redirectOnSend?: boolean;
+  emailRedirectTo?: string;
 }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(event: FormEvent) {
@@ -21,7 +24,8 @@ export function MagicLinkForm({
     setBusy(true);
     setError(null);
     try {
-      await sendMagicLink(email.trim());
+      await sendMagicLink(email.trim(), { emailRedirectTo });
+      setSent(true);
       if (redirectOnSend) {
         router.push("/lock");
       }
@@ -55,6 +59,11 @@ export function MagicLinkForm({
       {error ? (
         <p role="alert" className="mt-2 font-sans text-[14px] text-alert">
           {error}
+        </p>
+      ) : null}
+      {sent && !redirectOnSend ? (
+        <p role="status" className="mt-2 font-sans text-[14px] leading-snug text-iron-2">
+          Link sent. Open it on this phone, then generate.
         </p>
       ) : null}
       <p className="mt-3 font-sans text-[14px] leading-snug text-iron-2">

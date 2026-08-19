@@ -8,11 +8,20 @@ function asAuthClient(client?: AuthClient): AuthClient {
   return client ?? (createBrowserClient() as unknown as AuthClient);
 }
 
-export function lockRedirectUrl(): string {
+function sitePathUrl(path: string): string {
+  const suffix = path.startsWith("/") ? path : `/${path}`;
   if (typeof window === "undefined") {
-    return `${BASE_PATH}/lock/`;
+    return `${BASE_PATH}${suffix}`;
   }
-  return `${window.location.origin}${BASE_PATH}/lock/`;
+  return `${window.location.origin}${BASE_PATH}${suffix}`;
+}
+
+export function lockRedirectUrl(): string {
+  return sitePathUrl("/lock/");
+}
+
+export function onboardingRedirectUrl(): string {
+  return sitePathUrl("/onboarding/");
 }
 
 export async function sendMagicLink(

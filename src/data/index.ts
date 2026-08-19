@@ -3,6 +3,7 @@ export {
   getSession,
   signOut,
   lockRedirectUrl,
+  onboardingRedirectUrl,
   subscribeToSession,
 } from "./auth";
 export { isSupabaseConfigured } from "./client";

@@ -67,12 +67,8 @@ export function TodayScreen() {
           <article key={meal.slot} className="border-b border-iron py-3">
             <p className="grid grid-cols-[1fr_auto_auto] gap-2.5 font-sans text-[12px] font-bold tracking-[0.04em] text-iron-2 uppercase">
               <span>{meal.slot}</span>
-              <span className="text-live tabular-nums">
-                {shownVersion ? `${Math.round(shownVersion.energyKcal / 4)} kcal` : "— kcal"}
-              </span>
-              <span className="text-live tabular-nums">
-                {shownVersion ? `${Math.round(shownVersion.proteinG / 4)} p` : "— p"}
-              </span>
+              <span className="text-live tabular-nums">— kcal</span>
+              <span className="text-live tabular-nums">— p</span>
             </p>
             <h2 className="font-sans text-[1.05rem] font-bold">
               {hasPlan ? meal.name : "After generate"}

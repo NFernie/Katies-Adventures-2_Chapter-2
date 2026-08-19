@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 4 **complete** (19 Aug 2026) — data gateway, magic-link UI, live `0003` RLS, Pages client keys, signed-out REST deny, owner same-device magic-link + profile/`training_days` persist. Next is Phase 5 (onboarding + planning engine). Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 5 **engine + onboarding shipped** (19 Aug 2026). Critique on onboarding done. Locked kcal fixtures unchanged. Persist through `src/data` for `auth.uid()`. Next is Phase 6 (USDA meals). Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -669,7 +669,7 @@ Do not add NextAuth or Prisma runtime.
 
 ## Phase 5 — Onboarding + planning engine
 
-**Status:** Engine + onboarding shipped (19 Aug 2026). Remaining: `/impeccable critique` on onboarding in this PR.
+**Status:** Engine + onboarding shipped (19 Aug 2026). `/impeccable critique` on onboarding done (26/40; P0/P1 applied).
 
 ### Design
 
@@ -690,9 +690,9 @@ Do not add NextAuth or Prisma runtime.
 - [x] Engine tests green (kcal literals unchanged; week maps mixed)  
 - [x] PlanVersion persisted for `auth.uid()`  
 - [x] Unsafe **loss speed** blocked; other medical hard-stops **not** implemented  
-- [ ] `/impeccable critique` on onboarding  
+- [x] `/impeccable critique` on onboarding  
 
-**Completed (19 Aug 2026):** Pure `src/engine/planEnergyAndTraining` vs `docs/domain/fixtures/engine-examples.json` (male 2270 / female 1930 / unsafe `2026-10-16`). Independent recompute: `node scripts/recompute-engine-fixtures.mjs`. `commitPlanVersion` writes profile, `training_days`, goal, plan, `plan_versions`, and dummy meal slots through `src/data` with session `owner_id`. Five-step onboarding (You → printout → Aim → kitchen/week → review). Yellow Continue band. Disclaimer on review. No BMI/age/pregnancy blocks. Dummy meal titles on Today.  
+**Completed (19 Aug 2026):** Pure `src/engine/planEnergyAndTraining` vs `docs/domain/fixtures/engine-examples.json` (male 2270 / female 1930 / unsafe `2026-10-16`). Independent recompute: `node scripts/recompute-engine-fixtures.mjs`. `commitPlanVersion` writes profile, `training_days`, goal, plan, `plan_versions`, and dummy meal slots through `src/data` with session `owner_id`. Five-step onboarding (You → printout → Aim → kitchen/week → review). Yellow Continue band. Disclaimer on review. No BMI/age/pregnancy blocks. Dummy meal titles on Today. Critique: 26/40; P0 magic-link stay-on-flow + draft restore; missing diet flags added.  
 
 ### Implementation-agent prompt
 

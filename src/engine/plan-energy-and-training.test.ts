@@ -177,6 +177,40 @@ test("diet flags do not change locked energy maths", () => {
   assert.equal(result.proteinG, 161);
 });
 
+test("weeklyLossCapPct outside (0, 1] is a form error, not a generator block", () => {
+  const example = fixtures.examples.find((row) => row.id === "male-fat-loss-4d");
+  assert.ok(example);
+  const args = toArgs(example.input);
+  args.goal = { ...args.goal, weeklyLossCapPct: 1.5 };
+  assert.throws(() => planEnergyAndTraining(args), /weeklyLossCapPct/i);
+});
+
+test("age and high BMI are not generator blocks", () => {
+  const example = fixtures.examples.find((row) => row.id === "male-fat-loss-4d");
+  assert.ok(example);
+  const args = toArgs(example.input);
+  args.body = {
+    ...args.body,
+    birthDate: "1940-01-01",
+    heightCm: 160,
+    weightKg: 140,
+  };
+  args.goal = { ...args.goal, targetWeightKg: 138 };
+  const result = planEnergyAndTraining(args);
+  assert.equal(result.ok, true);
+});
+
+test("deload includes a started 4th week when the span is not a whole number of weeks", () => {
+  const example = fixtures.examples.find((row) => row.id === "male-fat-loss-4d");
+  assert.ok(example);
+  const args = toArgs(example.input);
+  args.goal = { ...args.goal, endOn: "2026-11-04" };
+  const result = planEnergyAndTraining(args);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.deepEqual(result.deloadWeeks, [4, 8, 12]);
+});
+
 test("all-rest week is a form error, not a generator block", () => {
   const example = fixtures.examples.find((row) => row.id === "male-fat-loss-4d");
   assert.ok(example);

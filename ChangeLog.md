@@ -12,6 +12,7 @@ Pure planning maths, then a five-step onboarding that can persist a `plan_versio
 - `commitPlanVersion` in `src/data` stamps `owner_id` from the session on goal, plan, plan_versions, dummy `day_plans` / `meal_slots`. Signed-out throws. No `DEFAULT_OWNER_ID` writes.
 - `/onboarding`: You → printout → Aim → kitchen/mixed week → review. Yellow Continue / Generate band. Unsafe speed offers the fastest safe date. Disclaimer on review. Magic link on review if signed out. Dummy meal titles on Today.
 - No BMI / age / pregnancy hard-stops. Diet flags do not change kcal.
+- Critique on onboarding (26/40). Magic link stays on review (`redirectOnSend={false}`, draft in `localStorage`, return URL `/onboarding/`). Diet flags include shellfish/egg/soy. Unsafe banner on chalk (contrast). Dummy Today meals no longer fake-split daily kcal.
 
 ---
 

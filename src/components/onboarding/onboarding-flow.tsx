@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { MagicLinkForm } from "@/components/auth/magic-link-form";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { Disclaimer } from "@/components/shell/copy";
 import { WayfindingBand } from "@/components/shell/wayfinding-band";
-import { commitPlanVersion, SignedOutError } from "@/data";
+import { commitPlanVersion, onboardingRedirectUrl, SignedOutError } from "@/data";
 import {
   planEnergyAndTraining,
   WEEKDAYS,
@@ -28,13 +28,19 @@ const GOAL_LABEL: Record<GoalType, string> = {
   maintain: "Maintain",
 };
 
-const DIET_CHIPS: Array<[DietFlag, string]> = [
+const DIET_STYLE_CHIPS: Array<[DietFlag, string]> = [
   ["vegetarian", "Vegetarian"],
   ["vegan", "Vegan"],
-  ["allergy_nuts", "Nut allergy"],
-  ["allergy_dairy", "Dairy allergy"],
-  ["allergy_gluten", "Gluten allergy"],
   ["cook_under_30", "Under 30 min"],
+];
+
+const ALLERGY_CHIPS: Array<[DietFlag, string]> = [
+  ["allergy_nuts", "Nuts"],
+  ["allergy_dairy", "Dairy"],
+  ["allergy_gluten", "Gluten"],
+  ["allergy_shellfish", "Shellfish"],
+  ["allergy_egg", "Egg"],
+  ["allergy_soy", "Soy"],
 ];
 
 const KITCHEN_CHIPS: Array<[KitchenFlag, string]> = [
@@ -109,6 +115,8 @@ type Draft = {
   week: Record<Weekday, DaySetting>;
 };
 
+const DRAFT_KEY = "bodyplan.onboarding.draft";
+
 const initialDraft = (): Draft => ({
   sex: "female",
   birthDate: "1994-11-02",
@@ -133,6 +141,21 @@ const initialDraft = (): Draft => ({
     sun: "rest",
   },
 });
+
+type StoredOnboarding = { draft: Draft; step: number };
+
+function readStoredOnboarding(): StoredOnboarding | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StoredOnboarding;
+    if (!parsed?.draft?.week) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
 
 function trainDayCount(week: Draft["week"]): number {
   return WEEKDAYS.filter((day) => week[day] !== "rest").length;
@@ -200,6 +223,7 @@ export function OnboardingFlow() {
   const [draft, setDraft] = useState<Draft>(initialDraft);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [draftReady, setDraftReady] = useState(false);
 
   const trainDays = trainDayCount(draft.week);
 
@@ -291,6 +315,11 @@ export function OnboardingFlow() {
         result: success,
         generatorInput: JSON.parse(JSON.stringify(engineInput)),
       });
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch {
+        /* private mode */
+      }
       router.push("/");
     } catch (error) {
       if (error instanceof SignedOutError) {
@@ -304,6 +333,24 @@ export function OnboardingFlow() {
   }
 
   const titles = ["You", "From the machine", "Aim", "Kitchen and training", "This plan"];
+
+  useEffect(() => {
+    const stored = readStoredOnboarding();
+    if (stored) {
+      setDraft(stored.draft);
+      if (stored.step >= 1 && stored.step <= 5) setStep(stored.step);
+    }
+    setDraftReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!draftReady) return;
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ draft, step }));
+    } catch {
+      /* private mode */
+    }
+  }, [draft, step, draftReady]);
   const bandLabel =
     step === 5
       ? busy
@@ -329,15 +376,16 @@ export function OnboardingFlow() {
         <p className="font-sans text-[13px] font-semibold text-iron-2">
           {step} of 5
         </p>
-        {step > 1 ? (
-          <button
-            type="button"
-            className="min-h-11 font-sans text-[14px] font-semibold"
-            onClick={() => setStep((current) => current - 1)}
-          >
-            Back
-          </button>
-        ) : null}
+        <button
+          type="button"
+          className="min-h-11 min-w-11 px-2 font-sans text-[14px] font-semibold"
+          onClick={() => {
+            if (step > 1) setStep((current) => current - 1);
+            else router.push("/");
+          }}
+        >
+          Back
+        </button>
       </div>
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
         {titles[step - 1]}
@@ -346,7 +394,8 @@ export function OnboardingFlow() {
       {step === 1 ? (
         <>
           <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
-            Male or female for Mifflin–St Jeor. Metric only.
+            Male or female. Height in centimetres. Sample figures — replace
+            with yours.
           </p>
           <p className="mt-4 mb-1.5 font-sans text-[14px] font-semibold text-iron-2">
             Sex
@@ -389,35 +438,41 @@ export function OnboardingFlow() {
           <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
             InBody / Tanita (BodyID). Type the printout. No photos.
           </p>
-          <NumberField
-            id="weight"
-            label="Weight (kg)"
-            value={draft.weightKg}
-            onChange={(weightKg) => setDraft((current) => ({ ...current, weightKg }))}
-          />
-          <NumberField
-            id="bf"
-            label="Body fat (%)"
-            value={draft.bodyFatPct}
-            onChange={(bodyFatPct) =>
-              setDraft((current) => ({ ...current, bodyFatPct }))
-            }
-          />
-          <NumberField
-            id="smm"
-            label="Skeletal muscle mass (kg)"
-            value={draft.skeletalMuscleMassKg}
-            onChange={(skeletalMuscleMassKg) =>
-              setDraft((current) => ({ ...current, skeletalMuscleMassKg }))
-            }
-          />
+          <div className="mt-4 border border-iron bg-chalk px-3 py-3 shadow-[2px_3px_0_rgba(22,22,22,0.12)]">
+            <p className="font-sans text-[12px] font-bold tracking-[0.04em] text-iron-2 uppercase">
+              Printout
+            </p>
+            <NumberField
+              id="weight"
+              label="Weight (kg)"
+              value={draft.weightKg}
+              onChange={(weightKg) => setDraft((current) => ({ ...current, weightKg }))}
+            />
+            <NumberField
+              id="bf"
+              label="Body fat (%)"
+              value={draft.bodyFatPct}
+              onChange={(bodyFatPct) =>
+                setDraft((current) => ({ ...current, bodyFatPct }))
+              }
+            />
+            <NumberField
+              id="smm"
+              label="Skeletal muscle mass (kg) — SMM line"
+              value={draft.skeletalMuscleMassKg}
+              onChange={(skeletalMuscleMassKg) =>
+                setDraft((current) => ({ ...current, skeletalMuscleMassKg }))
+              }
+            />
+          </div>
         </>
       ) : null}
 
       {step === 3 ? (
         <>
           <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
-            Pick one goal. You choose the date; we block unsafe speed only.
+            Pick one goal. You choose the date. Faster than 1% a week is
+            blocked; 0.5% a week is a typical starting pace.
           </p>
           <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Goal type">
             {(Object.keys(GOAL_LABEL) as GoalType[]).map((type) => (
@@ -456,7 +511,7 @@ export function OnboardingFlow() {
           {blocked ? (
             <p
               role="alert"
-              className="mt-4 border border-alert px-3 py-3 font-sans text-[16px] leading-[1.45] text-alert"
+              className="mt-4 border border-alert bg-chalk px-3 py-3 font-sans text-[16px] font-semibold leading-[1.45] text-alert"
             >
               That date is faster than 1% of body weight a week. Fastest safe
               date: {formatSafeDate(blocked.fastestSafeEndOn)}. Slow is allowed;
@@ -476,7 +531,26 @@ export function OnboardingFlow() {
             Diet
           </p>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Diet">
-            {DIET_CHIPS.map(([flag, label]) => (
+            {DIET_STYLE_CHIPS.map(([flag, label]) => (
+              <Chip
+                key={flag}
+                pressed={draft.dietFlags.includes(flag)}
+                onClick={() =>
+                  setDraft((current) => ({
+                    ...current,
+                    dietFlags: toggleFlag(current.dietFlags, flag),
+                  }))
+                }
+              >
+                {label}
+              </Chip>
+            ))}
+          </div>
+          <p className="mt-4 mb-1.5 font-sans text-[14px] font-semibold text-iron-2">
+            Allergies
+          </p>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Allergies">
+            {ALLERGY_CHIPS.map(([flag, label]) => (
               <Chip
                 key={flag}
                 pressed={draft.dietFlags.includes(flag)}
@@ -536,7 +610,8 @@ export function OnboardingFlow() {
                 </span>
                 <button
                   type="button"
-                  className="min-h-11 px-2 font-sans text-[14px] font-semibold"
+                  className="min-h-11 min-w-11 px-2 font-sans text-[14px] font-semibold"
+                  aria-label={`${WEEKDAY_LABEL[weekday]}: ${SETTING_LABEL[draft.week[weekday]]}. Tap to change.`}
                   onClick={() =>
                     setDraft((current) => ({
                       ...current,
@@ -626,9 +701,13 @@ export function OnboardingFlow() {
           {status !== "signed-in" ? (
             <div className="mt-4">
               <p className="font-sans text-[16px] leading-[1.45] text-iron-2">
-                Saving needs a magic-link session. Not a second account funnel.
+                Email a one-time link to save this plan. Open it on this phone,
+                then generate.
               </p>
-              <MagicLinkForm />
+              <MagicLinkForm
+                redirectOnSend={false}
+                emailRedirectTo={onboardingRedirectUrl()}
+              />
             </div>
           ) : null}
         </>
