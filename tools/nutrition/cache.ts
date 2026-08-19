@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import type { FdcCache } from "./types.ts";
+import type { FdcCache } from "./types";
 
 export const CACHE_PATH = new URL("../../data/nutrition/fdc-cache.json", import.meta.url);
 

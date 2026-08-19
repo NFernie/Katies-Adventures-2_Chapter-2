@@ -1,9 +1,9 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-import { readCache, writeCache } from "./cache.ts";
-import { fetchFdcFood, readUsdaKey } from "./fdc.ts";
-import { sumRecipe } from "./sum.ts";
-import type { RecipeDraft } from "./types.ts";
+import { readCache, writeCache } from "./cache";
+import { fetchFdcFood, readUsdaKey } from "./fdc";
+import { sumRecipe } from "./sum";
+import type { RecipeDraft } from "./types";
 
 const RECIPES_PATH = new URL("../../data/recipes.json", import.meta.url);
 

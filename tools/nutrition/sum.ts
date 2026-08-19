@@ -1,4 +1,4 @@
-import type { FdcCache, RecipeDraft, RecipeNutrition } from "./types.ts";
+import type { FdcCache, RecipeDraft, RecipeNutrition } from "./types";
 
 /** |kcal − (4P + 4C + 9F)| allowed so the §4.2 yogurt example (gap ~25) still checksums. */
 export const ATWATER_TOLERANCE_KCAL = 30;

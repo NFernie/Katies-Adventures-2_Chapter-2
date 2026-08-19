@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import type { CachedFood, NutrientPer100g } from "./types.ts";
+import type { CachedFood, NutrientPer100g } from "./types";
 
 const FDC_BASE = "https://api.nal.usda.gov/fdc/v1";
 

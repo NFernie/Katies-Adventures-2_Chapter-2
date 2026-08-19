@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 
-import { readCache } from "./cache.ts";
-import { ATWATER_TOLERANCE_KCAL, atwaterKcal, sumRecipe } from "./sum.ts";
-import type { RecipeDraft, RecipeNutrition } from "./types.ts";
+import { readCache } from "./cache";
+import { ATWATER_TOLERANCE_KCAL, atwaterKcal, sumRecipe } from "./sum";
+import type { RecipeDraft, RecipeNutrition } from "./types";
 
 const RECIPES_PATH = new URL("../../data/recipes.json", import.meta.url);
 
