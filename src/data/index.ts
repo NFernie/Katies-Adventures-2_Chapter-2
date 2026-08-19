@@ -18,6 +18,16 @@ export {
   setMealEaten,
 } from "./meals";
 export { listTrainingDays, replaceTrainingDays } from "./training-days";
+export {
+  completeWorkoutItem,
+  listWorkoutItems,
+  listWorkoutSessionForDay,
+  saveWorkoutSets,
+  skipWorkoutItem,
+  swapWorkoutItem,
+  emptySets,
+  isSkippedSets,
+} from "./workouts";
 export type {
   GoalType,
   GoalWrite,
@@ -33,3 +43,9 @@ export type {
 export type { Session } from "./gateway-client";
 export type { MealSlotRow } from "./meals";
 export type { DayPlan } from "./plans";
+export type {
+  WorkoutItemRow,
+  WorkoutSessionRow,
+  WorkoutSetRow,
+  WorkoutSets,
+} from "./workouts";

@@ -7,6 +7,8 @@ import { SignedOutBanner } from "@/components/auth/signed-out-banner";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { MealCard } from "@/components/meals/meal-card";
 import { SwapSheet } from "@/components/meals/swap-sheet";
+import { sessionHeadline } from "@/components/session/labels";
+import { WorkoutModule } from "@/components/session/workout-module";
 import { Disclaimer } from "@/components/shell/copy";
 import { LoadedBar } from "@/components/shell/loaded-bar";
 import { PrintoutStrip } from "@/components/shell/printout-strip";
@@ -18,12 +20,16 @@ import {
   listDayPlans,
   listMealSlotsForDay,
   listPlanVersions,
+  listWorkoutItems,
+  listWorkoutSessionForDay,
   pinMealSlot,
   setMealEaten,
   swapMealSlot,
   type MealSlotRow,
   type PlanVersion,
   type Profile,
+  type WorkoutItemRow,
+  type WorkoutSessionRow,
 } from "@/data";
 import {
   MEAL_SLOTS,
@@ -41,17 +47,41 @@ const EMPTY_EATEN: Record<MealSlot, boolean> = {
   snack: false,
 };
 
+type TodayPayload = {
+  profile: Profile | null;
+  version: PlanVersion | null;
+  meals: MealSlotRow[];
+  session: WorkoutSessionRow | null;
+  workoutItems: WorkoutItemRow[];
+  deload: boolean;
+  daySetting: string;
+};
+
+function emptyToday(): TodayPayload {
+  return {
+    profile: null,
+    version: null,
+    meals: [],
+    session: null,
+    workoutItems: [],
+    deload: false,
+    daySetting: "rest",
+  };
+}
+
 export function TodayScreen() {
   const { status } = useAuthSession();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [version, setVersion] = useState<PlanVersion | null>(null);
   const [meals, setMeals] = useState<MealSlotRow[]>([]);
   const [swapSlot, setSwapSlot] = useState<MealSlot | null>(null);
+  const [session, setSession] = useState<WorkoutSessionRow | null>(null);
+  const [workoutItems, setWorkoutItems] = useState<WorkoutItemRow[]>([]);
+  const [deload, setDeload] = useState(false);
+  const [daySetting, setDaySetting] = useState("rest");
 
-  const fetchToday = useCallback(async () => {
-    if (status !== "signed-in") {
-      return { profile: null, version: null, meals: [] as MealSlotRow[] };
-    }
+  const fetchToday = useCallback(async (): Promise<TodayPayload> => {
+    if (status !== "signed-in") return emptyToday();
     try {
       const [nextProfile, versions, days] = await Promise.all([
         getProfile(),
@@ -61,24 +91,31 @@ export function TodayScreen() {
       const today = new Date().toISOString().slice(0, 10);
       const day = days.find((row) => row.onDate === today) ?? days[0];
       const nextMeals = day ? await listMealSlotsForDay(day.id) : [];
+      const nextSession = day ? await listWorkoutSessionForDay(day.id) : null;
+      const nextItems = nextSession ? await listWorkoutItems(nextSession.id) : [];
       return {
         profile: nextProfile,
         version: versions[0] ?? null,
         meals: nextMeals,
+        session: nextSession,
+        workoutItems: nextItems,
+        deload: day?.isDeload ?? false,
+        daySetting: day?.trainingSetting ?? (nextSession?.setting ?? "rest"),
       };
     } catch {
-      return { profile: null, version: null, meals: [] as MealSlotRow[] };
+      return emptyToday();
     }
   }, [status]);
 
-  const applyToday = useCallback(
-    (next: { profile: Profile | null; version: PlanVersion | null; meals: MealSlotRow[] }) => {
-      setProfile(next.profile);
-      setVersion(next.version);
-      setMeals(next.meals);
-    },
-    [],
-  );
+  const applyToday = useCallback((next: TodayPayload) => {
+    setProfile(next.profile);
+    setVersion(next.version);
+    setMeals(next.meals);
+    setSession(next.session);
+    setWorkoutItems(next.workoutItems);
+    setDeload(next.deload);
+    setDaySetting(next.daySetting);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -97,6 +134,8 @@ export function TodayScreen() {
 
   const shownProfile = status === "signed-in" ? profile : null;
   const shownVersion = status === "signed-in" ? version : null;
+  const shownSession = status === "signed-in" ? session : null;
+  const shownWorkoutItems = status === "signed-in" ? workoutItems : [];
   const shownMeals = useMemo(
     () => (status === "signed-in" ? meals : []),
     [status, meals],
@@ -198,6 +237,21 @@ export function TodayScreen() {
         })}
       </section>
       <div className="h-7" aria-hidden />
+      <WorkoutModule
+        title={
+          shownSession
+            ? sessionHeadline({
+                focus: shownSession.focus,
+                setting: shownSession.setting,
+                cardio: shownSession.cardio,
+              })
+            : "Rest"
+        }
+        setting={shownSession?.setting ?? (status === "signed-in" ? daySetting : "rest")}
+        moveCount={shownWorkoutItems.length}
+        deload={status === "signed-in" ? deload : false}
+        empty={!shownSession || shownWorkoutItems.length === 0}
+      />
       <Link href="/onboarding" className={cn(buttonVariants(), "mt-4 inline-flex")}>
         {hasPlan ? "Regenerate" : "Start onboarding"}
       </Link>
