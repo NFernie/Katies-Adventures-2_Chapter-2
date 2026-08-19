@@ -91,7 +91,7 @@ Rules:
 - `nutrition.source` is exactly `usda-fdc`. Other values fail CI.
 - Macros are write-time sums from FDC, not LLM guesses, not commercial site labels.
 - 4-4-9 checksum: `|kcal - (4·proteinG + 4·carbG + 9·fatG)|` within the Phase 6 tolerance.
-- Gym-only product: recipes may list kitchen equipment (`oven`, `hob`, `none`); they must not assume a home gym.
+- Recipes list kitchen equipment (`oven`, `hob`, `none`). Training settings live on exercises, not recipes.
 
 Phase 6 writes the real file. This document is the shape.
 
@@ -99,13 +99,14 @@ Phase 6 writes the real file. This document is the shape.
 
 ## Exercise JSON (`data/exercises.json`)
 
-Gym movements only. **Not** USDA-checked. No `owner_id`. No home / bands / bodyweight track as a separate library.
+Movements tagged by **track**. **Not** USDA-checked. No `owner_id`. A session on a given weekday may only use rows whose `tracks` include **that day’s** setting. Swaps stay in-setting + same `pattern`.
 
 ```json
 {
   "slug": "barbell-back-squat",
   "title": "Barbell back squat",
   "pattern": "squat",
+  "tracks": ["gym"],
   "equipment": ["barbell", "rack"],
   "laterality": "bilateral",
   "defaultSets": 3,
@@ -113,7 +114,9 @@ Gym movements only. **Not** USDA-checked. No `owner_id`. No home / bands / bodyw
 }
 ```
 
-Sex does not change the movement menu. Cardio entries (`zone2-walk`, `bike-intervals`) may exist as catalog rows the **generator** picks; they are not an onboarding preference.
+`tracks` is a non-empty subset of `gym` | `home` | `bands` | `bodyweight`. An exercise may appear in more than one (example: a bodyweight squat tagged `["home","bodyweight"]`).
+
+Sex does not change the movement rules. Cardio entries (`zone2-walk`, `bike-intervals`) may exist as catalog rows the **generator** picks; they are not an onboarding preference. Cardio rows still declare which settings they can use (a gym bike vs a walk).
 
 ---
 

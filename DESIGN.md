@@ -132,7 +132,7 @@ Numbers (kg, %, kcal, protein) are the loudest layer, in cyan, tabular. Wayfindi
 - Plate hubs as meal checkboxes (invert when eaten)
 - Packed meal modules with stamped end-labels; quarry gap before the lift
 - Bottom nav of four: Today · Plan · Log · You
-- No login chrome; lock is a note on You
+- Magic-link sign-in lives on You / `/lock` (Phase 4). Prototype shows the intended form, not a disabled fake button.
 
 **Reference lock**
 
@@ -209,22 +209,23 @@ Mostly flat. Printout uses a 2px × 3px iron-tinted offset (`box-shadow: 2px 3px
 
 See `docs/ux/component-inventory.md`. Touch targets ≥44px. Visible 3px iron focus ring. `prefers-reduced-motion` kills animation. Lucide-style 2px square-cap SVGs.
 
-**Lock note:** dashed hairline box, `role="note"`. Not a disabled button.
+**Lock / magic link:** email field + iron **Send magic link** on You. `/lock` is the check-email state. Not a disabled button. Not a yellow Continue (yellow stays onboarding Continue only).
 
 ## Do's and Don'ts
 
 **Do**
 
 - Start onboarding without an account.
-- Show four meals and today’s gym session on Today.
+- Show four meals and today’s session (setting from the weekday map) on Today.
 - Block only unsafe loss speed; offer the fastest safe date.
 - Keep Aceternity to sheet motion, hub pop, Plan bento, optional rest ring.
 - Set helper copy to **iron-2** (`#1a1a1a`) so printout instructions hold on platform grey.
 
 **Don't**
 
-- Add login, photos, imperial units, or a home-gym track.
+- Add photos, imperial units, or collapse the week to one global track.
 - Use yellow anywhere except Continue.
 - Default to dark mode or indigo.
 - Put emoji in the tab bar.
 - Claim medical treatment.
+- Fake a broken login control. Magic link is real in Phase 4.

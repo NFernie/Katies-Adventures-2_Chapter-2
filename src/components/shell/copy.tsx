@@ -4,8 +4,8 @@ export function LockNote() {
       role="note"
       className="mt-4 border border-dashed border-hair px-3 py-3 font-sans text-[14px] leading-snug text-iron-2"
     >
-      Lock this data later with email. Not a button. Magic link is Phase 4b,
-      after you have used the planner.
+      Phase 4 signs you in with an email magic link when it saves data. No
+      Google, no password. This shell does not send mail yet.
     </p>
   );
 }

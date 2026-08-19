@@ -11,7 +11,15 @@
         "weightKg": 88.0,
         "bodyFatPct": 22.0,
         "skeletalMuscleMassKg": 36.5,
-        "gymDaysPerWeek": 4,
+        "trainingWeek": {
+          "mon": "gym",
+          "tue": "rest",
+          "wed": "bands",
+          "thu": "rest",
+          "fri": "gym",
+          "sat": "home",
+          "sun": "rest"
+        },
         "goal": {
           "type": "fat_loss",
           "startOn": "2026-08-18",
@@ -37,6 +45,8 @@
         "macroChecksumKcal": 2270,
         "warnings": [],
         "splitId": "upper_lower",
+        "trainingDaysPerWeek": 4,
+        "trainDaySettings": ["gym", "rest", "bands", "rest", "gym", "home", "rest"],
         "cardio": { "kind": "zone2", "sessionsPerWeek": 2 },
         "deloadWeeks": [4, 8, 12, 16]
       }
@@ -50,7 +60,15 @@
         "weightKg": 72.0,
         "bodyFatPct": 28.0,
         "skeletalMuscleMassKg": 26.0,
-        "gymDaysPerWeek": 6,
+        "trainingWeek": {
+          "mon": "gym",
+          "tue": "home",
+          "wed": "bands",
+          "thu": "bodyweight",
+          "fri": "gym",
+          "sat": "bands",
+          "sun": "rest"
+        },
         "goal": {
           "type": "fat_loss_retain_muscle",
           "startOn": "2026-08-18",
@@ -76,6 +94,8 @@
         "macroChecksumKcal": 1930,
         "warnings": [],
         "splitId": "ppl_twice",
+        "trainingDaysPerWeek": 6,
+        "trainDaySettings": ["gym", "home", "bands", "bodyweight", "gym", "bands", "rest"],
         "cardio": { "kind": "zone2", "sessionsPerWeek": 1 },
         "deloadWeeks": [4, 8, 12]
       }

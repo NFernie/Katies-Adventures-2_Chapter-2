@@ -1,6 +1,6 @@
 # Planning engine spec (pure maths)
 
-Phase 2 lock for `src/engine` (Phase 5 implements). **No React. No Supabase. No `owner_id`.** Metric only. Gym equipment only. Four goal types. No photos. The only generator **block** is unsafe loss speed. Calorie floors are warnings, not medical hard-stops.
+Phase 2 lock for `src/engine` (Phase 5 implements). **No React. No Supabase. No `owner_id`.** Metric only. Mixed training week (`gym` / `home` / `bands` / `bodyweight` per weekday). Four goal types. No photos. The only generator **block** is unsafe loss speed. Calorie floors are warnings, not medical hard-stops.
 
 If a later agent finds a formula here ambiguous, **gate** — do not invent a second convention.
 
@@ -45,6 +45,10 @@ export type SplitId =
 
 export type CardioKind = "none" | "zone2" | "intervals";
 
+export type Weekday = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+export type TrainingSetting = "gym" | "home" | "bands" | "bodyweight";
+export type DaySetting = TrainingSetting | "rest";
+
 export interface EngineBody {
   sex: Sex;
   birthDate: string; // YYYY-MM-DD
@@ -68,7 +72,7 @@ export interface EngineGoal {
 }
 
 export interface EnginePrefs {
-  gymDaysPerWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  trainingWeek: Record<Weekday, DaySetting>;
   dietFlags: DietFlag[];
   kitchenFlags: KitchenFlag[];
   servings: number; // >= 1; meal knapsack (Phase 6), not energy maths
@@ -96,7 +100,8 @@ export interface EngineSuccess {
   macroChecksumKcal: number; // 4P + 4C + 9F
   warnings: Array<"below_calorie_floor">;
   splitId: SplitId;
-  trainDayPattern: boolean[]; // length 7, Mon-start relative to startOn weekday unused; see §8
+  trainingDaysPerWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  trainDaySettings: DaySetting[]; // length 7, Monday-first
   cardio: { kind: CardioKind; sessionsPerWeek: number };
   deloadWeeks: number[]; // 1-based week indexes
 }
@@ -108,6 +113,8 @@ export type EngineResult =
 
 `dietFlags` / `kitchenFlags` / `servings` do not change energy maths. They constrain meal knapsack in Phase 6.
 
+`trainingDaysPerWeek` is the count of weekdays whose setting is not `"rest"`. At least one train day is required; if the week is all rest, Phase 5 UI must not call the engine (treat as a form error, not a generator block).
+
 ---
 
 ## 2. Locked constants
@@ -116,9 +123,9 @@ export type EngineResult =
 | --- | --- | --- |
 | Mifflin–St Jeor (male) | `10w + 6.25h − 5a + 5` | BMR; `w` kg, `h` cm, `a` whole years |
 | Mifflin–St Jeor (female) | `10w + 6.25h − 5a − 161` | BMR |
-| PAL 1–2 gym days | `1.375` | TDEE = BMR × PAL |
-| PAL 3–5 gym days | `1.55` | |
-| PAL 6–7 gym days | `1.725` | |
+| PAL 1–2 train days | `1.375` | TDEE = BMR × PAL |
+| PAL 3–5 train days | `1.55` | |
+| PAL 6–7 train days | `1.725` | |
 | Default weekly loss | `0.5%` of current weight | Only used when `targetWeightKg` is null (maintain, or missing target — see §5) |
 | Loss-speed cap | `1.0%` of current weight / week | Only generator **block** |
 | Energy density | `7700` kcal per kg | Deficit from planned kg loss |
@@ -158,9 +165,9 @@ Use exact rational arithmetic (or IEEE-754 that matches these fixtures). Do not 
 
 ```
 bmr = 10 * weightKg + 6.25 * heightCm - 5 * ageYears + (5 if male else -161)
-pal = 1.375 if gymDays in {1,2}
-    | 1.55  if gymDays in {3,4,5}
-    | 1.725 if gymDays in {6,7}
+pal = 1.375 if trainingDaysPerWeek in {1,2}
+    | 1.55  if trainingDaysPerWeek in {3,4,5}
+    | 1.725 if trainingDaysPerWeek in {6,7}
 tdee = bmr * pal
 ```
 
@@ -241,11 +248,13 @@ If `|macroChecksumKcal - energyKcal| > 10`, nudge `carbG` by ±1 g once toward t
 
 ---
 
-## 7. Training (gym only, same menu M/F)
+## 7. Training (mixed week, same rules M/F)
 
-Session count = `gymDaysPerWeek` (user-selected). Cardio is **generator-chosen** from goal type, not an onboarding preference. Deload every 4th week (1-based week index `4, 8, 12, …` while that week still falls inside `startOn..endOn`). Deload: planned sets × `0.6`, no intensity PR (Phase 5/7). Same exercise catalog for male and female.
+`trainingDaysPerWeek` = count of non-rest days in `trainingWeek`. PAL and the split use that **count**. The day’s **setting** only filters which catalog rows may appear and which swaps are legal (Phase 7). Cardio is **generator-chosen** from goal type, not an onboarding preference. Deload every 4th week (1-based week index `4, 8, 12, …` while that week still falls inside `startOn..endOn`). Deload: planned sets × `0.6`, no intensity PR (Phase 5/7). Same movement rules for male and female.
 
-| `gymDaysPerWeek` | `splitId` | Lift pattern (repeat each week) |
+Map split slots onto train days in **Monday-first** order (skip rest). Example: 4-day `upper_lower` on Mon gym / Wed bands / Fri gym / Sat home → U gym, L bands, U gym, L home.
+
+| `trainingDaysPerWeek` | `splitId` | Lift pattern (repeat each week) |
 | --- | --- | --- |
 | 1–3 | `full_body` | FB × N |
 | 4 | `upper_lower` | U, L, U, L |
@@ -255,12 +264,12 @@ Session count = `gymDaysPerWeek` (user-selected). Cardio is **generator-chosen**
 
 | Goal type | Cardio |
 | --- | --- |
-| `fat_loss` | `zone2`, `sessionsPerWeek = 2` if gym days ≥ 4 else `1` |
+| `fat_loss` | `zone2`, `sessionsPerWeek = 2` if train days ≥ 4 else `1` |
 | `fat_loss_retain_muscle` | `zone2`, `1` |
 | `recomp` | `intervals`, `1` |
-| `maintain` | `none`, `0` if gym days ≥ 4; else `zone2`, `1` |
+| `maintain` | `none`, `0` if train days ≥ 4; else `zone2`, `1` |
 
-Cardio may share a gym day (after the lift) when there is no rest day. Home / bands / bodyweight tracks are out of v1.
+Cardio may share a train day (after the lift) when there is no rest day.
 
 Meal assignment is **out of this spec** (Phase 6 knapsack over catalog tags). Energy/macros above are inputs to that knapsack.
 
@@ -268,7 +277,7 @@ Meal assignment is **out of this spec** (Phase 6 knapsack over catalog tags). En
 
 ## 8. Worked example A — male
 
-**Inputs** (synthetic; gym days user-selected; InBody fat % present)
+**Inputs** (synthetic; mixed week, 4 train days; InBody fat % present)
 
 | Field | Value |
 | --- | --- |
@@ -278,7 +287,7 @@ Meal assignment is **out of this spec** (Phase 6 knapsack over catalog tags). En
 | weightKg | 88.0 |
 | bodyFatPct | 22.0 |
 | skeletalMuscleMassKg | 36.5 |
-| gymDaysPerWeek | 4 |
+| trainingWeek | mon gym, tue rest, wed bands, thu rest, fri gym, sat home, sun rest |
 | goal type | fat_loss |
 | startOn | 2026-08-18 |
 | endOn | 2026-12-08 |
@@ -292,7 +301,7 @@ Meal assignment is **out of this spec** (Phase 6 knapsack over catalog tags). En
 | --- | --- |
 | ageYears | 36 |
 | BMR | `10×88 + 6.25×178 − 5×36 + 5` = **1817.50** |
-| PAL | 4 days → **1.55** |
+| PAL | 4 train days → **1.55** |
 | TDEE | 1817.50 × 1.55 = **2817.125** |
 | days | 112 (exactly 16 weeks) |
 | lossKg | 8.0 |
@@ -307,6 +316,7 @@ Meal assignment is **out of this spec** (Phase 6 knapsack over catalog tags). En
 | macroChecksumKcal | **2270** |
 | warnings | `[]` |
 | splitId | `upper_lower` |
+| trainDaySettings | gym, rest, bands, rest, gym, home, rest |
 | cardio | zone2 × 2 |
 | deloadWeeks | `[4, 8, 12, 16]` |
 
@@ -326,7 +336,7 @@ Not blocked. Male floor 1500: 2270 ≥ 1500.
 | weightKg | 72.0 |
 | bodyFatPct | 28.0 |
 | skeletalMuscleMassKg | 26.0 |
-| gymDaysPerWeek | 6 |
+| trainingWeek | mon gym, tue home, wed bands, thu bodyweight, fri gym, sat bands, sun rest |
 | goal type | fat_loss_retain_muscle |
 | startOn | 2026-08-18 |
 | endOn | 2026-11-10 |
@@ -339,7 +349,7 @@ Not blocked. Male floor 1500: 2270 ≥ 1500.
 | --- | --- |
 | ageYears | 31 (birthday 2 Nov, not yet on 18 Aug) |
 | BMR | `10×72 + 6.25×165 − 5×31 − 161` = **1435.25** |
-| PAL | 6 days → **1.725** |
+| PAL | 6 train days → **1.725** |
 | TDEE | 1435.25 × 1.725 = **2475.80625** |
 | days | 84 (exactly 12 weeks) |
 | lossKg | 6.0 |
@@ -354,6 +364,7 @@ Not blocked. Male floor 1500: 2270 ≥ 1500.
 | macroChecksumKcal | **1930** |
 | warnings | `[]` |
 | splitId | `ppl_twice` |
+| trainDaySettings | gym, home, bands, bodyweight, gym, bands, rest |
 | cardio | zone2 × 1 |
 | deloadWeeks | `[4, 8, 12]` |
 
@@ -381,4 +392,4 @@ Independent recompute (second agent, 19 Aug 2026, formulae + inputs only, no spe
 
 ## 12. Honour §3
 
-Metric; gym only; four goal types; no photos; unsafe speed is the only generator block. Disclaimer copy is UI, not engine I/O.
+Metric; mixed training week; four goal types; no photos; unsafe speed is the only generator block. Disclaimer copy is UI, not engine I/O. Energy literals in the worked examples must not change unless the PAL **count** rule changes.

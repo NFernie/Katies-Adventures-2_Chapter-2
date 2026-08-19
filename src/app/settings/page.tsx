@@ -12,8 +12,8 @@ export default function SettingsPage() {
         You
       </h1>
       <p className="mt-3 font-sans text-[16px] leading-[1.45]">
-        Height, weight, and BodyID fields save here in Phase 4. There is no
-        login wall.
+        Height, weight, and BodyID fields save here in Phase 4, after a magic
+        link. Mixed training week lives on onboarding, not a gym-days stepper.
       </p>
       <LockNote />
     </main>

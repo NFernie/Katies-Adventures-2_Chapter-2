@@ -18,7 +18,7 @@ The clickable prototype is a single HTML file. There is no Next.js app yet.
 
    then visit `http://localhost:4173/`
 
-Direct screen URLs (after serving): `#on1` You · `#on2` Printout · `#on3` Aim · `#on4` Kitchen · `#on5` Review · `#today` · `#swap` · `#session` · `#plan` · `#log` · `#you`.
+Direct screen URLs (after serving): `#on1` You · `#on2` Printout · `#on3` Aim · `#on4` Kitchen & training · `#on5` Review · `#today` · `#swap` · `#session` · `#plan` · `#log` · `#you` · `#lock`.
 
 ## What to click
 
@@ -30,9 +30,10 @@ Direct screen URLs (after serving): `#on1` You · `#on2` Printout · `#on3` Aim 
 | Swap | On Today, tap **Swap** on a meal. |
 | Session | Tap the steel bar or **Start workout**. |
 | Plan / Timeline / You | Bottom nav: Plan, Log, You. |
+| Magic link | On **You**, enter an email and **Send magic link** → `#lock`. |
 | Widths | 375 / 390 / 430 buttons above the phone. |
 
-Settings (**You**) has a dashed **note**, not a button: locking with email comes later.
+Settings (**You**) has a real magic-link field. Phase 4 sends the email; the prototype does not fake a disabled login.
 
 ## Stills
 
@@ -43,6 +44,6 @@ Captures at 390px (prototype chrome + phone):
 - `screenshots/swap.png` — swap sheet
 - `screenshots/session.png` — one-exercise set table
 - `screenshots/plan.png` — plan + week strip
-- `screenshots/you.png` — profile + lock note (not a button)
+- `screenshots/you.png` — profile (pre-amendment lock note). HTML now has the magic-link field.
 
-The HTML is the source of truth. Click through `#on1` → `#on5` for the full onboarding. Helper copy uses **iron-2** `#1a1a1a` (DESIGN.md). The PNG stills were captured before that contrast tweak; they are not regenerated.
+The HTML is the source of truth. Click through `#on1` → `#on5` for the full onboarding. Helper copy uses **iron-2** `#1a1a1a` (DESIGN.md). The PNG stills were captured before the contrast tweak **and** before mixed-week / magic-link; they are not regenerated.

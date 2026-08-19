@@ -9,7 +9,7 @@ Impeccable `detect.mjs --json` on the prototype: **0 findings** after tokens wer
 ## What is working
 
 - **Product-specific:** Today as a loaded bar (plate hubs + steel session) is not a generic habit diary. Printout strip matches BodyID, not photos.
-- **Frozen §3 honoured:** metric, M/F, gym-only, user-selected diet/kitchen/days/goal/timeline, no login, no photos, disclaimer, unsafe-speed intercept, lock as copy on You.
+- **Frozen §3 honoured:** metric, M/F, mixed training week, user-selected diet/kitchen/goal/timeline, no photos, disclaimer, unsafe-speed intercept, magic-link copy on You (Phase 4 product, not a disabled fake).
 - **Operate mode:** four-tab nav, 44px targets, labelled fields, numeric `inputmode`, one-exercise session with a set table (Strong), four always-on meal slots (Lifesum).
 - **Ink discipline:** yellow Continue, cyan figures, red only on the speed banner.
 
@@ -28,7 +28,7 @@ Impeccable `detect.mjs --json` on the prototype: **0 findings** after tokens wer
 | Heuristic | Score (0–4) |
 | --- | --- |
 | Visibility of system status | 3 (progress n of 5; eaten state) |
-| Match to real world | 4 (printout, plates, gym days) |
+| Match to real world | 4 (printout, plates, weekday settings) |
 | User control | 3 (back, swap keep-current, no skip-onboarding — onboarding is the product) |
 | Consistency | 3 |
 | Error prevention | 3 (unsafe banner) |
@@ -40,8 +40,6 @@ Impeccable `detect.mjs --json` on the prototype: **0 findings** after tokens wer
 
 ## Cognitive load
 
-Onboarding step 4 (diet + kitchen + days) is the heaviest screen. Keep it as one step so first plan stays under three minutes; do not split into a SaaS wizard.
+Onboarding step 4 (diet + kitchen + weekday settings) is the heaviest screen. Keep it as one step so first plan stays under three minutes; do not split into a SaaS wizard. Tap-to-cycle settings is denser than a 1–7 stepper; production must keep 44px rows.
 
-## Questions skipped
-
-Owner review of DESIGN.md is the remaining gate. No sign-up flow was added.
+**Revision 5 (19 Aug 2026):** gym-only honour is stale. Mixed week + magic-link on You are in the HTML. Screenshots were **not** regenerated.
