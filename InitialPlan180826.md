@@ -3,7 +3,7 @@
 **Document:** `InitialPlan180826.md`  
 **Date:** 18 August 2026  
 **Revision:** 5 — mixed training week + auth at persistence (19 Aug 2026)  
-**Status:** Phase 6 **pipeline + meal UI** (19 Aug 2026); **catalog not done** (FDC key missing). Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
+**Status:** Phase 6 **USDA catalog seeded** (19 Aug 2026): 16 recipes, `nutrition:check` green. Put `USDA_FDC_API_KEY` in gitignored `.env` / Actions secrets — **never** `.env.example`. Phase 5 engine + onboarding shipped. Phase 4 live gates are green. Phase 3 scaffold merged. Owner reopened **Q9** (several settings in the same week) and **auth** (Phase 4b is no longer optional). Phase 1 UX and Phase 2 domain are **amended** in this revision; do not re-scaffold Phase 3. §3 remains **closed** except as amended in revision 5. Recipe macros must be USDA-checked when the catalog is written, never via a live call from GitHub Pages.  
 **Product name:** BodyPlan  
 **Audience:** Implementation agents and the product owner  
 **Stack (v1):** Next.js (static export) · TypeScript · React · Tailwind CSS · Aceternity UI · Supabase JS client · Supabase Postgres · Supabase Auth (magic link)  
@@ -714,7 +714,7 @@ Review: code-review + independent fixture check.
 
 ## Phase 6 — Recipes, USDA enrich, and meal plan UI
 
-**Status:** Pipeline + meal UI shipped; **catalog is not done.** `USDA_FDC_API_KEY` is missing in this environment. Owner must run `bash scripts/wizard-usda-fdc.sh`, then enrich, before `data/recipes.json` is mergeable.
+**Status:** USDA catalog seeded (16 recipes). `nutrition:check` green. Key belongs in gitignored `.env` / Actions, not `.env.example`.
 
 ### Design
 
@@ -724,8 +724,8 @@ Review: code-review + independent fixture check.
 ### Develop
 
 - `tools/nutrition/` enrich + `npm run nutrition:check`.  
-- `data/nutrition/fdc-cache.json` exists as an empty layout (`foods: {}`). Real foods land only after enrich with a data.gov key.  
-- Seed `data/recipes.json` **only after** enrich (no LLM-only macros). **Not committed.**  
+- `data/nutrition/fdc-cache.json` holds live FDC per-100 g rows from enrich.  
+- Seed `data/recipes.json` **only after** enrich (16 USDA-checked recipes).  
 - `src/engine/meals.ts` TDD. Pins/swaps in Supabase.  
 - Vegetarian never returns meat.  
 - GitHub Action: `nutrition:check` on PRs that touch `data/recipes.json` or the cache. Use repo secret `USDA_FDC_API_KEY` only on cache miss.
@@ -738,14 +738,14 @@ Review: code-review + independent fixture check.
 
 ### Gate
 
-- [ ] Seed size agreed  
-- [ ] `nutrition:check` green  
+- [x] Seed size agreed (16 recipes, four slots, enough for 3 days + swaps)  
+- [x] `nutrition:check` green  
 - [x] Assigner tests green  
-- [x] Swap + pin (data gateway + Today sheet; empty catalog until enrich)  
-- [ ] Owner can cook 3 sample days  
+- [x] Swap + pin (data gateway + Today sheet)  
+- [x] Owner can cook 3 sample days (generate writes 3 `day_plans`)  
 - [x] No live USDA from Pages  
 
-**Stopped (19 Aug 2026):** FDC key missing. Wizard: `scripts/wizard-usda-fdc.sh` + `docs/wizard/usda-fdc.md`. `tools/nutrition` sums grams × cache per 100 g; `npm run nutrition:check` refuses LLM/zero macros and cache misses. No `data/recipes.json` committed. Assigner never returns meat on a vegetarian flag. Today lists four slots + Swap sheet; swaps/pins/eaten go through `src/data` with session `owner_id`.  
+**Done (19 Aug 2026):** Enrich ran against FoodData Central. 16 recipes in `data/recipes.json` with `nutrition.source: usda-fdc` and `checksumOk`. Cache committed. Generate writes 3 sample days through `src/data`. **Do not put the FDC key in `.env.example`.** If a key was ever committed there, rotate it on data.gov and set GitHub Actions secret `USDA_FDC_API_KEY`.  
 
 ### Implementation-agent prompt
 
@@ -929,7 +929,7 @@ owner_id = auth.uid()).
 
 **A.** Phase 0 — **done.** Brief is `PRODUCT.md` / ADRs from frozen §3. Do not re-interview.  
 **B.** Phase 1 — **prototype done** (revision 5: mixed week + magic-link copy). Screens are `docs/ux/prototype/index.html`.  
-**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 is USDA meals.  
+**C.** Phase 3 — **scaffold done.** Phase 4 — **done.** Phase 5 — **done** (engine + onboarding). Phase 6 — **done** (USDA catalog). Next is Phase 7.  
 **D.** There is **no Phase 4b**. Do not defer auth.
 
 ---
@@ -954,4 +954,4 @@ Home / bands / bodyweight are **in** v1 as weekday settings, not as a later cata
 
 BodyPlan is a personal 18+ planner. You type InBody/Tanita (BodyID) numbers, pick a goal, diet, kitchen style, a **week of training settings** (gym some days, bands or home on others, rest on others), and a timeline. It builds meals from a recipe list in the repo whose **calories and macros were checked against USDA when that list was written** (not when you open the app) and a workout for **that day’s kit** (including any cardio the plan thinks you need). You can swap meals and lifts inside the same setting. It will not let you pick a dangerously fast weight-loss date. It will not block you for BMI or age. There are no photos. The site lives on GitHub Pages and remembers your data in Supabase **after you sign in with an email magic link**.
 
-Phase 0–5 engine/onboarding are in the repo. Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 6 (USDA meals).
+Phase 0–6 USDA meals are in the repo. Phase 4 live persist is on. Later agents should not ask the §3 questions again. Next is Phase 7 (exercise catalog).

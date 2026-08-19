@@ -1,4 +1,6 @@
-import type { EngineSuccess } from "../engine/types";
+import type { DietFlag, EngineSuccess, KitchenFlag } from "../engine/types";
+import { assignDayMeals, MEAL_SLOTS } from "../engine/meals";
+import { CATALOG_RECIPES } from "../catalog/recipes";
 import type { Json } from "./database.types";
 import { createBrowserClient } from "./client";
 import { GatewayError } from "./errors";
@@ -15,12 +17,16 @@ import type {
   Weekday,
 } from "./types";
 
-const DUMMY_MEALS = [
-  { slot: "breakfast" as const, slug: "dummy-breakfast" },
-  { slot: "lunch" as const, slug: "dummy-lunch" },
-  { slot: "dinner" as const, slug: "dummy-dinner" },
-  { slot: "snack" as const, slug: "dummy-snack" },
-];
+function addUtcDays(iso: string, days: number): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!match) throw new Error(`Invalid date ${iso}`);
+  const stamp = Date.UTC(
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3]) + days,
+  );
+  return new Date(stamp).toISOString().slice(0, 10);
+}
 
 function asClient(client?: GatewayClient): GatewayClient {
   return client ?? (createBrowserClient() as unknown as GatewayClient);
@@ -63,7 +69,6 @@ export async function commitPlanVersion(
   const goalId = crypto.randomUUID();
   const planId = crypto.randomUUID();
   const planVersionId = crypto.randomUUID();
-  const dayPlanId = crypto.randomUUID();
 
   const { error: goalError } = await db.from("goals").insert({
     id: goalId,
@@ -103,33 +108,45 @@ export async function commitPlanVersion(
   });
   await throwIfError(versionError);
 
-  const startWeekday = weekdayOf(input.goal.startOn);
-  const trainSetting = input.trainingDays.find((day) => day.weekday === startWeekday)
-    ?.setting;
-  const isTrainDay = Boolean(trainSetting);
-
-  const { error: dayError } = await db.from("day_plans").insert({
-    id: dayPlanId,
-    owner_id: ownerId,
-    plan_version_id: planVersionId,
-    on_date: input.goal.startOn,
-    is_train_day: isTrainDay,
-    training_setting: isTrainDay ? (trainSetting as TrainingSetting) : null,
-    is_deload: false,
+  const assigned = assignDayMeals({
+    energyKcal: input.result.energyKcal,
+    proteinG: input.result.proteinG,
+    recipes: CATALOG_RECIPES,
+    dietFlags: (input.profile.dietFlags ?? []) as DietFlag[],
+    kitchenFlags: (input.profile.kitchenFlags ?? []) as KitchenFlag[],
+    pinned: {},
   });
-  await throwIfError(dayError);
 
-  const meals = DUMMY_MEALS.map((meal) => ({
-    id: crypto.randomUUID(),
-    owner_id: ownerId,
-    day_plan_id: dayPlanId,
-    slot: meal.slot,
-    recipe_slug: meal.slug,
-    pinned: false,
-    eaten: false,
-  }));
-  const { error: mealError } = await db.from("meal_slots").insert(meals);
-  await throwIfError(mealError);
+  for (let offset = 0; offset < 3; offset += 1) {
+    const onDate = addUtcDays(input.goal.startOn, offset);
+    const weekday = weekdayOf(onDate);
+    const trainSetting = input.trainingDays.find((day) => day.weekday === weekday)
+      ?.setting;
+    const isTrainDay = Boolean(trainSetting);
+    const dayPlanId = crypto.randomUUID();
+    const { error: dayError } = await db.from("day_plans").insert({
+      id: dayPlanId,
+      owner_id: ownerId,
+      plan_version_id: planVersionId,
+      on_date: onDate,
+      is_train_day: isTrainDay,
+      training_setting: isTrainDay ? (trainSetting as TrainingSetting) : null,
+      is_deload: false,
+    });
+    await throwIfError(dayError);
+
+    const meals = MEAL_SLOTS.map((slot) => ({
+      id: crypto.randomUUID(),
+      owner_id: ownerId,
+      day_plan_id: dayPlanId,
+      slot,
+      recipe_slug: assigned.slots[slot]?.slug ?? `empty-${slot}`,
+      pinned: false,
+      eaten: false,
+    }));
+    const { error: mealError } = await db.from("meal_slots").insert(meals);
+    await throwIfError(mealError);
+  }
 
   return { planVersionId, planId, goalId };
 }

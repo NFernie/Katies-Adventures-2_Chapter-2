@@ -1,4 +1,413 @@
 {
   "version": 1,
-  "foods": {}
+  "foods": {
+    "168411": {
+      "fdcId": 168411,
+      "description": "Edamame, frozen, prepared",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:45.375Z",
+      "per100g": {
+        "kcal": 121,
+        "proteinG": 11.91,
+        "carbG": 8.91,
+        "fatG": 5.2
+      }
+    },
+    "168462": {
+      "fdcId": 168462,
+      "description": "Spinach, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:37.375Z",
+      "per100g": {
+        "kcal": 23,
+        "proteinG": 2.86,
+        "carbG": 3.63,
+        "fatG": 0.39
+      }
+    },
+    "168483": {
+      "fdcId": 168483,
+      "description": "Sweet potato, cooked, baked in skin, flesh, without salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:40.994Z",
+      "per100g": {
+        "kcal": 90,
+        "proteinG": 2.01,
+        "carbG": 20.71,
+        "fatG": 0.15
+      }
+    },
+    "168878": {
+      "fdcId": 168878,
+      "description": "Rice, white, long-grain, regular, enriched, cooked",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:38.281Z",
+      "per100g": {
+        "kcal": 130,
+        "proteinG": 2.69,
+        "carbG": 28.17,
+        "fatG": 0.28
+      }
+    },
+    "169118": {
+      "fdcId": 169118,
+      "description": "Pears, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:45.006Z",
+      "per100g": {
+        "kcal": 57,
+        "proteinG": 0.36,
+        "carbG": 15.23,
+        "fatG": 0.14
+      }
+    },
+    "169230": {
+      "fdcId": 169230,
+      "description": "Garlic, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:42.861Z",
+      "per100g": {
+        "kcal": 149,
+        "proteinG": 6.36,
+        "carbG": 33.06,
+        "fatG": 0.5
+      }
+    },
+    "169737": {
+      "fdcId": 169737,
+      "description": "Pasta, cooked, enriched, without added salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:44.118Z",
+      "per100g": {
+        "kcal": 158,
+        "proteinG": 5.8,
+        "carbG": 30.86,
+        "fatG": 0.93
+      }
+    },
+    "169967": {
+      "fdcId": 169967,
+      "description": "Broccoli, cooked, boiled, drained, without salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:41.391Z",
+      "per100g": {
+        "kcal": 35,
+        "proteinG": 2.38,
+        "carbG": 7.18,
+        "fatG": 0.41
+      }
+    },
+    "170000": {
+      "fdcId": 170000,
+      "description": "Onions, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:40.156Z",
+      "per100g": {
+        "kcal": 40,
+        "proteinG": 1.1,
+        "carbG": 9.34,
+        "fatG": 0.1
+      }
+    },
+    "170108": {
+      "fdcId": 170108,
+      "description": "Peppers, sweet, red, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:42.430Z",
+      "per100g": {
+        "kcal": 26,
+        "proteinG": 0.99,
+        "carbG": 6.03,
+        "fatG": 0.3
+      }
+    },
+    "170189": {
+      "fdcId": 170189,
+      "description": "Seeds, sesame butter, tahini, from roasted and toasted kernels (most common type)",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:38.561Z",
+      "per100g": {
+        "kcal": 595,
+        "proteinG": 17,
+        "carbG": 21.19,
+        "fatG": 53.76
+      }
+    },
+    "170393": {
+      "fdcId": 170393,
+      "description": "Carrots, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:39.575Z",
+      "per100g": {
+        "kcal": 41,
+        "proteinG": 0.93,
+        "carbG": 9.58,
+        "fatG": 0.24
+      }
+    },
+    "170457": {
+      "fdcId": 170457,
+      "description": "Tomatoes, red, ripe, raw, year round average",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:38.815Z",
+      "per100g": {
+        "kcal": 18,
+        "proteinG": 0.88,
+        "carbG": 3.89,
+        "fatG": 0.2
+      }
+    },
+    "170501": {
+      "fdcId": 170501,
+      "description": "Tomatoes, crushed, canned",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:39.321Z",
+      "per100g": {
+        "kcal": 32,
+        "proteinG": 1.64,
+        "carbG": 7.29,
+        "fatG": 0.28
+      }
+    },
+    "170847": {
+      "fdcId": 170847,
+      "description": "Cheese, mozzarella, part skim milk",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:44.625Z",
+      "per100g": {
+        "kcal": 254,
+        "proteinG": 24.26,
+        "carbG": 2.77,
+        "fatG": 15.92
+      }
+    },
+    "170894": {
+      "fdcId": 170894,
+      "description": "Yogurt, Greek, plain, nonfat (Includes foods for USDA's Food Distribution Program)",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:35.552Z",
+      "per100g": {
+        "kcal": 59,
+        "proteinG": 10.19,
+        "carbG": 3.6,
+        "fatG": 0.39
+      }
+    },
+    "171269": {
+      "fdcId": 171269,
+      "description": "Milk, nonfat, fluid, with added vitamin A and vitamin D (fat free or skim)",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:36.631Z",
+      "per100g": {
+        "kcal": 34,
+        "proteinG": 3.37,
+        "carbG": 4.96,
+        "fatG": 0.08
+      }
+    },
+    "171413": {
+      "fdcId": 171413,
+      "description": "Oil, olive, salad or cooking",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:37.552Z",
+      "per100g": {
+        "kcal": 884,
+        "proteinG": 0,
+        "carbG": 0,
+        "fatG": 100
+      }
+    },
+    "171477": {
+      "fdcId": 171477,
+      "description": "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:43.203Z",
+      "per100g": {
+        "kcal": 165,
+        "proteinG": 31.02,
+        "carbG": 0,
+        "fatG": 3.57
+      }
+    },
+    "171711": {
+      "fdcId": 171711,
+      "description": "Blueberries, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:35.996Z",
+      "per100g": {
+        "kcal": 57,
+        "proteinG": 0.74,
+        "carbG": 14.49,
+        "fatG": 0.33
+      }
+    },
+    "171986": {
+      "fdcId": 171986,
+      "description": "Fish, tuna, light, canned in water, without salt, drained solids",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:40.614Z",
+      "per100g": {
+        "kcal": 116,
+        "proteinG": 25.51,
+        "carbG": 0,
+        "fatG": 0.82
+      }
+    },
+    "172421": {
+      "fdcId": 172421,
+      "description": "Lentils, mature seeds, cooked, boiled, without salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:39.047Z",
+      "per100g": {
+        "kcal": 116,
+        "proteinG": 9.02,
+        "carbG": 20.13,
+        "fatG": 0.38
+      }
+    },
+    "172448": {
+      "fdcId": 172448,
+      "description": "Tofu, firm, prepared with calcium sulfate and magnesium chloride (nigari)",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:48:13.908Z",
+      "per100g": {
+        "kcal": 78,
+        "proteinG": 9.04,
+        "carbG": 2.85,
+        "fatG": 4.17
+      }
+    },
+    "172475": {
+      "fdcId": 172475,
+      "description": "Tofu, raw, firm, prepared with calcium sulfate",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:37.783Z",
+      "per100g": {
+        "kcal": 144,
+        "proteinG": 17.27,
+        "carbG": 2.78,
+        "fatG": 8.72
+      }
+    },
+    "172684": {
+      "fdcId": 172684,
+      "description": "Bread, rye",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:40.332Z",
+      "per100g": {
+        "kcal": 259,
+        "proteinG": 8.5,
+        "carbG": 48.3,
+        "fatG": 3.3
+      }
+    },
+    "173417": {
+      "fdcId": 173417,
+      "description": "Cheese, cottage, lowfat, 1% milkfat",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:44.368Z",
+      "per100g": {
+        "kcal": 72,
+        "proteinG": 12.39,
+        "carbG": 2.72,
+        "fatG": 1.02
+      }
+    },
+    "173424": {
+      "fdcId": 173424,
+      "description": "Egg, whole, cooked, hard-boiled",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:37.091Z",
+      "per100g": {
+        "kcal": 155,
+        "proteinG": 12.58,
+        "carbG": 1.12,
+        "fatG": 10.61
+      }
+    },
+    "173735": {
+      "fdcId": 173735,
+      "description": "Beans, black, mature seeds, cooked, boiled, without salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:41.647Z",
+      "per100g": {
+        "kcal": 132,
+        "proteinG": 8.86,
+        "carbG": 23.71,
+        "fatG": 0.54
+      }
+    },
+    "173757": {
+      "fdcId": 173757,
+      "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:38.026Z",
+      "per100g": {
+        "kcal": 164,
+        "proteinG": 8.86,
+        "carbG": 27.42,
+        "fatG": 2.59
+      }
+    },
+    "173904": {
+      "fdcId": 173904,
+      "description": "Cereals, oats, regular and quick, not fortified, dry",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:36.312Z",
+      "per100g": {
+        "kcal": 379,
+        "proteinG": 13.15,
+        "carbG": 67.7,
+        "fatG": 6.52
+      }
+    },
+    "173944": {
+      "fdcId": 173944,
+      "description": "Bananas, raw",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:36.806Z",
+      "per100g": {
+        "kcal": 89,
+        "proteinG": 1.09,
+        "carbG": 22.84,
+        "fatG": 0.33
+      }
+    },
+    "174081": {
+      "fdcId": 174081,
+      "description": "Tortillas, ready-to-bake or -fry, whole wheat",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:41.903Z",
+      "per100g": {
+        "kcal": 310,
+        "proteinG": 9.76,
+        "carbG": 45.89,
+        "fatG": 9.76
+      }
+    },
+    "174278": {
+      "fdcId": 174278,
+      "description": "Soy sauce made from soy (tamari)",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:42.604Z",
+      "per100g": {
+        "kcal": 60,
+        "proteinG": 10.51,
+        "carbG": 5.57,
+        "fatG": 0.1
+      }
+    },
+    "175168": {
+      "fdcId": 175168,
+      "description": "Fish, salmon, Atlantic, farmed, cooked, dry heat",
+      "dataType": "SR Legacy",
+      "fetchedAt": "2026-08-19T05:47:43.460Z",
+      "per100g": {
+        "kcal": 206,
+        "proteinG": 22.1,
+        "carbG": 0,
+        "fatG": 12.35
+      }
+    }
+  }
 }

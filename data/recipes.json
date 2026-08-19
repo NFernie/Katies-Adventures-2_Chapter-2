@@ -1,0 +1,1058 @@
+[
+  {
+    "slug": "greek-yogurt-berry-bowl",
+    "title": "Greek yogurt berry bowl",
+    "slots": [
+      "breakfast",
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 5,
+    "servings": 1,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Stir yogurt and blueberries."
+    ],
+    "ingredients": [
+      {
+        "name": "Greek yogurt, plain, nonfat",
+        "grams": 350,
+        "household": "about 1.5 cups",
+        "fdcId": 170894,
+        "matchNote": "SR Legacy generic nonfat Greek yogurt (not 170903, which is now lowfat)"
+      },
+      {
+        "name": "Blueberries, raw",
+        "grams": 120,
+        "household": "1 cup",
+        "fdcId": 171711,
+        "matchNote": "SR Legacy blueberries, raw"
+      },
+      {
+        "name": "Oats, dry",
+        "grams": 50,
+        "household": "1/2 cup dry",
+        "fdcId": 173904,
+        "matchNote": "SR Legacy oats, regular and quick, dry"
+      }
+    ],
+    "nutrition": {
+      "kcal": 464,
+      "proteinG": 43.1,
+      "carbG": 63.8,
+      "fatG": 5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.689Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "overnight-oats-yogurt",
+    "title": "Overnight oats + yogurt",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 10,
+    "servings": 1,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Mix oats, milk, yogurt, and banana. Chill."
+    ],
+    "ingredients": [
+      {
+        "name": "Oats, dry",
+        "grams": 65,
+        "household": "2/3 cup dry",
+        "fdcId": 173904,
+        "matchNote": "SR Legacy oats, dry"
+      },
+      {
+        "name": "Milk, nonfat, fluid",
+        "grams": 180,
+        "household": "3/4 cup",
+        "fdcId": 171269,
+        "matchNote": "SR Legacy skim milk with vitamin A and D"
+      },
+      {
+        "name": "Greek yogurt, plain, nonfat",
+        "grams": 150,
+        "household": "2/3 cup",
+        "fdcId": 170894,
+        "matchNote": "SR Legacy generic nonfat Greek yogurt"
+      },
+      {
+        "name": "Banana, raw",
+        "grams": 80,
+        "household": "1 small",
+        "fdcId": 173944,
+        "matchNote": "SR Legacy bananas, raw"
+      }
+    ],
+    "nutrition": {
+      "kcal": 467,
+      "proteinG": 30.8,
+      "carbG": 76.6,
+      "fatG": 5.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.689Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "egg-oat-scramble",
+    "title": "Egg and oat scramble",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "egg",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 15,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Cook oats, scramble eggs with spinach in oil."
+    ],
+    "ingredients": [
+      {
+        "name": "Egg, whole, hard-boiled equivalent",
+        "grams": 150,
+        "household": "3 large eggs",
+        "fdcId": 173424,
+        "matchNote": "SR Legacy whole egg, hard-boiled (cooked-egg proxy)"
+      },
+      {
+        "name": "Oats, dry",
+        "grams": 40,
+        "household": "1/2 cup dry",
+        "fdcId": 173904,
+        "matchNote": "SR Legacy oats, dry"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 80,
+        "household": "2 cups",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 473,
+      "proteinG": 26.4,
+      "carbG": 31.7,
+      "fatG": 26.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.689Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "tofu-oat-bowl",
+    "title": "Tofu oat bowl",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "soy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 15,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Cook oats. Pan-sear tofu. Top with banana."
+    ],
+    "ingredients": [
+      {
+        "name": "Tofu, firm",
+        "grams": 280,
+        "household": "about 1 block",
+        "fdcId": 172448,
+        "matchNote": "SR Legacy firm tofu with calcium sulfate and nigari (4-4-9 closer than 172475)"
+      },
+      {
+        "name": "Oats, dry",
+        "grams": 45,
+        "household": "1/2 cup dry",
+        "fdcId": 173904,
+        "matchNote": "SR Legacy oats, dry"
+      },
+      {
+        "name": "Banana, raw",
+        "grams": 80,
+        "household": "1 small",
+        "fdcId": 173944,
+        "matchNote": "SR Legacy bananas, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 5,
+        "household": "1 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 504,
+      "proteinG": 32.1,
+      "carbG": 56.7,
+      "fatG": 19.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.689Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chickpea-tahini-bowl",
+    "title": "Chickpea tahini bowl",
+    "slots": [
+      "lunch"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 20,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Warm chickpeas and tofu. Dress with tahini. Serve with rice and vegetables."
+    ],
+    "ingredients": [
+      {
+        "name": "Chickpeas, cooked",
+        "grams": 160,
+        "household": "1 cup",
+        "fdcId": 173757,
+        "matchNote": "SR Legacy chickpeas, boiled, unsalted"
+      },
+      {
+        "name": "Tofu, firm",
+        "grams": 180,
+        "household": "about 3/4 cup",
+        "fdcId": 172448,
+        "matchNote": "SR Legacy firm tofu with calcium sulfate and nigari"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 80,
+        "household": "1/2 cup",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Tahini",
+        "grams": 12,
+        "household": "2 tsp",
+        "fdcId": 170189,
+        "matchNote": "SR Legacy tahini from roasted kernels"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 5,
+        "household": "1 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      },
+      {
+        "name": "Tomatoes, raw",
+        "grams": 80,
+        "household": "1 small",
+        "fdcId": 170457,
+        "matchNote": "SR Legacy red ripe tomato"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 40,
+        "household": "1 cup",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      }
+    ],
+    "nutrition": {
+      "kcal": 646,
+      "proteinG": 36.5,
+      "carbG": 78.6,
+      "fatG": 23.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "lentil-soup-rye",
+    "title": "Lentil soup + rye",
+    "slots": [
+      "lunch"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 35,
+    "servings": 2,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Simmer lentils with tomato, carrot, and onion. Serve with rye bread."
+    ],
+    "ingredients": [
+      {
+        "name": "Lentils, cooked",
+        "grams": 250,
+        "household": "1.25 cups",
+        "fdcId": 172421,
+        "matchNote": "SR Legacy lentils, boiled, unsalted"
+      },
+      {
+        "name": "Tomatoes, crushed, canned",
+        "grams": 150,
+        "household": "2/3 cup",
+        "fdcId": 170501,
+        "matchNote": "SR Legacy crushed canned tomato"
+      },
+      {
+        "name": "Carrots, raw",
+        "grams": 80,
+        "household": "1 medium",
+        "fdcId": 170393,
+        "matchNote": "SR Legacy carrots, raw"
+      },
+      {
+        "name": "Onions, raw",
+        "grams": 60,
+        "household": "1/2 small",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy onions, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      },
+      {
+        "name": "Bread, rye",
+        "grams": 50,
+        "household": "1 thick slice",
+        "fdcId": 172684,
+        "matchNote": "SR Legacy rye bread"
+      }
+    ],
+    "nutrition": {
+      "kcal": 595,
+      "proteinG": 30.7,
+      "carbG": 98.7,
+      "fatG": 11.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "tuna-potato-plate",
+    "title": "Tuna potato plate",
+    "slots": [
+      "lunch"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 25,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Roast or boil sweet potato. Plate tuna, egg, broccoli, and oil."
+    ],
+    "ingredients": [
+      {
+        "name": "Tuna, canned in water, drained",
+        "grams": 120,
+        "household": "1 small can drained",
+        "fdcId": 171986,
+        "matchNote": "SR Legacy light tuna in water, unsalted, drained"
+      },
+      {
+        "name": "Egg, whole, hard-boiled",
+        "grams": 50,
+        "household": "1 large egg",
+        "fdcId": 173424,
+        "matchNote": "SR Legacy whole egg, hard-boiled"
+      },
+      {
+        "name": "Sweet potato, baked",
+        "grams": 220,
+        "household": "1 medium",
+        "fdcId": 168483,
+        "matchNote": "SR Legacy sweet potato baked in skin, unsalted"
+      },
+      {
+        "name": "Broccoli, boiled",
+        "grams": 100,
+        "household": "1 cup",
+        "fdcId": 169967,
+        "matchNote": "SR Legacy broccoli, boiled, unsalted"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 520,
+      "proteinG": 43.7,
+      "carbG": 53.3,
+      "fatG": 15,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "black-bean-tortilla",
+    "title": "Black bean tortilla",
+    "slots": [
+      "lunch"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 15,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Warm beans and vegetables. Fill a whole-wheat tortilla."
+    ],
+    "ingredients": [
+      {
+        "name": "Black beans, cooked",
+        "grams": 220,
+        "household": "1 cup",
+        "fdcId": 173735,
+        "matchNote": "SR Legacy black beans, boiled, unsalted"
+      },
+      {
+        "name": "Tortilla, whole wheat",
+        "grams": 70,
+        "household": "1 large",
+        "fdcId": 174081,
+        "matchNote": "SR Legacy whole-wheat tortilla"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 40,
+        "household": "1 cup",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      },
+      {
+        "name": "Tomatoes, raw",
+        "grams": 80,
+        "household": "1 small",
+        "fdcId": 170457,
+        "matchNote": "SR Legacy red ripe tomato"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 602,
+      "proteinG": 28.2,
+      "carbG": 88.8,
+      "fatG": 16.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "tofu-stir-fry-rice",
+    "title": "Tofu stir-fry + rice",
+    "slots": [
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "soy"
+    ],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 20,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Stir-fry tofu and vegetables. Serve over rice with tamari."
+    ],
+    "ingredients": [
+      {
+        "name": "Tofu, firm",
+        "grams": 350,
+        "household": "about 1.25 blocks",
+        "fdcId": 172448,
+        "matchNote": "SR Legacy firm tofu with calcium sulfate and nigari"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 200,
+        "household": "1.25 cups",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Broccoli, boiled",
+        "grams": 150,
+        "household": "1.5 cups",
+        "fdcId": 169967,
+        "matchNote": "SR Legacy broccoli, boiled, unsalted"
+      },
+      {
+        "name": "Peppers, sweet, red, raw",
+        "grams": 80,
+        "household": "1/2 pepper",
+        "fdcId": 170108,
+        "matchNote": "SR Legacy red sweet pepper"
+      },
+      {
+        "name": "Soy sauce, tamari",
+        "grams": 15,
+        "household": "1 tbsp",
+        "fdcId": 174278,
+        "matchNote": "SR Legacy tamari (soy, not wheat)"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 10,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 704,
+      "proteinG": 43,
+      "carbG": 82.7,
+      "fatG": 26,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "lentil-chilli-rice",
+    "title": "Lentil chilli + rice",
+    "slots": [
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 35,
+    "servings": 2,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Simmer lentils with tomato, onion, and pepper. Serve with rice."
+    ],
+    "ingredients": [
+      {
+        "name": "Lentils, cooked",
+        "grams": 300,
+        "household": "1.5 cups",
+        "fdcId": 172421,
+        "matchNote": "SR Legacy lentils, boiled, unsalted"
+      },
+      {
+        "name": "Tomatoes, crushed, canned",
+        "grams": 200,
+        "household": "3/4 cup",
+        "fdcId": 170501,
+        "matchNote": "SR Legacy crushed canned tomato"
+      },
+      {
+        "name": "Onions, raw",
+        "grams": 80,
+        "household": "1/2 onion",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy onions, raw"
+      },
+      {
+        "name": "Peppers, sweet, red, raw",
+        "grams": 80,
+        "household": "1/2 pepper",
+        "fdcId": 170108,
+        "matchNote": "SR Legacy red sweet pepper"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 150,
+        "household": "1 cup",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 10,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      },
+      {
+        "name": "Garlic, raw",
+        "grams": 5,
+        "household": "1 clove",
+        "fdcId": 169230,
+        "matchNote": "SR Legacy garlic, raw"
+      }
+    ],
+    "nutrition": {
+      "kcal": 756,
+      "proteinG": 36.4,
+      "carbG": 131.2,
+      "fatG": 12.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chicken-rice-broccoli",
+    "title": "Chicken, rice, and broccoli",
+    "slots": [
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 25,
+    "servings": 1,
+    "equipment": [
+      "hob",
+      "oven"
+    ],
+    "steps": [
+      "Cook chicken. Serve with rice and broccoli."
+    ],
+    "ingredients": [
+      {
+        "name": "Chicken breast, roasted",
+        "grams": 180,
+        "household": "1 medium breast",
+        "fdcId": 171477,
+        "matchNote": "SR Legacy chicken breast, meat only, roasted"
+      },
+      {
+        "name": "Rice, white, cooked",
+        "grams": 220,
+        "household": "1.5 cups",
+        "fdcId": 168878,
+        "matchNote": "SR Legacy enriched white rice, cooked"
+      },
+      {
+        "name": "Broccoli, boiled",
+        "grams": 150,
+        "household": "1.5 cups",
+        "fdcId": 169967,
+        "matchNote": "SR Legacy broccoli, boiled, unsalted"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 706,
+      "proteinG": 65.3,
+      "carbG": 72.7,
+      "fatG": 15.7,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "salmon-sweet-potato",
+    "title": "Salmon and sweet potato",
+    "slots": [
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 25,
+    "servings": 1,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Bake salmon and sweet potato. Serve with broccoli."
+    ],
+    "ingredients": [
+      {
+        "name": "Salmon, Atlantic, farmed, cooked",
+        "grams": 170,
+        "household": "1 fillet",
+        "fdcId": 175168,
+        "matchNote": "SR Legacy farmed Atlantic salmon, dry heat"
+      },
+      {
+        "name": "Sweet potato, baked",
+        "grams": 220,
+        "household": "1 medium",
+        "fdcId": 168483,
+        "matchNote": "SR Legacy sweet potato baked in skin, unsalted"
+      },
+      {
+        "name": "Broccoli, boiled",
+        "grams": 120,
+        "household": "1 cup",
+        "fdcId": 169967,
+        "matchNote": "SR Legacy broccoli, boiled, unsalted"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 8,
+        "household": "2 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 661,
+      "proteinG": 44.8,
+      "carbG": 54.2,
+      "fatG": 29.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cottage-pasta-bake",
+    "title": "Cottage pasta bake",
+    "slots": [
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook",
+      "leftovers_as_lunch"
+    ],
+    "cookMinutes": 30,
+    "servings": 2,
+    "equipment": [
+      "hob",
+      "oven"
+    ],
+    "steps": [
+      "Toss pasta with cottage cheese, tomato, spinach, and mozzarella. Bake."
+    ],
+    "ingredients": [
+      {
+        "name": "Pasta, cooked, enriched",
+        "grams": 200,
+        "household": "2 cups cooked",
+        "fdcId": 169737,
+        "matchNote": "SR Legacy pasta, cooked, unsalted"
+      },
+      {
+        "name": "Cottage cheese, 1% milkfat",
+        "grams": 200,
+        "household": "1 cup",
+        "fdcId": 173417,
+        "matchNote": "SR Legacy cottage cheese 1%"
+      },
+      {
+        "name": "Mozzarella, part-skim",
+        "grams": 40,
+        "household": "1/3 cup shredded",
+        "fdcId": 170847,
+        "matchNote": "SR Legacy part-skim mozzarella"
+      },
+      {
+        "name": "Tomatoes, crushed, canned",
+        "grams": 150,
+        "household": "2/3 cup",
+        "fdcId": 170501,
+        "matchNote": "SR Legacy crushed canned tomato"
+      },
+      {
+        "name": "Spinach, raw",
+        "grams": 80,
+        "household": "2 cups",
+        "fdcId": 168462,
+        "matchNote": "SR Legacy spinach, raw"
+      },
+      {
+        "name": "Olive oil",
+        "grams": 5,
+        "household": "1 tsp",
+        "fdcId": 171413,
+        "matchNote": "SR Legacy olive oil"
+      }
+    ],
+    "nutrition": {
+      "kcal": 672,
+      "proteinG": 50.8,
+      "carbG": 82.1,
+      "fatG": 16,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cottage-cheese-pear",
+    "title": "Cottage cheese + pear",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 5,
+    "servings": 1,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Plate cottage cheese with sliced pear."
+    ],
+    "ingredients": [
+      {
+        "name": "Cottage cheese, 1% milkfat",
+        "grams": 180,
+        "household": "3/4 cup",
+        "fdcId": 173417,
+        "matchNote": "SR Legacy cottage cheese 1%"
+      },
+      {
+        "name": "Pear, raw",
+        "grams": 120,
+        "household": "1 small",
+        "fdcId": 169118,
+        "matchNote": "SR Legacy pears, raw"
+      }
+    ],
+    "nutrition": {
+      "kcal": 198,
+      "proteinG": 22.7,
+      "carbG": 23.2,
+      "fatG": 2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "edamame-cup",
+    "title": "Edamame cup",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "soy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 8,
+    "servings": 1,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Boil or steam edamame."
+    ],
+    "ingredients": [
+      {
+        "name": "Edamame, frozen, prepared",
+        "grams": 160,
+        "household": "1 cup",
+        "fdcId": 168411,
+        "matchNote": "SR Legacy edamame, frozen, prepared"
+      }
+    ],
+    "nutrition": {
+      "kcal": 194,
+      "proteinG": 19.1,
+      "carbG": 14.3,
+      "fatG": 8.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "yogurt-banana-cup",
+    "title": "Yogurt banana cup",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 5,
+    "servings": 1,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Stir banana into yogurt."
+    ],
+    "ingredients": [
+      {
+        "name": "Greek yogurt, plain, nonfat",
+        "grams": 200,
+        "household": "1 cup",
+        "fdcId": 170894,
+        "matchNote": "SR Legacy generic nonfat Greek yogurt"
+      },
+      {
+        "name": "Banana, raw",
+        "grams": 80,
+        "household": "1 small",
+        "fdcId": 173944,
+        "matchNote": "SR Legacy bananas, raw"
+      }
+    ],
+    "nutrition": {
+      "kcal": 189,
+      "proteinG": 21.3,
+      "carbG": 25.5,
+      "fatG": 1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-19T05:48:49.690Z",
+      "checksumOk": true
+    }
+  }
+]

@@ -88,3 +88,18 @@ test("commitPlanVersion stamps session owner_id on goal, plan, and plan_versions
   }
   assertEveryCallScopedTo(client.calls, SESSION_ID);
 });
+
+test("commitPlanVersion assigns USDA catalog meals for 3 days and skips meat on vegetarian", async () => {
+  const client = createRecordingClient({ userId: SESSION_ID, data: null });
+  await commitPlanVersion(payload, client);
+  const days = client.calls.filter((call) => call.table === "day_plans" && call.op === "insert");
+  assert.equal(days.length, 3);
+  const meals = client.calls.filter((call) => call.table === "meal_slots" && call.op === "insert");
+  const slugs = meals.flatMap((call) =>
+    call.rows.map((row) => (row as { recipe_slug: string }).recipe_slug),
+  );
+  assert.equal(slugs.length, 12);
+  assert.ok(slugs.every((slug) => !slug.startsWith("dummy-")));
+  assert.ok(slugs.every((slug) => !/chicken|salmon|tuna/i.test(slug)));
+  assert.ok(slugs.every((slug) => !slug.startsWith("empty-")));
+});

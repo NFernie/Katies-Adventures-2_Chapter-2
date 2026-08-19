@@ -37,13 +37,14 @@ Or click through [`docs/wizard/github-pages.md`](./docs/wizard/github-pages.md):
 
 Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. `USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`.
 
-If the FDC key is missing (catalog **not** done):
+`USDA_FDC_API_KEY` is **tools/CI only** (Phase 6) — never `NEXT_PUBLIC_`. Never `service_role`. Put the real key in gitignored `.env` (or `.env.local`), **not** in `.env.example`.
 
 ```bash
-bash scripts/wizard-usda-fdc.sh
+npx tsx tools/nutrition/enrich.ts
+npm run nutrition:check
 ```
 
-Walkthrough: [`docs/wizard/usda-fdc.md`](./docs/wizard/usda-fdc.md). Do not commit `data/recipes.json` until `npm run nutrition:check` is green.
+Walkthrough: [`docs/wizard/usda-fdc.md`](./docs/wizard/usda-fdc.md). If a key was ever committed, rotate it on data.gov and run `gh secret set USDA_FDC_API_KEY`.
 
 If you have not created a Supabase project yet:
 
