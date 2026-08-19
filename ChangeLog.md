@@ -4,6 +4,24 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 19 Aug 2026 — Phase 3 Next.js static scaffold
+
+GitHub Pages **project** site app in the repo root.
+
+- Next.js 16 App Router + TypeScript + Tailwind v4. `output: 'export'`, `trailingSlash: true`, `images.unoptimized`, `basePath: /Katies-Adventures-2_Chapter-2`.
+- shadcn (`components.json`) + `@aceternity` registry. One Aceternity piece: Plan bento, restyled to DESIGN.md (no dark OLED cards).
+- DESIGN.md tokens in `src/app/globals.css`. Fonts: Archivo + Archivo Narrow via `next/font`.
+- Placeholder routes: `/` (Today shell), `/onboarding`, `/plan`, `/settings`. `/log` exists so the four-tab nav is honest. **No `/login`.**
+- `src/data/owner.ts` (`DEFAULT_OWNER_ID`). `src/data/client.ts` throws until Phase 4.
+- `.env.example`: public Supabase URL + anon key; `USDA_FDC_API_KEY` tools/CI only (not `NEXT_PUBLIC_`). No `service_role`.
+- `.github/workflows/pages.yml` — lint, typecheck, test, static build, upload `out/` to Pages. `public/.nojekyll`.
+- Gate: lint, typecheck, `npm test`, `npm run build` (static), impeccable detect **0** on the home shell (`docs/ux/audit-home-shell.md`, 18/20).
+- After merge: set the repo’s Pages source to **GitHub Actions** so the public URL loads.
+
+No Prisma, NextAuth, or Server Actions.
+
+---
+
 ## 19 Aug 2026 — Phase 2 domain spec + Phase 1 contrast caveat
 
 **Phase 1 caveat (do first):** Helper copy that used **iron-2** `#2c2c2c` (including “InBody / Tanita (BodyID). Type the printout. No photos.”) was washed out on platform `#d4d0c6`. Token is now **`#1a1a1a`**. `DESIGN.md` documents iron-2, plus the already-shipped `1.15rem` input-live / Continue band steps. Prototype CSS updated. **Screenshots were not regenerated.**

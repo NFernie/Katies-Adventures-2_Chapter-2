@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-Next.js static export on GitHub Pages (frozen, InitialPlan revision 4). Phase 1 ships a throwaway HTML prototype in `docs/ux/prototype/` — not the production app.
+Next.js static export on GitHub Pages (frozen, InitialPlan revision 4). Production app is the App Router scaffold in `src/`. The Phase 1 HTML prototype in `docs/ux/prototype/` remains a reference, not the shipped site.
 
 ## Users
 
