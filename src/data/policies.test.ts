@@ -56,3 +56,11 @@ test("0004 adds day_plans.training_setting and reloads PostgREST", () => {
   assert.match(repair, /notify pgrst,\s*'reload schema'/);
   assert.doesNotMatch(repair.replace(/--[^\n]*/g, ""), /is_v1_owner/);
 });
+
+test("0004 adds workout_sessions.setting only after checking the column exists", () => {
+  const executable = repair.replace(/--[^\n]*/g, "");
+  assert.match(repair, /workout_sessions/);
+  assert.match(repair, /add column if not exists setting/);
+  assert.match(executable, /information_schema\.columns/);
+  assert.match(executable, /column_name = 'setting'/);
+});

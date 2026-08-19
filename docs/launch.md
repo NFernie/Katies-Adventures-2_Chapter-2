@@ -85,10 +85,10 @@ Until that box is ticked in this file (or equivalently: you merge and use the si
 
 ### Generate: `Could not find the 'training_setting' column of 'day_plans'`
 
-The live project applied `0003` (RLS repair) on an older `day_plans` table. The app writes `training_setting`; Postgres does not have that column yet.
+The live project applied `0003` (RLS repair) on an older `day_plans` table. The app writes `training_setting`; Postgres does not have that column yet. Some projects also lack `workout_sessions.setting` (an earlier 0004 failed with `column s.setting does not exist`).
 
 1. SQL Editor → New query.
-2. Paste all of `supabase/migrations/0004_day_plans_training_setting.sql` → **Run**.
+2. Paste **all** of the current `supabase/migrations/0004_day_plans_training_setting.sql` → **Run**. Safe to re-run; it adds both columns only if missing.
 3. Generate again. Do not put `service_role` in the website.
 
 ### Sign-in keeps offering a fresh magic link
