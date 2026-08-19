@@ -33,7 +33,7 @@ export function RouteStatus({
       {onRetry ? (
         <button
           type="button"
-          className="mt-2 min-h-11 font-sans text-[14px] font-semibold text-live"
+          className="mt-2 inline-flex min-h-11 items-center font-sans text-[14px] font-semibold"
           onClick={onRetry}
         >
           Try again

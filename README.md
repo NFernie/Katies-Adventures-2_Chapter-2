@@ -39,6 +39,10 @@ Copy `.env.example` to `.env.local`. Browser vars are `NEXT_PUBLIC_SUPABASE_URL`
 
 Launch checklist (Pages URL, GitHub secrets, magic-link redirects, RLS): [`docs/launch.md`](./docs/launch.md).
 
+## Seed
+
+There is no SQL dump of personal rows. Catalog JSON is git-owned: after a data.gov FDC key, enrich then check. Ingest grows drafts under `data/ingest/`.
+
 ```bash
 npx tsx tools/nutrition/enrich.ts
 npm run nutrition:check
