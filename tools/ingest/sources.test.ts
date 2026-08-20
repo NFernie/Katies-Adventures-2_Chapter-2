@@ -75,3 +75,11 @@ test("myplate.food is not an allowed harvest host", () => {
     /denied source/i,
   );
 });
+
+test("Wayback CDX listing of myplate.gov is signed off for slug discovery", () => {
+  assert.doesNotThrow(() =>
+    assertScrapeAllowed(
+      "https://web.archive.org/cdx/search/cdx?url=www.myplate.gov/recipes/*&output=json",
+    ),
+  );
+});

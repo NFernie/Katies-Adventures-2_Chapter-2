@@ -149,11 +149,14 @@ function mapEquipment(labels: string[]): string[] {
 }
 
 function mapCourse(labels: string[]): MyPlateCourse {
-  for (const label of labels) {
-    const mapped = COURSE_ALIASES[label.toLowerCase().trim()];
-    if (mapped) return mapped;
+  const mapped = labels
+    .map((label) => COURSE_ALIASES[label.toLowerCase().trim()])
+    .filter((course): course is MyPlateCourse => Boolean(course));
+  const preferred: MyPlateCourse[] = ["breakfast", "snack", "main", "soup", "salad"];
+  for (const want of preferred) {
+    if (mapped.includes(want)) return want;
   }
-  return "other";
+  return mapped[0] ?? "other";
 }
 
 function fieldChunk(html: string, fieldName: string): string | null {

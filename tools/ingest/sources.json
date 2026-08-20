@@ -27,7 +27,8 @@
     "https://www.myplate.gov/recipes/",
     "https://myplate.gov/recipes/",
     "https://www.myplate.gov/myplate-kitchen/",
-    "https://myplate.gov/myplate-kitchen/"
+    "https://myplate.gov/myplate-kitchen/",
+    "https://web.archive.org/cdx/search/cdx"
   ],
   "wgerExercisePathPrefixes": [
     "/api/v2/exerciseinfo",

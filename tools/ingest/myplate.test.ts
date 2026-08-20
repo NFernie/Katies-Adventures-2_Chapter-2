@@ -52,6 +52,12 @@ test("1 tablespoon olive oil converts to about 14 g", () => {
   assert.match(parsed.name, /olive oil/i);
 });
 
+test("count produce without a unit uses a typical piece weight", () => {
+  const parsed = householdToGrams("1 granny smith apple");
+  assert.equal(parsed.grams, 182);
+  assert.match(parsed.name, /apple/i);
+});
+
 test("main dish dual-tags lunch and dinner until a slot hits 45", () => {
   const open = assignSlots("main", "Bean chilli", emptyCounts(), 20);
   assert.deepEqual(open, ["lunch", "dinner"]);

@@ -10,7 +10,7 @@ Source: `InitialPlan180826.md` §4.2–4.4 and `.agents/skills/scrapegraph-conte
 | --- | --- | --- |
 | First-party drafts (`data/ingest/recipe-drafts.json`) | Recipe ideas + grams + `fdcId` | Macros still come from `tools/nutrition` (USDA FDC cache / enrich). |
 | USDA FoodData Central API | Macros only | Existing Phase 6 enricher. `USDA_FDC_API_KEY` in gitignored `.env` / Actions. Not `NEXT_PUBLIC_`. |
-| USDA MyPlate Kitchen via Internet Archive | Recipe text (title, household ingredients, steps) | Wayback captures of `myplate.gov/recipes/` and `myplate.gov/myplate-kitchen/`. Laptop/agent ingest only. Macros still USDA FDC. Prefixes in `tools/ingest/sources.json`. Do **not** use myplate.food. |
+| USDA MyPlate Kitchen via Internet Archive | Recipe text (title, household ingredients, steps) | Wayback captures of `myplate.gov/recipes/` and `myplate.gov/myplate-kitchen/`. CDX (`web.archive.org/cdx/search/cdx`) is signed off only to pick a 200 capture when a timestamp 403s. Laptop/agent ingest only. Macros still USDA FDC. Do **not** use myplate.food. |
 | wger.de `/api/v2/exerciseinfo` (and related **exercise** endpoints) | Exercises only | CC-BY-SA. Text cues. No photos/video. Do **not** call ingredient or nutritionplan endpoints. |
 
 ## Not wired (ideas only if ever used)

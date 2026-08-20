@@ -131,3 +131,24 @@ export async function fetchFdcFood(
     per100g: nutrientsFromFdcFood(food),
   };
 }
+
+/** Prefer a cached food, then walk search hits until /food/{id} succeeds. */
+export async function fetchFirstAvailableFood(
+  hits: FdcSearchHit[],
+  key: string,
+  cache: { foods: Record<string, CachedFood> },
+  fetchImpl: typeof fetch = fetch,
+): Promise<CachedFood | null> {
+  for (const hit of hits) {
+    const cached = cache.foods[String(hit.fdcId)];
+    if (cached) return cached;
+    try {
+      const food = await fetchFdcFood(hit.fdcId, key, fetchImpl);
+      cache.foods[String(hit.fdcId)] = food;
+      return food;
+    } catch {
+      /* Foundation/search ids sometimes 404 on /food/{id} — try the next hit */
+    }
+  }
+  return null;
+}
