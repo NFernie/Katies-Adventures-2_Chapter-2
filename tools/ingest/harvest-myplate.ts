@@ -279,6 +279,16 @@ function kitchenTags(parsed: ParsedMyPlateRecipe): string[] {
   return parsed.servings >= 4 ? ["batch_cook"] : [];
 }
 
+function sanitizeFdcQuery(name: string): string {
+  return name
+    .replace(/["“”']/g, " ")
+    .replace(/\b\d+\s*(inch|inches)\b/gi, " ")
+    .replace(/\b\d+\s*\/\s*\d+\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80);
+}
+
 export async function draftFromParsed(
   parsed: ParsedMyPlateRecipe,
   sourceUrl: string,
@@ -303,7 +313,7 @@ export async function draftFromParsed(
       });
       continue;
     }
-    const hits = await searchFdcFoods(household.name, key);
+    const hits = await searchFdcFoods(sanitizeFdcQuery(household.name), key);
     const food = await fetchFirstAvailableFood(hits, key, cache);
     if (!food) throw new Error(`no FDC hit for ${household.name}`);
     searchHits.set(query, food.fdcId);

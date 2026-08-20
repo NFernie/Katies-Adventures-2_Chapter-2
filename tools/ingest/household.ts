@@ -149,7 +149,15 @@ export function isSkippableIngredientLine(line: string): boolean {
   if (!hasLeadingQty && /to taste|as needed|for garnish|for serving|to serve|\boptional\b/.test(raw)) {
     return true;
   }
-  if (!hasLeadingQty && /cooking spray|nonstick|non-stick/.test(raw)) return true;
+  if (!hasLeadingQty && /cooking spray|nonstick|non-stick|vegetable oil spray|oil spray/.test(raw)) return true;
+  if (
+    /\b(allspice|cumin|cinnamon|paprika|oregano|nutmeg|turmeric|cayenne|chili powder|garlic powder|onion powder|red pepper flakes|italian seasoning|poultry seasoning|ground ginger|ground cloves?|dried basil|dried thyme|dried rosemary|dried sage|parsley flakes)\b/.test(
+      raw,
+    ) &&
+    /\b(teaspoon|teaspoons|tsp|tablespoon|tbsp|dash|pinch)\b/.test(raw)
+  ) {
+    return true;
+  }
   if (!hasLeadingQty && /^(salt|pepper|black pepper|white pepper)\b/.test(normalizeLine(line).toLowerCase())) {
     return true;
   }

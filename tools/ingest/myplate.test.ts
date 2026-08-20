@@ -67,6 +67,7 @@ test("amount in trailing parentheses is used when the line has no leading qty", 
 test("cooking spray and optional-to-serve lines are skipped, not invented", () => {
   assert.equal(isSkippableIngredientLine("nonstick cooking spray"), true);
   assert.equal(isSkippableIngredientLine("maple syrup (optional, to serve with pancakes)"), true);
+  assert.equal(isSkippableIngredientLine("1 teaspoon cumin"), true);
   assert.equal(isSkippableIngredientLine("1 tablespoon olive oil"), false);
 });
 
