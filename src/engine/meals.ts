@@ -12,6 +12,12 @@ export const SLOT_SHARE: Record<MealSlot, number> = {
   snack: 0.1,
 };
 
+export type CatalogIngredient = {
+  name: string;
+  grams: number;
+  household?: string;
+};
+
 export type CatalogRecipe = {
   slug: string;
   title: string;
@@ -21,6 +27,8 @@ export type CatalogRecipe = {
   kitchenTags: string[];
   cookMinutes: number;
   servings: number;
+  steps?: string[];
+  ingredients?: CatalogIngredient[];
   nutrition: {
     kcal: number;
     proteinG: number;
@@ -146,24 +154,27 @@ export function swapCandidates(input: {
   const kcalHi = input.targetKcal * 1.1;
   const pLo = input.targetProteinG * 0.8;
   const pHi = input.targetProteinG * 1.2;
-  return input.recipes
+  const eligible = input.recipes.filter(
+    (row) =>
+      row.slug !== input.currentSlug &&
+      row.slots.includes(input.slot) &&
+      row.nutrition.source === "usda-fdc" &&
+      recipeEligible(row, input.dietFlags, input.kitchenFlags),
+  );
+  const byScore = (a: CatalogRecipe, b: CatalogRecipe) =>
+    score(a, input.targetKcal, input.targetProteinG) -
+    score(b, input.targetKcal, input.targetProteinG);
+  const inBand = eligible
     .filter(
       (row) =>
-        row.slug !== input.currentSlug &&
-        row.slots.includes(input.slot) &&
-        row.nutrition.source === "usda-fdc" &&
-        recipeEligible(row, input.dietFlags, input.kitchenFlags) &&
         row.nutrition.kcal >= kcalLo &&
         row.nutrition.kcal <= kcalHi &&
         row.nutrition.proteinG >= pLo &&
         row.nutrition.proteinG <= pHi,
     )
-    .sort(
-      (a, b) =>
-        score(a, input.targetKcal, input.targetProteinG) -
-        score(b, input.targetKcal, input.targetProteinG),
-    )
-    .slice(0, 3);
+    .sort(byScore);
+  const rest = eligible.filter((row) => !inBand.includes(row)).sort(byScore);
+  return [...inBand, ...rest].slice(0, 3);
 }
 
 function toAssigned(slot: MealSlot, recipe: CatalogRecipe): AssignedMeal {

@@ -4,6 +4,15 @@ Dated record of BodyPlan work in this repo. Newest first. Katie’s Adventures i
 
 ---
 
+## 20 Aug 2026 — Meal and lift swaps were empty; recipes had no ingredients
+
+The USDA catalog **is** in git (21 meals, 34 lifts). Swap still showed “Catalog is not done” because:
+
+- Meal swap required ±10% kcal and ±20% protein of the **slot target**. Typical days (e.g. 2270 kcal) sit outside that band for the current 21 recipes, so the sheet was empty.
+- Lift swap required a second exercise with the **same movement and setting**. Most kit/pattern pairs only have one lift.
+
+Fix: keep the ±10/20 band first, then fill up to three **in-slot** USDA meals. Lift swap keeps same-movement when it exists, otherwise another lift for **that day’s kit**. Today shows recipe ingredients/steps (scaled by servings) and lists session lifts. Empty copy no longer blames a missing catalog.
+
 ## 19 Aug 2026 — Sign in vs Create account
 
 Owner: every visit was sending a new magic link. That is not the product.

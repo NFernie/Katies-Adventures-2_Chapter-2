@@ -7,12 +7,14 @@ export function WorkoutModule({
   title,
   setting,
   moveCount,
+  moves = [],
   deload,
   empty,
 }: {
   title: string;
   setting: string;
   moveCount: number;
+  moves?: string[];
   deload: boolean;
   empty: boolean;
 }) {
@@ -35,9 +37,18 @@ export function WorkoutModule({
           pick.
         </p>
       ) : (
-        <Link href="/session" className={cn(buttonVariants(), "inline-flex")}>
-          Start workout
-        </Link>
+        <>
+          {moves.length > 0 ? (
+            <ul className="mb-3 font-sans text-[16px] leading-[1.45] text-iron-2">
+              {moves.map((move) => (
+                <li key={move}>{move}</li>
+              ))}
+            </ul>
+          ) : null}
+          <Link href="/session" className={cn(buttonVariants(), "inline-flex")}>
+            Start workout
+          </Link>
+        </>
       )}
     </article>
   );

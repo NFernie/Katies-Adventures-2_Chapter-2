@@ -227,6 +227,20 @@ test("swap lift stays in-setting and the same movement pattern", () => {
   assert.ok(!found.some((row) => row.slug === "band-squat"));
 });
 
+test("live catalog still offers an in-setting swap when the pattern has only one lift", async () => {
+  const { CATALOG_EXERCISES } = await import("../catalog/exercises.ts");
+  const found = swapLiftCandidates({
+    currentSlug: "barbell-bench-press",
+    pattern: "horizontal_push",
+    setting: "gym",
+    catalog: CATALOG_EXERCISES,
+  });
+  assert.ok(found.length > 0, "gym bench had no in-setting swap");
+  assert.ok(found.every((row) => row.tracks.includes("gym")));
+  assert.ok(found.every((row) => row.slug !== "barbell-bench-press"));
+  assert.ok(!found.some((row) => row.pattern === "zone2" || row.pattern === "intervals"));
+});
+
 test("exerciseEligible rejects a gym lift on a bands day", () => {
   assert.equal(exerciseEligible(gymSquat, "bands"), false);
   assert.equal(exerciseEligible(bandSquat, "bands"), true);

@@ -11,6 +11,8 @@ type CatalogFileRecipe = {
   kitchenTags: string[];
   cookMinutes: number;
   servings: number;
+  steps?: string[];
+  ingredients?: Array<{ name: string; grams: number; household?: string }>;
   nutrition: {
     kcal: number;
     proteinG: number;
@@ -31,6 +33,12 @@ function toCatalog(row: CatalogFileRecipe): CatalogRecipe | null {
     kitchenTags: row.kitchenTags,
     cookMinutes: row.cookMinutes,
     servings: row.servings,
+    steps: row.steps ?? [],
+    ingredients: (row.ingredients ?? []).map((ingredient) => ({
+      name: ingredient.name,
+      grams: ingredient.grams,
+      household: ingredient.household,
+    })),
     nutrition: {
       kcal: row.nutrition.kcal,
       proteinG: row.nutrition.proteinG,

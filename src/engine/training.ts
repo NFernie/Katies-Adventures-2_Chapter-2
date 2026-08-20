@@ -108,13 +108,15 @@ export function swapLiftCandidates(input: {
   setting: TrainingSetting;
   catalog: CatalogExercise[];
 }): CatalogExercise[] {
-  return input.catalog.filter(
+  const inSetting = input.catalog.filter(
     (row) =>
-      row.pattern === input.pattern &&
       row.tracks.includes(input.setting) &&
       row.slug !== input.currentSlug &&
       !isCardioPattern(row.pattern),
   );
+  const samePattern = inSetting.filter((row) => row.pattern === input.pattern);
+  if (samePattern.length > 0) return samePattern.slice(0, 3);
+  return inSetting.slice(0, 3);
 }
 
 export function mapWeekSessions(input: {

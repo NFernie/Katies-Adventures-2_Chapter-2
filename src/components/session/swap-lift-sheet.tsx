@@ -37,7 +37,8 @@ export function SwapLiftSheet({
           Swap lift
         </h2>
         <p className="mt-1 font-sans text-[14px] leading-snug text-iron-2">
-          Same movement · {setting} only. Text cues, no video.
+          Same kit ({setting}). Same movement when the catalog has a second
+          lift; otherwise another lift for this setting. Text cues, no video.
         </p>
         {candidates.length === 0 ? (
           <p className="mt-4 font-sans text-[16px] leading-[1.45] text-iron-2">

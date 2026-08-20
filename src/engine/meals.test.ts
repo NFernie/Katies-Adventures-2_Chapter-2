@@ -5,8 +5,10 @@ import {
   assignDayMeals,
   recipeEligible,
   swapCandidates,
+  SLOT_SHARE,
   type CatalogRecipe,
 } from "./meals.ts";
+import { CATALOG_RECIPES } from "../catalog/recipes.ts";
 
 const meat: CatalogRecipe = {
   slug: "chicken-plate",
@@ -100,7 +102,7 @@ test("pinned slug is kept even when another recipe is closer", () => {
   assert.equal(day.slots.dinner?.slug, "lentil-chilli");
 });
 
-test("swap candidates stay in-slot and within ±10% kcal / ±20% protein of the slot target", () => {
+test("swap candidates stay in-slot and prefer ±10% kcal / ±20% protein of the slot target", () => {
   const breakfasts: CatalogRecipe[] = [
     yogurt,
     {
@@ -137,5 +139,46 @@ test("swap candidates stay in-slot and within ±10% kcal / ±20% protein of the 
   });
   assert.ok(found.every((row) => row.slots.includes("breakfast")));
   assert.ok(found.every((row) => row.slug !== "oats-bowl"));
-  assert.ok(!found.some((row) => row.slug === "greek-yogurt-berry-bowl"));
+  assert.equal(found[0]?.slug, "skyr-bowl");
+  const yogurtIndex = found.findIndex((row) => row.slug === "greek-yogurt-berry-bowl");
+  if (yogurtIndex >= 0) {
+    assert.ok(yogurtIndex > 0);
+  }
+});
+
+test("live USDA catalog still offers in-slot swaps when the ±10/20 band is empty", () => {
+  assert.ok(CATALOG_RECIPES.length > 0);
+  const energyKcal = 2270;
+  const proteinG = 161;
+  const assigned = assignDayMeals({
+    energyKcal,
+    proteinG,
+    recipes: CATALOG_RECIPES,
+    dietFlags: [],
+    kitchenFlags: [],
+    pinned: {},
+  });
+  for (const slot of ["breakfast", "lunch", "dinner", "snack"] as const) {
+    const current = assigned.slots[slot];
+    assert.ok(current, `expected an assigned ${slot}`);
+    const found = swapCandidates({
+      slot,
+      currentSlug: current.slug,
+      recipes: CATALOG_RECIPES,
+      dietFlags: [],
+      kitchenFlags: [],
+      targetKcal: energyKcal * SLOT_SHARE[slot],
+      targetProteinG: proteinG * SLOT_SHARE[slot],
+    });
+    assert.ok(
+      found.length > 0,
+      `${slot} (${current.slug}) had no USDA-checked swaps`,
+    );
+    assert.ok(found.every((row) => row.slots.includes(slot)));
+    assert.ok(found.every((row) => row.slug !== current.slug));
+  }
+  assert.ok(
+    CATALOG_RECIPES.every((row) => (row.ingredients?.length ?? 0) > 0),
+    "catalog recipes must keep ingredients for the Today recipe list",
+  );
 });
