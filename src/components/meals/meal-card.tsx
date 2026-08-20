@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { recipeSourceCredit } from "@/catalog/attribution";
 import type { CatalogIngredient, MealSlot } from "@/engine";
 
 const SLOT_LABEL: Record<MealSlot, string> = {
@@ -22,6 +23,9 @@ export function MealCard({
   ingredients,
   steps,
   servingsScale,
+  sourceKind,
+  sourceAttribution,
+  sourceUrl,
   onSwap,
   onAte,
   onPin,
@@ -37,6 +41,9 @@ export function MealCard({
   ingredients?: CatalogIngredient[];
   steps?: string[];
   servingsScale?: number;
+  sourceKind?: string;
+  sourceAttribution?: string;
+  sourceUrl?: string;
   onSwap: () => void;
   onAte: () => void;
   onPin: () => void;
@@ -82,6 +89,17 @@ export function MealCard({
                 <li key={step}>{step}</li>
               ))}
             </ol>
+          ) : null}
+          {recipeSourceCredit({ sourceKind, sourceAttribution }) ? (
+            <p className="mt-2 font-sans text-[13px] leading-[1.45] text-iron-2">
+              {sourceUrl ? (
+                <a href={sourceUrl} className="underline">
+                  {recipeSourceCredit({ sourceKind, sourceAttribution })}
+                </a>
+              ) : (
+                recipeSourceCredit({ sourceKind, sourceAttribution })
+              )}
+            </p>
           ) : null}
         </details>
       ) : null}

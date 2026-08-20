@@ -10,6 +10,7 @@ Source: `InitialPlan180826.md` §4.2–4.4 and `.agents/skills/scrapegraph-conte
 | --- | --- | --- |
 | First-party drafts (`data/ingest/recipe-drafts.json`) | Recipe ideas + grams + `fdcId` | Macros still come from `tools/nutrition` (USDA FDC cache / enrich). |
 | USDA FoodData Central API | Macros only | Existing Phase 6 enricher. `USDA_FDC_API_KEY` in gitignored `.env` / Actions. Not `NEXT_PUBLIC_`. |
+| USDA MyPlate Kitchen via Internet Archive | Recipe text (title, household ingredients, steps) | Wayback captures of `myplate.gov/recipes/` and `myplate.gov/myplate-kitchen/`. Laptop/agent ingest only. Macros still USDA FDC. Prefixes in `tools/ingest/sources.json`. Do **not** use myplate.food. |
 | wger.de `/api/v2/exerciseinfo` (and related **exercise** endpoints) | Exercises only | CC-BY-SA. Text cues. No photos/video. Do **not** call ingredient or nutritionplan endpoints. |
 
 ## Not wired (ideas only if ever used)
@@ -18,11 +19,11 @@ Spoonacular and Edamam may suggest ingredient *lists*. They must not land macros
 
 ## Denied (do not scrape)
 
-Allrecipes, NYT Cooking, BBC Good Food, Bodybuilding.com, Tasty, Food Network, Epicurious, Bon Appétit, and any commercial recipe or workout site without written permission. Login, paywall, and CAPTCHA pages are out.
+Allrecipes, NYT Cooking, BBC Good Food, Bodybuilding.com, Tasty, Food Network, Epicurious, Bon Appétit, **myplate.food** (independent archive; free terms forbid mirroring), and any commercial recipe or workout site without written permission. Login, paywall, and CAPTCHA pages are out.
 
 ## ScrapeGraphAI
 
-**No HTML scrape URLs are signed off.** `signedOffScrapeUrls` in `tools/ingest/sources.json` is empty. `tools/ingest/scrapegraph_draft.py` refuses unsigned URLs and never writes the catalog. If a government or owner-owned page is approved later, add the exact URL here and to `signedOffScrapeUrls`, emit a **draft ingredient list** only, then USDA-enrich before merge.
+MyPlate Kitchen is signed off **only** as Internet Archive captures of `myplate.gov/recipes/` and `myplate.gov/myplate-kitchen/` (`signedOffScrapeUrlPrefixes`). The default ingest parser is deterministic HTML in `tools/ingest/myplate-html.ts`, not ScrapeGraphAI. `scrapegraph_draft.py` still never writes the catalog. Do not sign off myplate.food.
 
 ## Merge rules
 

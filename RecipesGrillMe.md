@@ -294,4 +294,4 @@ Hard bans: myplate.food bulk, Spoonacular, RecipeNLG, Epicurious/Allrecipes/BBC 
 | 2 (Q6–Q11) | **Locked** 20 Aug 2026 |
 | Harvest method | Wayback HTML + deterministic parse on a **Cursor cloud agent**. HTML on agent disk only; JSON to GitHub. |
 | Implementation catalogue + agent prompt | **Written** 20 Aug 2026 |
-| Ingest implementation | Next agent run, using the prompt above |
+| Ingest implementation | **In progress** 20 Aug 2026 — allowlist, parser, slot/exchange, Today credit, `npm run ingest:myplate`. Live harvest fills caps when `USDA_FDC_API_KEY` is present. |

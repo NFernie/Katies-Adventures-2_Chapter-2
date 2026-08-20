@@ -253,6 +253,9 @@ export function TodayScreen() {
                 canAct={Boolean(row && canAct)}
                 ingredients={recipe?.ingredients}
                 steps={recipe?.steps}
+                sourceKind={recipe?.sourceKind}
+                sourceAttribution={recipe?.sourceAttribution}
+                sourceUrl={recipe?.sourceUrl}
                 servingsScale={
                   recipe
                     ? (shownProfile?.servings ?? 1) / Math.max(recipe.servings, 1)

@@ -29,6 +29,9 @@ export type CatalogRecipe = {
   servings: number;
   steps?: string[];
   ingredients?: CatalogIngredient[];
+  sourceKind?: string;
+  sourceAttribution?: string;
+  sourceUrl?: string;
   nutrition: {
     kcal: number;
     proteinG: number;

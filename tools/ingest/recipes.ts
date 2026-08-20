@@ -18,6 +18,7 @@ export type IngestRecipeDraft = {
   reviewed?: boolean;
   sourceKind?: string;
   sourceUrl?: string;
+  sourceAttribution?: string;
   license?: string;
 };
 

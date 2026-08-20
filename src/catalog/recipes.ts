@@ -13,6 +13,9 @@ type CatalogFileRecipe = {
   servings: number;
   steps?: string[];
   ingredients?: Array<{ name: string; grams: number; household?: string }>;
+  sourceKind?: string;
+  sourceAttribution?: string;
+  sourceUrl?: string;
   nutrition: {
     kcal: number;
     proteinG: number;
@@ -39,6 +42,9 @@ function toCatalog(row: CatalogFileRecipe): CatalogRecipe | null {
       grams: ingredient.grams,
       household: ingredient.household,
     })),
+    sourceKind: row.sourceKind,
+    sourceAttribution: row.sourceAttribution,
+    sourceUrl: row.sourceUrl,
     nutrition: {
       kcal: row.nutrition.kcal,
       proteinG: row.nutrition.proteinG,

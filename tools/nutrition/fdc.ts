@@ -74,6 +74,44 @@ export function readUsdaKey(): string {
   return key;
 }
 
+export type FdcSearchHit = {
+  fdcId: number;
+  description: string;
+  dataType: string;
+};
+
+export async function searchFdcFoods(
+  query: string,
+  key: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<FdcSearchHit[]> {
+  const url = new URL(`${FDC_BASE}/foods/search`);
+  url.searchParams.set("api_key", key);
+  const response = await fetchImpl(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query,
+      pageSize: 8,
+      dataType: ["SR Legacy", "Foundation"],
+    }),
+  });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`FDC search HTTP ${response.status} for ${query}: ${detail.slice(0, 200)}`);
+  }
+  const body = (await response.json()) as {
+    foods?: Array<{ fdcId?: number; description?: string; dataType?: string }>;
+  };
+  return (body.foods ?? [])
+    .filter((row) => typeof row.fdcId === "number")
+    .map((row) => ({
+      fdcId: row.fdcId as number,
+      description: row.description ?? "",
+      dataType: row.dataType ?? "",
+    }));
+}
+
 export async function fetchFdcFood(
   fdcId: number,
   key: string,
