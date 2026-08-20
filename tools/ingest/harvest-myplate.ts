@@ -235,8 +235,10 @@ export async function harvestMyPlate(options: { maxFetch?: number } = {}): Promi
         draft: enriched,
         parsed,
       });
+      console.log(`ok ${parsed.slug} (${parsed.course}) pool=${pool.length}`);
       if (capsMet(existing, pool) && !options.maxFetch) break;
-    } catch {
+    } catch (error) {
+      console.log(`skip ${slug}: ${error instanceof Error ? error.message : error}`);
       /* exchange: skip and continue */
     }
   }
