@@ -1,6 +1,6 @@
 # MyPlate catalog grill (locked)
 
-Grill session for growing `data/recipes.json` from USDA MyPlate Kitchen. **Round 1 is locked. Ingest is not built until the remaining questions below are answered and the owner confirms shared understanding.**
+Grill session for growing `data/recipes.json` from USDA MyPlate Kitchen. **Rounds 1 and 2 are locked.** Ingest code waits until the owner confirms this document is the shared plan.
 
 Not charging money does not unlock Allrecipes, Epicurious, Spoonacular, RecipeNLG, or TheMealDB wholesale. MyPlate Kitchen is a US government recipe set. Macros still follow `docs/domain/recipe-nutrition.md` (USDA FoodData Central at write time).
 
@@ -12,13 +12,15 @@ Related: `docs/content-sources.md`, `docs/domain/content-model.md`, `PRODUCT.md`
 
 Catalog today: **21** first-party meals — breakfast 5, lunch 6, dinner 7, snack 5. Of those, 17 are vegetarian-capable and 11 are vegan.
 
-MyPlate Kitchen: about **1,072** household recipes. USDA published them on `myplate.gov`; that site retired January 2026. There is **no official JSON/CSV/API**. Course counts (third-party index of the same library): main dish 318, side 190, salad 135, soup 107, sauce 99, dessert 81, breakfast 53, bread 43, snack 26, beverage 20. Ingredients are household lines (`1 tablespoon vegetable oil`), not grams. No allergen field. Many pages say “Recipe adapted from …” (extension / SNAP-Ed partners).
+MyPlate Kitchen: about **1,072** household recipes. USDA published them on `myplate.gov`; that site retired January 2026. There is **no official JSON/CSV/API**. Course counts (index of the same library): main dish 318, side 190, salad 135, soup 107, sauce 99, dessert 81, breakfast 53, bread 43, snack 26, beverage 20. Ingredients are household lines (`1 tablespoon vegetable oil`), not grams. No allergen field. Many pages say “Recipe adapted from …” (extension / SNAP-Ed partners).
 
 `myplate.food` is an independent archive with a JSON API. It is **not USDA**. Free-tier terms forbid mirroring the collection into our own storage. Do not bulk-fetch it.
 
 Internet Archive still has official HTML, e.g. `https://web.archive.org/web/*/https://www.myplate.gov/recipes/{slug}`.
 
 Spoonacular and similar APIs may not store ingredients, steps, or nutrition in git. They are out.
+
+`tools/nutrition` 4-4-9 checksum tolerance is **40 kcal** (`ATWATER_TOLERANCE_KCAL`).
 
 ---
 
@@ -30,13 +32,13 @@ Owner answers 20 Aug 2026. Recommendations accepted as written.
 
 **Locked:** Keep the current **21**. Grow slot coverage to **45 breakfast / 45 lunch / 45 dinner / 30 snack**, then stop. Do not import the whole ~1,072.
 
-Net new slot listings vs today: about **+40 breakfast, +39 lunch, +38 dinner, +25 snack**. Unique recipe count will be lower if some meals occupy two slots (open in round 2).
-
-Snack is the tight course: MyPlate only tags **26** snacks. Hitting 30 snack listings will need a mapping rule (round 2) or first-party snack drafts if MyPlate snacks fail FDC.
+Net new slot listings vs today: about **+40 breakfast, +39 lunch, +38 dinner, +25 snack**. Unique mains are lower because Q10 dual-tags lunch+dinner.
 
 ### Q2 — Which MyPlate courses
 
 **Locked:** **Breakfast, snack, and main dish.** Map mains toward lunch and/or dinner. Optionally keep **high-protein soups and salads as lunch**. Drop dessert, sauce, bread, and beverage so those do not land in planner swaps.
+
+**Derived (Q2 + Q6 + Q10):** Use soup/salad lunch candidates only if mains cannot fill lunch (including the vegetarian quota). Do not use them as snacks or dinners.
 
 ### Q3 — Harvest source
 
@@ -56,6 +58,36 @@ Do not bulk-mirror `myplate.food`. Do not call a live recipe API from GitHub Pag
 
 ---
 
+## Locked Q&A (round 2)
+
+Owner answers 20 Aug 2026. Recommendations accepted as written.
+
+### Q6 — Vegetarian vs meat among new meals
+
+**Locked:** Fill **vegetarian-capable first** until breakfast, lunch, and dinner each have **≥40** vegetarian recipes (counting the existing 21). Remaining slots (the extra ~5 per meal, plus snacks) may be omnivore mains so mixed eaters get meat. Do not starve vegan/vegetarian swaps.
+
+### Q7 — Snack shortfall
+
+**Locked:** Take every FDC-ok MyPlate snack. **Dual-tag snack-like breakfasts** (yogurt, fruit, toast). If still short, use leftover first-party snack drafts. Do **not** promote full mains to snack.
+
+### Q8 — Partner “Recipe adapted from …”
+
+**Locked:** **Keep** USDA-published pages that credit an extension office or SNAP-Ed partner. Store USDA + the listed contributor. Drop a row only if the page is clearly not a USDA-published recipe.
+
+### Q9 — Attribution on Today
+
+**Locked:** Show a short line on the recipe disclosure: **USDA MyPlate Kitchen** (plus contributor if present). No photos. `sourceUrl` stays in JSON.
+
+### Q10 — Main dish → lunch vs dinner
+
+**Locked:** **Dual-tag lunch and dinner** until both caps are full. Stop adding to a slot once it hits 45.
+
+### Q11 — FDC exchange pool
+
+**Locked:** Replacement must be the **same course** (breakfast stays breakfast). If that slot’s vegetarian quota is unmet, take the next vegetarian-capable candidate. Never backfill with dessert, sauce, bread, or beverage.
+
+---
+
 ## Owner input required to ingest
 
 **Must have**
@@ -68,6 +100,7 @@ Do not bulk-mirror `myplate.food`. Do not call a live recipe API from GitHub Pag
 - MyPlate login, USDA recipe API key, Spoonacular key, or payment.
 - Writing the method text (federal page directions are in-scope).
 - Photos (v1 has none).
+- Access to myplate.gov (the live kitchen is gone; we use Archive.org).
 
 **After the machine pass (Q5)**
 
@@ -76,36 +109,71 @@ Do not bulk-mirror `myplate.food`. Do not call a live recipe API from GitHub Pag
 
 ---
 
-## Process / plan (round 1)
+## How data is gathered (not rewriting the website)
 
-Do not run this until round 2 is locked and the owner says the tree is done.
+We do **not** log into MyPlate, edit USDA pages, or “read and rewrite” recipes on a live site. `myplate.gov`’s kitchen is retired. GitHub Pages never fetches recipes at view time.
 
-1. **Allowlist.** Record MyPlate Kitchen via Internet Archive as an allowed HTML harvest in `docs/content-sources.md`. Extend scrape sign-off so Wayback URLs for `myplate.gov/recipes/*` are allowed (today `signedOffScrapeUrls` is an empty exact-match list).
-2. **Discover slugs.** From an archived MyPlate Kitchen index (~1,091 URLs), keep recipes whose USDA course is breakfast, snack, or main dish. Optionally queue high-protein soup/salad as lunch candidates. Drop dessert, sauce, bread, beverage.
-3. **Fetch.** Laptop only. Archived HTML for each kept slug. Rate-limit Archive.org. Never scrape on page view. Never call MyPlate from the Next.js bundle.
-4. **Parse to drafts.** Title, steps, servings, household ingredient lines, cook time when present, contributor line, archived `sourceUrl`, `sourceKind: "myplate-kitchen"`, `license: "us-government-work"`. No photos.
-5. **Normalize.** Convert household measures to grams. Map each ingredient to an FDC `fdcId` (prefer Foundation / SR Legacy). Infer `allergens` and `dietTags` from ingredients. Assign `slots` per the round-2 lunch/dinner rule. Do not copy MyPlate kcal into `nutrition`.
-6. **Enrich.** `tools/nutrition` sum → `nutrition.source: "usda-fdc"`. Compare to MyPlate’s table as a check only.
-7. **Exchange.** If FDC match is dishonest, checksum fails, or MyPlate vs FDC disagree beyond tolerance: drop that slug and take the next in-scope recipe. Repeat until slot caps are met or the pool is exhausted.
-8. **Caps.** Stop when catalog slot coverage is **≥45 breakfast, ≥45 lunch, ≥45 dinner, ≥30 snack**, counting the existing 21. Do not backfill past those caps.
-9. **Merge.** `npm run nutrition:check` must pass. `npm run ingest:recipes` appends only. Reviewed first-party slugs stay. One JSON PR. Client still must not import scrapegraphai, USDA, or wger.
+We copy **archived public HTML** once, on a laptop, then turn it into our draft JSON and run the existing USDA enricher.
 
-Out of scope unless a later grill round changes it: Wikibooks, TheMealDB, Spoonacular, Epicurious/Kaggle, RecipeNLG, live recipe APIs, user-writable public catalog, progress or food photos, committing MyPlate nutrition labels as USDA.
+### Methods considered
+
+| Method | Verdict |
+| --- | --- |
+| Open myplate.gov in a browser and rewrite pages | Impossible (site gone) and not ours to edit |
+| Live scrape from the deployed app | Forbidden by product rules; Pages has no server scrape |
+| Bulk-download `myplate.food` JSON API | Rejected (Q3). Independent site; free tier forbids mirroring into our storage |
+| ScrapeGraphAI / an LLM “reading” each HTML page | Allowed only after URL sign-off, but non-deterministic and heavier than we need. **Not the default.** |
+| Internet Archive HTML + deterministic HTML parse | **Chosen (Q3).** Official USDA text, public domain, repeatable |
+
+### Chosen pipeline
+
+1. **Allowlist.** Add MyPlate Kitchen via Internet Archive to `docs/content-sources.md`. Extend `tools/ingest/sources.json` so Wayback URLs for `https://www.myplate.gov/recipes/…` (and `web.archive.org` captures of those paths) are signed off. Today `signedOffScrapeUrls` is empty and exact-match only.
+
+2. **Discover slugs (no full recipe body yet).** Use an archived MyPlate Kitchen index (Wayback capture of the recipe list, ~1,091 links) and/or the Internet Archive CDX API to list captures whose original URL is `https://www.myplate.gov/recipes/{slug}`. Keep slugs whose USDA **course** is breakfast, snack, or main dish. Queue high-protein soup/salad only as lunch fallback (see Q2 derived rule). Drop dessert, sauce, bread, beverage.
+
+3. **Fetch HTML (laptop, rate-limited).** For each kept slug, request one Wayback snapshot, e.g. `https://web.archive.org/web/20250117181741/https://www.myplate.gov/recipes/{slug}`. Prefer a late-2024 / Jan 2026 capture (last good USDA HTML). Pause between requests so Archive.org is not hammered. Save raw HTML in a **gitignored** cache (ephemeral local files). Do not commit megabytes of Wayback HTML. Do not fetch from the Next.js app.
+
+4. **Parse (deterministic).** Read the HTML file. Pull title, course, servings, ingredient lines, numbered directions, cook time if present, contributor / “adapted from” line, and the on-page nutrition table (check only). Prefer Schema.org JSON-LD on the page when it has those fields; fall back to the Drupal recipe markup. A dedicated parser in `tools/ingest/` (same idea as the open-source `recipe-scrapers` MyPlate extractor) — **not** an LLM rewriting the method. Output `data/ingest/myplate-raw.json` (structured lines, still household measures, still no `fdcId`).
+
+5. **Normalize to BodyPlan drafts.** For each raw row:
+   - Convert cups/tablespoons/ounces to **grams** with a household table.
+   - Map each ingredient to an FDC `fdcId` (Foundation / SR Legacy first) via `tools/nutrition` search + cache. `USDA_FDC_API_KEY` is used here only, on the laptop/CI, not in the browser.
+   - Infer `allergens` and `dietTags` (vegetarian/vegan) from ingredients.
+   - Assign `slots`: breakfast course → `breakfast`; snack course → `snack`; snack-like breakfasts also get `snack` (Q7); main dish → `["lunch","dinner"]` until a slot hits 45 (Q10).
+   - Set `sourceKind: "myplate-kitchen"`, `license: "us-government-work"`, `sourceUrl` to the archived page. No photos.
+   - Do **not** copy MyPlate kcal into `nutrition`.
+
+6. **Enrich and exchange.** Run the Phase 6 summer so `nutrition.source` is `usda-fdc` and the 4-4-9 checksum is within 40 kcal. Compare FDC sums to MyPlate’s table as a sanity check. If matching is dishonest, checksum fails, or the two energy numbers disagree beyond tolerance: **drop that slug** and take the next same-course candidate; if the vegetarian quota for that slot is unmet, prefer the next vegetarian-capable candidate (Q4, Q11).
+
+7. **Fill order.** Vegetarian-capable breakfast / lunch / dinner first until each slot has ≥40 vegetarian recipes including the 21 (Q6). Then omnivore mains for the remaining ~5 per slot. Snacks: all FDC-ok MyPlate snacks, then dual-tagged breakfasts, then first-party snack drafts (Q7). Soup/salad only if lunch still short. Stop at **45 / 45 / 45 / 30**.
+
+8. **Merge PR.** `npm run nutrition:check` must pass. `npm run ingest:recipes` appends drafts; reviewed first-party slugs are not overwritten. One JSON PR plus the Today attribution line (Q9). The client must not import scrapegraphai, USDA, or wger.
+
+### What we keep in git vs what stays on the laptop
+
+| Artifact | In git? |
+| --- | --- |
+| Wayback HTML cache | No (gitignore) |
+| `data/ingest/myplate-raw.json` (parsed lines) | Yes, optional / reviewable |
+| Normalized drafts with grams + `fdcId` | Yes (`data/ingest/`) |
+| FDC cache hits | Yes (`data/nutrition/fdc-cache.json`) |
+| Merged `data/recipes.json` | Yes, after check |
+| Live calls from Pages | Never |
 
 ---
 
-## Still open (round 2 — do not assume)
+## Process / plan (execution order)
 
-These hang off Q1–Q5. They are not locked.
+Do not run until the owner confirms this file is the shared plan.
 
-| ID | Topic | Why it is still open |
-| --- | --- | --- |
-| Q6 | Vegetarian vs omnivore mix among the new meals | Product minimum asks for vegetarian coverage of ~40 per main slot. The 21 are already mostly vegetarian. Filling 45 dinners with chicken would leave vegan users on ~11 meals. |
-| Q7 | Snack shortfall | Need ~30 snack listings; MyPlate tags 26 snacks. Promote sides/salads, dual-tag some breakfasts, or keep writing first-party snacks when MyPlate snacks fail FDC. |
-| Q8 | Partner “adapted from” recipes | Keep with USDA + contributor credit, or skip and take only pages with no partner line. |
-| Q9 | Attribution in the UI | Show “USDA MyPlate Kitchen” (and contributor) on the Today recipe disclosure, or only store `sourceUrl` in JSON for agents/PRs. |
-| Q10 | Main dish → lunch vs dinner | Dual-tag every main as lunch+dinner until both caps fill; or split by kcal/protein; or fill dinner first. |
-| Q11 | Exchange pool | When FDC rejects a recipe, the replacement must match course (and diet tag if Q6 sets a quota), not a random dessert. |
+1. Sign off Wayback + `myplate.gov/recipes/` in content-sources and `sources.json` (prefix or pattern, not 1,000 exact URLs by hand).
+2. Discover in-scope slugs from the archived index / CDX.
+3. Fetch and parse as above.
+4. Normalize, enrich, exchange, cap.
+5. Show USDA MyPlate Kitchen (and contributor) on the Today recipe disclosure for those rows.
+6. One PR: JSON catalog + attribution UI. Owner glances at tags.
+
+Out of scope unless a later grill round changes it: Wikibooks, TheMealDB, Spoonacular, Epicurious/Kaggle, RecipeNLG, live recipe APIs, user-writable public catalog, progress or food photos, committing MyPlate nutrition labels as USDA, ScrapeGraphAI as the default parser.
 
 ---
 
@@ -114,5 +182,6 @@ These hang off Q1–Q5. They are not locked.
 | Round | Status |
 | --- | --- |
 | 1 (Q1–Q5) | **Locked** 20 Aug 2026 |
-| 2 (Q6–Q11) | Open — ask in chat, then append answers here |
+| 2 (Q6–Q11) | **Locked** 20 Aug 2026 |
+| Harvest method | Wayback HTML + deterministic parse (documented above). Not live site edits, not myplate.food bulk. |
 | Ingest implementation | **Not started** until the owner confirms the tree is done |
