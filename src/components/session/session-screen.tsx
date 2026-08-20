@@ -87,16 +87,18 @@ export function SessionScreen() {
   const current = items[index];
   const exercise = CATALOG_EXERCISES.find((row) => row.slug === current?.exerciseSlug);
   const skipped = current ? isSkippedSets(current.sets) : false;
+  const cardioLift =
+    exercise?.pattern === "zone2" || exercise?.pattern === "intervals";
 
   const candidates = useMemo(() => {
-    if (!exercise || !session) return [];
+    if (!session || !current) return [];
     return swapLiftCandidates({
-      currentSlug: exercise.slug,
-      pattern: exercise.pattern,
+      currentSlug: current.exerciseSlug,
+      pattern: exercise?.pattern ?? "zone2",
       setting: session.setting,
       catalog: CATALOG_EXERCISES,
     });
-  }, [exercise, session]);
+  }, [current, exercise, session]);
 
   function applyItem(nextItems: WorkoutItemRow[], nextIndex: number) {
     setItems(nextItems);
@@ -166,7 +168,8 @@ export function SessionScreen() {
           : "No session"}
       </p>
       <h1 className="mt-1 font-display text-[1.85rem] leading-[1.1] font-bold tracking-[-0.03em]">
-        {exercise?.title ?? headline}
+        {exercise?.title ??
+          (current ? current.exerciseSlug.replace(/-/g, " ") : headline)}
       </h1>
       {deload ? (
         <p className="mt-1 font-sans text-[14px] text-iron-2">
@@ -177,6 +180,11 @@ export function SessionScreen() {
         <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
           {exercise.equipment.join(", ") || "none"} · {session?.setting} · Previous{" "}
           <span className="font-semibold text-live tabular-nums">—</span>
+        </p>
+      ) : current ? (
+        <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
+          {session?.setting}. Swap to a catalog lift for this kit if this slug is
+          missing from git.
         </p>
       ) : (
         <p className="mt-2 font-sans text-[16px] leading-[1.45] text-iron-2">
@@ -198,7 +206,7 @@ export function SessionScreen() {
           <Button
             variant="outline"
             type="button"
-            disabled={!exercise || exercise.pattern === "zone2" || exercise.pattern === "intervals"}
+            disabled={!current || !session || cardioLift}
             onClick={() => setSwapOpen(true)}
           >
             Swap lift

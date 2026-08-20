@@ -18,6 +18,7 @@ import {
   type RouteLoadState,
 } from "@/components/shell/route-status";
 import { buttonVariants } from "@/components/ui/button";
+import { CATALOG_EXERCISES } from "@/catalog/exercises";
 import { CATALOG_RECIPES, catalogSeeded } from "@/catalog/recipes";
 import { cn } from "@/lib/utils";
 import {
@@ -231,20 +232,32 @@ export function TodayScreen() {
           {MEAL_SLOTS.map((slot) => {
             const row = rowFor(slot);
             const recipe = CATALOG_RECIPES.find((item) => item.slug === row?.recipeSlug);
+            const emptySlot = Boolean(row?.recipeSlug.startsWith("empty-"));
             return (
               <MealCard
                 key={slot}
                 slot={slot}
                 title={
                   recipe?.title ??
-                  (hasPlan ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate" : "After generate")
+                  (emptySlot
+                    ? "No USDA-checked meal in this slot yet"
+                    : hasPlan
+                      ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate"
+                      : "After generate")
                 }
                 kcal={recipe?.nutrition.kcal ?? null}
                 proteinG={recipe?.nutrition.proteinG ?? null}
                 eaten={row?.eaten ?? false}
                 pinned={row?.pinned ?? false}
-                canSwap={Boolean(catalogSeeded && row && canAct)}
+                canSwap={Boolean(catalogSeeded && row && canAct && !emptySlot)}
                 canAct={Boolean(row && canAct)}
+                ingredients={recipe?.ingredients}
+                steps={recipe?.steps}
+                servingsScale={
+                  recipe
+                    ? (shownProfile?.servings ?? 1) / Math.max(recipe.servings, 1)
+                    : 1
+                }
                 onSwap={() => setSwapSlot(slot)}
                 onAte={() => {
                   if (!row) return;
@@ -275,6 +288,10 @@ export function TodayScreen() {
           }
           setting={shownSession?.setting ?? (status === "signed-in" ? daySetting : "rest")}
           moveCount={shownWorkoutItems.length}
+          moves={shownWorkoutItems.map((item) => {
+            const exercise = CATALOG_EXERCISES.find((row) => row.slug === item.exerciseSlug);
+            return exercise?.title ?? item.exerciseSlug.replace(/-/g, " ");
+          })}
           deload={status === "signed-in" ? deload : false}
           empty={!shownSession || shownWorkoutItems.length === 0}
         />
@@ -303,7 +320,11 @@ export function TodayScreen() {
           slot={swapSlot ?? "breakfast"}
           open={swapSlot != null}
           candidates={candidates}
-          emptyReason="No USDA-checked swaps yet. Catalog is not done."
+          emptyReason={
+            catalogSeeded
+              ? "No other USDA-checked meal in this slot after your diet and kitchen filters."
+              : "No USDA-checked swaps yet. Catalog is not done."
+          }
           onClose={() => setSwapSlot(null)}
           onPick={(slug) => {
             if (!swapping) return;

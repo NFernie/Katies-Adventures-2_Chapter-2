@@ -46,7 +46,8 @@ export function SwapSheet({
           Swap {SLOT_LABEL[slot]}
         </h2>
         <p className="mt-1 font-sans text-[14px] leading-snug text-iron-2">
-          Same slot · ±10% kcal · ±20% protein.
+          Same slot. Closest USDA-checked meals first (±10% kcal · ±20% protein
+          when the catalog has them).
         </p>
         {candidates.length === 0 ? (
           <p className="mt-4 font-sans text-[16px] leading-[1.45] text-iron-2">

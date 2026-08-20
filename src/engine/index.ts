@@ -6,7 +6,7 @@ export {
   MEAL_SLOTS,
   SLOT_SHARE,
 } from "./meals";
-export type { AssignedMeal, CatalogRecipe, MealSlot } from "./meals";
+export type { AssignedMeal, CatalogIngredient, CatalogRecipe, MealSlot } from "./meals";
 export {
   assignSession,
   deloadSets,

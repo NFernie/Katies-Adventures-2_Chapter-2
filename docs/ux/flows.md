@@ -39,7 +39,7 @@ Bottom nav: **Today · Plan · Log · You**.
 
 Sheet from the bottom (not a route). Three alternatives.
 
-- Meals: same slot, ±10% kcal, ±20% protein. Pin stays available.
+- Meals: same slot, ±10% kcal / ±20% protein of the slot target when the catalog has them; otherwise the next USDA-checked meals in that slot. Pin stays available.
 - Lifts: same movement pattern **+ that day’s training setting**.
 
 Owner taps one alternative → sheet closes → Today updates. Cancel / back / scrim dismiss.
