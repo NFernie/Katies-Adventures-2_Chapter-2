@@ -407,6 +407,11 @@ export async function harvestMyPlate(options: { maxFetch?: number } = {}): Promi
   const searchHits = new Map<string, number>();
   const pool = readJsonFile<HarvestPoolRow[]>(POOL_PATH, []);
   const raw: ParsedMyPlateRecipe[] = pool.map((row) => row.parsed);
+  for (const row of pool) {
+    for (const ingredient of row.draft.ingredients ?? []) {
+      if (ingredient.fdcId) searchHits.set(ingredient.name.toLowerCase(), ingredient.fdcId);
+    }
+  }
   let fetched = 0;
 
   for (const phase of PHASES) {

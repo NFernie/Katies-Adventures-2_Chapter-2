@@ -33,13 +33,31 @@ function pickAmount(nutrients: FdcNutrient[], ids: Set<number>): number {
   return 0;
 }
 
+function pickEnergyKcal(nutrients: FdcNutrient[], proteinG: number, carbG: number, fatG: number): number {
+  const atw = atwaterKcal(proteinG, carbG, fatG);
+  const values: number[] = [];
+  for (const row of nutrients) {
+    const id = row.nutrient?.id;
+    if (id != null && ENERGY_IDS.has(id) && typeof row.amount === "number") {
+      values.push(row.amount);
+    }
+  }
+  if (!values.length) return 0;
+  return values.reduce((best, value) =>
+    Math.abs(value - atw) < Math.abs(best - atw) ? value : best,
+  );
+}
+
 export function nutrientsFromFdcFood(food: FdcFood): NutrientPer100g {
   const list = food.foodNutrients ?? [];
+  const proteinG = pickAmount(list, PROTEIN_IDS);
+  const carbG = pickAmount(list, CARB_IDS);
+  const fatG = pickAmount(list, FAT_IDS);
   return {
-    kcal: pickAmount(list, ENERGY_IDS),
-    proteinG: pickAmount(list, PROTEIN_IDS),
-    carbG: pickAmount(list, CARB_IDS),
-    fatG: pickAmount(list, FAT_IDS),
+    kcal: pickEnergyKcal(list, proteinG, carbG, fatG),
+    proteinG,
+    carbG,
+    fatG,
   };
 }
 
