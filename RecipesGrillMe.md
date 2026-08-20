@@ -42,7 +42,9 @@ Net new slot listings vs today: about **+40 breakfast, +39 lunch, +38 dinner, +2
 
 ### Q3 — Harvest source
 
-**Locked:** One-time laptop harvest of **Internet Archive HTML** of official `myplate.gov/recipes/{slug}` pages. Sign off that URL pattern in `docs/content-sources.md` and `tools/ingest/sources.json` before any scrape job.
+**Locked:** One-time **ingest-time** harvest of **Internet Archive HTML** of official `myplate.gov/recipes/{slug}` pages. Sign off that URL pattern in `docs/content-sources.md` and `tools/ingest/sources.json` before any scrape job.
+
+“Ingest-time” means a Cursor cloud agent, CI, or any machine that runs the script **once**. It does **not** mean the owner must use a personal PC. It does **not** mean the live GitHub Pages site fetches recipes.
 
 Do not bulk-mirror `myplate.food`. Do not call a live recipe API from GitHub Pages.
 
@@ -101,6 +103,7 @@ Owner answers 20 Aug 2026. Recommendations accepted as written.
 - Writing the method text (federal page directions are in-scope).
 - Photos (v1 has none).
 - Access to myplate.gov (the live kitchen is gone; we use Archive.org).
+- A personal laptop or `C:` drive. Cursor Web is enough. HTML is fetched on the agent VM, parsed in that same run, and discarded. Only JSON is committed to GitHub.
 
 **After the machine pass (Q5)**
 
@@ -113,7 +116,7 @@ Owner answers 20 Aug 2026. Recommendations accepted as written.
 
 We do **not** log into MyPlate, edit USDA pages, or “read and rewrite” recipes on a live site. `myplate.gov`’s kitchen is retired. GitHub Pages never fetches recipes at view time.
 
-We copy **archived public HTML** once, on a laptop, then turn it into our draft JSON and run the existing USDA enricher.
+A **Cursor cloud agent** (this browser workflow) copies **archived public HTML** onto the agent’s temporary disk, turns it into JSON in the **same run**, and commits only that JSON to GitHub. The HTML does not need to live in the repo. The owner does not need a PC.
 
 ### Methods considered
 
@@ -131,13 +134,13 @@ We copy **archived public HTML** once, on a laptop, then turn it into our draft 
 
 2. **Discover slugs (no full recipe body yet).** Use an archived MyPlate Kitchen index (Wayback capture of the recipe list, ~1,091 links) and/or the Internet Archive CDX API to list captures whose original URL is `https://www.myplate.gov/recipes/{slug}`. Keep slugs whose USDA **course** is breakfast, snack, or main dish. Queue high-protein soup/salad only as lunch fallback (see Q2 derived rule). Drop dessert, sauce, bread, beverage.
 
-3. **Fetch HTML (laptop, rate-limited).** For each kept slug, request one Wayback snapshot, e.g. `https://web.archive.org/web/20250117181741/https://www.myplate.gov/recipes/{slug}`. Prefer a late-2024 / Jan 2026 capture (last good USDA HTML). Pause between requests so Archive.org is not hammered. Save raw HTML in a **gitignored** cache (ephemeral local files). Do not commit megabytes of Wayback HTML. Do not fetch from the Next.js app.
+3. **Fetch HTML (agent VM, rate-limited).** For each kept slug, request one Wayback snapshot, e.g. `https://web.archive.org/web/20250117181741/https://www.myplate.gov/recipes/{slug}`. Prefer a late-2024 / Jan 2026 capture (last good USDA HTML). Pause between requests so Archive.org is not hammered. Write raw HTML under a **gitignored** temp dir on the agent (`/tmp` or `.cache/`, never `data/`). Do not commit megabytes of Wayback HTML to GitHub. Do not fetch from the Next.js app when a user opens Today. When the agent run ends, that disk goes away — which is fine, because the parsed JSON is already in the PR.
 
 4. **Parse (deterministic).** Read the HTML file. Pull title, course, servings, ingredient lines, numbered directions, cook time if present, contributor / “adapted from” line, and the on-page nutrition table (check only). Prefer Schema.org JSON-LD on the page when it has those fields; fall back to the Drupal recipe markup. A dedicated parser in `tools/ingest/` (same idea as the open-source `recipe-scrapers` MyPlate extractor) — **not** an LLM rewriting the method. Output `data/ingest/myplate-raw.json` (structured lines, still household measures, still no `fdcId`).
 
 5. **Normalize to BodyPlan drafts.** For each raw row:
    - Convert cups/tablespoons/ounces to **grams** with a household table.
-   - Map each ingredient to an FDC `fdcId` (Foundation / SR Legacy first) via `tools/nutrition` search + cache. `USDA_FDC_API_KEY` is used here only, on the laptop/CI, not in the browser.
+   - Map each ingredient to an FDC `fdcId` (Foundation / SR Legacy first) via `tools/nutrition` search + cache. `USDA_FDC_API_KEY` is used here only, on the agent/CI, never as `NEXT_PUBLIC_` in the Pages app.
    - Infer `allergens` and `dietTags` (vegetarian/vegan) from ingredients.
    - Assign `slots`: breakfast course → `breakfast`; snack course → `snack`; snack-like breakfasts also get `snack` (Q7); main dish → `["lunch","dinner"]` until a slot hits 45 (Q10).
    - Set `sourceKind: "myplate-kitchen"`, `license: "us-government-work"`, `sourceUrl` to the archived page. No photos.
@@ -149,16 +152,20 @@ We copy **archived public HTML** once, on a laptop, then turn it into our draft 
 
 8. **Merge PR.** `npm run nutrition:check` must pass. `npm run ingest:recipes` appends drafts; reviewed first-party slugs are not overwritten. One JSON PR plus the Today attribution line (Q9). The client must not import scrapegraphai, USDA, or wger.
 
-### What we keep in git vs what stays on the laptop
+### What goes to GitHub vs what dies with the agent VM
 
-| Artifact | In git? |
+Cursor Web **does** have a filesystem — it is the cloud agent’s disk, not your `C:` drive. GitHub is only for the **results**.
+
+| Artifact | Where |
 | --- | --- |
-| Wayback HTML cache | No (gitignore) |
-| `data/ingest/myplate-raw.json` (parsed lines) | Yes, optional / reviewable |
-| Normalized drafts with grams + `fdcId` | Yes (`data/ingest/`) |
-| FDC cache hits | Yes (`data/nutrition/fdc-cache.json`) |
-| Merged `data/recipes.json` | Yes, after check |
-| Live calls from Pages | Never |
+| Wayback HTML | Agent temp disk only. **Not** GitHub. Discarded when the run ends. |
+| `data/ingest/myplate-raw.json` (parsed lines) | GitHub, optional / reviewable |
+| Normalized drafts with grams + `fdcId` | GitHub (`data/ingest/`) |
+| FDC cache hits | GitHub (`data/nutrition/fdc-cache.json`) |
+| Merged `data/recipes.json` | GitHub, after check |
+| Live fetches from the Pages site | Never |
+
+You can re-download any page later from the `sourceUrl` (Wayback link) stored on each recipe. That is why the HTML itself does not need to be in the repo.
 
 ---
 
@@ -183,5 +190,5 @@ Out of scope unless a later grill round changes it: Wikibooks, TheMealDB, Spoona
 | --- | --- |
 | 1 (Q1–Q5) | **Locked** 20 Aug 2026 |
 | 2 (Q6–Q11) | **Locked** 20 Aug 2026 |
-| Harvest method | Wayback HTML + deterministic parse (documented above). Not live site edits, not myplate.food bulk. |
+| Harvest method | Wayback HTML + deterministic parse on a **Cursor cloud agent** (or CI). HTML stays on the agent disk; only JSON is committed. Not the owner’s PC, not live site edits, not myplate.food bulk. |
 | Ingest implementation | **Not started** until the owner confirms the tree is done |
