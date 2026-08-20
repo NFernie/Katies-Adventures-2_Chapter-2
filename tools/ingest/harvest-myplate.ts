@@ -13,6 +13,8 @@ import {
 } from "./myplate-html";
 import { householdToGrams } from "./household";
 import {
+  SLOT_TARGETS,
+  VEG_TARGETS,
   countCatalog,
   myplateEnergyAgrees,
   selectMyPlateAdds,
@@ -72,7 +74,24 @@ function extractSlugs(html: string): string[] {
   return [...found];
 }
 
-async function collectIndexSlugs(maxPages = 20): Promise<string[]> {
+function capsMet(existing: CatalogRecipeRow[], pool: SelectCandidate[]): boolean {
+  const selected = selectMyPlateAdds(existing, sortFillOrder(pool));
+  const totals = countCatalog([
+    ...existing,
+    ...selected.chosen.map((row) => ({ slots: row.slots, dietTags: row.dietTags })),
+  ]);
+  return (
+    totals.slots.breakfast >= SLOT_TARGETS.breakfast &&
+    totals.slots.lunch >= SLOT_TARGETS.lunch &&
+    totals.slots.dinner >= SLOT_TARGETS.dinner &&
+    totals.slots.snack >= SLOT_TARGETS.snack &&
+    totals.veg.breakfast >= VEG_TARGETS.breakfast &&
+    totals.veg.lunch >= VEG_TARGETS.lunch &&
+    totals.veg.dinner >= VEG_TARGETS.dinner
+  );
+}
+
+async function collectIndexSlugs(maxPages = 12): Promise<string[]> {
   const slugs: string[] = [];
   const seen = new Set<string>();
   mkdirSync(CACHE_DIR, { recursive: true });
@@ -216,6 +235,7 @@ export async function harvestMyPlate(options: { maxFetch?: number } = {}): Promi
         draft: enriched,
         parsed,
       });
+      if (capsMet(existing, pool) && !options.maxFetch) break;
     } catch {
       /* exchange: skip and continue */
     }
