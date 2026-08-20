@@ -24,7 +24,23 @@ def main() -> int:
         print(f"denied source: {host}", file=sys.stderr)
         return 1
     signed = SOURCES.get("signedOffScrapeUrls") or []
-    if url not in signed:
+    prefixes = SOURCES.get("signedOffScrapeUrlPrefixes") or []
+    original = url
+    if "web.archive.org" in host and "/web/" in url:
+        marker = url.find("/http")
+        if marker != -1:
+            original = url[marker + 1 :]
+    original_host = (urlparse(original).hostname or "").lower().removeprefix("www.")
+    denied_original = original_host in denied or any(
+        original_host.endswith("." + d) for d in denied
+    )
+    if denied_original:
+        print(f"denied source: {original_host}", file=sys.stderr)
+        return 1
+    allowed = url in signed or original in signed or any(
+        original.startswith(p) or url.startswith(p) for p in prefixes
+    )
+    if not allowed:
         print(
             "no HTML scrape sources are signed off; write a first-party draft instead",
             file=sys.stderr,

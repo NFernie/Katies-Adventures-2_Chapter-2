@@ -1397,5 +1397,5819 @@
       "computedAt": "2026-08-19T06:27:14.705Z",
       "checksumOk": true
     }
+  },
+  {
+    "slug": "apple-oatmeal-muffins",
+    "title": "Apple Oatmeal Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 400 °F.",
+      "Place 6 cupcake holders in baking tin.",
+      "In a mixing bowl, add milk and applesauce. Stir until blended.",
+      "Stir in flour, oats, sugar, baking powder, and cinnamon. Mix until moistened (do not over mix).",
+      "Gently stir in the chopped apples.",
+      "Spoon into cupcake holders.",
+      "Bake for 15-20 minutes or until an inserted toothpick comes out clean.",
+      "Cool in pan 5 minutes before serving. Store unused portions in an airtight container."
+    ],
+    "ingredients": [
+      {
+        "name": "milk, non-fat",
+        "grams": 124,
+        "household": "1/2 cup milk, non-fat",
+        "fdcId": 170906,
+        "matchNote": "SR Legacy Yogurt, vanilla, non-fat"
+      },
+      {
+        "name": "applesauce, unsweetened",
+        "grams": 80,
+        "household": "1/3 cup applesauce, unsweetened",
+        "fdcId": 2346414,
+        "matchNote": "Foundation Applesauce, unsweetened, with added vitamin C"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 64,
+        "household": "1/2 cup all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "quick-cooking oats, uncooked",
+        "grams": 48,
+        "household": "1/2 cup quick-cooking oats, uncooked",
+        "fdcId": 172989,
+        "matchNote": "SR Legacy Cereals, QUAKER, Quick Oats, Dry"
+      },
+      {
+        "name": "sugar",
+        "grams": 204,
+        "household": "1 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "baking powder",
+        "grams": 8,
+        "household": "1/2 tablespoon baking powder",
+        "fdcId": 172805,
+        "matchNote": "SR Legacy Leavening agents, baking powder, low-sodium"
+      },
+      {
+        "name": "ground cinnamon",
+        "grams": 3,
+        "household": "1/2 teaspoon ground cinnamon",
+        "fdcId": 171320,
+        "matchNote": "SR Legacy Spices, cinnamon, ground"
+      },
+      {
+        "name": "tart apple, cored & chopped",
+        "grams": 182,
+        "household": "1 tart apple, cored & chopped",
+        "fdcId": 167807,
+        "matchNote": "SR Legacy Cherry juice, tart"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/apple-oatmeal-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Simple Healthy Recipes Oklahoma Nutrition Information and Education - ONIE Project",
+    "nutrition": {
+      "kcal": 1487,
+      "proteinG": 18.1,
+      "carbG": 347.8,
+      "fatG": 5.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.882Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "banana-berry-muffins",
+    "title": "Banana Berry Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Preheat oven to 350 °F. Spray a 12-cup muffin pan with non-stick cooking spray.",
+      "In a medium-size bowl, combine applesauce, sugar, dried egg mix, banana, and water. Mix well.",
+      "In a large bowl mix flours, oats, baking powder, baking soda, and salt.",
+      "Add the applesauce mixture to the bowl with the dry ingredients; mix just until the batter is moist.",
+      "Gently add berries into the mixture.",
+      "Fill each muffin cup about 3/4 full of batter.",
+      "Bake for 25-30 minutes until lightly brown.",
+      "Cool for 10 minutes and remove from pan."
+    ],
+    "ingredients": [
+      {
+        "name": "applesauce",
+        "grams": 60,
+        "household": "1/4 cup applesauce",
+        "fdcId": 167773,
+        "matchNote": "SR Legacy Applesauce, canned, sweetened, with salt"
+      },
+      {
+        "name": "sugar",
+        "grams": 51,
+        "household": "1/4 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "dried egg mix",
+        "grams": 30,
+        "household": "2 tablespoons dried egg mix (or 1 egg)",
+        "fdcId": 323793,
+        "matchNote": "Foundation Egg, white, dried"
+      },
+      {
+        "name": "ripe bananas, mashed",
+        "grams": 236,
+        "household": "2 ripe bananas, mashed",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      },
+      {
+        "name": "water",
+        "grams": 30,
+        "household": "2 tablespoons water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 32,
+        "household": "1/4 cup all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 32,
+        "household": "1/4 cup whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "quick cooking oats",
+        "grams": 24,
+        "household": "1/4 cup quick cooking oats",
+        "fdcId": 172989,
+        "matchNote": "SR Legacy Cereals, QUAKER, Quick Oats, Dry"
+      },
+      {
+        "name": "baking powder",
+        "grams": 3,
+        "household": "1/2 teaspoon baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "baking soda",
+        "grams": 3,
+        "household": "1/2 teaspoon baking soda",
+        "fdcId": 172738,
+        "matchNote": "SR Legacy Puff pastry, frozen, ready-to-bake, baked"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "blueberries or strawberries",
+        "grams": 60,
+        "household": "1/4 cup blueberries or strawberries (fresh or frozen)",
+        "fdcId": 175035,
+        "matchNote": "SR Legacy Toaster pastries, fruit (includes apple, blueberry, cherry, strawberry)"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/banana-berry-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. A Harvest of Recipes with USDA Foods USDA Food Distribution Program on Indian Reservations Adapted from a recipe submitted by Alicson Scott, Chickasaw Nation, Get Fresh! Nutrition Education Program",
+    "nutrition": {
+      "kcal": 1189,
+      "proteinG": 41,
+      "carbG": 230.3,
+      "fatG": 12,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "banana-oatmeal-pancakes-lentils",
+    "title": "Banana Oatmeal Pancakes with Lentils",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 10,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "In a small saucepan of boiling water, cook the lentils for 15-20 minutes, until soft. Drain well and set aside.",
+      "In a large bowl, stir together the oats, flour, brown sugar, cinnamon, baking powder, baking soda, and salt.",
+      "In a smaller bowl, whisk together the yogurt, milk, oil, eggs, and vanilla. Add to the dry ingredients along with the mashed banana and lentils, and stir until just combined.",
+      "Set a heavy skillet over medium-high heat, add a drizzle of oil and wipe it around with a paper towel to coat the bottom of the pan.",
+      "Cook about 1/2 a cup of batter at a time, spreading it out with the back of a spoon if needed (it will be thick). Cook for a couple of minutes, until bubbles begin to break through the surface and the bottom is golden. Keep the heat to medium, as these will take longer to cook through that most pancakes, and you do not want to burn the bottoms.",
+      "Flip with a thin spatula and cook until they are golden on the other side, and springy to the touch. Keep the pancakes warm on a rack set on a baking sheet in a 250 °F oven while you finish cooking the rest.",
+      "Serve drizzled with maple syrup, if desired."
+    ],
+    "ingredients": [
+      {
+        "name": "dried red lentils",
+        "grams": 60,
+        "household": "1/4 cup dried red lentils",
+        "fdcId": 174284,
+        "matchNote": "SR Legacy Lentils, pink or red, raw"
+      },
+      {
+        "name": "old fashioned oats",
+        "grams": 96,
+        "household": "1 cup old fashioned oats",
+        "fdcId": 2346396,
+        "matchNote": "Foundation Oats, whole grain, rolled, old fashioned"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 127,
+        "household": "1 cup all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "brown sugar, packed",
+        "grams": 51,
+        "household": "1/4 cup brown sugar, packed",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "cinnamon",
+        "grams": 5,
+        "household": "1 teaspoon cinnamon",
+        "fdcId": 171849,
+        "matchNote": "SR Legacy Bread, cinnamon"
+      },
+      {
+        "name": "baking powder",
+        "grams": 10,
+        "household": "2 teaspoons baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "baking soda",
+        "grams": 3,
+        "household": "1/2 teaspoon baking soda",
+        "fdcId": 172738,
+        "matchNote": "SR Legacy Puff pastry, frozen, ready-to-bake, baked"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "plain yogurt, low-fat",
+        "grams": 185,
+        "household": "3/4 cup plain yogurt, low-fat",
+        "fdcId": 170886,
+        "matchNote": "SR Legacy Yogurt, plain, low fat"
+      },
+      {
+        "name": "milk, low-fat",
+        "grams": 185,
+        "household": "3/4 cup milk, low-fat",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "canola oil",
+        "grams": 55,
+        "household": "1/4 cup canola oil (or melted butter or cooking oil of choice)",
+        "fdcId": 172336,
+        "matchNote": "SR Legacy Oil, canola"
+      },
+      {
+        "name": "large eggs",
+        "grams": 100,
+        "household": "2 large eggs",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "vanilla",
+        "grams": 5,
+        "household": "1 teaspoon vanilla",
+        "fdcId": 167575,
+        "matchNote": "SR Legacy Ice creams, vanilla"
+      },
+      {
+        "name": "bananas, mashed, over-ripe",
+        "grams": 236,
+        "household": "2 bananas, mashed, over-ripe",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/banana-oatmeal-pancakes-lentils",
+    "sourceAttribution": "USDA MyPlate Kitchen. The Big Book of Lentils Cookbook Canadian Lentils",
+    "nutrition": {
+      "kcal": 2571,
+      "proteinG": 76,
+      "carbG": 343.9,
+      "fatG": 101,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "blueberry-muffins",
+    "title": "Blueberry Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat the oven to 375 °F.",
+      "Grease the muffin pans.",
+      "In a large mixing bowl, stir the oil and sugar until creamy.",
+      "Add eggs, milk and vanilla. Mix until blended.",
+      "In a medium mixing bowl, stir together the flour, baking powder, and salt.",
+      "Add the flour mix to the oil and sugar in the large bowl. Stir together.",
+      "Stir the blueberries into the batter.",
+      "Fill each muffin cup 2/3 full with batter.",
+      "Bake for 25 to 30 minutes."
+    ],
+    "ingredients": [
+      {
+        "name": "vegetable oil",
+        "grams": 109,
+        "household": "1/2 cup vegetable oil (or cooking oil of choice)",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "sugar",
+        "grams": 204,
+        "household": "1 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "milk, low-fat, 1%",
+        "grams": 124,
+        "household": "1/2 cup milk, low-fat, 1%",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "vanilla",
+        "grams": 5,
+        "household": "1 teaspoon vanilla",
+        "fdcId": 173471,
+        "matchNote": "SR Legacy Vanilla extract"
+      },
+      {
+        "name": "flour",
+        "grams": 254,
+        "household": "2 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "baking powder",
+        "grams": 10,
+        "household": "2 teaspoons baking powder",
+        "fdcId": 172805,
+        "matchNote": "SR Legacy Leavening agents, baking powder, low-sodium"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "blueberries",
+        "grams": 480,
+        "household": "2 cups blueberries (fresh or frozen)",
+        "fdcId": 2346411,
+        "matchNote": "Foundation Blueberries, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/blueberry-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 3424,
+      "proteinG": 24.7,
+      "carbG": 509.7,
+      "fatG": 143.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cranberry-pumpkin-muffins",
+    "title": "Cranberry Pumpkin Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 400 °F.",
+      "Sift together dry ingredients (flour through allspice) and set aside.",
+      "Beat oil, eggs, and pumpkin together until well blended.",
+      "Add the wet ingredients (pumpkin mixture) to the dry ingredients all at once. Stir until moistened.",
+      "Fold in chopped cranberries.",
+      "Spoon into paper lined muffin cups."
+    ],
+    "ingredients": [
+      {
+        "name": "flour",
+        "grams": 254,
+        "household": "2 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "sugar",
+        "grams": 153,
+        "household": "3/4 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "baking powder",
+        "grams": 15,
+        "household": "3 teaspoons baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 73,
+        "household": "1/3 cup vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs (large)",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "pumpkin",
+        "grams": 180,
+        "household": "3/4 cup pumpkin (canned)",
+        "fdcId": 168448,
+        "matchNote": "SR Legacy Pumpkin, raw"
+      },
+      {
+        "name": "cranberries",
+        "grams": 480,
+        "household": "2 cups cranberries (fresh or frozen chopped)",
+        "fdcId": 171722,
+        "matchNote": "SR Legacy Cranberries, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/cranberry-pumpkin-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pumpkin Post and Banana Beat Newsletters University of Massachusetts Extension Nutrition Education Program",
+    "nutrition": {
+      "kcal": 2844,
+      "proteinG": 21,
+      "carbG": 461.7,
+      "fatG": 105.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "fabulous-fruit-muffins",
+    "title": "Fabulous Fruit Muffins",
+    "slots": [
+      "breakfast",
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 9,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash your hands with soap and water.",
+      "Heat oven to 400 °F. Spray muffin tin with non-stick cooking spray.",
+      "In a large bowl, combine the flour, sugar, baking powder, and baking soda. Stir well until all ingredients are blended.",
+      "In another bowl, combine buttermilk, margarine, egg, and vanilla. Pour this mixture into the dry ingredients (made in step #3).",
+      "Using a large spoon, gently stir ingredients just until moist (do not over-mix). Add fruit and stir gently (do not over-mix).",
+      "Spoon batter evenly into 9 muffin cups.",
+      "Bake 20 to 25 minutes or until golden brown.",
+      "Serve hot or cold. Muffins may be frozen for later use."
+    ],
+    "ingredients": [
+      {
+        "name": "flour",
+        "grams": 159,
+        "household": "1 1/4 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "sugar",
+        "grams": 51,
+        "household": "1/4 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "baking powder",
+        "grams": 5,
+        "household": "1 teaspoon baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "baking soda",
+        "grams": 3,
+        "household": "1/2 teaspoon baking soda",
+        "fdcId": 172738,
+        "matchNote": "SR Legacy Puff pastry, frozen, ready-to-bake, baked"
+      },
+      {
+        "name": "low-fat buttermilk",
+        "grams": 164,
+        "household": "3/4 cup low-fat buttermilk",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "margarine, melted",
+        "grams": 30,
+        "household": "2 tablespoons margarine, melted",
+        "fdcId": 172339,
+        "matchNote": "SR Legacy Margarine-like, margarine-butter blend, soybean oil and butter"
+      },
+      {
+        "name": "egg, slightly beaten",
+        "grams": 50,
+        "household": "1 egg, slightly beaten",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      },
+      {
+        "name": "vanilla extract",
+        "grams": 3,
+        "household": "1/2 teaspoon vanilla extract",
+        "fdcId": 172236,
+        "matchNote": "SR Legacy Vanilla extract, imitation, no alcohol"
+      },
+      {
+        "name": "frozen strawberries, unsweetened, coarsely chopped",
+        "grams": 240,
+        "household": "1 cup frozen strawberries, unsweetened, coarsely chopped (or other fruit, fresh or frozen)",
+        "fdcId": 171710,
+        "matchNote": "SR Legacy Blackberries, frozen, unsweetened"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/fabulous-fruit-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Fix it Fresh! Recipe Series Kansas State University Research and Extension",
+    "nutrition": {
+      "kcal": 1299,
+      "proteinG": 9.7,
+      "carbG": 255.1,
+      "fatG": 28.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "fruit-and-yogurt-breakfast-shake",
+    "title": "Fruit and Yogurt Breakfast Shake",
+    "slots": [
+      "breakfast",
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [],
+    "cookMinutes": 20,
+    "servings": 2,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Blend banana with pineapple juice, yogurt, and strawberries in a blender.",
+      "Blend until smooth.",
+      "Divide shake between 2 glasses and serve immediately."
+    ],
+    "ingredients": [
+      {
+        "name": "banana, medium, very ripe,",
+        "grams": 118,
+        "household": "1 banana, medium, very ripe, (peeled)",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      },
+      {
+        "name": "pineapple juice",
+        "grams": 187,
+        "household": "3/4 cup pineapple juice",
+        "fdcId": 170963,
+        "matchNote": "SR Legacy Babyfood, juice, orange and pineapple"
+      },
+      {
+        "name": "yogurt, low-fat vanilla",
+        "grams": 124,
+        "household": "1/2 cup yogurt, low-fat vanilla",
+        "fdcId": 170888,
+        "matchNote": "SR Legacy Yogurt, vanilla, low fat."
+      },
+      {
+        "name": "strawberries",
+        "grams": 120,
+        "household": "1/2 cup strawberries (remove stems and rinse)",
+        "fdcId": 167762,
+        "matchNote": "SR Legacy Strawberries, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/fruit-and-yogurt-breakfast-shake",
+    "sourceAttribution": "USDA MyPlate Kitchen. Recipes to Grow On University of Illinois Extension Service",
+    "nutrition": {
+      "kcal": 348,
+      "proteinG": 8.7,
+      "carbG": 75.3,
+      "fatG": 2.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "light-feather-whole-wheat-pancakes",
+    "title": "Light as a Feather Whole Wheat Pancakes",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat griddle. In medium bowl, stir or sift dry ingredients together.",
+      "In a separate bowl, beat egg, buttermilk, brown sugar, and oil together. Stir into dry ingredients just until moistened; batter should be slightly lumpy.",
+      "Pour 1/4 cup batter for each pancake onto sprayed or seasoned hot griddle.",
+      "Flip the pancake when bubbles appear on surface; turn only once."
+    ],
+    "ingredients": [
+      {
+        "name": "whole wheat flour",
+        "grams": 170,
+        "household": "1 1/3 cups whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "baking powder",
+        "grams": 8,
+        "household": "1 1/2 teaspoons baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "baking soda",
+        "grams": 1,
+        "household": "1/4 teaspoon baking soda",
+        "fdcId": 172738,
+        "matchNote": "SR Legacy Puff pastry, frozen, ready-to-bake, baked"
+      },
+      {
+        "name": "egg, large",
+        "grams": 50,
+        "household": "1 egg, large",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "brown sugar",
+        "grams": 13,
+        "household": "3 teaspoons brown sugar (1 tablespoon, packed)",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "buttermilk, 1%",
+        "grams": 291,
+        "household": "1 1/3 cups buttermilk, 1%",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "oil",
+        "grams": 14,
+        "household": "1 tablespoon oil",
+        "fdcId": 172336,
+        "matchNote": "SR Legacy Oil, canola"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/light-feather-whole-wheat-pancakes",
+    "sourceAttribution": "USDA MyPlate Kitchen. Now Serving Whole Grains North Dakota State University Extension Service",
+    "nutrition": {
+      "kcal": 1138,
+      "proteinG": 44,
+      "carbG": 156.7,
+      "fatG": 37.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "oatmeal-bread",
+    "title": "Oatmeal Bread",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 20,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine rolled oats and salt in a large mixing bowl. Stir in boiling water; cool to lukewarm (105 to 115 °F).",
+      "Dissolve yeast in 1/4 cup warm water in small bowl.",
+      "Add yeast water, molasses, and oil to cooled oatmeal mixture. Stir in whole wheat flour and 1 cup all purpose flour. Add additional all purpose flour to make a dough stiff enough to knead.",
+      "Knead dough on lightly floured surface until smooth and elastic, about 5 minutes.",
+      "Place dough in lightly oiled bowl, turning to oil top. Cover with clean towel; let rise in warm place until double, about 1 hour.",
+      "Punch dough down; turn onto clean surface. Shape dough and place in greased 9x5 inch pan. Cover with clean towel; let rise in a warm place until almost double, about 1 hour.",
+      "Preheat oven to 375 °F. Bake 50 minutes or until bread sounds hollow when tapped. Cover with aluminum foil during baking if bread is browning too quickly. Remove bread from pan and cool on wire rack."
+    ],
+    "ingredients": [
+      {
+        "name": "rolled oats",
+        "grams": 96,
+        "household": "1 cup rolled oats",
+        "fdcId": 175028,
+        "matchNote": "SR Legacy Rolls, dinner, oat bran"
+      },
+      {
+        "name": "salt",
+        "grams": 5,
+        "household": "1 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "boiling water",
+        "grams": 328,
+        "household": "1 1/2 cups boiling water",
+        "fdcId": 170132,
+        "matchNote": "SR Legacy Water convolvulus, cooked, boiled, drained, with salt"
+      },
+      {
+        "name": "packet dry yeast",
+        "grams": 100,
+        "household": "1 packet dry yeast (active)",
+        "fdcId": 168956,
+        "matchNote": "SR Legacy Yellow rice with seasoning, dry packet mix, unprepared"
+      },
+      {
+        "name": "warm water",
+        "grams": 60,
+        "household": "1/4 cup warm water (105 to 115 °F)",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "molasses",
+        "grams": 60,
+        "household": "1/4 cup molasses",
+        "fdcId": 168820,
+        "matchNote": "SR Legacy Molasses"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 20,
+        "household": "1 1/2 tablespoons vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 254,
+        "household": "2 cups whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "flour",
+        "grams": 254,
+        "household": "2 cups flour (all purpose)",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/oatmeal-bread",
+    "sourceAttribution": "USDA MyPlate Kitchen. Cooking Up Fun - Yeast Breads Cornell University Cooperative Extension Division of Nutritional Sciences",
+    "nutrition": {
+      "kcal": 2880,
+      "proteinG": 63.7,
+      "carbG": 576.9,
+      "fatG": 38.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "overnight-oatmeal-berries",
+    "title": "Overnight Oatmeal with Berries",
+    "slots": [
+      "breakfast",
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [],
+    "cookMinutes": 20,
+    "servings": 1,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Combine milk, Greek yogurt, sugar, cinnamon, and vanilla extract in a container or jar with a lid.",
+      "Add oats and mix well.",
+      "Gently fold in raspberries.",
+      "Cover and refrigerate 8 hours to overnight.",
+      "Enjoy cold or heat as desired."
+    ],
+    "ingredients": [
+      {
+        "name": "low-fat milk",
+        "grams": 124,
+        "household": "1/2 cup low-fat milk (or less for thicker oatmeal)",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "Greek yogurt, fat-free",
+        "grams": 62,
+        "household": "1/4 cup Greek yogurt, fat-free",
+        "fdcId": 170864,
+        "matchNote": "SR Legacy Yogurt, Greek, 2% fat, apricot, CHOBANI"
+      },
+      {
+        "name": "honey",
+        "grams": 14,
+        "household": "2 teaspoons honey",
+        "fdcId": 169640,
+        "matchNote": "SR Legacy Honey"
+      },
+      {
+        "name": "cinnamon",
+        "grams": 1,
+        "household": "1/4 teaspoon cinnamon",
+        "fdcId": 171849,
+        "matchNote": "SR Legacy Bread, cinnamon"
+      },
+      {
+        "name": "vanilla extract",
+        "grams": 1,
+        "household": "1/4 teaspoon vanilla extract",
+        "fdcId": 172236,
+        "matchNote": "SR Legacy Vanilla extract, imitation, no alcohol"
+      },
+      {
+        "name": "uncooked rolled oats",
+        "grams": 48,
+        "household": "1/2 cup uncooked rolled oats",
+        "fdcId": 175028,
+        "matchNote": "SR Legacy Rolls, dinner, oat bran"
+      },
+      {
+        "name": "raspberries, frozen",
+        "grams": 60,
+        "household": "1/4 cup raspberries, frozen",
+        "fdcId": 167757,
+        "matchNote": "SR Legacy Raspberries, frozen, red, sweetened"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/overnight-oatmeal-berries",
+    "sourceAttribution": "USDA MyPlate Kitchen. USDA Center for Nutrition Policy and Promotion",
+    "nutrition": {
+      "kcal": 332,
+      "proteinG": 13.9,
+      "carbG": 60.6,
+      "fatG": 4.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "peanut-butter-muffins",
+    "title": "Peanut Butter Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "nuts",
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat the oven to 375 °F.",
+      "Line 12 muffin cups with paper baking cups (or grease the bottom of each cup with butter or margarine).",
+      "Put the peanut butter and honey in a mixing bowl. Beat until well blended.",
+      "Add the eggs 1 at a time, beating well after each egg.",
+      "Add the milk, and mix well.",
+      "Add the flour, cornmeal, sugar, baking powder, and salt. Stir just until they are moistened. Don’t stir them too much.",
+      "Fill each muffin cup 2/3 full.",
+      "Bake for 20 to 25 minutes until golden brown.",
+      "Put on a wire rack.",
+      "Cool for at least 10 minutes before serving."
+    ],
+    "ingredients": [
+      {
+        "name": "peanut butter",
+        "grams": 164,
+        "household": "3/4 cup peanut butter (chunky)",
+        "fdcId": 2262072,
+        "matchNote": "Foundation Peanut butter, creamy"
+      },
+      {
+        "name": "honey",
+        "grams": 11,
+        "household": "1/2 tablespoon honey",
+        "fdcId": 169640,
+        "matchNote": "SR Legacy Honey"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "milk, skim",
+        "grams": 247,
+        "household": "1 cup milk, skim",
+        "fdcId": 170887,
+        "matchNote": "SR Legacy Yogurt, plain, skim milk"
+      },
+      {
+        "name": "flour",
+        "grams": 191,
+        "household": "1 1/2 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "cornmeal",
+        "grams": 120,
+        "household": "1/2 cup cornmeal",
+        "fdcId": 167628,
+        "matchNote": "SR Legacy Cornmeal, blue (Navajo)"
+      },
+      {
+        "name": "sugar",
+        "grams": 38,
+        "household": "3 tablespoons sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "baking powder",
+        "grams": 10,
+        "household": "2 teaspoons baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/peanut-butter-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 2913,
+      "proteinG": 82.8,
+      "carbG": 374.9,
+      "fatG": 119.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "perfect-pumpkin-pancakes",
+    "title": "Perfect Pumpkin Pancakes",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine flour, brown sugar, baking powder, pumpkin pie spice, and salt in a large mixing bowl.",
+      "In a medium bowl, combine egg, canned pumpkin, milk, and vegetable oil; mix well.",
+      "Add wet ingredients to flour mixture, stirring just until moist. Batter may be lumpy. (For thinner batter, add more milk.)",
+      "Lightly coat a griddle or skillet with cooking spray and heat on medium.",
+      "Using a 1/4 cup measure, pour batter onto hot griddle. Cook until bubbles begin to burst, then flip pancakes and cook until golden brown, 1 1/2 to 2 1/2 minutes. Repeat with remaining batter. Makes about 1 dozen 3 1/2 inch pancakes."
+    ],
+    "ingredients": [
+      {
+        "name": "flour",
+        "grams": 254,
+        "household": "2 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "brown sugar",
+        "grams": 26,
+        "household": "6 teaspoons brown sugar",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "baking powder",
+        "grams": 15,
+        "household": "1 tablespoon baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "pumpkin pie spice",
+        "grams": 6,
+        "household": "1 1/4 teaspoons pumpkin pie spice",
+        "fdcId": 172787,
+        "matchNote": "SR Legacy Pie, pumpkin, commercially prepared"
+      },
+      {
+        "name": "salt",
+        "grams": 5,
+        "household": "1 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "egg",
+        "grams": 50,
+        "household": "1 egg",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "pumpkin",
+        "grams": 120,
+        "household": "1/2 cup pumpkin (canned)",
+        "fdcId": 168448,
+        "matchNote": "SR Legacy Pumpkin, raw"
+      },
+      {
+        "name": "milk, low-fat",
+        "grams": 433,
+        "household": "1 3/4 cups milk, low-fat",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 27,
+        "household": "2 tablespoons vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/perfect-pumpkin-pancakes",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kids a Cookin’ Kansas Family Nutrition Program",
+    "nutrition": {
+      "kcal": 1737,
+      "proteinG": 25.4,
+      "carbG": 295.6,
+      "fatG": 51.1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "quesadilla-con-huevos",
+    "title": "Quesadilla con Huevos",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "microwave"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Put 2 tablespoons cheese and 1/4 of the scrambled eggs on each tortilla.",
+      "Heat 2 quesadillas at a time in microwave on high for 30 to 45 seconds or until cheese melts.",
+      "Top with salsa and fold tortilla in half to serve.",
+      "Add parsley if desired."
+    ],
+    "ingredients": [
+      {
+        "name": "cheddar or colby jack cheese",
+        "grams": 120,
+        "household": "1/2 cup cheddar or colby jack cheese (grated - cojack)",
+        "fdcId": 173439,
+        "matchNote": "SR Legacy Cheese, low fat, cheddar or colby"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs (scrambled)",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "flour tortillas",
+        "grams": 180,
+        "household": "4 flour tortillas (6 to 8 inch)",
+        "fdcId": 175037,
+        "matchNote": "SR Legacy Tortillas, ready-to-bake or -fry, flour, refrigerated"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/quesadilla-con-huevos",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kids a Cookin’ Kansas Family Nutrition Program",
+    "nutrition": {
+      "kcal": 1092,
+      "proteinG": 60.2,
+      "carbG": 92.2,
+      "fatG": 51.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "whole-wheat-muffins",
+    "title": "Whole Wheat Muffins",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 400 °F. Lightly oil or coat with non-stick spray the cups of a 12 cup muffin pan, or use paper muffin cups.",
+      "Mix together white sugar and cinnamon for topping and set aside.",
+      "In a large bowl, stir together flour, salt, baking powder, and brown sugar. In a glass liquid measuring cup, measure milk, then add eggs, vanilla (if using), and melted shortening or oil. Mix with a fork until egg is well combined with other ingredients.",
+      "Pour milk mixture over flour mixture and stir with a spoon, about 20 strokes, until flour is just moistened. Batter will be lumpy and thick.",
+      "Fill prepared muffin cups about 2/3 full with batter. Sprinkle about 1/4 teaspoon of cinnamon/ sugar topping over each muffin.",
+      "Bake in oven for 20 to 25 minutes until golden brown. Serve warm. Leftovers may be frozen."
+    ],
+    "ingredients": [
+      {
+        "name": "flour",
+        "grams": 127,
+        "household": "1 cup flour (all purpose)",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 127,
+        "household": "1 cup whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "baking powder",
+        "grams": 10,
+        "household": "2 teaspoons baking powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "brown sugar",
+        "grams": 51,
+        "household": "1/4 cup brown sugar (firmly packed)",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "milk, 1% low-fat",
+        "grams": 247,
+        "household": "1 cup milk, 1% low-fat",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "margarine or butter",
+        "grams": 55,
+        "household": "1/4 cup margarine or butter (melted, or 1/4 cup vegetable oil)",
+        "fdcId": 172339,
+        "matchNote": "SR Legacy Margarine-like, margarine-butter blend, soybean oil and butter"
+      },
+      {
+        "name": "sugar",
+        "grams": 13,
+        "household": "1 tablespoon sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "cinnamon",
+        "grams": 3,
+        "household": "1/2 teaspoon cinnamon (ground)",
+        "fdcId": 171849,
+        "matchNote": "SR Legacy Bread, cinnamon"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/whole-wheat-muffins",
+    "sourceAttribution": "USDA MyPlate Kitchen. Montana State University Extension Service Nutrition Education Program",
+    "nutrition": {
+      "kcal": 2077,
+      "proteinG": 44.8,
+      "carbG": 290,
+      "fatG": 81.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "yummy-bagels",
+    "title": "Homemade Bagles",
+    "slots": [
+      "breakfast"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 16,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "In a bowl mix sugar, yeast, water, and flours together to make dough.",
+      "Rub inside of another bowl with oil. Place dough in bowl and flip to coat with oil. Let rise 30 minutes.",
+      "Punch down dough and divide into 16 portions. Shape into a ball and poke a hole through the middle with your fingers.",
+      "Place on a well-greased baking sheet and cover with a clean dish towel to rise again for 15 to 20 minutes.",
+      "Put 2 inches of water in a pot and heat to boiling.",
+      "Using a slotted spoon, gently place each bagel into a rapidly boiling water for 1 minute on each side.",
+      "Remove and dry on a towel.",
+      "Place back on baking sheet. If desired, sprinkle bagels with cinnamon/sugar or salt.",
+      "Bake at 475 °F for 8 to 12 minutes."
+    ],
+    "ingredients": [
+      {
+        "name": "sugar",
+        "grams": 26,
+        "household": "2 tablespoons sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "yeast",
+        "grams": 15,
+        "household": "1 tablespoon yeast",
+        "fdcId": 167717,
+        "matchNote": "SR Legacy Yeast extract spread"
+      },
+      {
+        "name": "warm water",
+        "grams": 360,
+        "household": "1 1/2 cups warm water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 254,
+        "household": "2 cups whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 159,
+        "household": "1 1/4 cups all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "canola oil",
+        "grams": 5,
+        "household": "1 teaspoon canola oil (or cooking oil of your choice)",
+        "fdcId": 172336,
+        "matchNote": "SR Legacy Oil, canola"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/yummy-bagels",
+    "sourceAttribution": "USDA MyPlate Kitchen. Originally named \"Yummy Bagels\" Adapted from: Cooking For You or Two University of Wyoming Extension Cent$ible Nutrition Program",
+    "nutrition": {
+      "kcal": 1766,
+      "proteinG": 68.6,
+      "carbG": 344,
+      "fatG": 15.1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "black-beans",
+    "title": "Black Beans",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Carefully drain the juice from one can of black beans. Pour the drained black beans into a bowl. Use a potato masher to mash the beans until they are no longer whole. Set the mashed beans aside.",
+      "Chop the onion in to 1/4-inch pieces. Set it aside. Peel the garlic cloves and mince them finely. Set the garlic aside.",
+      "In a medium saucepan, heat the oil over medium high heat. Add the onions and sauté for 1 to 2 minutes. Stir in the garlic and cumin and cook for 30 seconds more.",
+      "Stir in the mashed black beans and the second can of black beans, including the juice. When the beans begin to boil, reduce the heat to low, stir in the salt, if using, and oregano and simmer for 10 minutes, uncovered."
+    ],
+    "ingredients": [
+      {
+        "name": "low-sodium black beans",
+        "grams": 800,
+        "household": "2 cans (15.5 ounces each) low-sodium black beans",
+        "fdcId": 175238,
+        "matchNote": "SR Legacy Beans, black, mature seeds, canned, low sodium"
+      },
+      {
+        "name": "medium onion",
+        "grams": 55,
+        "household": "1/2 medium onion",
+        "fdcId": 168886,
+        "matchNote": "SR Legacy Rye flour, medium"
+      },
+      {
+        "name": "garlic cloves",
+        "grams": 6,
+        "household": "2 garlic cloves",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 27,
+        "household": "2 tablespoons vegetable oil (or cooking oil of choice)",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/black-beans",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kids a Cookin’ Kansas Family Nutrition Program and the USDA Food Stamp Nutrition Education Program Recipe by Lynn Walters and Jane Stacey",
+    "nutrition": {
+      "kcal": 1167,
+      "proteinG": 54.6,
+      "carbG": 175.6,
+      "fatG": 30.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cajun-catfish",
+    "title": "Cajun Catfish",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Preheat oven to 400°F. Spray a baking sheet with cooking spray.",
+      "Combine cornmeal and spices in a shallow dish.",
+      "Dip each fillet in the cornmeal mixture. Coat evenly.",
+      "Place fillets on a baking sheet.",
+      "Bake 20–25 minutes flipping catfish halfway through. Catfish should reach a final internal cook temperature of 145 F as measured with a food thermometer before serving."
+    ],
+    "ingredients": [
+      {
+        "name": "cornmeal",
+        "grams": 60,
+        "household": "1/4 cup cornmeal (about 4 tablespoons)",
+        "fdcId": 167628,
+        "matchNote": "SR Legacy Cornmeal, blue (Navajo)"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/4 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "lemon pepper seasoning, no salt added",
+        "grams": 4,
+        "household": "3/4 teaspoon lemon pepper seasoning, no salt added",
+        "fdcId": 168128,
+        "matchNote": "SR Legacy Beans, baked, canned, no salt added"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/8 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "catfish fillets, frozen, thawed, drained",
+        "grams": 454,
+        "household": "1 pound catfish fillets, frozen, thawed, drained",
+        "fdcId": 168494,
+        "matchNote": "SR Legacy Asparagus, frozen, cooked, boiled, drained, with salt"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/cajun-catfish",
+    "sourceAttribution": "USDA MyPlate Kitchen. Recipe adapted from Chickasaw Nation Nutrition Services, Get Fresh Initiative",
+    "nutrition": {
+      "kcal": 332,
+      "proteinG": 19.9,
+      "carbG": 55.7,
+      "fatG": 6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "caribbean-casserole",
+    "title": "Caribbean Casserole",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 10,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Sauté onion and green pepper in canola oil, in a large pan, until tender. Do not brown.",
+      "Add tomatoes, beans (include liquid from both), oregano, and garlic powder. Bring to a boil.",
+      "Stir in rice and cover.",
+      "Reduce heat to simmer for 5 minutes.",
+      "Remove from heat and let stand for 5 minutes."
+    ],
+    "ingredients": [
+      {
+        "name": "medium onion, chopped",
+        "grams": 110,
+        "household": "1 medium onion, chopped",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "medium green pepper, diced",
+        "grams": 60,
+        "household": "1/2 medium green pepper, diced (diced)",
+        "fdcId": 172273,
+        "matchNote": "SR Legacy Babyfood, green beans, dices, toddler"
+      },
+      {
+        "name": "canola oil",
+        "grams": 14,
+        "household": "1 tablespoon canola oil (or cooking oil of choice)",
+        "fdcId": 172336,
+        "matchNote": "SR Legacy Oil, canola"
+      },
+      {
+        "name": "stewed tomatoes, low-sodium",
+        "grams": 411,
+        "household": "1 can (14.5 ounces) stewed tomatoes, low-sodium",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "black beans, low sodium",
+        "grams": 439,
+        "household": "1 can (15.5 ounces) black beans, low sodium (or beans of your choice)",
+        "fdcId": 175238,
+        "matchNote": "SR Legacy Beans, black, mature seeds, canned, low sodium"
+      },
+      {
+        "name": "instant brown rice, uncooked",
+        "grams": 306,
+        "household": "1 1/2 cups instant brown rice, uncooked",
+        "fdcId": 169048,
+        "matchNote": "SR Legacy Babyfood, cereal, brown rice, dry, instant"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/caribbean-casserole",
+    "sourceAttribution": "USDA MyPlate Kitchen. Heart Healthy Home Cooking: African American Style US Department of Health and Human Services National Heart, Lung, and Blood Institute",
+    "nutrition": {
+      "kcal": 1938,
+      "proteinG": 57.9,
+      "carbG": 373.7,
+      "fatG": 25.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cheese-roni-bake",
+    "title": "Cheese-A-Roni Bake",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "In a bowl combine sauce and water.",
+      "In another bowl combine cottage cheese, egg and oregano.",
+      "Grease 1 quart casserole.",
+      "Spoon in 1/3 sauce.",
+      "Layer with 1/2 cup macaroni, 1/2 cottage cheese mixture, 1/2 mozzarella cheese and 1/3 of the spaghetti sauce.",
+      "Repeat layers one more time.",
+      "Cover with aluminum foil.",
+      "Bake in a 350 °F oven for 45 minutes.",
+      "Uncover and bake 15 minutes longer."
+    ],
+    "ingredients": [
+      {
+        "name": "jar spaghetti sauce, meatless, low-sodium",
+        "grams": 100,
+        "household": "1 jar (24 ounces) spaghetti sauce, meatless, low-sodium",
+        "fdcId": 171597,
+        "matchNote": "SR Legacy Sauce, pasta, spaghetti/marinara, ready-to-serve, low sodium"
+      },
+      {
+        "name": "water",
+        "grams": 80,
+        "household": "1/3 cup water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "cottage cheese, fat-free",
+        "grams": 170,
+        "household": "6 ounces cottage cheese, fat-free",
+        "fdcId": 172207,
+        "matchNote": "SR Legacy Cheese, cream, fat free"
+      },
+      {
+        "name": "egg, slightly beaten",
+        "grams": 50,
+        "household": "1 egg, slightly beaten",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      },
+      {
+        "name": "dry macaroni",
+        "grams": 240,
+        "household": "1 cup dry macaroni",
+        "fdcId": 168903,
+        "matchNote": "SR Legacy Macaroni, vegetable, enriched, dry"
+      },
+      {
+        "name": "mozzarella cheese, part skim, shredded",
+        "grams": 113,
+        "household": "4 ounces mozzarella cheese, part skim, shredded",
+        "fdcId": 170900,
+        "matchNote": "SR Legacy Cheese, mozzarella, low moisture, part-skim, shredded"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/cheese-roni-bake",
+    "sourceAttribution": "USDA MyPlate Kitchen. USDA Supplemental Nutrition Assistance Program (SNAP)",
+    "nutrition": {
+      "kcal": 1518,
+      "proteinG": 88.8,
+      "carbG": 223.9,
+      "fatG": 28.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "egg-salad",
+    "title": "Egg Salad",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Put the eggs in a pan of cold water. Simmer for 20 minutes.",
+      "Cool promptly in cold water, then in refrigerator, so the eggs will be easy to shell.",
+      "Remove the shells from eggs, and chop the eggs finely.",
+      "Mix all the ingredients together."
+    ],
+    "ingredients": [
+      {
+        "name": "hard boiled eggs, finely chopped",
+        "grams": 200,
+        "household": "4 hard boiled eggs, finely chopped",
+        "fdcId": 173424,
+        "matchNote": "SR Legacy Egg, whole, cooked, hard-boiled"
+      },
+      {
+        "name": "packet of pickle relish",
+        "grams": 100,
+        "household": "1 packet of pickle relish (2/3 tablespoon)",
+        "fdcId": 169386,
+        "matchNote": "SR Legacy Pickle relish, hamburger"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "mustard",
+        "grams": 5,
+        "household": "1 teaspoon mustard",
+        "fdcId": 172337,
+        "matchNote": "SR Legacy Oil, mustard"
+      },
+      {
+        "name": "mayonnaise",
+        "grams": 60,
+        "household": "1/4 cup mayonnaise",
+        "fdcId": 168112,
+        "matchNote": "SR Legacy Salad dressing, mayonnaise and mayonnaise-type, low calorie"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/egg-salad",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 663,
+      "proteinG": 26.4,
+      "carbG": 51.1,
+      "fatG": 40.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "eggplant-stir-fry",
+    "title": "Eggplant Stir Fry",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Place eggplant, zucchini, green bell pepper, onions and salad dressing into a skillet.",
+      "Stir lightly to combine and cook over low heat until tender.",
+      "Stir in cherry tomatoes and cook for 3-5 minutes. Serve over cooked brown rice."
+    ],
+    "ingredients": [
+      {
+        "name": "eggplants, peeled and cubed",
+        "grams": 100,
+        "household": "2 eggplants, peeled and cubed",
+        "fdcId": 169892,
+        "matchNote": "SR Legacy Eggplant, pickled"
+      },
+      {
+        "name": "zucchini, thinly sliced",
+        "grams": 28,
+        "household": "1 zucchini, thinly sliced",
+        "fdcId": 170600,
+        "matchNote": "SR Legacy Beef, sandwich steaks, flaked, chopped, formed and thinly sliced, raw"
+      },
+      {
+        "name": "green bell pepper, cut into strips",
+        "grams": 240,
+        "household": "1 cup green bell pepper, cut into strips",
+        "fdcId": 2258588,
+        "matchNote": "Foundation Peppers, bell, green, raw"
+      },
+      {
+        "name": "onions, sliced",
+        "grams": 220,
+        "household": "2 onions, sliced",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "Italian salad dressing, low fat",
+        "grams": 45,
+        "household": "3 tablespoons Italian salad dressing, low fat",
+        "fdcId": 173590,
+        "matchNote": "SR Legacy Salad dressing, italian dressing, fat-free"
+      },
+      {
+        "name": "cherry tomatoes",
+        "grams": 480,
+        "household": "2 cups cherry tomatoes",
+        "fdcId": 1999634,
+        "matchNote": "Foundation Tomato, roma"
+      },
+      {
+        "name": "cooked brown rice",
+        "grams": 408,
+        "household": "2 cups cooked brown rice",
+        "fdcId": 173263,
+        "matchNote": "SR Legacy Rice, brown, parboiled, cooked, UNCLE BENS"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/eggplant-stir-fry",
+    "sourceAttribution": "USDA MyPlate Kitchen. Farm Fresh Summertime Recipes, Adapted from Easy Eggplant Stir Fry Connecticut Food Policy Council",
+    "nutrition": {
+      "kcal": 1005,
+      "proteinG": 26,
+      "carbG": 192,
+      "fatG": 14.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "scrambled-tofu",
+    "title": "Scrambled Tofu",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "egg",
+      "soy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Drain tofu.",
+      "In small bowl, dice or mash tofu. For optional ingredients, crush garlic and/or slice watercress, mushrooms, cheese, bell peppers, and green onions.",
+      "In a pan, melt butter. Add tofu. Add bean sprouts and optional ingredients. Saute over medium heat until lightly browned.",
+      "Beat eggs and add to tofu mixture. Cook until firm.",
+      "Sprinkle with salt and pepper to taste.",
+      "Stir and cook until firm."
+    ],
+    "ingredients": [
+      {
+        "name": "package tofu",
+        "grams": 100,
+        "household": "1 package tofu (14 ounces)",
+        "fdcId": 167722,
+        "matchNote": "SR Legacy Tofu yogurt"
+      },
+      {
+        "name": "butter",
+        "grams": 14,
+        "household": "1 tablespoon butter",
+        "fdcId": 171314,
+        "matchNote": "SR Legacy Butter, Clarified butter (ghee)"
+      },
+      {
+        "name": "bean sprouts",
+        "grams": 480,
+        "household": "2 cups bean sprouts (10 ounces)",
+        "fdcId": 169213,
+        "matchNote": "SR Legacy Beans, kidney, mature seeds, sprouted, raw"
+      },
+      {
+        "name": "eggs",
+        "grams": 100,
+        "household": "2 eggs",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/scrambled-tofu",
+    "sourceAttribution": "USDA MyPlate Kitchen. University of Hawaii at Manoa Cooperative Extension",
+    "nutrition": {
+      "kcal": 693,
+      "proteinG": 39.9,
+      "carbG": 36.7,
+      "fatG": 47,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "short-cut-lasagna",
+    "title": "Short Cut Lasagna",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Spready 1/2 the sauce on the bottom of a 2-quart baking dish or pan.",
+      "Layer half the dry noodles, ricotta, and Parmesan.",
+      "Top with 1 cup sauce and layer rest of the noodles, ricotta, and mozzarella.",
+      "Top with remaining spaghetti sauce.",
+      "Bake 60 minutes at 350 °F. Remove and let is set for 20 minutes. Top with Parmesan cheese."
+    ],
+    "ingredients": [
+      {
+        "name": "jar spaghetti sauce",
+        "grams": 100,
+        "household": "1 jar spaghetti sauce (low sodium, 24 ounces)",
+        "fdcId": 168085,
+        "matchNote": "SR Legacy OLIVE GARDEN, spaghetti with meat sauce"
+      },
+      {
+        "name": "dry lasagna noodles",
+        "grams": 227,
+        "household": "8 ounces dry lasagna noodles",
+        "fdcId": 169742,
+        "matchNote": "SR Legacy Rice noodles, dry"
+      },
+      {
+        "name": "container ricotta cheese",
+        "grams": 100,
+        "household": "1 container ricotta cheese (part-skim, 15 ounces or cottage cheese)",
+        "fdcId": 170851,
+        "matchNote": "SR Legacy Cheese, ricotta, whole milk"
+      },
+      {
+        "name": "mozzarella cheese",
+        "grams": 480,
+        "household": "2 cups mozzarella cheese (part-skim, shredded)",
+        "fdcId": 172198,
+        "matchNote": "SR Legacy Cheese substitute, mozzarella"
+      },
+      {
+        "name": "Parmesan cheese",
+        "grams": 60,
+        "household": "1/4 cup Parmesan cheese (grated)",
+        "fdcId": 171247,
+        "matchNote": "SR Legacy Cheese, parmesan, grated"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/short-cut-lasagna",
+    "sourceAttribution": "USDA MyPlate Kitchen. Simple Healthy Recipes Oklahoma Nutrition Information and Education ONIE Project",
+    "nutrition": {
+      "kcal": 2540,
+      "proteinG": 99,
+      "carbG": 328.4,
+      "fatG": 90.1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "skillet-lasagna",
+    "title": "Skillet Lasagna",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Cook the noodles as directed on the package. Drain and set aside.",
+      "In a small bowl, mix the ricotta cheese (or cottage cheese), 1/4 cup Parmesan cheese, and Italian seasoning.",
+      "Spray a large skillet well with cooking spray. Do NOT place skillet on heat until all ingredients are in skillet. ",
+      "Spread half of the jar of sauce in skillet. Top with half the cooked noodles (4 lasagna noodles).",
+      "Spread half of the cheese mixture over the noodles. Top with half the spinach or broccoli.",
+      "Sprinkle half the mozzarella cheese over the vegetables.",
+      "Repeat with the remaining noodles, the remaining cheese mixture, the remaining vegetables, the remaining sauce, and the remaining mozzarella cheese.",
+      "Sprinkle with the rest of the Parmesan cheese. Cover.",
+      "Turn on the stove top to medium-low until the cheese is melted (approximately 20 minutes). Allow to stand for 5 minutes before serving.",
+      "Refrigerate leftovers within 2 hours. Eat within 3 to 5 days. "
+    ],
+    "ingredients": [
+      {
+        "name": "lasagna noodles",
+        "grams": 227,
+        "household": "8 ounces lasagna noodles (or 4 cups of any other type of pasta, uncooked)",
+        "fdcId": 173333,
+        "matchNote": "SR Legacy Lasagna, cheese, frozen, prepared"
+      },
+      {
+        "name": "container of ricotta cheese, part-skim, 15 ounces",
+        "grams": 100,
+        "household": "1 container of ricotta cheese, part-skim, 15 ounces (or cottage cheese)",
+        "fdcId": 171248,
+        "matchNote": "SR Legacy Cheese, ricotta, part skim milk"
+      },
+      {
+        "name": "Parmesan cheese",
+        "grams": 120,
+        "household": "1/2 cup Parmesan cheese (grated)",
+        "fdcId": 171247,
+        "matchNote": "SR Legacy Cheese, parmesan, grated"
+      },
+      {
+        "name": "Italian seasoning",
+        "grams": 19,
+        "household": "1 1/4 tablespoons Italian seasoning",
+        "fdcId": 174913,
+        "matchNote": "SR Legacy Bread, Italian"
+      },
+      {
+        "name": "jar spaghetti sauce, low-sodium",
+        "grams": 100,
+        "household": "1 jar spaghetti sauce, low-sodium (24 ounces)",
+        "fdcId": 171597,
+        "matchNote": "SR Legacy Sauce, pasta, spaghetti/marinara, ready-to-serve, low sodium"
+      },
+      {
+        "name": "package frozen spinach, thawed & squeezed dry",
+        "grams": 100,
+        "household": "1 package frozen spinach, thawed & squeezed dry (10 ounces, or chopped broccoli)",
+        "fdcId": 168911,
+        "matchNote": "SR Legacy Spaghetti, spinach, dry"
+      },
+      {
+        "name": "mozzarella cheese, part-skim shredded",
+        "grams": 480,
+        "household": "2 cups mozzarella cheese, part-skim shredded",
+        "fdcId": 170900,
+        "matchNote": "SR Legacy Cheese, mozzarella, low moisture, part-skim, shredded"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/skillet-lasagna",
+    "sourceAttribution": "USDA MyPlate Kitchen. Eating Smart, Being Active Colorado State University and University of California at Davis",
+    "nutrition": {
+      "kcal": 2869,
+      "proteinG": 190.3,
+      "carbG": 183.9,
+      "fatG": 151.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "baked-chicken",
+    "title": "Baked Chicken",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 5,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat the oven to 350 °F.",
+      "Put the chicken in a baking pan or casserole dish.",
+      "Sprinkle with garlic powder and pepper to taste.",
+      "Bake for 1 hour."
+    ],
+    "ingredients": [
+      {
+        "name": "chicken, boneless, skinless",
+        "grams": 454,
+        "household": "1 pound chicken, boneless, skinless",
+        "fdcId": 2646170,
+        "matchNote": "Foundation Chicken, breast, boneless, skinless, raw"
+      },
+      {
+        "name": "ground black pepper",
+        "grams": 5,
+        "household": "1 teaspoon ground black pepper",
+        "fdcId": 2262075,
+        "matchNote": "Foundation Flaxseed, ground"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/baked-chicken",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 509,
+      "proteinG": 103.2,
+      "carbG": 1.7,
+      "fatG": 10.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "baked-parmesan-fish",
+    "title": "Baked Parmesan Fish",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 350 °F. Place cheese, flour, and thyme in paper bag.",
+      "Individually coat fish by gently shaking in bag; discard coating ingredients.",
+      "Place fillets in baking pan on rack. Bake for 20 minutes or until fish flakes easily when tested with fork.",
+      "Heat skillet over medium-high heat. Add onion, mushrooms, green onions, and garlic. Cook, stirring frequently, until onions are tender. Season with ground black pepper.",
+      "Serve baked fish topped with mushroom mixture."
+    ],
+    "ingredients": [
+      {
+        "name": "grated parmesan cheese, non-fat",
+        "grams": 80,
+        "household": "1/3 cup grated parmesan cheese, non-fat",
+        "fdcId": 173452,
+        "matchNote": "SR Legacy Cheese, parmesan, dry grated, reduced fat"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 3,
+        "household": "1/3 tablespoon all-purpose flour (1 teaspoon)",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "thyme sprigs, leaves removed and crushed",
+        "grams": 5,
+        "household": "1 teaspoon thyme sprigs, leaves removed and crushed",
+        "fdcId": 173470,
+        "matchNote": "SR Legacy Thyme, fresh"
+      },
+      {
+        "name": "tilapia fish fillets",
+        "grams": 400,
+        "household": "4 (6 ounces each) tilapia fish fillets (or other white fish)",
+        "fdcId": 175176,
+        "matchNote": "SR Legacy Fish, tilapia, raw"
+      },
+      {
+        "name": "medium onion, chopped",
+        "grams": 110,
+        "household": "1 medium onion, chopped",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "halved mushroom caps",
+        "grams": 240,
+        "household": "1 cup halved mushroom caps",
+        "fdcId": 169186,
+        "matchNote": "SR Legacy Pork, Leg Cap Steak, boneless, separable lean and fat, raw"
+      },
+      {
+        "name": "green onions , finely sliced",
+        "grams": 120,
+        "household": "1/2 cup green onions (scallions), finely sliced",
+        "fdcId": 170006,
+        "matchNote": "SR Legacy Onions, young green, tops only"
+      },
+      {
+        "name": "garlic, crushed",
+        "grams": 3,
+        "household": "1 clove garlic, crushed",
+        "fdcId": 170501,
+        "matchNote": "SR Legacy Tomatoes, crushed, canned"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/baked-parmesan-fish",
+    "sourceAttribution": "USDA MyPlate Kitchen. Simple Healthy Recipes Oklahoma Nutrition Information and Education ONIE Project",
+    "nutrition": {
+      "kcal": 972,
+      "proteinG": 150.9,
+      "carbG": 19.2,
+      "fatG": 31.7,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "baked-pork-chops",
+    "title": "Baked Pork Chops",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Trim fat from pork chops. Place chops in a 13x9 inch baking pan.",
+      "Spread onion and peppers on top of chops. Sprinkle with pepper and salt. Refrigerate for 1 hour.",
+      "Preheat oven to 375 °F.",
+      "Cover pan and cook 30 minutes.",
+      "Uncover, turn chops and re-cover with onions and peppers, and continue cooking for an additional 15 minutes or until internal temperature reaches 145 °F.",
+      "Garnish with fresh parsley."
+    ],
+    "ingredients": [
+      {
+        "name": "pork chops, lean center-cut, 1/2-inch thick",
+        "grams": 600,
+        "household": "6 pork chops, lean center-cut, 1/2-inch thick",
+        "fdcId": 2727575,
+        "matchNote": "Foundation Pork, chop, center cut, raw"
+      },
+      {
+        "name": "medium onion, thinly sliced",
+        "grams": 110,
+        "household": "1 medium onion, thinly sliced",
+        "fdcId": 170600,
+        "matchNote": "SR Legacy Beef, sandwich steaks, flaked, chopped, formed and thinly sliced, raw"
+      },
+      {
+        "name": "medium green pepper, chopped",
+        "grams": 120,
+        "household": "1/2 cup medium green pepper, chopped",
+        "fdcId": 170022,
+        "matchNote": "SR Legacy Peppers, sweet, green, frozen, chopped, unprepared"
+      },
+      {
+        "name": "medium red pepper, chopped",
+        "grams": 120,
+        "household": "1/2 cup medium red pepper, chopped",
+        "fdcId": 168547,
+        "matchNote": "SR Legacy Peppers, sweet, red, frozen, chopped, unprepared"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/8 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/baked-pork-chops",
+    "sourceAttribution": "USDA MyPlate Kitchen. Heart Healthy Home Cooking: African American Style US Department of Health and Human Services National Heart, Lung, and Blood Institute",
+    "nutrition": {
+      "kcal": 1225,
+      "proteinG": 157.6,
+      "carbG": 7.4,
+      "fatG": 63.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "beef-and-vegetables",
+    "title": "Beef and Vegetables",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "In a large pot, add water to rice and bring to a boil. Cover and cook on low heat for 15 minutes (do not remove the lid) until water is gone.",
+      "While the rice is cooking, put ground beef in a large pan and cook over medium heat on the stove for 8 to 10 minutes. Drain fat.",
+      "Let rice stand for about 3 minutes. Arrange rice on a platter like a doughnut ring. Set aside.",
+      "Add green beans, corn, tomato sauce, garlic powder, and onion powder to pan with meat.",
+      "Cook until steaming hot. Pour into center of rice ring and serve."
+    ],
+    "ingredients": [
+      {
+        "name": "water",
+        "grams": 960,
+        "household": "4 cups water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "rice, uncooked",
+        "grams": 408,
+        "household": "2 cups rice, uncooked",
+        "fdcId": 168883,
+        "matchNote": "SR Legacy Rice, white, glutinous, unenriched, uncooked"
+      },
+      {
+        "name": "ground beef",
+        "grams": 454,
+        "household": "1 pound ground beef (or 1 can, about 24 ounces, canned beef)",
+        "fdcId": 168608,
+        "matchNote": "SR Legacy Beef, grass-fed, ground, raw"
+      },
+      {
+        "name": "steamed green beans",
+        "grams": 480,
+        "household": "2 cups steamed green beans (or 1 can, about 15 ounces, low-sodium green beans)",
+        "fdcId": 169965,
+        "matchNote": "SR Legacy Beans, snap, green, microwaved"
+      },
+      {
+        "name": "fresh cooked corn kernels",
+        "grams": 360,
+        "household": "1 1/2 cups fresh cooked corn kernels (or 1 can, about 15 ounces, low-sodium corn)",
+        "fdcId": 2710826,
+        "matchNote": "Foundation Corn, sweet, yellow and white kernels,  fresh, raw"
+      },
+      {
+        "name": "low-sodium tomato sauce",
+        "grams": 400,
+        "household": "1 can low-sodium tomato sauce (about 15 ounces)",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/beef-and-vegetables",
+    "sourceAttribution": "USDA MyPlate Kitchen. A Harvest of Recipes with USDA Foods USDA Food Distribution Program on Indian Reservations Adapted from a recipe by Lela Gabbard, Pala Indian Reservation",
+    "nutrition": {
+      "kcal": 3174,
+      "proteinG": 165.2,
+      "carbG": 473.2,
+      "fatG": 71.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cabbage-roll-casserole",
+    "title": "Cabbage Roll Casserole",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Brown ground beef in a skillet with onion and garlic. Drain off any fat.",
+      "Place meat in a large pot and add water, tomatoes, tomato sauce (or juice), and cabbage. Cook until cabbage is almost tender.",
+      "Add minute rice and cook five minutes longer. Serve."
+    ],
+    "ingredients": [
+      {
+        "name": "ground beef",
+        "grams": 227,
+        "household": "1/2 pound ground beef (90% lean)",
+        "fdcId": 168608,
+        "matchNote": "SR Legacy Beef, grass-fed, ground, raw"
+      },
+      {
+        "name": "onion",
+        "grams": 110,
+        "household": "1 onion (chopped)",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "garlic clove",
+        "grams": 3,
+        "household": "1 garlic clove (minced)",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "water",
+        "grams": 360,
+        "household": "1 1/2 cups water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "diced tomatoes, low-sodium",
+        "grams": 411,
+        "household": "1 can (14.5 ounces) diced tomatoes, low-sodium",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "tomato sauce, low-sodium",
+        "grams": 360,
+        "household": "1 1/2 cups tomato sauce, low-sodium (or tomato juice)",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "cabbage head",
+        "grams": 100,
+        "household": "1 cabbage head (small to medium, chopped in bite-sized pieces)",
+        "fdcId": 170392,
+        "matchNote": "SR Legacy Cabbage, kimchi"
+      },
+      {
+        "name": "minute brown rice",
+        "grams": 51,
+        "household": "1/4 cup minute brown rice",
+        "fdcId": 1104812,
+        "matchNote": "Foundation Flour, rice, brown"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/cabbage-roll-casserole",
+    "sourceAttribution": "USDA MyPlate Kitchen. Simple Healthy Recipes Oklahoma Nutrition Information and Education ONIE Project",
+    "nutrition": {
+      "kcal": 999,
+      "proteinG": 65.7,
+      "carbG": 113.9,
+      "fatG": 34.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chicken-broccoli-alfredo",
+    "title": "Chicken Broccoli Alfredo",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 5,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Cook fettuccine according to package directions. Add broccoli for the last 4 minutes of cooking time. Drain.",
+      "Heat butter in skillet. Add chicken and cook until browned, stirring often.",
+      "Combine sauce mix and water in saucepan. Bring to a boil and cook until thick. Add milk, cheese, pepper (if using), and fettuccine mixture and heat through.",
+      "Serve with additional Parmesan cheese."
+    ],
+    "ingredients": [
+      {
+        "name": "fettuccine noodles",
+        "grams": 227,
+        "household": "8 ounces fettuccine noodles",
+        "fdcId": 168914,
+        "matchNote": "SR Legacy Rice noodles, cooked"
+      },
+      {
+        "name": "broccoli, fresh or frozen, chopped",
+        "grams": 240,
+        "household": "1 cup broccoli, fresh or frozen, chopped",
+        "fdcId": 169968,
+        "matchNote": "SR Legacy Broccoli, frozen, chopped, unprepared"
+      },
+      {
+        "name": "butter",
+        "grams": 27,
+        "household": "2 tablespoons butter",
+        "fdcId": 171314,
+        "matchNote": "SR Legacy Butter, Clarified butter (ghee)"
+      },
+      {
+        "name": "chicken breast, boneless",
+        "grams": 454,
+        "household": "16 ounces chicken breast, boneless",
+        "fdcId": 2646170,
+        "matchNote": "Foundation Chicken, breast, boneless, skinless, raw"
+      },
+      {
+        "name": "Basic Soup and Sauce Mix",
+        "grams": 80,
+        "household": "1/3 cup Basic Soup and Sauce Mix",
+        "fdcId": 171165,
+        "matchNote": "SR Legacy Soup, onion, dry, mix"
+      },
+      {
+        "name": "water",
+        "grams": 300,
+        "household": "1 1/4 cups water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "milk, non-fat",
+        "grams": 124,
+        "household": "1/2 cup milk, non-fat",
+        "fdcId": 170906,
+        "matchNote": "SR Legacy Yogurt, vanilla, non-fat"
+      },
+      {
+        "name": "Parmesan cheese, grated",
+        "grams": 120,
+        "household": "1/2 cup Parmesan cheese, grated",
+        "fdcId": 171247,
+        "matchNote": "SR Legacy Cheese, parmesan, grated"
+      },
+      {
+        "name": "pepper",
+        "grams": 1,
+        "household": "1/4 teaspoon pepper (optional)",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/chicken-broccoli-alfredo",
+    "sourceAttribution": "USDA MyPlate Kitchen. Utah State University Cooperative Extension",
+    "nutrition": {
+      "kcal": 1924,
+      "proteinG": 164.6,
+      "carbG": 165.3,
+      "fatG": 71.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chicken-cacciatore",
+    "title": "Chicken Cacciatore",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Peel and chop the onion.",
+      "Put the chopped onion in a saucepan.",
+      "Add the tomatoes, tomato sauce, garlic powder, oregano, and pepper.",
+      "Simmer on low heat for 3 minutes.",
+      "If needed, remove the chicken skin.",
+      "Add the chicken to the sauce pan and cover.",
+      "Cook over low heat for about 1 hour until the chicken is tender."
+    ],
+    "ingredients": [
+      {
+        "name": "onion, chopped",
+        "grams": 110,
+        "household": "1 onion, chopped",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "canned tomatoes, low-sodium",
+        "grams": 240,
+        "household": "1 cup canned tomatoes, low-sodium",
+        "fdcId": 171609,
+        "matchNote": "SR Legacy Soup, chicken broth, low sodium, canned"
+      },
+      {
+        "name": "tomato sauce, low-sodium",
+        "grams": 120,
+        "household": "1/2 cup tomato sauce, low-sodium",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/8 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "chicken pieces, skin removed",
+        "grams": 400,
+        "household": "4 chicken pieces, skin removed (thighs, breasts, or legs)",
+        "fdcId": 170356,
+        "matchNote": "SR Legacy Fast Foods, Fried Chicken, Breast, meat only, skin and breading removed"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/chicken-cacciatore",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 719,
+      "proteinG": 118.4,
+      "carbG": 18.3,
+      "fatG": 20.1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chicken-pasta-salad",
+    "title": "Chicken Pasta Salad",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 7,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Cook pasta according to package directions, drain; rinse.",
+      "Combine first eight ingredients (pasta through black beans) in a large bowl.",
+      "Toss gently with salad dressing.",
+      "Chill for several hours to blend flavors."
+    ],
+    "ingredients": [
+      {
+        "name": "cooked small pasta",
+        "grams": 480,
+        "household": "2 cups cooked small pasta",
+        "fdcId": 169751,
+        "matchNote": "SR Legacy Pasta, cooked, enriched, with added salt"
+      },
+      {
+        "name": "canned chicken, drained",
+        "grams": 360,
+        "household": "1 1/2 cups canned chicken, drained",
+        "fdcId": 169207,
+        "matchNote": "SR Legacy Asparagus, canned, drained solids"
+      },
+      {
+        "name": "diced bell pepper",
+        "grams": 240,
+        "household": "1 cup diced bell pepper",
+        "fdcId": 2258588,
+        "matchNote": "Foundation Peppers, bell, green, raw"
+      },
+      {
+        "name": "sliced green onion",
+        "grams": 120,
+        "household": "1/2 cup sliced green onion",
+        "fdcId": 170006,
+        "matchNote": "SR Legacy Onions, young green, tops only"
+      },
+      {
+        "name": "shredded yellow squash",
+        "grams": 240,
+        "household": "1 cup shredded yellow squash",
+        "fdcId": 2685569,
+        "matchNote": "Foundation Squash, summer, yellow, includes skin, raw"
+      },
+      {
+        "name": "canned corn kernels, low-sodium, drained",
+        "grams": 120,
+        "household": "1/2 cup canned corn kernels, low-sodium, drained",
+        "fdcId": 169361,
+        "matchNote": "SR Legacy Corn, sweet, white, canned, whole kernel, drained solids"
+      },
+      {
+        "name": "frozen peas, thawed",
+        "grams": 120,
+        "household": "1/2 cup frozen peas, thawed",
+        "fdcId": 170425,
+        "matchNote": "SR Legacy Peas and carrots, frozen, unprepared"
+      },
+      {
+        "name": "black beans, low-sodium, rinsed and drained",
+        "grams": 425,
+        "household": "1 can (15 ounces) black beans, low-sodium, rinsed and drained",
+        "fdcId": 2644285,
+        "matchNote": "Foundation Beans, black, canned, sodium added, drained and rinsed"
+      },
+      {
+        "name": "fat-free Italian dressing",
+        "grams": 120,
+        "household": "1/2 cup fat-free Italian dressing",
+        "fdcId": 173590,
+        "matchNote": "SR Legacy Salad dressing, italian dressing, fat-free"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/chicken-pasta-salad",
+    "sourceAttribution": "USDA MyPlate Kitchen. Color Me Healthy North Carolina Department of Public Health and North Carolina Cooperative Extension",
+    "nutrition": {
+      "kcal": 1666,
+      "proteinG": 77.9,
+      "carbG": 309.9,
+      "fatG": 16.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "dilled-fish-fillets",
+    "title": "Dilled Fish Fillets",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "microwave"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Thaw frozen fish in refrigerator overnight or thaw in microwave oven. Then, separate into 4 fillets or pieces",
+      "Place fish in a glass-baking dish. Cover with wax paper.",
+      "Cook at \"medium\" power in the microwave for 3 minutes. Remove cover, turn fish over, and sprinkle with lemon juice and seasonings.",
+      "Cover and continue cooking at \"medium\" power for 3 minutes or until fish flakes with a fork.",
+      "Wash hands with soap and water.",
+      "Separate into four fillets or pieces.",
+      "Place fish in heated fry pan. Sprinkle with lemon juice and seasonings.",
+      "Cover and cook over moderate heat until fish flakes when tested with a fork, about 5 minutes."
+    ],
+    "ingredients": [
+      {
+        "name": "frozen haddock or cod fillets",
+        "grams": 454,
+        "household": "1 pound frozen haddock or cod fillets",
+        "fdcId": 2747654,
+        "matchNote": "Foundation Cod, Pacific or Alaskan, frozen, wild caught"
+      },
+      {
+        "name": "lemon juice",
+        "grams": 16,
+        "household": "1 tablespoon lemon juice",
+        "fdcId": 167747,
+        "matchNote": "SR Legacy Lemon juice, raw"
+      },
+      {
+        "name": "dried dill weed",
+        "grams": 1,
+        "household": "1/8 teaspoon dried dill weed",
+        "fdcId": 172233,
+        "matchNote": "SR Legacy Dill weed, fresh"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/8 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/dilled-fish-fillets",
+    "sourceAttribution": "USDA MyPlate Kitchen. Microwave Recipes University of Illinois Extension Service",
+    "nutrition": {
+      "kcal": 287,
+      "proteinG": 64.6,
+      "carbG": 3.6,
+      "fatG": 1.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "full-beans-hot-dish",
+    "title": "Full of Beans Hot Dish",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Cook ground beef and onions. Drain fat.",
+      "Add remaining ingredients and mix.",
+      "Place in casserole dish.",
+      "Bake in the oven at 350 °F for 1 hour."
+    ],
+    "ingredients": [
+      {
+        "name": "ground beef, 90% lean",
+        "grams": 454,
+        "household": "1 pound ground beef, 90% lean",
+        "fdcId": 174030,
+        "matchNote": "SR Legacy Beef, ground, 90% lean meat / 10% fat, raw"
+      },
+      {
+        "name": "large onion",
+        "grams": 110,
+        "household": "1 large onion (chopped)",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "brown sugar",
+        "grams": 51,
+        "household": "1/4 cup brown sugar",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "ketchup",
+        "grams": 120,
+        "household": "1/2 cup ketchup",
+        "fdcId": 747693,
+        "matchNote": "Foundation Ketchup, restaurant"
+      },
+      {
+        "name": "vinegar",
+        "grams": 30,
+        "household": "2 tablespoons vinegar",
+        "fdcId": 172241,
+        "matchNote": "SR Legacy Vinegar, balsamic"
+      },
+      {
+        "name": "black pepper",
+        "grams": 3,
+        "household": "1/2 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "kidney beans",
+        "grams": 480,
+        "household": "2 cups kidney beans (cooked, or 15 ounce can, low-sodium)",
+        "fdcId": 169885,
+        "matchNote": "SR Legacy Beans, liquid from stewed kidney beans"
+      },
+      {
+        "name": "pork and beans",
+        "grams": 454,
+        "household": "1 can pork and beans (16 ounce)",
+        "fdcId": 175185,
+        "matchNote": "SR Legacy Beans, baked, canned, with pork"
+      },
+      {
+        "name": "great northern beans",
+        "grams": 480,
+        "household": "2 cups great northern beans (cooked, or a 15 ounce can great northern beans, low-sodium)",
+        "fdcId": 175192,
+        "matchNote": "SR Legacy Beans, great northern, mature seeds, canned"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/full-beans-hot-dish",
+    "sourceAttribution": "USDA MyPlate Kitchen. University of Wisconsin Cooperative Extension Service Family Living Program",
+    "nutrition": {
+      "kcal": 2782,
+      "proteinG": 177.8,
+      "carbG": 293.7,
+      "fatG": 102,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "greek-pork-chops",
+    "title": "Greek Pork Chops",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Put the pork, oil, vinegar, oregano, and garlic in the glass or ceramic bowl, or in a sealed plastic bag and mix well. Cover bowl and refrigerate at least 4 hours or overnight.",
+      "Sprinkle the pork with the salt and pepper.",
+      "Place a large skillet on the stove over high heat. When hot, add the pork to the dry skillet, waiting about 30 seconds between each addition.",
+      "Cook about 7 minutes on each side until crispy. Serve right away."
+    ],
+    "ingredients": [
+      {
+        "name": "pork cutlets",
+        "grams": 454,
+        "household": "1 pound pork cutlets (or 4 boneless pork chops)",
+        "fdcId": 172643,
+        "matchNote": "SR Legacy Veal, leg, top round, cap off, cutlet, boneless, raw"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 14,
+        "household": "1 tablespoon vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "red wine vinegar",
+        "grams": 15,
+        "household": "1 tablespoon red wine vinegar",
+        "fdcId": 172240,
+        "matchNote": "SR Legacy Vinegar, red wine"
+      },
+      {
+        "name": "garlic",
+        "grams": 6,
+        "household": "2 cloves garlic (peeled and minced)",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/4 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/greek-pork-chops",
+    "sourceAttribution": "USDA MyPlate Kitchen. USDA Center for Nutrition Policy and Promotion",
+    "nutrition": {
+      "kcal": 643,
+      "proteinG": 100.6,
+      "carbG": 1.8,
+      "fatG": 25.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "herb-broiled-beef",
+    "title": "Herb Broiled Beef",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Mix onion, parsley, vinegar, mustard, garlic powder, and basil or thyme.",
+      "Place meat in plastic bag and pour in marinade.",
+      "Close bag securely, place in a bowl and marinate in refrigerator six to eight hours or overnight, turning at least once.",
+      "Pour off marinade and discard. Place meat on rack in broiler.",
+      "Broil 15 to 20 minutes or until desired doneness, turning once.",
+      "Cut into thin slices to serve."
+    ],
+    "ingredients": [
+      {
+        "name": "onion",
+        "grams": 60,
+        "household": "1/4 cup onion (chopped)",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "parsley",
+        "grams": 30,
+        "household": "2 tablespoons parsley",
+        "fdcId": 170416,
+        "matchNote": "SR Legacy Parsley, fresh"
+      },
+      {
+        "name": "white vinegar",
+        "grams": 30,
+        "household": "2 tablespoons white vinegar",
+        "fdcId": 172241,
+        "matchNote": "SR Legacy Vinegar, balsamic"
+      },
+      {
+        "name": "prepared mustard",
+        "grams": 15,
+        "household": "3 teaspoons prepared mustard",
+        "fdcId": 172234,
+        "matchNote": "SR Legacy Mustard, prepared, yellow"
+      },
+      {
+        "name": "basil, dried",
+        "grams": 1,
+        "household": "1/4 teaspoon basil, dried (or thyme)",
+        "fdcId": 172232,
+        "matchNote": "SR Legacy Basil, fresh"
+      },
+      {
+        "name": "boneless beef chuck shoulder steak, cut 1-inch thick",
+        "grams": 454,
+        "household": "1 pound boneless beef chuck shoulder steak, cut 1-inch thick",
+        "fdcId": 173357,
+        "matchNote": "SR Legacy Beef, chuck, shoulder clod, shoulder top and center steaks, separable lean and fat, trimmed to 0\" fat, choice, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/herb-broiled-beef",
+    "sourceAttribution": "USDA MyPlate Kitchen. Eat for Health Toolkit Recipe by Missouri Nutrition Network",
+    "nutrition": {
+      "kcal": 720,
+      "proteinG": 94.9,
+      "carbG": 13.5,
+      "fatG": 28.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "marinated-beef",
+    "title": "Marinated Beef",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Using a cutting board and sharp knife, cut round steak across the grain into thin strips about 1/2 inch wide and 2 to 3 inches long.",
+      "In a medium glass mixing bowl, combine garlic, lemon juice, 2 tablespoons of vegetable oil, salt, and pepper.",
+      "Add beef strips and stir to coat with the oil mixture (marinade sauce). Cover bowl with plastic wrap and refrigerate for about 2 hours.",
+      "In a medium skillet over medium-high heat, heat 2 tablespoons of the oil for 1-2 minutes until hot.",
+      "Drain marinade from beef. Put beef in skillet, stir and cook for 5 to 7 minutes or until meat is thoroughly browned."
+    ],
+    "ingredients": [
+      {
+        "name": "beef round steak",
+        "grams": 340,
+        "household": "12 ounces beef round steak",
+        "fdcId": 172128,
+        "matchNote": "SR Legacy Beef, round, outside round, bottom round, steak, separable lean and fat, trimmed to 0\" fat, choice, raw"
+      },
+      {
+        "name": "garlic clove",
+        "grams": 3,
+        "household": "1 garlic clove",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "lemon juice",
+        "grams": 31,
+        "household": "2 tablespoons lemon juice",
+        "fdcId": 167747,
+        "matchNote": "SR Legacy Lemon juice, raw"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 55,
+        "household": "4 tablespoons vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "black pepper",
+        "grams": 3,
+        "household": "1/2 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/marinated-beef",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kids a Cookin’ Kansas Family Nutrition Program",
+    "nutrition": {
+      "kcal": 1030,
+      "proteinG": 72.6,
+      "carbG": 3.1,
+      "fatG": 79.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "one-pan-spaghetti",
+    "title": "One Pan Spaghetti",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 10,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Brown meat and onions in a large skillet over medium-high heat (300 °F in an electric skillet). Drain fat.",
+      "Stir in water, tomato sauce, and spices; bring to a boil.",
+      "Add spaghetti, cover pan, and simmer 10 to 15 minutes, stirring often to prevent sticking.",
+      "When spaghetti is tender, top with grated cheese.",
+      "Refrigerate leftovers with in 2 hours."
+    ],
+    "ingredients": [
+      {
+        "name": "ground beef",
+        "grams": 454,
+        "household": "1 pound ground beef (lean)",
+        "fdcId": 168608,
+        "matchNote": "SR Legacy Beef, grass-fed, ground, raw"
+      },
+      {
+        "name": "onion",
+        "grams": 110,
+        "household": "1 onion (medium, chopped)",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "water",
+        "grams": 840,
+        "household": "3 1/2 cups water",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "tomato sauce, low-sodium",
+        "grams": 425,
+        "household": "1 can tomato sauce, low-sodium (15 ounces)",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "sugar",
+        "grams": 2,
+        "household": "1/2 teaspoon sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "rosemary",
+        "grams": 3,
+        "household": "1/2 teaspoon rosemary",
+        "fdcId": 173473,
+        "matchNote": "SR Legacy Rosemary, fresh"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/4 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "spaghetti noodles",
+        "grams": 454,
+        "household": "16 ounces spaghetti noodles (broken)",
+        "fdcId": 169845,
+        "matchNote": "SR Legacy DENNY'S, spaghetti and meatballs"
+      },
+      {
+        "name": "Parmesan cheese",
+        "grams": 240,
+        "household": "1 cup Parmesan cheese (shredded)",
+        "fdcId": 171247,
+        "matchNote": "SR Legacy Cheese, parmesan, grated"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/one-pan-spaghetti",
+    "sourceAttribution": "USDA MyPlate Kitchen. Food Hero Oregon State University Cooperative Extension Service",
+    "nutrition": {
+      "kcal": 3022,
+      "proteinG": 218.5,
+      "carbG": 171,
+      "fatG": 166.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "orange-pork-chops",
+    "title": "Orange Pork Chops",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [],
+    "cookMinutes": 20,
+    "servings": 2,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 350 °F.",
+      "In a medium skillet, brown pork chops in a small amount of oil.",
+      "Cut sweet potato into 1/2-inch slices.",
+      "Place meat and sweet potato slices in a baking dish and top with orange slices; sprinkle with seasonings if desired.",
+      "Cover and bake for 1 hour until meat is tender.",
+      "Cook pork to 145 °F."
+    ],
+    "ingredients": [
+      {
+        "name": "pork chops",
+        "grams": 200,
+        "household": "2 pork chops",
+        "fdcId": 2727575,
+        "matchNote": "Foundation Pork, chop, center cut, raw"
+      },
+      {
+        "name": "sweet potato",
+        "grams": 213,
+        "household": "1 sweet potato (peeled, medium)",
+        "fdcId": 169303,
+        "matchNote": "SR Legacy Sweet potato leaves, raw"
+      },
+      {
+        "name": "orange",
+        "grams": 66,
+        "household": "1/2 orange (sliced)",
+        "fdcId": 168819,
+        "matchNote": "SR Legacy Marmalade, orange"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/orange-pork-chops",
+    "sourceAttribution": "USDA MyPlate Kitchen. Simply Seniors Cookbook Utah State University Cooperative Extension",
+    "nutrition": {
+      "kcal": 528,
+      "proteinG": 51.1,
+      "carbG": 61.4,
+      "fatG": 12,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "pan-roasted-tilapia-tomatillo-salsa",
+    "title": "Pan Roasted Tilapia with Tomatillo Salsa",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "To prepare the tomatillos, peel back the husk from the smooth green tomatillo skin. Rinse the tomatillos with warm water and cut into quarters. (Canned tomatillo salsa can be used instead of fresh.)",
+      "Place the husked tomatillos, onion, chilies, garlic, and 1 teaspoon oil in the baking pan, stir well and transfer to the oven. Roast about 20 minutes until the tomatillos are soft and dark green. Set aside to cool.",
+      "Transfer the mixture to the blender; add the salt, lime juice, and cilantro. Purée.",
+      "Place the skillet on the stove over high heat and when it is hot, carefully add 2 teaspoons oil. ",
+      "Put the tilapia fillets in the pan, waiting about 30 seconds between additions. Cook about 5 to 6 minutes, until golden brown on both sides.",
+      "Transfer the tilapia to the serving plate and top with generous amounts of salsa. Serve right away."
+    ],
+    "ingredients": [
+      {
+        "name": "tomatillos",
+        "grams": 454,
+        "household": "1 pound tomatillos",
+        "fdcId": 168566,
+        "matchNote": "SR Legacy Tomatillos, raw"
+      },
+      {
+        "name": "yellow onion",
+        "grams": 120,
+        "household": "1/2 cup yellow onion (peeled and finely chopped)",
+        "fdcId": 790646,
+        "matchNote": "Foundation Onions, yellow, raw"
+      },
+      {
+        "name": "serrano or other chiles",
+        "grams": 200,
+        "household": "2 serrano or other chiles (finely chopped)",
+        "fdcId": 169395,
+        "matchNote": "SR Legacy Peppers, serrano, raw"
+      },
+      {
+        "name": "garlic",
+        "grams": 9,
+        "household": "3 cloves garlic (peeled and minced)",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 14,
+        "household": "3 teaspoons vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "Kosher salt",
+        "grams": 1,
+        "household": "1/4 teaspoon Kosher salt",
+        "fdcId": 168558,
+        "matchNote": "SR Legacy Pickles, cucumber, dill or kosher dill"
+      },
+      {
+        "name": "Fresh lime juice",
+        "grams": 16,
+        "household": "1 tablespoon Fresh lime juice (about 1/2 lime)",
+        "fdcId": 168156,
+        "matchNote": "SR Legacy Lime juice, raw"
+      },
+      {
+        "name": "fresh cilantro leaves",
+        "grams": 60,
+        "household": "1/4 cup fresh cilantro leaves (chopped)",
+        "fdcId": 169997,
+        "matchNote": "SR Legacy Coriander (cilantro) leaves, raw"
+      },
+      {
+        "name": "tilapia fillets",
+        "grams": 400,
+        "household": "4 tilapia fillets (patted dry with a paper towel, any inexpensive white fish can be used)",
+        "fdcId": 175176,
+        "matchNote": "SR Legacy Fish, tilapia, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/pan-roasted-tilapia-tomatillo-salsa",
+    "sourceAttribution": "USDA MyPlate Kitchen. USDA Center for Nutrition Policy and Promotion",
+    "nutrition": {
+      "kcal": 793,
+      "proteinG": 91.1,
+      "carbG": 56.4,
+      "fatG": 26.7,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "pineapple-chicken",
+    "title": "Pineapple Chicken",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 5,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Coat frying pan with nonstick cooking spray and set heat to low.",
+      "Once pan heats up, add chicken. Sprinkle with salt and pepper.",
+      "Cook uncovered until chicken begins to brown, then add crushed pineapple and water.",
+      "Cover chicken until chicken is tender.",
+      "May serve over rice."
+    ],
+    "ingredients": [
+      {
+        "name": "chicken, boneless skinless",
+        "grams": 1134,
+        "household": "2 1/2 pounds chicken, boneless skinless",
+        "fdcId": 2646170,
+        "matchNote": "Foundation Chicken, breast, boneless, skinless, raw"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "black pepper",
+        "grams": 1,
+        "household": "1/8 teaspoon black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      },
+      {
+        "name": "pineapple",
+        "grams": 400,
+        "household": "1 can pineapple (20 oz. can crushed or chunks)",
+        "fdcId": 2346398,
+        "matchNote": "Foundation Pineapple, raw"
+      },
+      {
+        "name": "us fluid ounces water",
+        "grams": 200,
+        "household": "2 us fluid ounces water",
+        "fdcId": 170882,
+        "matchNote": "SR Legacy Milk, sheep, fluid"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/pineapple-chicken",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 1666,
+      "proteinG": 269.3,
+      "carbG": 67.1,
+      "fatG": 37.6,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "shrimp-confetti-salad-sandwich-grapes",
+    "title": "Shrimp Confetti Salad Sandwich with Grapes",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [
+      "gluten",
+      "shellfish"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Chop shrimp coarsely.",
+      "Mix together shrimp salad ingredients (everything except for the bread, tomato slices, and lettuce).",
+      "Divide salad evenly among 4 slices of bread; spread to edges of bread.",
+      "Top with tomato slices, lettuce, and second bread slice."
+    ],
+    "ingredients": [
+      {
+        "name": "frozen cooked cocktail shrimp",
+        "grams": 227,
+        "household": "1/2 pound frozen cooked cocktail shrimp (thawed, peeled, and deveined)",
+        "fdcId": 175180,
+        "matchNote": "SR Legacy Crustaceans, shrimp, cooked"
+      },
+      {
+        "name": "8-oz can yellow corn kernels",
+        "grams": 100,
+        "household": "1 8-oz can yellow corn kernels (no salt added, drained)",
+        "fdcId": 169214,
+        "matchNote": "SR Legacy Corn, sweet, yellow, canned, whole kernel, drained solids"
+      },
+      {
+        "name": "canned black beans",
+        "grams": 240,
+        "household": "1 cup canned black beans (no salt added, drained and rinsed)",
+        "fdcId": 171141,
+        "matchNote": "SR Legacy Soup, black bean, canned, condensed"
+      },
+      {
+        "name": "stalk celery",
+        "grams": 100,
+        "household": "1 stalk celery (diced)",
+        "fdcId": 169331,
+        "matchNote": "SR Legacy Broccoli, stalks, raw"
+      },
+      {
+        "name": "chopped onion",
+        "grams": 30,
+        "household": "2 tablespoons chopped onion",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "reduced-fat mayonnaise",
+        "grams": 30,
+        "household": "2 tablespoons reduced-fat mayonnaise",
+        "fdcId": 171443,
+        "matchNote": "SR Legacy Mayonnaise, reduced fat, with olive oil"
+      },
+      {
+        "name": "salt-free Caribbean citrus seasoning",
+        "grams": 8,
+        "household": "1/2 tablespoon salt-free Caribbean citrus seasoning",
+        "fdcId": 174177,
+        "matchNote": "SR Legacy Beverages, Energy drink, VAULT Zero, sugar-free, citrus flavor"
+      },
+      {
+        "name": "whole-grain bread",
+        "grams": 224,
+        "household": "8 slices whole-grain bread",
+        "fdcId": 168013,
+        "matchNote": "SR Legacy Bread, multi-grain (includes whole-grain)"
+      },
+      {
+        "name": "tomatoes",
+        "grams": 246,
+        "household": "2 tomatoes (sliced)",
+        "fdcId": 1999634,
+        "matchNote": "Foundation Tomato, roma"
+      },
+      {
+        "name": "leaves Bibb lettuce or other leaf lettuce",
+        "grams": 400,
+        "household": "4 leaves Bibb lettuce or other leaf lettuce",
+        "fdcId": 168429,
+        "matchNote": "SR Legacy Lettuce, butterhead (includes boston and bibb types), raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/shrimp-confetti-salad-sandwich-grapes",
+    "sourceAttribution": "USDA MyPlate Kitchen. Produce for Better Health Foundation",
+    "nutrition": {
+      "kcal": 1355,
+      "proteinG": 108.7,
+      "carbG": 174.6,
+      "fatG": 28.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "two-bean-chili",
+    "title": "Two Bean Chili",
+    "slots": [
+      "lunch",
+      "dinner"
+    ],
+    "dietTags": [],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "In a medium-sized pot, brown ground beef over medium to high heat for 8 to 10 minutes. Drain fat.",
+      "Add kidney beans, vegetarian beans, onions, chili powder, tomato juice, and pepper.",
+      "Cook over low heat for about 40 minutes. Serve hot."
+    ],
+    "ingredients": [
+      {
+        "name": "ground beef",
+        "grams": 227,
+        "household": "1/2 pound ground beef",
+        "fdcId": 168608,
+        "matchNote": "SR Legacy Beef, grass-fed, ground, raw"
+      },
+      {
+        "name": "low-sodium kidney beans, drained",
+        "grams": 200,
+        "household": "1/2 can (about 8 ounces) low-sodium kidney beans, drained",
+        "fdcId": 2644289,
+        "matchNote": "Foundation Beans, kidney, dark red, canned, sodium added, sugar added, drained and rinsed"
+      },
+      {
+        "name": "low-sodium vegetarian beans",
+        "grams": 200,
+        "household": "1/2 can (about 8 ounces) low-sodium vegetarian beans",
+        "fdcId": 169381,
+        "matchNote": "SR Legacy Catsup, low sodium"
+      },
+      {
+        "name": "onion, diced",
+        "grams": 120,
+        "household": "1/2 cup onion, diced",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "low-sodium tomato juice",
+        "grams": 624,
+        "household": "2 1/2 cups low-sodium tomato juice",
+        "fdcId": 167708,
+        "matchNote": "SR Legacy Tomato and vegetable juice, low sodium"
+      },
+      {
+        "name": "pepper",
+        "grams": 1,
+        "household": "1/4 teaspoon pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/two-bean-chili",
+    "sourceAttribution": "USDA MyPlate Kitchen. A Harvest of Recipes with USDA Foods USDA Food Distribution Program on Indian Reservations",
+    "nutrition": {
+      "kcal": 1090,
+      "proteinG": 66.8,
+      "carbG": 136.8,
+      "fatG": 32.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "avocado-pita-pockets",
+    "title": "Avocado Pita Pockets",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "microwave"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Fill pita pocket half with avocado, chickpeas and cheese, dividing evenly. Heat in microwave for 15 to 20 seconds if desired. Season to taste with salt and pepper."
+    ],
+    "ingredients": [
+      {
+        "name": "ripe, fresh avocado, halved, pitted, peeled and diced",
+        "grams": 150,
+        "household": "1 ripe, fresh avocado, halved, pitted, peeled and diced",
+        "fdcId": 2710824,
+        "matchNote": "Foundation Avocado, Hass, peeled, raw"
+      },
+      {
+        "name": "whole grain pita bread pockets, cut in half",
+        "grams": 56,
+        "household": "2 whole grain pita bread pockets, cut in half",
+        "fdcId": 174916,
+        "matchNote": "SR Legacy Bread, pita, whole-wheat"
+      },
+      {
+        "name": "canned chickpeas, rinsed and drained",
+        "grams": 60,
+        "household": "1/4 cup canned chickpeas, rinsed and drained",
+        "fdcId": 2644288,
+        "matchNote": "Foundation Chickpeas (garbanzo beans, bengal gram), canned, sodium added, drained and rinsed"
+      },
+      {
+        "name": "crumbled Cotija or Feta cheese",
+        "grams": 30,
+        "household": "2 tablespoons crumbled Cotija or Feta cheese",
+        "fdcId": 2259796,
+        "matchNote": "Foundation Cheese, feta, whole milk, crumbled"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/avocado-pita-pockets",
+    "sourceAttribution": "USDA MyPlate Kitchen. Created by Fresh Avocados Love One Today, a member of the MyPlate National Strategic Partnership Program",
+    "nutrition": {
+      "kcal": 646,
+      "proteinG": 18.3,
+      "carbG": 57.7,
+      "fatG": 39,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "black-bean-salsa",
+    "title": "Black Bean Salsa",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 26,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Drain and rinse beans.",
+      "Put beans and canned tomatoes into large mixing bowl.",
+      "Dice peppers, onion, and garlic. Add to mixing bowl.",
+      "Mix cumin, cilantro, and vinegar. Pour on top of beans and vegetables.",
+      "Stir well. "
+    ],
+    "ingredients": [
+      {
+        "name": "black beans, low-sodium",
+        "grams": 439,
+        "household": "1 can (15.5 ounces) black beans, low-sodium (drained and rinsed)",
+        "fdcId": 175238,
+        "matchNote": "SR Legacy Beans, black, mature seeds, canned, low sodium"
+      },
+      {
+        "name": "diced tomatoes, low-sodium",
+        "grams": 822,
+        "household": "2 cans (14.5 ounces) diced tomatoes, low-sodium (drained)",
+        "fdcId": 171591,
+        "matchNote": "SR Legacy Soup, tomato, low sodium, with water"
+      },
+      {
+        "name": "green bell pepper",
+        "grams": 119,
+        "household": "1 green bell pepper (diced)",
+        "fdcId": 2258588,
+        "matchNote": "Foundation Peppers, bell, green, raw"
+      },
+      {
+        "name": "red bell pepper",
+        "grams": 119,
+        "household": "1 red bell pepper (diced)",
+        "fdcId": 2258590,
+        "matchNote": "Foundation Peppers, bell, red, raw"
+      },
+      {
+        "name": "onion",
+        "grams": 110,
+        "household": "1 onion (diced)",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "garlic",
+        "grams": 6,
+        "household": "2 cloves garlic (diced)",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "ground cumin",
+        "grams": 10,
+        "household": "2 teaspoons ground cumin",
+        "fdcId": 2262075,
+        "matchNote": "Foundation Flaxseed, ground"
+      },
+      {
+        "name": "dried cilantro",
+        "grams": 5,
+        "household": "1 teaspoon dried cilantro",
+        "fdcId": 169997,
+        "matchNote": "SR Legacy Coriander (cilantro) leaves, raw"
+      },
+      {
+        "name": "rice vinegar",
+        "grams": 38,
+        "household": "3 tablespoons rice vinegar (can use other vinegar such as red wine vinegar or apple cider vinegar)",
+        "fdcId": 172241,
+        "matchNote": "SR Legacy Vinegar, balsamic"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/black-bean-salsa",
+    "sourceAttribution": "USDA MyPlate Kitchen. Cornell University Cooperative Extension",
+    "nutrition": {
+      "kcal": 852,
+      "proteinG": 38.6,
+      "carbG": 162.3,
+      "fatG": 7.7,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chocolate-chip-yogurt-cookies",
+    "title": "Chocolate Chip Yogurt Cookies",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 36,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Heat oven to 375 °F.",
+      "In a large bowl combine sugar, brown sugar and margarine; beat until light and fluffy.",
+      "Add yogurt and vanilla; blend well. Stir in flour and baking soda; mix well. Stir in chocolate chips.",
+      "Drop dough by rounded teaspoonfuls 2 inches apart onto un-greased cookie sheets. Bake at 375 °F for 8 to 12 minutes or until light and golden brown.",
+      "Cool 1 minute, remove from cookie sheets."
+    ],
+    "ingredients": [
+      {
+        "name": "sugar",
+        "grams": 102,
+        "household": "1/2 cup sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "brown sugar, firmly packed",
+        "grams": 102,
+        "household": "1/2 cup brown sugar, firmly packed",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "margarine",
+        "grams": 120,
+        "household": "1/2 cup margarine (1 stick)",
+        "fdcId": 172339,
+        "matchNote": "SR Legacy Margarine-like, margarine-butter blend, soybean oil and butter"
+      },
+      {
+        "name": "plain yogurt, non-fat",
+        "grams": 124,
+        "household": "1/2 cup plain yogurt, non-fat",
+        "fdcId": 170886,
+        "matchNote": "SR Legacy Yogurt, plain, low fat"
+      },
+      {
+        "name": "vanilla",
+        "grams": 8,
+        "household": "1 1/2 teaspoons vanilla",
+        "fdcId": 167575,
+        "matchNote": "SR Legacy Ice creams, vanilla"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 95,
+        "household": "3/4 cup all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 127,
+        "household": "1 cup whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "baking soda",
+        "grams": 3,
+        "household": "1/2 teaspoon baking soda",
+        "fdcId": 172738,
+        "matchNote": "SR Legacy Puff pastry, frozen, ready-to-bake, baked"
+      },
+      {
+        "name": "chocolate chips",
+        "grams": 120,
+        "household": "1/2 cup chocolate chips (miniature, or carob chips)",
+        "fdcId": 174952,
+        "matchNote": "SR Legacy Cookies, chocolate chip, dry mix"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/chocolate-chip-yogurt-cookies",
+    "sourceAttribution": "USDA MyPlate Kitchen. Eat Smart New York! Cornell University Cooperative Extension",
+    "nutrition": {
+      "kcal": 3192,
+      "proteinG": 42.6,
+      "carbG": 457.9,
+      "fatG": 135.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "chunky-garbanzo-bean-dip",
+    "title": "Chunky Garbanzo Bean Dip",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Drain and rinse the beans and mash in a small bowl with a fork or potato masher until most of the beans have been crushed. If you have a food processor, you can use it for this step.",
+      "Stir in oil and onion along with lemon pepper and salt to taste. The mixture will be chunky, not smooth."
+    ],
+    "ingredients": [
+      {
+        "name": "garbanzo beans, low-sodium",
+        "grams": 425,
+        "household": "1 can (15 ounces) garbanzo beans, low-sodium",
+        "fdcId": 175250,
+        "matchNote": "SR Legacy Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, solids and liquids, low sodium"
+      },
+      {
+        "name": "vegetable oil",
+        "grams": 27,
+        "household": "2 tablespoons vegetable oil",
+        "fdcId": 172370,
+        "matchNote": "SR Legacy Oil, vegetable, soybean, refined"
+      },
+      {
+        "name": "chopped onions",
+        "grams": 30,
+        "household": "2 tablespoons chopped onions",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/chunky-garbanzo-bean-dip",
+    "sourceAttribution": "USDA MyPlate Kitchen. Food Hero Oregon State University Cooperative Extension Service",
+    "nutrition": {
+      "kcal": 621,
+      "proteinG": 21.1,
+      "carbG": 59.4,
+      "fatG": 35.3,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "cucumber-yogurt-and-herb-dip",
+    "title": "Cucumber, Yogurt and Herb Dip",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Peel, seed, and grate one cucumber. Slice other cucumber and set aside.",
+      "Mix yogurt, grated cucumber, sour cream, lemon juice, dill, and garlic in a serving bowl. Chill for 1 hour.",
+      "Arrange sliced cucumbers, tomatoes, broccoli, and carrots on a colorful platter. Serve with cucumber dip."
+    ],
+    "ingredients": [
+      {
+        "name": "medium cucumbers",
+        "grams": 200,
+        "household": "2 medium cucumbers",
+        "fdcId": 169225,
+        "matchNote": "SR Legacy Cucumber, peeled, raw"
+      },
+      {
+        "name": "low-fat plain yogurt",
+        "grams": 494,
+        "household": "2 cups low-fat plain yogurt",
+        "fdcId": 170886,
+        "matchNote": "SR Legacy Yogurt, plain, low fat"
+      },
+      {
+        "name": "fat-free sour cream",
+        "grams": 120,
+        "household": "1/2 cup fat-free sour cream",
+        "fdcId": 173444,
+        "matchNote": "SR Legacy Sour cream, fat free"
+      },
+      {
+        "name": "lemon juice",
+        "grams": 16,
+        "household": "1 tablespoon lemon juice",
+        "fdcId": 167747,
+        "matchNote": "SR Legacy Lemon juice, raw"
+      },
+      {
+        "name": "fresh dill",
+        "grams": 15,
+        "household": "1 tablespoon fresh dill",
+        "fdcId": 172233,
+        "matchNote": "SR Legacy Dill weed, fresh"
+      },
+      {
+        "name": "garlic, chopped",
+        "grams": 3,
+        "household": "1 clove garlic, chopped",
+        "fdcId": 171626,
+        "matchNote": "SR Legacy Ham, chopped, canned"
+      },
+      {
+        "name": "cherry tomatoes",
+        "grams": 240,
+        "household": "1 cup cherry tomatoes",
+        "fdcId": 1999634,
+        "matchNote": "Foundation Tomato, roma"
+      },
+      {
+        "name": "broccoli florets",
+        "grams": 240,
+        "household": "1 cup broccoli florets",
+        "fdcId": 170379,
+        "matchNote": "SR Legacy Broccoli, raw"
+      },
+      {
+        "name": "baby carrots",
+        "grams": 240,
+        "household": "1 cup baby carrots",
+        "fdcId": 2258587,
+        "matchNote": "Foundation Carrots, baby, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/cucumber-yogurt-and-herb-dip",
+    "sourceAttribution": "USDA MyPlate Kitchen. More Matters Recipes US Department of Health and Human Services Centers for Disease Control and Prevention (CDC)",
+    "nutrition": {
+      "kcal": 669,
+      "proteinG": 42.3,
+      "carbG": 106.9,
+      "fatG": 11,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "curry-vegetable-dip",
+    "title": "Curry Vegetable Dip",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 16,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Mix ingredients in a bowl.",
+      "Chill.",
+      "Serve with crisp raw vegetables pieces, such as celery, carrot, or summer squash sticks."
+    ],
+    "ingredients": [
+      {
+        "name": "low-fat plain yogurt",
+        "grams": 247,
+        "household": "1 cup low-fat plain yogurt",
+        "fdcId": 170886,
+        "matchNote": "SR Legacy Yogurt, plain, low fat"
+      },
+      {
+        "name": "carrots, shredded",
+        "grams": 60,
+        "household": "1/4 cup carrots, shredded",
+        "fdcId": 170500,
+        "matchNote": "SR Legacy Carrot, dehydrated"
+      },
+      {
+        "name": "green onions, minced",
+        "grams": 30,
+        "household": "2 tablespoons green onions, minced",
+        "fdcId": 173865,
+        "matchNote": "SR Legacy Ham, minced"
+      },
+      {
+        "name": "salad dressing",
+        "grams": 15,
+        "household": "1 tablespoon salad dressing (mayonnaise-type)",
+        "fdcId": 171005,
+        "matchNote": "SR Legacy Salad dressing, russian dressing"
+      },
+      {
+        "name": "sugar",
+        "grams": 4,
+        "household": "1 teaspoon sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      },
+      {
+        "name": "curry powder",
+        "grams": 1,
+        "household": "1/4 teaspoon curry powder",
+        "fdcId": 169656,
+        "matchNote": "SR Legacy Sugars, powdered"
+      },
+      {
+        "name": "dash black pepper",
+        "grams": 119,
+        "household": "1 dash black pepper",
+        "fdcId": 169394,
+        "matchNote": "SR Legacy Pepper, banana, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/curry-vegetable-dip",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pyramid Snacks USDA Food and Nutrition Service Team Nutrition",
+    "nutrition": {
+      "kcal": 544,
+      "proteinG": 24.8,
+      "carbG": 81.8,
+      "fatG": 15.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "dutch-apple-yogurt-dessert",
+    "title": "Dutch Apple Yogurt Dessert",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "nuts",
+      "dairy"
+    ],
+    "kitchenTags": [],
+    "cookMinutes": 20,
+    "servings": 2,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine all ingredients in a small bowl.",
+      "Cover and refrigerate until chilled.",
+      "Eat and enjoy as a snack or as a dessert."
+    ],
+    "ingredients": [
+      {
+        "name": "yogurt, non-fat vanilla",
+        "grams": 124,
+        "household": "1/2 cup yogurt, non-fat vanilla",
+        "fdcId": 170906,
+        "matchNote": "SR Legacy Yogurt, vanilla, non-fat"
+      },
+      {
+        "name": "applesauce, unsweetened",
+        "grams": 120,
+        "household": "1/2 cup applesauce, unsweetened",
+        "fdcId": 2346414,
+        "matchNote": "Foundation Applesauce, unsweetened, with added vitamin C"
+      },
+      {
+        "name": "raisins",
+        "grams": 15,
+        "household": "1 tablespoon raisins (seedless)",
+        "fdcId": 168166,
+        "matchNote": "SR Legacy Raisins, seeded"
+      },
+      {
+        "name": "cinnamon",
+        "grams": 1,
+        "household": "1/8 teaspoon cinnamon (ground)",
+        "fdcId": 171849,
+        "matchNote": "SR Legacy Bread, cinnamon"
+      },
+      {
+        "name": "brown sugar",
+        "grams": 4,
+        "household": "1 teaspoon brown sugar",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "nuts",
+        "grams": 15,
+        "household": "1 tablespoon nuts (as topping or crunchy cereal)",
+        "fdcId": 2515374,
+        "matchNote": "Foundation Nuts, cashew nuts, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/dutch-apple-yogurt-dessert",
+    "sourceAttribution": "USDA MyPlate Kitchen. Fun Food News Arizona Nutrition Network",
+    "nutrition": {
+      "kcal": 305,
+      "proteinG": 7,
+      "carbG": 57.4,
+      "fatG": 6.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "fiesta-hummus",
+    "title": "Fiesta Hummus",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Drain and mash garbanzo beans in blender, food processor, or with fork. Add remaining ingredients.",
+      "Blend until smooth.",
+      "Chill one hour or overnight.",
+      "Serve on crackers or tortilla chips. Promptly refrigerate leftovers."
+    ],
+    "ingredients": [
+      {
+        "name": "garbanzo beans, low-sodium",
+        "grams": 400,
+        "household": "1 can garbanzo beans, low-sodium",
+        "fdcId": 175250,
+        "matchNote": "SR Legacy Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, solids and liquids, low sodium"
+      },
+      {
+        "name": "salt",
+        "grams": 1,
+        "household": "1/4 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "garlic cloves",
+        "grams": 6,
+        "household": "2 garlic cloves (minced)",
+        "fdcId": 1104647,
+        "matchNote": "Foundation Garlic, raw"
+      },
+      {
+        "name": "yogurt",
+        "grams": 124,
+        "household": "1/2 cup yogurt (plain, non-fat)",
+        "fdcId": 167722,
+        "matchNote": "SR Legacy Tofu yogurt"
+      },
+      {
+        "name": "lime juice",
+        "grams": 16,
+        "household": "1 tablespoon lime juice",
+        "fdcId": 168156,
+        "matchNote": "SR Legacy Lime juice, raw"
+      },
+      {
+        "name": "sesame oil",
+        "grams": 14,
+        "household": "1 tablespoon sesame oil",
+        "fdcId": 171016,
+        "matchNote": "SR Legacy Oil, sesame, salad or cooking"
+      },
+      {
+        "name": "jalapeno pepper",
+        "grams": 119,
+        "household": "1 jalapeno pepper (finely chopped)",
+        "fdcId": 168576,
+        "matchNote": "SR Legacy Peppers, jalapeno, raw"
+      },
+      {
+        "name": "cilantro",
+        "grams": 30,
+        "household": "2 tablespoons cilantro (chopped)",
+        "fdcId": 169997,
+        "matchNote": "SR Legacy Coriander (cilantro) leaves, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/fiesta-hummus",
+    "sourceAttribution": "USDA MyPlate Kitchen. Food Hero Oregon State University Cooperative Extension Service",
+    "nutrition": {
+      "kcal": 653,
+      "proteinG": 26.2,
+      "carbG": 85.6,
+      "fatG": 25.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "fruit-kabob",
+    "title": "Fruit Kabob",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Thread the fruit onto the skewers, alternating and arranging the pieces however you like.",
+      "Serve right away."
+    ],
+    "ingredients": [
+      {
+        "name": "ripe banana slices",
+        "grams": 360,
+        "household": "1 1/2 cups ripe banana slices (about 16 slices)",
+        "fdcId": 1105314,
+        "matchNote": "Foundation Bananas, ripe and slightly ripe, raw"
+      },
+      {
+        "name": "watermelon cubes",
+        "grams": 360,
+        "household": "1 1/2 cups watermelon cubes (about 16 cubes)",
+        "fdcId": 167765,
+        "matchNote": "SR Legacy Watermelon, raw"
+      },
+      {
+        "name": "clementine sections",
+        "grams": 240,
+        "household": "1 cup clementine sections (about 16 sections)",
+        "fdcId": 168195,
+        "matchNote": "SR Legacy Clementines, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/fruit-kabob",
+    "sourceAttribution": "USDA MyPlate Kitchen. USDA Center for Nutrition Policy and Promotion",
+    "nutrition": {
+      "kcal": 570,
+      "proteinG": 6.9,
+      "carbG": 138.8,
+      "fatG": 1.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "fruit-yogurt-pops",
+    "title": "Fruit Yogurt Pops",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 14,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine ingredients. Pour into 3 ounce paper cups.",
+      "Freeze about 30 minutes; then stick a wooden popsicle/ craft stick in the center of each cup.",
+      "Freeze overnight until firm. To eat pops, peel off paper cups.",
+      "For variety, try other fruit flavored yogurts and frozen fruit or fruit juice concentrates."
+    ],
+    "ingredients": [
+      {
+        "name": "low fat yogurt, pina colada",
+        "grams": 100,
+        "household": "1 low fat yogurt, pina colada (8 ounces)",
+        "fdcId": 170886,
+        "matchNote": "SR Legacy Yogurt, plain, low fat"
+      },
+      {
+        "name": "strawberries",
+        "grams": 600,
+        "household": "2 1/2 cups strawberries (sliced frozen, thawed)",
+        "fdcId": 167762,
+        "matchNote": "SR Legacy Strawberries, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/fruit-yogurt-pops",
+    "sourceAttribution": "USDA MyPlate Kitchen. Easy and Nutritious Family Recipes University of California Cooperative Extension Fresno County",
+    "nutrition": {
+      "kcal": 255,
+      "proteinG": 9.3,
+      "carbG": 53.1,
+      "fatG": 3.4,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "grape-salsa",
+    "title": "Grape Salsa",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 16,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine all ingredients in a medium bowl and mix well. Let stand at least 1 hour. Drain off excess liquid before serving."
+    ],
+    "ingredients": [
+      {
+        "name": "seedless grapes",
+        "grams": 480,
+        "household": "2 cups seedless grapes (cut up)",
+        "fdcId": 2346413,
+        "matchNote": "Foundation Grapes, green, seedless, raw"
+      },
+      {
+        "name": "green onions",
+        "grams": 120,
+        "household": "1/2 cup green onions (sliced)",
+        "fdcId": 170006,
+        "matchNote": "SR Legacy Onions, young green, tops only"
+      },
+      {
+        "name": "Anaheim chili, fresh or canned",
+        "grams": 120,
+        "household": "1/2 cup Anaheim chili, fresh or canned (diced)",
+        "fdcId": 175207,
+        "matchNote": "SR Legacy Chili with beans, canned"
+      },
+      {
+        "name": "cilantro",
+        "grams": 30,
+        "household": "2 tablespoons cilantro (chopped)",
+        "fdcId": 169997,
+        "matchNote": "SR Legacy Coriander (cilantro) leaves, raw"
+      },
+      {
+        "name": "vinegar",
+        "grams": 30,
+        "household": "2 tablespoons vinegar",
+        "fdcId": 172241,
+        "matchNote": "SR Legacy Vinegar, balsamic"
+      },
+      {
+        "name": "salt",
+        "grams": 3,
+        "household": "1/2 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      },
+      {
+        "name": "hot sauce",
+        "grams": 1,
+        "household": "1/8 teaspoon hot sauce",
+        "fdcId": 171186,
+        "matchNote": "SR Legacy Sauce, hot chile, sriracha"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/grape-salsa",
+    "sourceAttribution": "USDA MyPlate Kitchen. Food Hero Oregon State University Cooperative Extension Service",
+    "nutrition": {
+      "kcal": 596,
+      "proteinG": 13.7,
+      "carbG": 118.5,
+      "fatG": 8.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "honey-milk-balls",
+    "title": "Honey Milk Balls",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "nuts",
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 20,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Mix honey and peanut butter.",
+      "Gradually add dry milk and mix well.",
+      "Chill for easier handling.",
+      "With greased hands, form into small balls.",
+      "Roll in crushed cereal flakes.",
+      "Chill until firm.",
+      "Refrigerate leftovers within 2 hours."
+    ],
+    "ingredients": [
+      {
+        "name": "honey*",
+        "grams": 85,
+        "household": "1/4 cup honey*",
+        "fdcId": 1750343,
+        "matchNote": "Foundation Apples, honeycrisp, with skin, raw"
+      },
+      {
+        "name": "peanut butter",
+        "grams": 55,
+        "household": "1/4 cup peanut butter",
+        "fdcId": 2262072,
+        "matchNote": "Foundation Peanut butter, creamy"
+      },
+      {
+        "name": "dry milk, non-fat",
+        "grams": 124,
+        "household": "1/2 cup dry milk, non-fat",
+        "fdcId": 170906,
+        "matchNote": "SR Legacy Yogurt, vanilla, non-fat"
+      },
+      {
+        "name": "cereal",
+        "grams": 120,
+        "household": "1/2 cup cereal (crushed)",
+        "fdcId": 173889,
+        "matchNote": "SR Legacy Cereals ready-to-eat, POST, Honeycomb Cereal"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/honey-milk-balls",
+    "sourceAttribution": "USDA MyPlate Kitchen. Oregon State University Cooperative Extension Service",
+    "nutrition": {
+      "kcal": 968,
+      "proteinG": 24.1,
+      "carbG": 150.1,
+      "fatG": 30.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "layered-black-bean-dip",
+    "title": "Layered Black Bean Dip",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 16,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Mash beans and mix with onion powder, dried oregano, garlic powder, and cayenne pepper. Spread on a serving dish.",
+      "Top with salsa, sour cream, green onions, and grated cheese."
+    ],
+    "ingredients": [
+      {
+        "name": "black beans, low-sodium",
+        "grams": 400,
+        "household": "1 can black beans, low-sodium (15 ounce, drained and rinsed)",
+        "fdcId": 175238,
+        "matchNote": "SR Legacy Beans, black, mature seeds, canned, low sodium"
+      },
+      {
+        "name": "salsa",
+        "grams": 120,
+        "household": "1/2 cup salsa (thick and chunky)",
+        "fdcId": 174068,
+        "matchNote": "SR Legacy Dip, salsa con queso, cheese and salsa- medium"
+      },
+      {
+        "name": "sour cream",
+        "grams": 120,
+        "household": "1/2 cup sour cream (light)",
+        "fdcId": 171257,
+        "matchNote": "SR Legacy Cream, sour, cultured"
+      },
+      {
+        "name": "green onion",
+        "grams": 60,
+        "household": "1/4 cup green onion (chopped)",
+        "fdcId": 170006,
+        "matchNote": "SR Legacy Onions, young green, tops only"
+      },
+      {
+        "name": "cheddar cheese, reduced fat",
+        "grams": 57,
+        "household": "2 ounces cheddar cheese, reduced fat (grated)",
+        "fdcId": 170896,
+        "matchNote": "SR Legacy Cheese spread, American or Cheddar cheese base, reduced fat"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/layered-black-bean-dip",
+    "sourceAttribution": "USDA MyPlate Kitchen. Good Food Cookbook Cornell Cooperative Extension of Onondaga County",
+    "nutrition": {
+      "kcal": 890,
+      "proteinG": 39,
+      "carbG": 94.7,
+      "fatG": 41.1,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "mexican-pinwheels",
+    "title": "Vegetable Pinwheels",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 6,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Drain the corn and green chilis. Collect, chop, and measure all ingredients before starting to prepare the recipe.",
+      "Mix cream cheese, corn, green chilies, onions, and salsa together in a bowl.",
+      "Spread mixture on tortillas, roll up tightly, and wrap in plastic wrap.",
+      "Cut in 1-inch slices, and serve immediately, or store in the refrigerator until ready to serve."
+    ],
+    "ingredients": [
+      {
+        "name": "cream cheese, softened",
+        "grams": 57,
+        "household": "2 ounces cream cheese, softened",
+        "fdcId": 173418,
+        "matchNote": "SR Legacy Cheese, cream"
+      },
+      {
+        "name": "corn",
+        "grams": 30,
+        "household": "1/8 cup corn (2 tablespoons)",
+        "fdcId": 168920,
+        "matchNote": "SR Legacy Corn grain, white"
+      },
+      {
+        "name": "chopped green chilies, drained",
+        "grams": 30,
+        "household": "2 tablespoons chopped green chilies, drained",
+        "fdcId": 170023,
+        "matchNote": "SR Legacy Peppers, sweet, green, frozen, chopped, boiled, drained, without salt"
+      },
+      {
+        "name": "chopped onion",
+        "grams": 10,
+        "household": "2/3 tablespoon chopped onion (2 teaspoons)",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "salsa",
+        "grams": 30,
+        "household": "2 tablespoons salsa",
+        "fdcId": 174068,
+        "matchNote": "SR Legacy Dip, salsa con queso, cheese and salsa- medium"
+      },
+      {
+        "name": "large flour tortillas",
+        "grams": 135,
+        "household": "3 large flour tortillas (10 inch)",
+        "fdcId": 175037,
+        "matchNote": "SR Legacy Tortillas, ready-to-bake or -fry, flour, refrigerated"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/mexican-pinwheels",
+    "sourceAttribution": "USDA MyPlate Kitchen. Eating Smart, Being Active Colorado State University and University of California at Davis",
+    "nutrition": {
+      "kcal": 773,
+      "proteinG": 18.7,
+      "carbG": 97.3,
+      "fatG": 34.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "migas-crumbs",
+    "title": "Migas \"Crumbs\"",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Tear tortillas into small pieces.",
+      "Heat oil in a medium-sized pan.",
+      "Add tortillas and stir until pieces begin to brown.",
+      "Add peppers and onion; sauté until soft.",
+      "Add eggs; stir until the eggs are cooked.",
+      "Remove from heat and sprinkle on the grated cheese.",
+      "Cover the pan and let cheese melt.",
+      "Serve immediately."
+    ],
+    "ingredients": [
+      {
+        "name": "tortillas",
+        "grams": 180,
+        "household": "4 tortillas (large)",
+        "fdcId": 167656,
+        "matchNote": "SR Legacy Corned beef and potatoes in tortilla (Apache)"
+      },
+      {
+        "name": "canola oil",
+        "grams": 41,
+        "household": "3 tablespoons canola oil",
+        "fdcId": 172336,
+        "matchNote": "SR Legacy Oil, canola"
+      },
+      {
+        "name": "bell pepper",
+        "grams": 60,
+        "household": "1/4 cup bell pepper",
+        "fdcId": 2258588,
+        "matchNote": "Foundation Peppers, bell, green, raw"
+      },
+      {
+        "name": "onion",
+        "grams": 60,
+        "household": "1/4 cup onion",
+        "fdcId": 170000,
+        "matchNote": "SR Legacy Onions, raw"
+      },
+      {
+        "name": "egg",
+        "grams": 200,
+        "household": "4 egg (lightly beaten)",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "cheddar cheese, low-fat",
+        "grams": 60,
+        "household": "4 tablespoons cheddar cheese, low-fat (grated)",
+        "fdcId": 173439,
+        "matchNote": "SR Legacy Cheese, low fat, cheddar or colby"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/migas-crumbs",
+    "sourceAttribution": "USDA MyPlate Kitchen. The Texas A&M University System Texas Cooperative Extension Expanded Nutrition Program",
+    "nutrition": {
+      "kcal": 1575,
+      "proteinG": 62.3,
+      "carbG": 64.5,
+      "fatG": 117.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "peach-cooler",
+    "title": "Peach Cooler",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [],
+    "cookMinutes": 20,
+    "servings": 2,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Put the ingredients in a blender. Blend well.",
+      "Sprinkle with nutmeg if you like.",
+      "Serve cold."
+    ],
+    "ingredients": [
+      {
+        "name": "milk, 1% low-fat",
+        "grams": 494,
+        "household": "2 cups milk, 1% low-fat",
+        "fdcId": 2259792,
+        "matchNote": "Foundation Buttermilk, low fat"
+      },
+      {
+        "name": "canned peaches",
+        "grams": 240,
+        "household": "1 cup canned peaches (drained, or 1 cup of sliced fresh peaches)",
+        "fdcId": 168181,
+        "matchNote": "SR Legacy Peaches, canned, heavy syrup, drained"
+      },
+      {
+        "name": "lemon juice",
+        "grams": 3,
+        "household": "1/2 teaspoon lemon juice",
+        "fdcId": 167747,
+        "matchNote": "SR Legacy Lemon juice, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/peach-cooler",
+    "sourceAttribution": "USDA MyPlate Kitchen. Pennsylvania Nutrition Education Network",
+    "nutrition": {
+      "kcal": 385,
+      "proteinG": 18.4,
+      "carbG": 68.2,
+      "fatG": 5.8,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "pocket-fruit-pies",
+    "title": "Pocket Fruit Pies",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy",
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Warm tortillas in microwave or oven to make them easier to handle.",
+      "Peel and chop fruit into pieces.",
+      "Place 1/4 of the fruit on half of each tortilla.",
+      "In a small bowl, stir together brown sugar, cinnamon, and nutmeg. Sprinkle over fruit.",
+      "Roll up the tortillas, starting at the end with the fruit.",
+      "Place on an greased baking sheet and make small slashes to allow steam to escape. Brush with milk and sprinkle with additional sugar, if desired.",
+      "Back at 350 °F in oven for 8 to 12 minutes or until lightly brown.",
+      "Serve warm or cool."
+    ],
+    "ingredients": [
+      {
+        "name": "flour tortillas",
+        "grams": 180,
+        "household": "4 flour tortillas (8 inch)",
+        "fdcId": 175037,
+        "matchNote": "SR Legacy Tortillas, ready-to-bake or -fry, flour, refrigerated"
+      },
+      {
+        "name": "peaches, pears, or apples",
+        "grams": 364,
+        "household": "2 peaches, pears, or apples (medium)",
+        "fdcId": 171352,
+        "matchNote": "SR Legacy Babyfood, juice, apple and peach"
+      },
+      {
+        "name": "brown sugar, packed",
+        "grams": 26,
+        "household": "6 teaspoons brown sugar, packed (2 Tablespoons)",
+        "fdcId": 168833,
+        "matchNote": "SR Legacy Sugars, brown"
+      },
+      {
+        "name": "milk",
+        "grams": 31,
+        "household": "2 tablespoons milk (fat-free)",
+        "fdcId": 174980,
+        "matchNote": "SR Legacy Crackers, milk"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/pocket-fruit-pies",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kansas State University Cooperative Extension",
+    "nutrition": {
+      "kcal": 944,
+      "proteinG": 17.9,
+      "carbG": 174.8,
+      "fatG": 19,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "pretzel-shapes",
+    "title": "Pretzel Shapes",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 425 °F.",
+      "In a small bowl, dissolve yeast in warm water, add honey and let set for a few minutes.",
+      "In a large mixing bowl, measure flour and salt.",
+      "Add yeast mixture to flour mixture and stir until it forms a smooth ball. Add a little more flour if the dough is sticky.",
+      "Knead dough on countertop or dough board until it forms a smooth ball. Add a little flour if the dough is sticky.",
+      "Divide dough into 12 pieces about the size of a walnut. Roll each ball into a snake and then twist to make a pretzel, letter, or other fun shape.",
+      "Place pretzels on a baking sheet lightly coated with cooking spray. Bake for 10 to 12 minutes until golden brown."
+    ],
+    "ingredients": [
+      {
+        "name": "dry yeast",
+        "grams": 5,
+        "household": "1 teaspoon dry yeast",
+        "fdcId": 167717,
+        "matchNote": "SR Legacy Yeast extract spread"
+      },
+      {
+        "name": "water",
+        "grams": 120,
+        "household": "1/2 cup water (warm)",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "honey*",
+        "grams": 7,
+        "household": "1 teaspoon honey*",
+        "fdcId": 1750343,
+        "matchNote": "Foundation Apples, honeycrisp, with skin, raw"
+      },
+      {
+        "name": "flour",
+        "grams": 170,
+        "household": "1 1/3 cups flour",
+        "fdcId": 170684,
+        "matchNote": "SR Legacy Arrowroot flour"
+      },
+      {
+        "name": "salt",
+        "grams": 5,
+        "household": "1 teaspoon salt",
+        "fdcId": 173410,
+        "matchNote": "SR Legacy Butter, salted"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/pretzel-shapes",
+    "sourceAttribution": "USDA MyPlate Kitchen. Kids a Cookin’ Kansas Family Nutrition Program",
+    "nutrition": {
+      "kcal": 679,
+      "proteinG": 4.9,
+      "carbG": 155.7,
+      "fatG": 4.5,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "soft-pretzels",
+    "title": "Soft Pretzels",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten",
+      "egg"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 12,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Preheat oven to 425 °F. Lightly grease 2 baking sheets.",
+      "In large bowl, sprinkle yeast over warm water (if water is too hot, it will kill the yeast). Stir until well blended.",
+      "Combine white and wheat flour in a separate bowl.",
+      "Stir in sugar, 1/2 teaspoon salt and 2-1/2 to 3 cups flour to make a soft, sticky dough. Turn dough onto well-floured surface.",
+      "To knead, fold dough in half and push dough flat with heels of hands. Turn dough 1/4 turn. Repeat for 5 to 7 minutes. If needed, add more flour until dough is smooth and elastic. Dough should not stick to hands or counter.",
+      "Cut dough into 12 even pieces (about golf-ball sized).",
+      "Roll one piece of dough into 15 inch long rope.",
+      "Cross left side over middle, creating loop.",
+      "Fold right side of rope up and over first loop to form pretzel shape.",
+      "Place pretzels 3 inches apart on baking sheet. Enlarge holes in pretzels by inserting finger into holes. This will prevent them from closing during baking.",
+      "In small bowl, mix egg and 1 tablespoon water together. Brush on pretzels. Sprinkle with sesame seeds.",
+      "Bake for 15 to 20 minutes or until golden brown. Best if eaten warm."
+    ],
+    "ingredients": [
+      {
+        "name": "yeast",
+        "grams": 15,
+        "household": "1 tablespoon yeast",
+        "fdcId": 167717,
+        "matchNote": "SR Legacy Yeast extract spread"
+      },
+      {
+        "name": "warm water",
+        "grams": 360,
+        "household": "1 1/2 cups warm water (100 to 110 °F)",
+        "fdcId": 169301,
+        "matchNote": "SR Legacy Water convolvulus,raw"
+      },
+      {
+        "name": "all-purpose flour",
+        "grams": 254,
+        "household": "2 cups all-purpose flour",
+        "fdcId": 789890,
+        "matchNote": "Foundation Flour, wheat, all-purpose, enriched, bleached"
+      },
+      {
+        "name": "whole wheat flour",
+        "grams": 191,
+        "household": "1 1/2 cups whole wheat flour",
+        "fdcId": 790085,
+        "matchNote": "Foundation Flour, whole wheat, unenriched"
+      },
+      {
+        "name": "egg",
+        "grams": 50,
+        "household": "1 egg",
+        "fdcId": 748236,
+        "matchNote": "Foundation Eggs, Grade A, Large, egg yolk"
+      },
+      {
+        "name": "sugar",
+        "grams": 13,
+        "household": "1 tablespoon sugar",
+        "fdcId": 170674,
+        "matchNote": "SR Legacy Sugar, turbinado"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/soft-pretzels",
+    "sourceAttribution": "USDA MyPlate Kitchen. Montana State University Extension Service Nutrition Education Program",
+    "nutrition": {
+      "kcal": 1951,
+      "proteinG": 77.6,
+      "carbG": 360.1,
+      "fatG": 24.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "sweet-savory-peanut-butter-dip",
+    "title": "Sweet and Savory Peanut Butter Dip",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "nuts",
+      "dairy",
+      "soy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 5,
+    "equipment": [
+      "none"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Combine peanut butter, apple butter, milk, and soy sauce in a small bowl.",
+      "Whisk together until very smooth.",
+      "Store tightly, sealed in refrigerator.",
+      "Serve with celery or other crunchy fruits and vegetables."
+    ],
+    "ingredients": [
+      {
+        "name": "peanut butter",
+        "grams": 41,
+        "household": "3 tablespoons peanut butter (creamy)",
+        "fdcId": 2262072,
+        "matchNote": "Foundation Peanut butter, creamy"
+      },
+      {
+        "name": "apple butter",
+        "grams": 27,
+        "household": "2 tablespoons apple butter",
+        "fdcId": 168816,
+        "matchNote": "SR Legacy Fruit butters, apple"
+      },
+      {
+        "name": "milk, 1%",
+        "grams": 31,
+        "household": "2 tablespoons milk, 1%",
+        "fdcId": 171874,
+        "matchNote": "SR Legacy Beverages, chocolate malt powder, prepared with 1% milk, fortified"
+      },
+      {
+        "name": "soy sauce",
+        "grams": 15,
+        "household": "1 tablespoon soy sauce (reduced sodium)",
+        "fdcId": 174278,
+        "matchNote": "SR Legacy Soy sauce made from soy (tamari)"
+      },
+      {
+        "name": "lime juice",
+        "grams": 8,
+        "household": "1 1/2 teaspoons lime juice",
+        "fdcId": 168156,
+        "matchNote": "SR Legacy Lime juice, raw"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/sweet-savory-peanut-butter-dip",
+    "sourceAttribution": "USDA MyPlate Kitchen. University of Arkansas Division of Agriculture",
+    "nutrition": {
+      "kcal": 334,
+      "proteinG": 12.6,
+      "carbG": 25,
+      "fatG": 20.7,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "tostadas-delgadas",
+    "title": "Tostadas Delgadas",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegetarian"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 8,
+    "equipment": [
+      "oven"
+    ],
+    "steps": [
+      "Wash hands with soap and water.",
+      "Turn on oven to 350 °F.",
+      "Place tortillas on a cookie sheet and put in oven for 10 minutes or until crispy.",
+      "Wash lettuce and tomatoes. Shred lettuce and dice tomatoes",
+      "Spread two large tablespoons of refried beans on each tortilla.",
+      "Top with lettuce, tomatoes, and cheese. Add green onions if desired.",
+      "Serve immediately and refrigerate leftovers."
+    ],
+    "ingredients": [
+      {
+        "name": "tortillas",
+        "grams": 360,
+        "household": "8 tortillas (corn or flour)",
+        "fdcId": 167656,
+        "matchNote": "SR Legacy Corned beef and potatoes in tortilla (Apache)"
+      },
+      {
+        "name": "refried beans",
+        "grams": 480,
+        "household": "2 cups refried beans (fat-free)",
+        "fdcId": 169032,
+        "matchNote": "SR Legacy ON THE BORDER, refried beans"
+      },
+      {
+        "name": "lettuce",
+        "grams": 480,
+        "household": "2 cups lettuce (shredded)",
+        "fdcId": 2346388,
+        "matchNote": "Foundation Lettuce, iceberg, raw"
+      },
+      {
+        "name": "tomatoes",
+        "grams": 240,
+        "household": "1 cup tomatoes (diced)",
+        "fdcId": 1999634,
+        "matchNote": "Foundation Tomato, roma"
+      },
+      {
+        "name": "cheese",
+        "grams": 240,
+        "household": "1 cup cheese (shredded)",
+        "fdcId": 169081,
+        "matchNote": "SR Legacy Cheese spread, cream cheese base"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/tostadas-delgadas",
+    "sourceAttribution": "USDA MyPlate Kitchen. The Texas A&M University System Texas A&M AgriLife Extension Service Expanded Food and Nutrition Education Program",
+    "nutrition": {
+      "kcal": 2340,
+      "proteinG": 85.8,
+      "carbG": 223.5,
+      "fatG": 123.9,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
+  },
+  {
+    "slug": "white-bean-bruschetta",
+    "title": "White Bean Bruschetta",
+    "slots": [
+      "snack"
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kitchenTags": [
+      "batch_cook"
+    ],
+    "cookMinutes": 20,
+    "servings": 4,
+    "equipment": [
+      "hob"
+    ],
+    "steps": [
+      "Slice the baguette on the diagonal into thin slices (about 12 slices for a baguette).",
+      "In a large sauté pan, heat 2 tablespoons of the olive oil over medium heat.",
+      "Place the bread slices in the pan and cook on medium high heat until sizzling and golden. Before flipping the bread, add an additional tablespoon of olive oil to the pan and cook the second side until golden.",
+      "For the topping, cook the onions and the remaining tablespoon of olive oil over medium heat until the onions are soft, about 7 minutes.",
+      "Add the garlic, basil, and oregano and cook another minute or two, until fragrant.",
+      "Add beans and continue cooking for another five minutes on low heat. Add the tomatoes and turn off the heat, allowing tomatoes to warm without cooking.",
+      "Drizzle the balsamic vinegar into the pan and gently stir.",
+      "Scoop heaping spoonsful of the tomato-bean mixture onto the grilled bread and enjoy."
+    ],
+    "ingredients": [
+      {
+        "name": "whole-wheat French baguette, cut into 12 thin slices along the bias",
+        "grams": 28,
+        "household": "1 whole-wheat French baguette, cut into 12 thin slices along the bias",
+        "fdcId": 174091,
+        "matchNote": "SR Legacy Bread, french or vienna, whole wheat"
+      },
+      {
+        "name": "olive oil, divided",
+        "grams": 55,
+        "household": "1/4 cup olive oil, divided",
+        "fdcId": 167737,
+        "matchNote": "SR Legacy Oil, corn, peanut, and olive"
+      },
+      {
+        "name": "white onion, chopped",
+        "grams": 240,
+        "household": "1 cup white onion, chopped",
+        "fdcId": 170410,
+        "matchNote": "SR Legacy Onions, frozen, chopped, unprepared"
+      },
+      {
+        "name": "garlic, minced",
+        "grams": 12,
+        "household": "4 cloves garlic, minced",
+        "fdcId": 173865,
+        "matchNote": "SR Legacy Ham, minced"
+      },
+      {
+        "name": "canned navy beans, rinsed and drained",
+        "grams": 240,
+        "household": "1 cup canned navy beans, rinsed and drained",
+        "fdcId": 2644286,
+        "matchNote": "Foundation Beans, navy, canned, sodium added, drained and rinsed"
+      },
+      {
+        "name": "tomatoes, cored and cubed",
+        "grams": 246,
+        "household": "2 tomatoes, cored and cubed",
+        "fdcId": 171561,
+        "matchNote": "SR Legacy Soup, beef broth, cubed, dry"
+      },
+      {
+        "name": "balsamic vinegar",
+        "grams": 30,
+        "household": "2 tablespoons balsamic vinegar",
+        "fdcId": 172241,
+        "matchNote": "SR Legacy Vinegar, balsamic"
+      }
+    ],
+    "sourceKind": "myplate-kitchen",
+    "license": "us-government-work",
+    "sourceUrl": "https://web.archive.org/web/20250124221018id_/https://www.myplate.gov/recipes/white-bean-bruschetta",
+    "sourceAttribution": "USDA MyPlate Kitchen. MyPlate National Strategic Partners The Grain Chain",
+    "nutrition": {
+      "kcal": 1384,
+      "proteinG": 64.7,
+      "carbG": 123,
+      "fatG": 71.2,
+      "source": "usda-fdc",
+      "computedAt": "2026-08-20T08:06:44.883Z",
+      "checksumOk": true
+    }
   }
 ]

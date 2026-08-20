@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { assertScrapeAllowed, assertSourceAllowed, loadSourceList } from "./sources.ts";
+import { assertScrapeAllowed, assertSourceAllowed } from "./sources.ts";
 
 test("denied commercial recipe hosts are blocked", () => {
   assert.throws(
@@ -35,10 +35,51 @@ test("wger exerciseinfo and USDA FDC API hosts are allowed", () => {
 });
 
 test("unsigned HTML scrape URLs are refused until content-sources signs them off", () => {
-  const sources = loadSourceList();
-  assert.deepEqual(sources.signedOffScrapeUrls, []);
   assert.throws(
     () => assertScrapeAllowed("https://example.gov/recipes/beans"),
     /no HTML scrape sources are signed off/i,
+  );
+});
+
+test("Wayback MyPlate recipe and kitchen index URLs are signed off", () => {
+  assert.doesNotThrow(() =>
+    assertScrapeAllowed(
+      "https://web.archive.org/web/20250117181741/https://www.myplate.gov/recipes/2-step-chicken",
+    ),
+  );
+  assert.doesNotThrow(() =>
+    assertScrapeAllowed(
+      "https://web.archive.org/web/20250117181741id_/https://www.myplate.gov/recipes/2-step-chicken",
+    ),
+  );
+  assert.doesNotThrow(() =>
+    assertScrapeAllowed(
+      "https://web.archive.org/web/20250124221018/https://www.myplate.gov/myplate-kitchen/recipes",
+    ),
+  );
+});
+
+test("Wayback copies of denied commercial hosts stay blocked", () => {
+  assert.throws(
+    () =>
+      assertScrapeAllowed(
+        "https://web.archive.org/web/20200101000000/https://www.allrecipes.com/recipe/pie",
+      ),
+    /denied source/i,
+  );
+});
+
+test("myplate.food is not an allowed harvest host", () => {
+  assert.throws(
+    () => assertScrapeAllowed("https://myplate.food/recipes/2-step-chicken"),
+    /denied source/i,
+  );
+});
+
+test("Wayback CDX listing of myplate.gov is signed off for slug discovery", () => {
+  assert.doesNotThrow(() =>
+    assertScrapeAllowed(
+      "https://web.archive.org/cdx/search/cdx?url=www.myplate.gov/recipes/*&output=json",
+    ),
   );
 });

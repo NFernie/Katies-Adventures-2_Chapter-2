@@ -294,4 +294,4 @@ Hard bans: myplate.food bulk, Spoonacular, RecipeNLG, Epicurious/Allrecipes/BBC 
 | 2 (Q6–Q11) | **Locked** 20 Aug 2026 |
 | Harvest method | Wayback HTML + deterministic parse on a **Cursor cloud agent**. HTML on agent disk only; JSON to GitHub. |
 | Implementation catalogue + agent prompt | **Written** 20 Aug 2026 |
-| Ingest implementation | Next agent run, using the prompt above |
+| Ingest implementation | **Harvested** 20 Aug 2026 — pipeline + Today credit shipped. Catalog is **86** recipes (original 21 kept + 65 MyPlate). Slot coverage **20 breakfast / 34 lunch / 35 dinner / 30 snack**. Vegetarian-capable **20 / 14 / 13** (target was 45/45/45/30 and ≥40 veg). Snack cap is met. Remaining meal slots were not filled because FDC grams failed the MyPlate kcal check or the 4-4-9 checksum; those recipes were exchanged, not invented. `npm test`, `nutrition:check`, and `typecheck` are green. |

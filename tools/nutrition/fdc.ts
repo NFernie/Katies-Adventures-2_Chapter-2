@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import type { CachedFood, NutrientPer100g } from "./types";
+import { ATWATER_TOLERANCE_KCAL, atwaterKcal } from "./sum";
 
 const FDC_BASE = "https://api.nal.usda.gov/fdc/v1";
 
@@ -32,13 +33,31 @@ function pickAmount(nutrients: FdcNutrient[], ids: Set<number>): number {
   return 0;
 }
 
+function pickEnergyKcal(nutrients: FdcNutrient[], proteinG: number, carbG: number, fatG: number): number {
+  const atw = atwaterKcal(proteinG, carbG, fatG);
+  const values: number[] = [];
+  for (const row of nutrients) {
+    const id = row.nutrient?.id;
+    if (id != null && ENERGY_IDS.has(id) && typeof row.amount === "number") {
+      values.push(row.amount);
+    }
+  }
+  if (!values.length) return 0;
+  return values.reduce((best, value) =>
+    Math.abs(value - atw) < Math.abs(best - atw) ? value : best,
+  );
+}
+
 export function nutrientsFromFdcFood(food: FdcFood): NutrientPer100g {
   const list = food.foodNutrients ?? [];
+  const proteinG = pickAmount(list, PROTEIN_IDS);
+  const carbG = pickAmount(list, CARB_IDS);
+  const fatG = pickAmount(list, FAT_IDS);
   return {
-    kcal: pickAmount(list, ENERGY_IDS),
-    proteinG: pickAmount(list, PROTEIN_IDS),
-    carbG: pickAmount(list, CARB_IDS),
-    fatG: pickAmount(list, FAT_IDS),
+    kcal: pickEnergyKcal(list, proteinG, carbG, fatG),
+    proteinG,
+    carbG,
+    fatG,
   };
 }
 
@@ -74,6 +93,44 @@ export function readUsdaKey(): string {
   return key;
 }
 
+export type FdcSearchHit = {
+  fdcId: number;
+  description: string;
+  dataType: string;
+};
+
+export async function searchFdcFoods(
+  query: string,
+  key: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<FdcSearchHit[]> {
+  const url = new URL(`${FDC_BASE}/foods/search`);
+  url.searchParams.set("api_key", key);
+  const response = await fetchImpl(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query,
+      pageSize: 8,
+      dataType: ["SR Legacy", "Foundation"],
+    }),
+  });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`FDC search HTTP ${response.status} for ${query}: ${detail.slice(0, 200)}`);
+  }
+  const body = (await response.json()) as {
+    foods?: Array<{ fdcId?: number; description?: string; dataType?: string }>;
+  };
+  return (body.foods ?? [])
+    .filter((row) => typeof row.fdcId === "number")
+    .map((row) => ({
+      fdcId: row.fdcId as number,
+      description: row.description ?? "",
+      dataType: row.dataType ?? "",
+    }));
+}
+
 export async function fetchFdcFood(
   fdcId: number,
   key: string,
@@ -92,4 +149,35 @@ export async function fetchFdcFood(
     fetchedAt: new Date().toISOString(),
     per100g: nutrientsFromFdcFood(food),
   };
+}
+
+export function fdcFoodAtwaterOk(food: CachedFood): boolean {
+  const { kcal, proteinG, carbG, fatG } = food.per100g;
+  if (kcal <= 0 && proteinG <= 0 && carbG <= 0 && fatG <= 0) return false;
+  return Math.abs(kcal - atwaterKcal(proteinG, carbG, fatG)) <= ATWATER_TOLERANCE_KCAL;
+}
+
+/** Prefer a cached food, then walk search hits until /food/{id} succeeds. */
+export async function fetchFirstAvailableFood(
+  hits: FdcSearchHit[],
+  key: string,
+  cache: { foods: Record<string, CachedFood> },
+  fetchImpl: typeof fetch = fetch,
+): Promise<CachedFood | null> {
+  for (const hit of hits) {
+    const cached = cache.foods[String(hit.fdcId)];
+    if (cached) {
+      if (fdcFoodAtwaterOk(cached)) return cached;
+      continue;
+    }
+    try {
+      const food = await fetchFdcFood(hit.fdcId, key, fetchImpl);
+      cache.foods[String(hit.fdcId)] = food;
+      if (!fdcFoodAtwaterOk(food)) continue;
+      return food;
+    } catch {
+      /* Foundation/search ids sometimes 404 on /food/{id} — try the next hit */
+    }
+  }
+  return null;
 }

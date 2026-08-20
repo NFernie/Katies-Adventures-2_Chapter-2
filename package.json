@@ -12,6 +12,7 @@
     "nutrition:enrich": "tsx tools/nutrition/enrich.ts",
     "nutrition:search": "tsx tools/nutrition/search.ts",
     "ingest:recipes": "tsx tools/ingest/merge-recipes.ts",
+    "ingest:myplate": "tsx tools/ingest/harvest-myplate.ts",
     "ingest:exercises": "tsx tools/ingest/merge-exercises.ts",
     "assert:static": "node scripts/assert-static.mjs"
   },
