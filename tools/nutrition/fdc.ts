@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import type { CachedFood, NutrientPer100g } from "./types";
+import { ATWATER_TOLERANCE_KCAL, atwaterKcal } from "./sum";
 
 const FDC_BASE = "https://api.nal.usda.gov/fdc/v1";
 
@@ -132,6 +133,12 @@ export async function fetchFdcFood(
   };
 }
 
+export function fdcFoodAtwaterOk(food: CachedFood): boolean {
+  const { kcal, proteinG, carbG, fatG } = food.per100g;
+  if (kcal <= 0 && proteinG <= 0 && carbG <= 0 && fatG <= 0) return false;
+  return Math.abs(kcal - atwaterKcal(proteinG, carbG, fatG)) <= ATWATER_TOLERANCE_KCAL;
+}
+
 /** Prefer a cached food, then walk search hits until /food/{id} succeeds. */
 export async function fetchFirstAvailableFood(
   hits: FdcSearchHit[],
@@ -141,10 +148,14 @@ export async function fetchFirstAvailableFood(
 ): Promise<CachedFood | null> {
   for (const hit of hits) {
     const cached = cache.foods[String(hit.fdcId)];
-    if (cached) return cached;
+    if (cached) {
+      if (fdcFoodAtwaterOk(cached)) return cached;
+      continue;
+    }
     try {
       const food = await fetchFdcFood(hit.fdcId, key, fetchImpl);
       cache.foods[String(hit.fdcId)] = food;
+      if (!fdcFoodAtwaterOk(food)) continue;
       return food;
     } catch {
       /* Foundation/search ids sometimes 404 on /food/{id} — try the next hit */

@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { recipeSourceCredit } from "../../src/catalog/attribution.ts";
-import { householdToGrams } from "./household.ts";
+import { householdToGrams, isSkippableIngredientLine } from "./household.ts";
 import { inferDietTags, isSnackLikeBreakfast } from "./myplate-diet.ts";
 import { parseMyPlateHtml, sourceAttribution } from "./myplate-html.ts";
 import {
@@ -56,6 +56,18 @@ test("count produce without a unit uses a typical piece weight", () => {
   const parsed = householdToGrams("1 granny smith apple");
   assert.equal(parsed.grams, 182);
   assert.match(parsed.name, /apple/i);
+});
+
+test("amount in trailing parentheses is used when the line has no leading qty", () => {
+  const parsed = householdToGrams("lime, juiced (1 1/2 tsp lime juice)");
+  assert.equal(parsed.grams, 8);
+  assert.match(parsed.name, /lime/i);
+});
+
+test("cooking spray and optional-to-serve lines are skipped, not invented", () => {
+  assert.equal(isSkippableIngredientLine("nonstick cooking spray"), true);
+  assert.equal(isSkippableIngredientLine("maple syrup (optional, to serve with pancakes)"), true);
+  assert.equal(isSkippableIngredientLine("1 tablespoon olive oil"), false);
 });
 
 test("main dish dual-tags lunch and dinner until a slot hits 45", () => {

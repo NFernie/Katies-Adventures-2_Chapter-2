@@ -68,6 +68,8 @@ const COUNT_GRAMS: Record<string, number> = {
   tortilla: 45,
   slice: 28,
   slices: 28,
+  bread: 28,
+  baguette: 28,
 };
 
 function parseNumber(raw: string): number | null {
@@ -105,9 +107,20 @@ function densityFor(name: string): number {
 
 function inferCountGrams(name: string): number {
   const n = name.toLowerCase();
+  if (/\b(slice|slices|bread|baguette|toast)\b/.test(n)) return 28;
   const hit = Object.entries(COUNT_GRAMS).find(([key]) => n.includes(key));
   if (hit) return hit[1];
   return 100;
+}
+
+function rewriteParenAmount(line: string): string {
+  const trimmed = line.trim();
+  if (/^\d/.test(trimmed)) return trimmed;
+  const match = trimmed.match(
+    /\(((?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+[A-Za-z].*?)\)/,
+  );
+  if (!match?.[1]) return trimmed;
+  return match[1].trim();
 }
 
 function normalizeLine(line: string): string {
@@ -130,17 +143,21 @@ function normalizeLine(line: string): string {
 
 /** Salt/pepper/spray lines with no usable amount — skip, do not invent grams. */
 export function isSkippableIngredientLine(line: string): boolean {
-  const n = normalizeLine(line).toLowerCase();
-  if (!n) return true;
-  if (/to taste|as needed|for garnish|for serving/.test(n)) return true;
-  if (/^(salt|pepper|black pepper|white pepper|cooking spray|nonstick spray|non-stick spray)\b/.test(n)) {
-    return !/^\d/.test(n);
+  const raw = line.toLowerCase();
+  const hasLeadingQty = /^\s*\d/.test(line);
+  if (!normalizeLine(line)) return true;
+  if (!hasLeadingQty && /to taste|as needed|for garnish|for serving|to serve|\boptional\b/.test(raw)) {
+    return true;
+  }
+  if (!hasLeadingQty && /cooking spray|nonstick|non-stick/.test(raw)) return true;
+  if (!hasLeadingQty && /^(salt|pepper|black pepper|white pepper)\b/.test(normalizeLine(line).toLowerCase())) {
+    return true;
   }
   return false;
 }
 
 export function householdToGrams(line: string): HouseholdParse {
-  const cleaned = normalizeLine(line);
+  const cleaned = normalizeLine(rewriteParenAmount(line));
   const match = cleaned.match(
     /^((?:\d+\s+\d+\/\d+)|(?:\d+\/\d+)|\d+(?:\.\d+)?)\s+([A-Za-z]+)\s+(.*)$/,
   );
