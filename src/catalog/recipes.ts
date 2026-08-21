@@ -25,6 +25,19 @@ type CatalogFileRecipe = {
   };
 };
 
+function kitchenTagsFor(row: CatalogFileRecipe): string[] {
+  const tags = new Set(row.kitchenTags ?? []);
+  if (
+    row.servings >= 4 &&
+    row.slots.includes("lunch") &&
+    row.slots.includes("dinner")
+  ) {
+    tags.add("batch_cook");
+    tags.add("leftovers_as_lunch");
+  }
+  return [...tags];
+}
+
 function toCatalog(row: CatalogFileRecipe): CatalogRecipe | null {
   if (row.nutrition.source !== "usda-fdc") return null;
   return {
@@ -33,7 +46,7 @@ function toCatalog(row: CatalogFileRecipe): CatalogRecipe | null {
     slots: row.slots,
     dietTags: row.dietTags,
     allergens: row.allergens,
-    kitchenTags: row.kitchenTags,
+    kitchenTags: kitchenTagsFor(row),
     cookMinutes: row.cookMinutes,
     servings: row.servings,
     steps: row.steps ?? [],

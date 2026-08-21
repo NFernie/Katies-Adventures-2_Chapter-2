@@ -1,6 +1,6 @@
 import { CATALOG_EXERCISES } from "../catalog/exercises";
 import { CATALOG_RECIPES } from "../catalog/recipes";
-import { assignDayMeals, MEAL_SLOTS, type MealSlot } from "../engine/meals";
+import { assignPlanMeals, MEAL_SLOTS, type MealSlot } from "../engine/meals";
 import { WEEKDAYS } from "../engine/plan-energy-and-training";
 import { assignSession } from "../engine/training";
 import type {
@@ -163,7 +163,9 @@ export async function commitPlanVersion(
   });
   await throwIfError(versionError);
 
-  const assigned = assignDayMeals({
+  const trainingWeek = trainingWeekFrom(input.result);
+  const planMeals = assignPlanMeals({
+    dayCount: 3,
     energyKcal: input.result.energyKcal,
     proteinG: input.result.proteinG,
     recipes: CATALOG_RECIPES,
@@ -171,8 +173,6 @@ export async function commitPlanVersion(
     kitchenFlags: (input.profile.kitchenFlags ?? []) as KitchenFlag[],
     pinned,
   });
-
-  const trainingWeek = trainingWeekFrom(input.result);
 
   for (let offset = 0; offset < 3; offset += 1) {
     const onDate = addUtcDays(input.goal.startOn, offset);
@@ -196,12 +196,13 @@ export async function commitPlanVersion(
     });
     await throwIfError(dayError);
 
+    const assigned = planMeals[offset];
     const meals = MEAL_SLOTS.map((slot) => ({
       id: crypto.randomUUID(),
       owner_id: ownerId,
       day_plan_id: dayPlanId,
       slot,
-      recipe_slug: assigned.slots[slot]?.slug ?? `empty-${slot}`,
+      recipe_slug: assigned?.slots[slot]?.slug ?? `empty-${slot}`,
       pinned: Boolean(pinned[slot]),
       eaten: false,
     }));

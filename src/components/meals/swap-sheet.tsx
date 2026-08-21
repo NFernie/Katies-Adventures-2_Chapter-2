@@ -1,7 +1,7 @@
 "use client";
 
 import { useSheetFocus } from "@/components/shell/use-sheet-focus";
-import type { CatalogRecipe, MealSlot } from "@/engine";
+import { plateNutrition, type CatalogRecipe, type MealSlot } from "@/engine";
 
 const SLOT_LABEL: Record<MealSlot, string> = {
   breakfast: "Breakfast",
@@ -14,6 +14,7 @@ export function SwapSheet({
   slot,
   open,
   candidates,
+  householdServings = 1,
   emptyReason,
   onPick,
   onClose,
@@ -21,6 +22,7 @@ export function SwapSheet({
   slot: MealSlot;
   open: boolean;
   candidates: CatalogRecipe[];
+  householdServings?: number;
   emptyReason: string;
   onPick: (slug: string) => void;
   onClose: () => void;
@@ -64,8 +66,8 @@ export function SwapSheet({
                 >
                   <strong className="font-sans text-[1.05rem]">{recipe.title}</strong>
                   <small className="font-sans text-[14px] text-live tabular-nums">
-                    {Math.round(recipe.nutrition.kcal)} kcal ·{" "}
-                    {Math.round(recipe.nutrition.proteinG)} g
+                    {Math.round(plateNutrition(recipe, householdServings).kcal)} kcal ·{" "}
+                    {Math.round(plateNutrition(recipe, householdServings).proteinG)} g
                   </small>
                 </button>
               </li>

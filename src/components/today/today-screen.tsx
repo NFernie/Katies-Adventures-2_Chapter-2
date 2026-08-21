@@ -38,6 +38,7 @@ import {
   type WorkoutSessionRow,
 } from "@/data";
 import {
+  plateNutrition,
   MEAL_SLOTS,
   SLOT_SHARE,
   swapCandidates,
@@ -233,6 +234,12 @@ export function TodayScreen() {
             const row = rowFor(slot);
             const recipe = CATALOG_RECIPES.find((item) => item.slug === row?.recipeSlug);
             const emptySlot = Boolean(row?.recipeSlug.startsWith("empty-"));
+            const servingsScale = recipe
+              ? (shownProfile?.servings ?? 1) / Math.max(recipe.servings, 1)
+              : 1;
+            const plate = recipe
+              ? plateNutrition(recipe, shownProfile?.servings ?? 1)
+              : null;
             return (
               <MealCard
                 key={slot}
@@ -245,8 +252,8 @@ export function TodayScreen() {
                       ? row?.recipeSlug.replace(/-/g, " ") ?? "After generate"
                       : "After generate")
                 }
-                kcal={recipe?.nutrition.kcal ?? null}
-                proteinG={recipe?.nutrition.proteinG ?? null}
+                kcal={plate?.kcal ?? null}
+                proteinG={plate?.proteinG ?? null}
                 eaten={row?.eaten ?? false}
                 pinned={row?.pinned ?? false}
                 canSwap={Boolean(catalogSeeded && row && canAct && !emptySlot)}
@@ -256,11 +263,7 @@ export function TodayScreen() {
                 sourceKind={recipe?.sourceKind}
                 sourceAttribution={recipe?.sourceAttribution}
                 sourceUrl={recipe?.sourceUrl}
-                servingsScale={
-                  recipe
-                    ? (shownProfile?.servings ?? 1) / Math.max(recipe.servings, 1)
-                    : 1
-                }
+                servingsScale={servingsScale}
                 onSwap={() => setSwapSlot(slot)}
                 onAte={() => {
                   if (!row) return;
@@ -323,6 +326,7 @@ export function TodayScreen() {
           slot={swapSlot ?? "breakfast"}
           open={swapSlot != null}
           candidates={candidates}
+          householdServings={shownProfile?.servings ?? 1}
           emptyReason={
             catalogSeeded
               ? "No other USDA-checked meal in this slot after your diet and kitchen filters."

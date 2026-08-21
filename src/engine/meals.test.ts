@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   assignDayMeals,
+  assignPlanMeals,
   recipeEligible,
   swapCandidates,
   SLOT_SHARE,
@@ -180,5 +181,38 @@ test("live USDA catalog still offers in-slot swaps when the ±10/20 band is empt
   assert.ok(
     CATALOG_RECIPES.every((row) => (row.ingredients?.length ?? 0) > 0),
     "catalog recipes must keep ingredients for the Today recipe list",
+  );
+});
+
+test("live catalog includes MyPlate Kitchen rows and a 3-day plan uses them", () => {
+  const myplate = CATALOG_RECIPES.filter((row) => row.sourceKind === "myplate-kitchen");
+  assert.ok(
+    myplate.length >= 20,
+    `expected MyPlate rows in the app catalog, found ${myplate.length}`,
+  );
+  assert.ok(myplate.every((row) => row.nutrition.source === "usda-fdc"));
+  const days = assignPlanMeals({
+    dayCount: 3,
+    energyKcal: 2270,
+    proteinG: 161,
+    recipes: CATALOG_RECIPES,
+    dietFlags: ["vegetarian"],
+    kitchenFlags: ["batch_cook"],
+    pinned: {},
+  });
+  const slugs = days.flatMap((day) =>
+    (["breakfast", "lunch", "dinner", "snack"] as const).map(
+      (slot) => day.slots[slot]?.slug,
+    ),
+  );
+  assert.ok(slugs.every(Boolean), "every slot on a 3-day plan should get a USDA meal");
+  const unique = new Set(slugs);
+  assert.ok(
+    unique.size > 4,
+    `expected meals to vary across days, got ${[...unique].join(", ")}`,
+  );
+  assert.ok(
+    slugs.some((slug) => myplate.some((row) => row.slug === slug)),
+    `MyPlate catalog is loaded but unused; assigned ${[...unique].join(", ")}`,
   );
 });

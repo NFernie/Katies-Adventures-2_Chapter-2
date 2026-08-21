@@ -1,6 +1,8 @@
 export { planEnergyAndTraining, WEEKDAYS } from "./plan-energy-and-training";
 export {
   assignDayMeals,
+  assignPlanMeals,
+  plateNutrition,
   recipeEligible,
   swapCandidates,
   MEAL_SLOTS,
