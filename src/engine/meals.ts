@@ -87,11 +87,34 @@ export function recipeEligible(
   return true;
 }
 
+function catalogKind(recipe: CatalogRecipe): "myplate-kitchen" | "first-party" {
+  return recipe.sourceKind === "myplate-kitchen" ? "myplate-kitchen" : "first-party";
+}
+
+/** Macros for one plate: catalog yield divided by recipe servings. */
+export function plateNutrition(recipe: CatalogRecipe, householdServings = 1): {
+  kcal: number;
+  proteinG: number;
+} {
+  const scale = householdServings / Math.max(recipe.servings, 1);
+  return {
+    kcal: recipe.nutrition.kcal * scale,
+    proteinG: recipe.nutrition.proteinG * scale,
+  };
+}
+
 function score(recipe: CatalogRecipe, targetKcal: number, targetProteinG: number): number {
-  const kcalGap = Math.abs(recipe.nutrition.kcal - targetKcal) / Math.max(targetKcal, 1);
+  const plate = plateNutrition(recipe);
+  const kcalGap = Math.abs(plate.kcal - targetKcal) / Math.max(targetKcal, 1);
   const proteinGap =
-    Math.abs(recipe.nutrition.proteinG - targetProteinG) / Math.max(targetProteinG, 1);
+    Math.abs(plate.proteinG - targetProteinG) / Math.max(targetProteinG, 1);
   return kcalGap + proteinGap;
+}
+
+function kindPenalty(recipe: CatalogRecipe, prior: CatalogRecipe[]): number {
+  const kind = catalogKind(recipe);
+  const repeats = prior.filter((row) => catalogKind(row) === kind).length;
+  return repeats * 0.45;
 }
 
 export function assignDayMeals(input: {
@@ -101,6 +124,8 @@ export function assignDayMeals(input: {
   dietFlags: DietFlag[];
   kitchenFlags: KitchenFlag[];
   pinned: Partial<Record<MealSlot, string>>;
+  usedSlugs?: Iterable<string>;
+  priorBySlot?: Partial<Record<MealSlot, CatalogRecipe[]>>;
 }): { slots: Record<MealSlot, AssignedMeal | null>; empty: MealSlot[] } {
   const slots = {
     breakfast: null,
@@ -108,7 +133,7 @@ export function assignDayMeals(input: {
     dinner: null,
     snack: null,
   } as Record<MealSlot, AssignedMeal | null>;
-  const used = new Set<string>();
+  const used = new Set(input.usedSlugs ?? []);
 
   for (const slot of MEAL_SLOTS) {
     const pinnedSlug = input.pinned[slot];
@@ -122,6 +147,7 @@ export function assignDayMeals(input: {
     }
     const targetKcal = input.energyKcal * SLOT_SHARE[slot];
     const targetProteinG = input.proteinG * SLOT_SHARE[slot];
+    const prior = input.priorBySlot?.[slot] ?? [];
     const pool = input.recipes.filter(
       (row) =>
         row.slots.includes(slot) &&
@@ -131,7 +157,9 @@ export function assignDayMeals(input: {
     );
     pool.sort(
       (a, b) =>
-        score(a, targetKcal, targetProteinG) - score(b, targetKcal, targetProteinG),
+        score(a, targetKcal, targetProteinG) +
+        kindPenalty(a, prior) -
+        (score(b, targetKcal, targetProteinG) + kindPenalty(b, prior)),
     );
     const pick = pool[0];
     if (pick) {
@@ -142,6 +170,46 @@ export function assignDayMeals(input: {
 
   const empty = MEAL_SLOTS.filter((slot) => slots[slot] == null);
   return { slots, empty };
+}
+
+export function assignPlanMeals(input: {
+  dayCount: number;
+  energyKcal: number;
+  proteinG: number;
+  recipes: CatalogRecipe[];
+  dietFlags: DietFlag[];
+  kitchenFlags: KitchenFlag[];
+  pinned: Partial<Record<MealSlot, string>>;
+}): Array<{ slots: Record<MealSlot, AssignedMeal | null>; empty: MealSlot[] }> {
+  const used = new Set(Object.values(input.pinned).filter((slug): slug is string => Boolean(slug)));
+  const priorBySlot: Record<MealSlot, CatalogRecipe[]> = {
+    breakfast: [],
+    lunch: [],
+    dinner: [],
+    snack: [],
+  };
+  const days = [];
+  for (let day = 0; day < Math.max(input.dayCount, 0); day += 1) {
+    const assigned = assignDayMeals({
+      energyKcal: input.energyKcal,
+      proteinG: input.proteinG,
+      recipes: input.recipes,
+      dietFlags: input.dietFlags,
+      kitchenFlags: input.kitchenFlags,
+      pinned: input.pinned,
+      usedSlugs: used,
+      priorBySlot,
+    });
+    days.push(assigned);
+    for (const slot of MEAL_SLOTS) {
+      const slug = assigned.slots[slot]?.slug;
+      if (!slug) continue;
+      used.add(slug);
+      const recipe = input.recipes.find((row) => row.slug === slug);
+      if (recipe) priorBySlot[slot].push(recipe);
+    }
+  }
+  return days;
 }
 
 export function swapCandidates(input: {
@@ -168,24 +236,27 @@ export function swapCandidates(input: {
     score(a, input.targetKcal, input.targetProteinG) -
     score(b, input.targetKcal, input.targetProteinG);
   const inBand = eligible
-    .filter(
-      (row) =>
-        row.nutrition.kcal >= kcalLo &&
-        row.nutrition.kcal <= kcalHi &&
-        row.nutrition.proteinG >= pLo &&
-        row.nutrition.proteinG <= pHi,
-    )
+    .filter((row) => {
+      const plate = plateNutrition(row);
+      return (
+        plate.kcal >= kcalLo &&
+        plate.kcal <= kcalHi &&
+        plate.proteinG >= pLo &&
+        plate.proteinG <= pHi
+      );
+    })
     .sort(byScore);
   const rest = eligible.filter((row) => !inBand.includes(row)).sort(byScore);
   return [...inBand, ...rest].slice(0, 3);
 }
 
 function toAssigned(slot: MealSlot, recipe: CatalogRecipe): AssignedMeal {
+  const plate = plateNutrition(recipe);
   return {
     slot,
     slug: recipe.slug,
     title: recipe.title,
-    kcal: recipe.nutrition.kcal,
-    proteinG: recipe.nutrition.proteinG,
+    kcal: plate.kcal,
+    proteinG: plate.proteinG,
   };
 }
